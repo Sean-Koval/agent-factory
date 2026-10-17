@@ -62,7 +62,7 @@ issues = ["hangar#131", "hangar#132", "hangar#155"]
 
 [[phase.theme]]
 title = "CI green"
-issues = ["hangar#120", "hangar#205", "hangar#207", "workspace#27"]
+issues = ["hangar#120", "hangar#205", "hangar#207", "hangar#245", "workspace#27"]
 
 [[phase.theme]]
 title = "Framing cleanup"
@@ -76,7 +76,7 @@ milestone = "P2"
 
 [[phase.theme]]
 title = "Team harness"
-issues = ["hangar#133", "hangar#134", "hangar#136", "hangar#138", "hangar#139", "hangar#137", "hangar#221", "ai-dlc#191", "ai-dlc#192", "ai-dlc#193", "agent-factory#4"]
+issues = ["hangar#133", "hangar#134", "hangar#136", "hangar#138", "hangar#139", "hangar#137", "hangar#221", "hangar#228", "hangar#244", "ai-dlc#191", "ai-dlc#192", "ai-dlc#193", "agent-factory#4"]
 
 [[phase.theme]]
 title = "Review throughput"
@@ -95,12 +95,20 @@ title = "Governance shadow"
 issues = ["workspace#13-19", "workspace#21", "workspace#28", "hangar#171", "hangar#172", "hangar#174", "hangar#176"]
 
 [[phase.theme]]
+title = "Security follow-through"
+issues = ["hangar#223", "hangar#236"]
+
+[[phase.theme]]
+title = "Work lifecycle fixes"
+issues = ["ai-dlc#160", "ai-dlc#226", "ai-dlc#227"]
+
+[[phase.theme]]
 title = "Show, don't tell"
 issues = ["hangar#219", "flightdeck#44", "ai-dlc#213", "workspace#37", "spaceport#21", "agent-factory#1", "agent-factory#2"]
 
 [[phase.theme]]
 title = "Cleanup and docs"
-issues = ["hangar#141", "hangar#142", "hangar#143", "hangar#187", "hangar#220", "hangar#151", "hangar#154", "hangar#191", "ai-dlc#190", "ai-dlc#194-208", "workspace#23", "workspace#25", "workspace#26", "workspace#36", "spaceport#12", "spaceport#13", "spaceport#15"]
+issues = ["hangar#141", "hangar#142", "hangar#143", "hangar#187", "hangar#220", "hangar#151", "hangar#154", "hangar#191", "hangar#246", "ai-dlc#190", "ai-dlc#194-208", "workspace#23", "workspace#25", "workspace#26", "workspace#36", "spaceport#12", "spaceport#13", "spaceport#15"]
 
 [[phase]]
 key = "P3"
@@ -149,5 +157,9 @@ title = "Spikes"
 label = "type:spike"
 
 [[phase.theme]]
+title = "Qualification (needs environments or accounts)"
+issues = ["ai-dlc#53", "ai-dlc#85", "ai-dlc#172"]
+
+[[phase.theme]]
 title = "Later"
-issues = ["flightdeck#33-35", "spaceport#14", "agent-factory#3"]
+issues = ["flightdeck#33-35", "spaceport#14", "agent-factory#3", "hangar#34"]
