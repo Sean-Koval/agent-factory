@@ -9,9 +9,19 @@ page follows the page's theme, and the same file opened on its own renders in th
 
 from __future__ import annotations
 
+import json
+import re
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent / "docs" / "assets" / "diagrams"
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "docs" / "assets" / "diagrams"
+# The dark fallbacks come from the Airframe build, so a stand-alone SVG matches the current Night theme.
+NIGHT = json.loads((ROOT / "theme" / "airframe-tokens.json").read_text())["themes"]["dark"]
+
+
+def with_fallbacks(svg_text: str) -> str:
+    """Rewrite every var(--af-<token>, <fallback>) so the fallback is that token's Night value."""
+    return re.sub(r"var\(--af-([a-z0-9-]+), [^)]+\)", lambda m: f"var(--af-{m.group(1)}, {NIGHT[m.group(1)]})", svg_text)
 
 STYLE = """
 <style>
@@ -33,16 +43,16 @@ STYLE = """
   .af-d .edge-plan { fill: none; stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1.25; stroke-dasharray: 5 4; }
   .af-d .elabel { font: 400 11.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-subtle, #8A8A8A); }
   .af-d .arrowhead { fill: var(--af-fg-subtle, #8A8A8A); }
-  .af-d .dot { fill: var(--af-dot, #262626); }
+  .af-d .dot { fill: var(--af-dot-field, #262626); }
 </style>
 """
 
 PRODUCT = {
-    "hangar": "var(--af-p-hangar, #EE8F63)",
-    "flightdeck": "var(--af-p-flightdeck, #D98CD2)",
-    "workspace": "var(--af-p-workspace, #C5A93B)",
-    "aidlc": "var(--af-p-aidlc, #69C27E)",
-    "spaceport": "var(--af-p-spaceport, #B199F4)",
+    "hangar": "var(--af-product-hangar, #EE8F63)",
+    "flightdeck": "var(--af-product-flightdeck, #D98CD2)",
+    "workspace": "var(--af-product-tower, #C5A93B)",
+    "aidlc": "var(--af-product-aidlc, #69C27E)",
+    "spaceport": "var(--af-product-spaceport, #B199F4)",
 }
 
 
@@ -258,7 +268,7 @@ def containers() -> str:
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for name, fn in (("planes", planes), ("c4-context", context), ("c4-containers", containers)):
-        (OUT / f"{name}.svg").write_text(fn())
+        (OUT / f"{name}.svg").write_text(with_fallbacks(fn()))
         print("wrote", OUT / f"{name}.svg")
 
 
@@ -334,7 +344,7 @@ def slide_loop() -> str:
 
 def main_slides() -> None:
     for name, fn in (("slide-planes", slide_planes), ("slide-loop", slide_loop)):
-        (OUT / f"{name}.svg").write_text(fn())
+        (OUT / f"{name}.svg").write_text(with_fallbacks(fn()))
         print("wrote", OUT / f"{name}.svg")
 
 

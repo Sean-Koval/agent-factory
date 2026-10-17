@@ -13,7 +13,7 @@
 html, body { height: 100%; }
 body {
   margin: 0; background: var(--af-canvas); color: var(--af-fg);
-  font: 400 16px/1.45 var(--af-f-sans);
+  font: 400 16px/1.45 var(--af-font-sans);
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   overflow: hidden;
@@ -28,16 +28,16 @@ body {
 .slide.on { display: flex; }
 .slide::after { /* dot field, top right */
   content: ""; position: absolute; right: 0; top: 0; width: 320px; height: 120px; pointer-events: none;
-  background: radial-gradient(circle, var(--af-dot) 1.1px, transparent 1.6px) 0 0 / 8px 8px;
+  background: radial-gradient(circle, var(--af-dot-field) 1.1px, transparent 1.6px) 0 0 / 8px 8px;
 }
-.eyebrow { font: 500 13px/1 var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow { font: 500 13px/1 var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); display: inline-flex; align-items: center; gap: 10px; }
 .eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--af-brand-line); }
-h1, h2 { margin: 0; font-family: var(--af-f-display); font-stretch: var(--af-display-stretch); font-weight: var(--af-display-weight); letter-spacing: var(--af-display-track); text-wrap: balance; }
+h1, h2 { margin: 0; font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: var(--af-display-weight); letter-spacing: var(--af-display-track); text-wrap: balance; }
 h1 { font-size: 64px; line-height: 1.02; max-width: 15ch; }
 h2 { font-size: 38px; line-height: 1.08; max-width: 26ch; }
 p { margin: 0; }
 .lede { font-size: 22px; color: var(--af-fg-muted); max-width: 46ch; line-height: 1.45; }
-.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-dim); }
+.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-dim); }
 .foot b { color: var(--af-fg-subtle); font-weight: 500; }
 .art { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
 .art svg { width: 100%; height: 100%; display: block; }
@@ -47,40 +47,40 @@ p { margin: 0; }
 .title-grid { flex: 1; display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: end; }
 .tools { display: flex; flex-direction: column; gap: 2px; }
 .tool { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: baseline; padding: 14px 18px; background: var(--af-raised); border-left: 2px solid var(--c); }
-.tool b { font: 700 17px var(--af-f-display); font-stretch: var(--af-display-stretch); }
+.tool b { font: 700 17px var(--af-font-display); font-stretch: var(--af-display-stretch); }
 .tool span { color: var(--af-fg-muted); font-size: 15px; }
-.tool small { grid-column: 1; font: 500 11px var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.tool small { grid-column: 1; font: 500 11px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
 
 /* readouts */
 .readouts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; }
 .ro { background: var(--af-raised); padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 12px; min-height: 250px; }
-.ro .k { font: 500 12px var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
-.ro .v { font: 700 54px/1 var(--af-f-display); font-stretch: var(--af-display-stretch); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.ro .k { font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.ro .v { font: 700 54px/1 var(--af-font-display); font-stretch: var(--af-display-stretch); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .ro .v small { font-size: 22px; color: var(--af-fg-subtle); margin-left: 4px; }
 .ro p { color: var(--af-fg-muted); font-size: 16px; }
-.ro.attn { box-shadow: inset 0 2px 0 var(--af-st-appr); }
-.ro.attn .k { color: var(--af-st-appr); }
+.ro.attn { box-shadow: inset 0 2px 0 var(--af-status-approval); }
+.ro.attn .k { color: var(--af-status-approval); }
 
 /* flight strips */
 .strips { display: flex; flex-direction: column; gap: 3px; }
 .strip { display: grid; grid-template-columns: 64px 220px 1fr 220px; align-items: center; background: var(--af-raised); min-height: 62px; }
 .strip > * { padding: 10px 16px; }
-.strip .n { font: 500 15px var(--af-f-mono); color: var(--af-fg-subtle); border-right: 2px solid var(--af-canvas); align-self: stretch; display: flex; align-items: center; }
-.strip .who { font: 700 15px var(--af-f-display); font-stretch: var(--af-display-stretch); display: flex; align-items: center; gap: 10px; }
+.strip .n { font: 500 15px var(--af-font-mono); color: var(--af-fg-subtle); border-right: 2px solid var(--af-canvas); align-self: stretch; display: flex; align-items: center; }
+.strip .who { font: 700 15px var(--af-font-display); font-stretch: var(--af-display-stretch); display: flex; align-items: center; gap: 10px; }
 .strip .who i { width: 8px; height: 8px; background: var(--c); display: inline-block; flex: none; }
 .strip .what { color: var(--af-fg-muted); font-size: 16px; }
-.strip .st { font: 500 12px var(--af-f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--af-fg-subtle); display: flex; align-items: center; gap: 8px; }
+.strip .st { font: 500 12px var(--af-font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--af-fg-subtle); display: flex; align-items: center; gap: 8px; }
 .strip .st i { width: 8px; height: 8px; display: inline-block; flex: none; }
-.st-run i { border-radius: 50%; background: var(--af-st-run); }
-.st-appr { color: var(--af-st-appr) !important; }
-.st-appr i { background: var(--af-st-appr); transform: rotate(45deg); width: 7px !important; height: 7px !important; }
-.strip.attn { background: color-mix(in srgb, var(--af-st-appr) 7%, var(--af-raised)); box-shadow: inset 2px 0 0 var(--af-st-appr); }
+.st-run i { border-radius: 50%; background: var(--af-status-running); }
+.st-appr { color: var(--af-status-approval) !important; }
+.st-appr i { background: var(--af-status-approval); transform: rotate(45deg); width: 7px !important; height: 7px !important; }
+.strip.attn { background: color-mix(in srgb, var(--af-status-approval) 7%, var(--af-raised)); box-shadow: inset 2px 0 0 var(--af-status-approval); }
 
 /* roadmap */
 .road { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; flex: 1; }
 .phase { background: var(--af-raised); padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
-.phase .k { font: 500 12px var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
-.phase h3 { margin: 0; font: 700 22px/1.15 var(--af-f-display); font-stretch: var(--af-display-stretch); }
+.phase .k { font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.phase h3 { margin: 0; font: 700 22px/1.15 var(--af-font-display); font-stretch: var(--af-display-stretch); }
 .phase ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
 .phase li { color: var(--af-fg-muted); font-size: 16px; padding-left: 18px; position: relative; }
 .phase li::before { content: ""; position: absolute; left: 0; top: .6em; width: 8px; height: 1px; background: var(--af-fg-subtle); }
@@ -89,10 +89,10 @@ p { margin: 0; }
 
 /* chrome: counter and controls, outside the scaled stage */
 .hud { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; align-items: center; z-index: 5; }
-.hud button { width: 34px; height: 34px; border: 1px solid var(--af-line-strong); background: var(--af-surface); color: var(--af-fg); border-radius: var(--af-r-ctl); cursor: pointer; font: 500 14px var(--af-f-mono); }
+.hud button { width: 34px; height: 34px; border: 1px solid var(--af-line-strong); background: var(--af-surface); color: var(--af-fg); border-radius: var(--af-radius-control); cursor: pointer; font: 500 14px var(--af-font-mono); }
 .hud button:hover { border-color: var(--af-fg); }
 .hud button:focus-visible { outline: 2px solid var(--af-focus); outline-offset: 2px; }
-.hud output { font: 500 12px var(--af-f-mono); color: var(--af-fg-subtle); min-width: 56px; text-align: center; }
+.hud output { font: 500 12px var(--af-font-mono); color: var(--af-fg-subtle); min-width: 56px; text-align: center; }
 
 @media print {
   @page { size: 1280px 720px; margin: 0; }
@@ -115,11 +115,11 @@ p { margin: 0; }
       <p class="lede">Hand work to cloud coding agents and keep every change reviewable. Five open-source tools for a team of six running about sixty agent sessions.</p>
     </div>
     <div class="tools">
-      <div class="tool" style="--c:var(--af-p-hangar)"><b>hangar</b><span>Runs the agents</span><small>Run</small></div>
-      <div class="tool" style="--c:var(--af-p-flightdeck)"><b>flightdeck</b><span>Judges the runs</span><small>Judge</small></div>
-      <div class="tool" style="--c:var(--af-p-aidlc)"><b>ai-dlc</b><span>Defines the harness</span><small>Define</small></div>
-      <div class="tool" style="--c:var(--af-p-workspace)"><b>workspace</b><span>Governs risky actions</span><small>Govern</small></div>
-      <div class="tool" style="--c:var(--af-p-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Capability</small></div>
+      <div class="tool" style="--c:var(--af-product-hangar)"><b>hangar</b><span>Runs the agents</span><small>Run</small></div>
+      <div class="tool" style="--c:var(--af-product-flightdeck)"><b>flightdeck</b><span>Judges the runs</span><small>Judge</small></div>
+      <div class="tool" style="--c:var(--af-product-aidlc)"><b>ai-dlc</b><span>Defines the harness</span><small>Define</small></div>
+      <div class="tool" style="--c:var(--af-product-tower)"><b>workspace</b><span>Governs risky actions</span><small>Govern</small></div>
+      <div class="tool" style="--c:var(--af-product-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Capability</small></div>
     </div>
   </div>
   <div class="foot"><span>sean-koval.github.io/agent-factory</span><b>01 / 07</b></div>
@@ -149,11 +149,11 @@ p { margin: 0; }
   <h2>A Jira ticket to a merged PR</h2>
   <div class="strips">
     <div class="strip"><span class="n">01</span><span class="who"><i style="--c:var(--af-fg-subtle)"></i>Jira</span><span class="what">An engineer moves the ticket to “Ready for agent”</span><span class="st st-run"><i></i>queued</span></div>
-    <div class="strip"><span class="n">02</span><span class="who"><i style="--c:var(--af-p-hangar)"></i>hangar</span><span class="what">Ticket text is untrusted, so the job starts tainted</span><span class="st st-run"><i></i>admitted</span></div>
-    <div class="strip"><span class="n">03</span><span class="who"><i style="--c:var(--af-p-hangar)"></i>Sandbox</span><span class="what">The agent works with a pinned harness; every step is traced</span><span class="st st-run"><i></i>running</span></div>
-    <div class="strip"><span class="n">04</span><span class="who"><i style="--c:var(--af-p-hangar)"></i>Gateway</span><span class="what">hangar verifies, then pushes one commit as the GitHub App</span><span class="st st-run"><i></i>delivered</span></div>
-    <div class="strip attn"><span class="n">05</span><span class="who"><i style="--c:var(--af-st-appr)"></i>Reviewer</span><span class="what">A draft PR waits for a second human to approve the exact commit</span><span class="st st-appr"><i></i>needs approval</span></div>
-    <div class="strip"><span class="n">06</span><span class="who"><i style="--c:var(--af-p-flightdeck)"></i>Outbox</span><span class="what">The merged run is written once, for flightdeck to judge</span><span class="st st-run"><i></i>captured</span></div>
+    <div class="strip"><span class="n">02</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>hangar</span><span class="what">Ticket text is untrusted, so the job starts tainted</span><span class="st st-run"><i></i>admitted</span></div>
+    <div class="strip"><span class="n">03</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>Sandbox</span><span class="what">The agent works with a pinned harness; every step is traced</span><span class="st st-run"><i></i>running</span></div>
+    <div class="strip"><span class="n">04</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>Gateway</span><span class="what">hangar verifies, then pushes one commit as the GitHub App</span><span class="st st-run"><i></i>delivered</span></div>
+    <div class="strip attn"><span class="n">05</span><span class="who"><i style="--c:var(--af-status-approval)"></i>Reviewer</span><span class="what">A draft PR waits for a second human to approve the exact commit</span><span class="st st-appr"><i></i>needs approval</span></div>
+    <div class="strip"><span class="n">06</span><span class="who"><i style="--c:var(--af-product-flightdeck)"></i>Outbox</span><span class="what">The merged run is written once, for flightdeck to judge</span><span class="st st-run"><i></i>captured</span></div>
   </div>
   <div class="foot"><span>Only approvals and failures light up · everything else stays quiet</span><b>04 / 07</b></div>
 </section>

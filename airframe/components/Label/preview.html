@@ -1,0 +1,37 @@
+<!-- @dsCard group="Foundations" height=330 subtitle="Small tracked mono capitals for labels, with an optional sub and icon" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Label</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px">
+  <section class="af-stack">
+    <p class="af-subtle" style="margin:0;font-size:12.5px">Label, and label with a sub (count or scope)</p>
+    <div class="af-row" style="flex-wrap:wrap;gap:10px 28px">
+      <span class="af-lbl">Fleet</span>
+      <span class="af-lbl">Fleet<span class="af-lbl__sub">us-east4</span></span>
+      <span class="af-lbl">Sessions<span class="af-lbl__sub">last 60 min</span></span>
+      <span class="af-lbl">Policy<span class="af-lbl__sub">cedar</span></span>
+      <span class="af-lbl">Experiment<span class="af-lbl__sub">FDK-EXP-0142</span></span>
+    </div>
+  </section>
+  <section class="af-stack">
+    <p class="af-subtle" style="margin:0;font-size:12.5px">With an icon (14 px, fg-muted)</p>
+    <div class="af-row" style="flex-wrap:wrap;gap:10px 28px">
+      <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="7" width="14" height="10"/><path d="M2 3.5h16V7H2z"/><path d="M8 10.5h4"/></svg>Running</span>
+      <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Waiting on you</span>
+      <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 2.5v15"/><path d="M5 5h6M8 9h7M11 13h3.5M13 17h4"/></svg>Trace<span class="af-lbl__sub">turn 7</span></span>
+      <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Receipt<span class="af-lbl__sub">WS-RCPT-88A1</span></span>
+    </div>
+  </section>
+  <section class="af-stack">
+    <p class="af-subtle" style="margin:0;font-size:12.5px">In a card top, beside the card meta</p>
+    <div class="af-grid af-grid--2" style="max-width:720px">
+      <div class="af-card">
+        <div class="af-card__top"><span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="5.5" rx="6" ry="2.5"/><path d="M4 5.5V10c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V5.5M4 10v4.5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V10"/></svg>Spend today</span><span class="af-card__meta">limit $200</span></div>
+        <p class="af-card__desc">71% of the daily limit. The alert fires at 90%.</p>
+      </div>
+      <div class="af-card">
+        <div class="af-card__top"><span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3l7 3.5-7 3.5-7-3.5z"/><path d="M3 10l7 3.5 7-3.5"/><path d="M3 13.5 10 17l7-3.5"/></svg>Environments<span class="af-lbl__sub">3</span></span><span class="af-card__meta">updated 2 h ago</span></div>
+        <p class="af-card__desc">base-codex, rust-1.83-gpu and base-py312. The py312 build failed.</p>
+      </div>
+    </div>
+  </section>
+</main>
+</body></html>

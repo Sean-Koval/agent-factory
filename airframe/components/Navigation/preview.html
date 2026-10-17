@@ -1,0 +1,66 @@
+<!-- @dsCard group="Navigation" height=480 subtitle="App header with product switcher, tabs with the 2px product marker, search, avatar; breadcrumb row" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Navigation</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px 0">
+  <section class="af-stack">
+    <span class="af-lbl" style="padding:0 24px">App header and breadcrumb row<span class="af-lbl__sub">hangar</span></span>
+    <div>
+      <header class="af-nav af-hue--hangar">
+        <button type="button" class="af-nav__switch" aria-haspopup="menu" aria-expanded="false" aria-label="hangar, switch product"><span class="af-mark af-hue--hangar" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20 V13 A9 9 0 0 1 21 13 V20"/><path d="M2 20 H22"/><path d="M9 20 V15 H15 V20"/></svg></span><span class="af-nav__name">hangar</span><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 8 10 4.5 13.5 8M6.5 12l3.5 3.5 3.5-3.5"/></svg></button>
+        <span class="af-nav__sep" aria-hidden="true"></span>
+        <nav class="af-nav__tabs" aria-label="hangar">
+          <a class="af-nav__tab" href="#fleet" aria-current="page"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="5"/><rect x="3" y="12" width="14" height="5"/><path d="M6 5.5h1.5M6 14.5h1.5"/></svg>Fleet</a>
+          <a class="af-nav__tab" href="#sessions"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="5.5" width="15" height="9"/><path d="M7.5 5.5v9M10.5 9h4.5M10.5 11.5h2.5"/></svg>Sessions</a>
+          <a class="af-nav__tab" href="#jobs"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14"/><path d="M8.5 7v6l5-3z"/></svg>Jobs</a>
+          <a class="af-nav__tab" href="#environments"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3l7 3.5-7 3.5-7-3.5z"/><path d="M3 10l7 3.5 7-3.5"/><path d="M3 13.5 10 17l7-3.5"/></svg>Environments</a>
+          <a class="af-nav__tab" href="#approvals"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approvals<span class="af-nav__count">1</span></a>
+          <a class="af-nav__tab" href="#traces"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 2.5v15"/><path d="M5 5h6M8 9h7M11 13h3.5M13 17h4"/></svg>Traces</a>
+        </nav>
+        <div class="af-nav__right">
+          <button type="button" class="af-search"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.5 12.5l5 5"/></svg><span>Search sandboxes</span><kbd class="af-kbd">⌘K</kbd></button>
+          <button type="button" class="af-avatar" aria-label="Account: Sean">SK</button>
+        </div>
+      </header>
+      <div class="af-crumbs">
+        <ol class="af-crumbs__list" aria-label="Breadcrumb">
+          <li><a href="#hangar">hangar</a></li>
+          <li><a href="#fleet">fleet</a></li>
+          <li><span aria-current="page">HGR-3MX9</span></li>
+        </ol>
+        <div class="af-crumbs__end">
+          <span class="af-status af-status--approval"><i class="af-status__mark"></i>Needs approval</span>
+          <span class="af-meta" style="font-size:11.5px"><span class="af-meta__item"><span class="af-meta__key">env</span><span class="af-meta__val">base-codex</span></span><span class="af-meta__item"><span class="af-meta__key">age</span><span class="af-meta__val">00:41:07</span></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="af-stack">
+    <span class="af-lbl" style="padding:0 24px">Product switcher open<span class="af-lbl__sub">flightdeck</span></span>
+    <div>
+      <header class="af-nav af-hue--flightdeck">
+        <button type="button" class="af-nav__switch" aria-haspopup="menu" aria-expanded="true" aria-controls="switcher" aria-label="flightdeck, switch product"><span class="af-mark af-hue--flightdeck" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M4.4 16.9 L21 12.8"/><path d="M6.5 11 H10 L12 13 L14 11 H17.5"/></svg></span><span class="af-nav__name">flightdeck</span><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 8 10 4.5 13.5 8M6.5 12l3.5 3.5 3.5-3.5"/></svg></button>
+        <span class="af-nav__sep" aria-hidden="true"></span>
+        <nav class="af-nav__tabs" aria-label="flightdeck">
+          <a class="af-nav__tab" href="#experiments" aria-current="page"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14"/><path d="M8.5 7v6l5-3z"/></svg>Experiments</a>
+          <a class="af-nav__tab" href="#checks"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Behavior checks</a>
+          <a class="af-nav__tab" href="#harnesses"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 3H3v14h3.5M13.5 3H17v14h-3.5"/><circle cx="10" cy="10" r="2.5"/></svg>Harnesses</a>
+          <a class="af-nav__tab" href="#promotions"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="5.5" cy="4.5" r="1.75"/><circle cx="5.5" cy="15.5" r="1.75"/><circle cx="14.5" cy="15.5" r="1.75"/><path d="M5.5 6.25v7.5M14.5 13.75V8c0-1.5-1-2.5-2.5-2.5H8.5M10.5 3.5l-2 2 2 2"/></svg>Promotions</a>
+        </nav>
+        <div class="af-nav__right">
+          <button type="button" class="af-search"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.5 12.5l5 5"/></svg><span>Search experiments</span><kbd class="af-kbd">⌘K</kbd></button>
+          <button type="button" class="af-avatar" aria-label="Account: Sean">SK</button>
+        </div>
+      </header>
+      <div style="padding:6px 0 0 11px">
+        <div class="af-menu" id="switcher" role="menu" aria-label="Switch product" style="width:280px">
+          <div class="af-menu__cap">Products</div>
+          <button type="button" class="af-menu__item" role="menuitem"><span class="af-mark af-hue--hangar af-mark--sm" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20 V13 A9 9 0 0 1 21 13 V20"/><path d="M2 20 H22"/><path d="M9 20 V15 H15 V20"/></svg></span><span>hangar</span><small>sandboxes</small></button>
+          <button type="button" class="af-menu__item" role="menuitem" aria-current="true"><span class="af-mark af-hue--flightdeck af-mark--sm" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M4.4 16.9 L21 12.8"/><path d="M6.5 11 H10 L12 13 L14 11 H17.5"/></svg></span><span>flightdeck</span><small>evals</small><svg class="af-ic af-ic--14" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg></button>
+          <button type="button" class="af-menu__item is-hover" role="menuitem"><span class="af-mark af-hue--tower af-mark--sm" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4 H18 L16.5 9 H7.5 Z"/><path d="M10 9 V20"/><path d="M14 9 V20"/><path d="M7 20 H17"/><path d="M12 4 V2"/></svg></span><span>Tower</span><small>governance</small></button>
+          <button type="button" class="af-menu__item" role="menuitem"><span class="af-mark af-hue--aidlc af-mark--sm" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><g fill="currentColor" stroke="none"><path d="M12 2.2 L14 5.6 H10 Z"/><path d="M18.93 14.2 L20.93 17.6 H16.93 Z"/><path d="M5.07 14.2 L7.07 17.6 H3.07 Z"/></g></svg></span><span>ai-dlc</span><small>dev kit</small></button>
+          <button type="button" class="af-menu__item" role="menuitem"><span class="af-mark af-hue--spaceport af-mark--sm" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(-20 12 12)"/><path d="M12 5 L13.5 8 V17 H10.5 V8 Z"/><path d="M9.5 20 H14.5"/><circle cx="21.4" cy="8.6" r="1.4" fill="currentColor" stroke="none"/></svg></span><span>Spaceport</span><small>data products</small></button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body></html>

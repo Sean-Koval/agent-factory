@@ -1,0 +1,59 @@
+<!-- @dsCard group="Governance" height=590 subtitle="A held action waiting on a reviewer: policy, checks, expiry, decision, receipt; and a denied placard row" -->
+<!doctype html><html><head><meta charset="utf-8"><title>ApprovalCard</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:720px">
+  <article class="af-card af-card--lit af-approval" aria-labelledby="apr-cmd">
+    <div class="af-card__top">
+      <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub">WS-APR-0391</span></span>
+      <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span>
+    </div>
+    <div class="af-approval__subject">
+      <p class="af-approval__cmd" id="apr-cmd">git push origin main</p>
+      <span class="af-meta">
+        <span class="af-meta__item"><span class="af-meta__key">repo</span><span class="af-meta__val">acme/api</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">from</span><span class="af-meta__val">hgr/fix-flaky-auth</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">files</span><span class="af-meta__val">3</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">diff</span><span class="af-meta__val">+42 −17</span></span>
+      </span>
+    </div>
+    <dl class="af-kv" style="grid-template-columns:104px minmax(0,1fr);gap:10px 16px">
+      <dt>Requested by</dt>
+      <dd><span class="af-id">HGR-3MX9</span> <span class="af-muted">for sean, 41 min ago</span></dd>
+      <dt>Policy</dt>
+      <dd><span class="af-mono">require-approval-main-push</span> <span class="af-tag" style="margin-left:6px">cedar</span>
+<pre class="af-code"><span class="af-code__c">// hold pushes to main until a reviewer signs</span>
+<span class="af-code__k">forbid</span> (principal, action == Action::<span class="af-code__s">"git:push"</span>, resource)
+<span class="af-code__k">when</span>   { resource.ref == <span class="af-code__s">"refs/heads/main"</span> }
+<span class="af-code__k">unless</span> { context.approval.granted };</pre></dd>
+      <dt>Checks</dt>
+      <dd><ul class="af-checks"><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>tests 212 of 212</li><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>lint clean</li><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>no secrets touched</li></ul></dd>
+      <dt>Expires</dt>
+      <dd>in <span class="af-mono">54 min</span>, then the push is dropped</dd>
+    </dl>
+    <div class="af-approval__act">
+      <span class="af-meta"><span class="af-meta__item"><span class="af-meta__key">reviewer</span><span class="af-meta__val">platform-oncall</span></span></span>
+      <div class="af-approval__btns">
+        <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny</button>
+        <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve push</button>
+      </div>
+    </div>
+    <div class="af-card__foot">
+      <span class="af-receipt"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Your decision is filed as receipt <b>WS-RCPT-88A1</b></span>
+    </div>
+  </article>
+  <section class="af-stack" style="gap:8px">
+    <span class="af-lbl">Decided<span class="af-lbl__sub">denied by policy</span></span>
+    <div class="af-verdict">
+      <span class="af-status af-status--denied"><i class="af-status__mark"></i>Denied</span>
+      <span class="af-verdict__body">
+        <span class="af-verdict__cmd">write secrets/prod.env</span>
+        <span class="af-meta">
+          <span class="af-meta__item af-meta__item--failed"><span class="af-meta__key">policy</span><span class="af-meta__val">deny-secret-paths</span></span>
+          <span class="af-meta__item"><span class="af-meta__key">sandbox</span><span class="af-meta__val">HGR-9KD4</span></span>
+          <span class="af-meta__item"><span class="af-meta__key">receipt</span><span class="af-meta__val">WS-RCPT-88A4</span></span>
+        </span>
+      </span>
+      <span class="af-verdict__time">14:07:40</span>
+    </div>
+  </section>
+</main>
+</body></html>

@@ -50,6 +50,11 @@ nav:
       - ai-dlc: tools/ai-dlc.md
       - Tower: tools/workspace.md
       - Spaceport: tools/spaceport.md
+  - Airframe:
+      - airframe/index.md
+      - Tokens: airframe/tokens.md
+      - Components: airframe/components.md
+      - Icons: airframe/icons.md
   - Roadmap: roadmap.md
   - Decisions: decisions.md
   - Glossary: glossary.md

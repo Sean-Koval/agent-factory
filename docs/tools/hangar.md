@@ -1,4 +1,4 @@
-<style>:root { --af-product: var(--af-p-hangar); }</style>
+<style>:root, [data-md-color-scheme] { --af-product: var(--af-product-hangar); }</style>
 
 <span class="af-eyebrow">Run plane</span>
 
