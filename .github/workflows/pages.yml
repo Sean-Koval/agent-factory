@@ -4,9 +4,12 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * *"   # daily: rebuild the roadmap from issue state and republish
 
 permissions:
   contents: read
+  issues: read
 
 concurrency:
   group: pages-${{ github.ref }}
@@ -22,19 +25,30 @@ jobs:
           python-version: "3.12"
       - run: pip install zensical==0.0.71 playwright==1.55.0
       - run: python -m playwright install --with-deps chromium
-      - name: Build diagrams, deck (with PDF) and site
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Build diagrams, deck (with PDF), roadmap data and site
+        env:
+          # Public repositories only; private ones are skipped. Fail rather than publish a
+          # placeholder roadmap when GitHub cannot be read.
+          GITHUB_TOKEN: ${{ github.token }}
+          ROADMAP_ARGS: --strict
         run: |
           python3 scripts/diagrams.py
           python3 scripts/build_deck.py --pdf
           sh scripts/build_site.sh
-      - name: Diagrams and deck are committed up to date
-        run: git diff --exit-code -- docs/assets/diagrams/*.svg deck/index.html
+      - name: Diagrams and deck are committed up to date; the roadmap data is not committed
+        run: |
+          git diff --exit-code -- docs/assets/diagrams/*.svg deck/index.html
+          test -z "$(git ls-files generated)"
+      - name: Roadmap in the job summary
+        run: grep -A40 '^## Progress' generated/roadmap.md | sed '/^## Epics/,$d' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-pages-artifact@v4
         with:
           path: site
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-24.04
     permissions:
