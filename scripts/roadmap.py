@@ -411,6 +411,10 @@ def milestone_url(s: RepoState, issues: list[Issue]) -> str | None:
 PLACEHOLDER = """<p class="af-rm-note">The roadmap data was not built for this copy of the site.
 It is generated from GitHub issue state when the site is published; run
 <code>python3 scripts/roadmap.py</code> to build it locally.</p>
+
+## Unsorted
+
+Not built.
 """
 
 
