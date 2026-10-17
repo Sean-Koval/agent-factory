@@ -1,4 +1,4 @@
-<style>:root { --af-product: var(--af-p-spaceport); }</style>
+<style>:root, [data-md-color-scheme] { --af-product: var(--af-product-spaceport); }</style>
 
 <span class="af-eyebrow">Capability</span>
 

@@ -1,0 +1,57 @@
+<!-- @dsCard group="Foundations" height=400 subtitle="Primary, secondary, ghost, danger; 34 and 28 px; icons; disabled" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Button</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px">
+  <section class="af-stack">
+    <span class="af-lbl">Regular<span class="af-lbl__sub">34 px</span></span>
+    <div class="af-row" style="flex-wrap:wrap">
+      <button type="button" class="af-btn af-btn--primary"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10-6.5z"/></svg>Start a sandbox</button>
+      <button type="button" class="af-btn af-btn--secondary"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="4.5" r="1.75"/><circle cx="14" cy="4.5" r="1.75"/><circle cx="10" cy="15.5" r="1.75"/><path d="M6 6.25V7.5c0 1.5 1 2.5 2.5 2.5h3c1.5 0 2.5-1 2.5-2.5V6.25M10 10v3.75"/></svg>Fork session</button>
+      <button type="button" class="af-btn af-btn--ghost"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg>View diff</button>
+      <button type="button" class="af-btn af-btn--danger"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg>Destroy</button>
+    </div>
+  </section>
+  <section class="af-stack">
+    <span class="af-lbl">Small<span class="af-lbl__sub">28 px, inside cards and rows</span></span>
+    <div class="af-row" style="flex-wrap:wrap">
+      <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve push</button>
+      <button type="button" class="af-btn af-btn--secondary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/><circle cx="10" cy="10" r="2.5"/></svg>Snapshot</button>
+      <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 2.5v15"/><path d="M5 5h6M8 9h7M11 13h3.5M13 17h4"/></svg>Open trace</button>
+      <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny</button>
+    </div>
+  </section>
+  <div class="af-grid af-grid--2" style="gap:28px 24px">
+    <section class="af-stack">
+      <span class="af-lbl">Text only, icon only</span>
+      <div class="af-row" style="flex-wrap:wrap">
+        <button type="button" class="af-btn af-btn--primary">Approve</button>
+        <button type="button" class="af-btn af-btn--secondary">Read the docs</button>
+        <button type="button" class="af-btn af-btn--secondary af-btn--icon" aria-label="Snapshot sandbox"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/><circle cx="10" cy="10" r="2.5"/></svg></button>
+        <button type="button" class="af-btn af-btn--ghost af-btn--icon" aria-label="Search"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.5 12.5l5 5"/></svg></button>
+        <button type="button" class="af-btn af-btn--ghost af-btn--icon af-btn--sm" aria-label="Pause sandbox"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4v12M13 4v12"/></svg></button>
+      </div>
+    </section>
+    <section class="af-stack">
+      <span class="af-lbl">Disabled</span>
+      <div class="af-row" style="flex-wrap:wrap">
+        <button type="button" class="af-btn af-btn--primary" disabled><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10-6.5z"/></svg>Start a sandbox</button>
+        <button type="button" class="af-btn af-btn--secondary" disabled>Fork</button>
+        <button type="button" class="af-btn af-btn--danger" disabled>Destroy</button>
+      </div>
+    </section>
+  </div>
+  <section class="af-stack">
+    <span class="af-lbl">In a decision</span>
+    <div class="af-card" style="flex-direction:row;align-items:center;flex-wrap:wrap;gap:12px 16px;max-width:640px">
+      <div class="af-stack" style="gap:4px;flex:1 1 260px">
+        <span style="font-weight:600">Push to main needs a reviewer</span>
+        <span class="af-meta"><span class="af-meta__item af-meta__item--strong"><span class="af-meta__key">sandbox</span><span class="af-meta__val">HGR-3MX9</span></span><span class="af-meta__item"><span class="af-meta__key">diff</span><span class="af-meta__val">+42 −17</span></span></span>
+      </div>
+      <div class="af-row">
+        <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg>View diff</button>
+        <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny</button>
+        <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve push</button>
+      </div>
+    </div>
+  </section>
+</main>
+</body></html>

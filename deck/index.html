@@ -11,121 +11,250 @@
 <style>
 /* Airframe tokens, inlined from theme/airframe.css by scripts/build_deck.py */
 /*
-  Airframe tokens: the shared design system for hangar, flightdeck, the governed workspace,
-  ai-dlc and Spaceport. This file is the swappable "flavor": every site, the deck and the
-  diagrams read these custom properties and nothing else, so restyling the suite means
-  replacing this one file.
+  Airframe theme-v2 tokens. Generated from airframe/tokens.json by scripts/airframe.py; do not edit.
+  Change a value in airframe/tokens.json, run `python3 scripts/airframe.py build`, and add a
+  theme/CHANGELOG.md entry. Tool repos vendor this file unmodified (scripts/sync-airframe.sh).
 
-  Current flavor: "Night Panel" from the Airframe Lab (saved 2026-10-17 as "latest"):
-  black cockpit canvas, signal-yellow accent, Archivo Expanded display, Red Hat Text body,
-  DM Mono for ids and labels, tonal cards, 2px radius, quiet status colors.
-  The design is still being narrowed; keep token names stable and change values only.
-
-  Contract (do not rename): theme ids `dark` / `light` on [data-theme]; token names below;
-  class roots `af-*`. The brand accent is never a status color.
+  Contract: every token is --af-<name>; Night is `dark` (the default), Day is `light`, set with
+  data-theme on <html> or any element (the docs sites use data-md-color-scheme). Component
+  classes live in airframe-components.css. The brand yellow is never a status.
 */
 
-/* Dark is the default look. The docs sites pick dark with data-md-color-scheme="slate". */
 :root,
+[data-theme="dark"],
 [data-md-color-scheme="slate"] {
   color-scheme: dark;
-
-  /* surfaces */
   --af-canvas: #000000;
   --af-surface: #0A0A0A;
   --af-raised: #141414;
   --af-overlay: #1C1C1C;
-  --af-selected: #1F1F1F;
-
-  /* lines (refined: softened toward the raised surface) */
-  --af-line-subtle: #161616;
-  --af-line: #1F1F1F;
+  --af-line-subtle: #1F1F1F;
+  --af-line: #2A2A2A;
   --af-line-strong: #6B6B6B;
-  --af-rule: #3A3A3A;
-
-  /* ink */
+  --af-rule: #424242;
   --af-fg: #FFFFFF;
   --af-fg-muted: #A6A6A6;
   --af-fg-subtle: #8A8A8A;
   --af-fg-dim: #5C5C5C;
-
-  /* brand: signal yellow */
+  --af-selected: #1F1F1F;
   --af-brand: #FFC400;
   --af-brand-hover: #FFD23F;
+  --af-brand-wash: rgba(255,196,0,0.12);
   --af-on-brand: #111213;
   --af-brand-text: #FFC400;
   --af-brand-line: #FFC400;
-  --af-brand-wash: rgba(255, 196, 0, .12);
   --af-focus: #FFC400;
-
-  /* status, quiet mode: only approval and failure light up */
-  --af-st-run: #C7C7C7;
-  --af-st-queue: #8A8A8A;
-  --af-st-appr: #FFB224;
-  --af-st-fail: #FF4D4D;
-  --af-st-deny: #D93036;
-  --af-st-off: #6B6B6B;
-
-  /* product hues: logo tiles, docs headers and a 2px nav marker only */
-  --af-p-hangar: #EE8F63;
-  --af-p-flightdeck: #D98CD2;
-  --af-p-workspace: #C5A93B;
-  --af-p-aidlc: #69C27E;
-  --af-p-spaceport: #B199F4;
-
-  /* terminal and code */
-  --af-term-bg: #0A0A0A;
-  --af-term-fg: #E6E7E3;
-  --af-code-k: #FFFFFF;
-  --af-code-f: #D9D9D9;
-  --af-code-s: #A6A6A6;
-  --af-code-n: #CCCCCC;
-  --af-code-c: #808080;
-
-  /* texture */
-  --af-dot: #262626;
-
-  /* type */
-  --af-f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --af-display-stretch: 125%;
-  --af-display-weight: 700;
-  --af-display-track: -0.01em;
-  --af-f-sans: "Red Hat Text", "Helvetica Neue", Arial, sans-serif;
-  --af-f-mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
-  --af-label-track: .08em;
-
-  /* shape and rhythm */
-  --af-r-ctl: 2px;
-  --af-r-card: 4px;
-  --af-r-chip: 2px;
-  --af-row-h: 32px;
-  --af-pad: 16px;
-  --af-gap: 12px;
+  --af-status-running: #C7C7C7;
+  --af-status-queued: #8A8A8A;
+  --af-status-approval: #FF8A3D;
+  --af-status-failed: #FF4D4D;
+  --af-status-denied: #D93036;
+  --af-on-status-denied: #FFFFFF;
+  --af-status-off: #6B6B6B;
+  --af-lamp-caution: #FF8A3D;
+  --af-lamp-warning: #FF4D4D;
+  --af-on-lamp: #000000;
+  --af-terminal-bg: #0A0A0A;
+  --af-terminal-fg: #E6E7E3;
+  --af-terminal-dim: #8E9297;
+  --af-terminal-ok: #C7C7C7;
+  --af-terminal-err: #FF4D4D;
+  --af-code-keyword: #FFFFFF;
+  --af-code-function: #D9D9D9;
+  --af-code-string: #A6A6A6;
+  --af-code-number: #CCCCCC;
+  --af-code-comment: #808080;
+  --af-span-model: #C7C7C7;
+  --af-span-tool: #999999;
+  --af-span-sandbox: #616161;
+  --af-stage-plan: #383838;
+  --af-stage-edit: #6B6B6B;
+  --af-stage-test: #A3A3A3;
+  --af-readout-cell: #161616;
+  --af-display-window: #0A0A0A;
+  --af-dot-field: #262626;
+  --af-product-hangar: #EE8F63;
+  --af-product-flightdeck: #D98CD2;
+  --af-product-tower: #C5A93B;
+  --af-product-aidlc: #69C27E;
+  --af-product-spaceport: #B199F4;
+  --af-chart-1: #FFFFFF;
+  --af-chart-2: #BFBFBF;
+  --af-chart-3: #8C8C8C;
+  --af-chart-4: #666666;
+  --af-chart-5: #FF8A3D;
+  --af-chart-6: #333333;
+  --af-shadow-overlay: 0 12px 32px rgba(0,0,0,0.6);
 }
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
     color-scheme: light;
-    --af-canvas: #FFFFFF; --af-surface: #F8F8F7; --af-raised: #F1F1F0; --af-overlay: #FFFFFF; --af-selected: #E8E8E7;
-    --af-line-subtle: #EDEDED; --af-line: #E0E0E0; --af-line-strong: #858585; --af-rule: #C9C9C9;
-    --af-fg: #000000; --af-fg-muted: #4D4D4D; --af-fg-subtle: #6B6B6B; --af-fg-dim: #A3A3A3;
-    --af-brand: #FFC400; --af-brand-hover: #FFD23F; --af-on-brand: #111213; --af-brand-text: #7A5F00; --af-brand-line: #7A5F00; --af-brand-wash: rgba(255, 196, 0, .16); --af-focus: #7A5F00;
-    --af-st-run: #3A3A3A; --af-st-queue: #6B6B6B; --af-st-appr: #9A5B00; --af-st-fail: #C42B2B; --af-st-deny: #C42B2B; --af-st-off: #858585;
-    --af-p-hangar: #A44C1D; --af-p-flightdeck: #914A8C; --af-p-workspace: #816600; --af-p-aidlc: #1D7D3E; --af-p-spaceport: #6F57AB;
-    --af-dot: #E0E0E0;
+    --af-canvas: #F4F4F2;
+    --af-surface: #EDEDEB;
+    --af-raised: #FFFFFF;
+    --af-overlay: #FFFFFF;
+    --af-line-subtle: #E6E6E3;
+    --af-line: #DCDCD9;
+    --af-line-strong: #858583;
+    --af-rule: #BDBDBA;
+    --af-fg: #0A0A0A;
+    --af-fg-muted: #474746;
+    --af-fg-subtle: #666664;
+    --af-fg-dim: #9C9C99;
+    --af-selected: #E6E6E3;
+    --af-brand-wash: rgba(255,196,0,0.18);
+    --af-brand-text: #7A5F00;
+    --af-brand-line: #7A5F00;
+    --af-focus: #7A5F00;
+    --af-status-running: #3A3A3A;
+    --af-status-queued: #666664;
+    --af-status-approval: #B04E00;
+    --af-status-failed: #C42B2B;
+    --af-status-denied: #C42B2B;
+    --af-status-off: #858583;
+    --af-span-model: #383838;
+    --af-span-tool: #666664;
+    --af-span-sandbox: #9E9E9E;
+    --af-stage-plan: #C7C7C7;
+    --af-stage-edit: #949494;
+    --af-stage-test: #5C5C5C;
+    --af-readout-cell: #EBEBEA;
+    --af-display-window: #FAFAF9;
+    --af-dot-field: #DCDCD9;
+    --af-product-hangar: #A44C1D;
+    --af-product-flightdeck: #914A8C;
+    --af-product-tower: #816600;
+    --af-product-aidlc: #1D7D3E;
+    --af-product-spaceport: #6F57AB;
+    --af-chart-1: #000000;
+    --af-chart-2: #4D4D4D;
+    --af-chart-3: #737373;
+    --af-chart-4: #8A8A8A;
+    --af-chart-5: #B04E00;
+    --af-chart-6: #D6D6D3;
+    --af-shadow-overlay: 0 12px 32px rgba(0,0,0,0.12);
   }
 }
-/* the docs sites switch theme with data-md-color-scheme on <body> */
-:root[data-theme="light"],
+
+[data-theme="light"],
 [data-md-color-scheme="default"] {
   color-scheme: light;
-  --af-canvas: #FFFFFF; --af-surface: #F8F8F7; --af-raised: #F1F1F0; --af-overlay: #FFFFFF; --af-selected: #E8E8E7;
-  --af-line-subtle: #EDEDED; --af-line: #E0E0E0; --af-line-strong: #858585; --af-rule: #C9C9C9;
-  --af-fg: #000000; --af-fg-muted: #4D4D4D; --af-fg-subtle: #6B6B6B; --af-fg-dim: #A3A3A3;
-  --af-brand: #FFC400; --af-brand-hover: #FFD23F; --af-on-brand: #111213; --af-brand-text: #7A5F00; --af-brand-line: #7A5F00; --af-brand-wash: rgba(255, 196, 0, .16); --af-focus: #7A5F00;
-  --af-st-run: #3A3A3A; --af-st-queue: #6B6B6B; --af-st-appr: #9A5B00; --af-st-fail: #C42B2B; --af-st-deny: #C42B2B; --af-st-off: #858585;
-  --af-p-hangar: #A44C1D; --af-p-flightdeck: #914A8C; --af-p-workspace: #816600; --af-p-aidlc: #1D7D3E; --af-p-spaceport: #6F57AB;
-  --af-dot: #E0E0E0;
+  --af-canvas: #F4F4F2;
+  --af-surface: #EDEDEB;
+  --af-raised: #FFFFFF;
+  --af-overlay: #FFFFFF;
+  --af-line-subtle: #E6E6E3;
+  --af-line: #DCDCD9;
+  --af-line-strong: #858583;
+  --af-rule: #BDBDBA;
+  --af-fg: #0A0A0A;
+  --af-fg-muted: #474746;
+  --af-fg-subtle: #666664;
+  --af-fg-dim: #9C9C99;
+  --af-selected: #E6E6E3;
+  --af-brand-wash: rgba(255,196,0,0.18);
+  --af-brand-text: #7A5F00;
+  --af-brand-line: #7A5F00;
+  --af-focus: #7A5F00;
+  --af-status-running: #3A3A3A;
+  --af-status-queued: #666664;
+  --af-status-approval: #B04E00;
+  --af-status-failed: #C42B2B;
+  --af-status-denied: #C42B2B;
+  --af-status-off: #858583;
+  --af-span-model: #383838;
+  --af-span-tool: #666664;
+  --af-span-sandbox: #9E9E9E;
+  --af-stage-plan: #C7C7C7;
+  --af-stage-edit: #949494;
+  --af-stage-test: #5C5C5C;
+  --af-readout-cell: #EBEBEA;
+  --af-display-window: #FAFAF9;
+  --af-dot-field: #DCDCD9;
+  --af-product-hangar: #A44C1D;
+  --af-product-flightdeck: #914A8C;
+  --af-product-tower: #816600;
+  --af-product-aidlc: #1D7D3E;
+  --af-product-spaceport: #6F57AB;
+  --af-chart-1: #000000;
+  --af-chart-2: #4D4D4D;
+  --af-chart-3: #737373;
+  --af-chart-4: #8A8A8A;
+  --af-chart-5: #B04E00;
+  --af-chart-6: #D6D6D3;
+  --af-shadow-overlay: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+:root {
+  --af-display-stretch: 125%;
+  --af-display-weight: 700;
+  --af-display-track: -0.01em;
+  --af-label-track: 0.08em;
+  --af-space-2: 2px;
+  --af-space-4: 4px;
+  --af-space-8: 8px;
+  --af-space-12: 12px;
+  --af-space-16: 16px;
+  --af-space-20: 20px;
+  --af-space-24: 24px;
+  --af-space-28: 28px;
+  --af-space-32: 32px;
+  --af-space-40: 40px;
+  --af-space-48: 48px;
+  --af-space-64: 64px;
+  --af-space-104: 104px;
+  --af-space-160: 160px;
+  --af-radius-none: 0px;
+  --af-radius-control: 2px;
+  --af-radius-card: 4px;
+  --af-radius-round: 50%;
+  --af-container-max: 1280px;
+  --af-header-h: 56px;
+  --af-row-h: 32px;
+  --af-row-h-compact: 28px;
+  --af-lane-h: 30px;
+  --af-span-h: 28px;
+  --af-icon-stroke: 1.5;
+  --af-icon-size: 16px;
+  --af-font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --af-font-sans: "Red Hat Text", "Helvetica Neue", Arial, sans-serif;
+  --af-font-mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* theme-v1 names, kept as aliases (re-declared in every theme scope so they follow it) */
+:root,
+[data-theme],
+[data-md-color-scheme] {
+  --af-st-run: var(--af-status-running);
+  --af-st-queue: var(--af-status-queued);
+  --af-st-appr: var(--af-status-approval);
+  --af-st-fail: var(--af-status-failed);
+  --af-st-deny: var(--af-status-denied);
+  --af-st-off: var(--af-status-off);
+  --af-p-hangar: var(--af-product-hangar);
+  --af-p-flightdeck: var(--af-product-flightdeck);
+  --af-p-workspace: var(--af-product-tower);
+  --af-p-tower: var(--af-product-tower);
+  --af-product-workspace: var(--af-product-tower);
+  --af-p-aidlc: var(--af-product-aidlc);
+  --af-p-spaceport: var(--af-product-spaceport);
+  --af-term-bg: var(--af-terminal-bg);
+  --af-term-fg: var(--af-terminal-fg);
+  --af-code-k: var(--af-code-keyword);
+  --af-code-f: var(--af-code-function);
+  --af-code-s: var(--af-code-string);
+  --af-code-n: var(--af-code-number);
+  --af-code-c: var(--af-code-comment);
+  --af-dot: var(--af-dot-field);
+  --af-f-display: var(--af-font-display);
+  --af-f-sans: var(--af-font-sans);
+  --af-f-mono: var(--af-font-mono);
+  --af-r-ctl: var(--af-radius-control);
+  --af-r-card: var(--af-radius-card);
+  --af-r-chip: var(--af-radius-control);
+  --af-pad: var(--af-space-16);
+  --af-gap: var(--af-space-12);
 }
 
 </style>
@@ -135,7 +264,7 @@
 html, body { height: 100%; }
 body {
   margin: 0; background: var(--af-canvas); color: var(--af-fg);
-  font: 400 16px/1.45 var(--af-f-sans);
+  font: 400 16px/1.45 var(--af-font-sans);
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   overflow: hidden;
@@ -150,16 +279,16 @@ body {
 .slide.on { display: flex; }
 .slide::after { /* dot field, top right */
   content: ""; position: absolute; right: 0; top: 0; width: 320px; height: 120px; pointer-events: none;
-  background: radial-gradient(circle, var(--af-dot) 1.1px, transparent 1.6px) 0 0 / 8px 8px;
+  background: radial-gradient(circle, var(--af-dot-field) 1.1px, transparent 1.6px) 0 0 / 8px 8px;
 }
-.eyebrow { font: 500 13px/1 var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow { font: 500 13px/1 var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); display: inline-flex; align-items: center; gap: 10px; }
 .eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--af-brand-line); }
-h1, h2 { margin: 0; font-family: var(--af-f-display); font-stretch: var(--af-display-stretch); font-weight: var(--af-display-weight); letter-spacing: var(--af-display-track); text-wrap: balance; }
+h1, h2 { margin: 0; font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: var(--af-display-weight); letter-spacing: var(--af-display-track); text-wrap: balance; }
 h1 { font-size: 64px; line-height: 1.02; max-width: 15ch; }
 h2 { font-size: 38px; line-height: 1.08; max-width: 26ch; }
 p { margin: 0; }
 .lede { font-size: 22px; color: var(--af-fg-muted); max-width: 46ch; line-height: 1.45; }
-.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-dim); }
+.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-dim); }
 .foot b { color: var(--af-fg-subtle); font-weight: 500; }
 .art { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
 .art svg { width: 100%; height: 100%; display: block; }
@@ -169,40 +298,40 @@ p { margin: 0; }
 .title-grid { flex: 1; display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: end; }
 .tools { display: flex; flex-direction: column; gap: 2px; }
 .tool { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: baseline; padding: 14px 18px; background: var(--af-raised); border-left: 2px solid var(--c); }
-.tool b { font: 700 17px var(--af-f-display); font-stretch: var(--af-display-stretch); }
+.tool b { font: 700 17px var(--af-font-display); font-stretch: var(--af-display-stretch); }
 .tool span { color: var(--af-fg-muted); font-size: 15px; }
-.tool small { grid-column: 1; font: 500 11px var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.tool small { grid-column: 1; font: 500 11px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
 
 /* readouts */
 .readouts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; }
 .ro { background: var(--af-raised); padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 12px; min-height: 250px; }
-.ro .k { font: 500 12px var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
-.ro .v { font: 700 54px/1 var(--af-f-display); font-stretch: var(--af-display-stretch); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.ro .k { font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.ro .v { font: 700 54px/1 var(--af-font-display); font-stretch: var(--af-display-stretch); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .ro .v small { font-size: 22px; color: var(--af-fg-subtle); margin-left: 4px; }
 .ro p { color: var(--af-fg-muted); font-size: 16px; }
-.ro.attn { box-shadow: inset 0 2px 0 var(--af-st-appr); }
-.ro.attn .k { color: var(--af-st-appr); }
+.ro.attn { box-shadow: inset 0 2px 0 var(--af-status-approval); }
+.ro.attn .k { color: var(--af-status-approval); }
 
 /* flight strips */
 .strips { display: flex; flex-direction: column; gap: 3px; }
 .strip { display: grid; grid-template-columns: 64px 220px 1fr 220px; align-items: center; background: var(--af-raised); min-height: 62px; }
 .strip > * { padding: 10px 16px; }
-.strip .n { font: 500 15px var(--af-f-mono); color: var(--af-fg-subtle); border-right: 2px solid var(--af-canvas); align-self: stretch; display: flex; align-items: center; }
-.strip .who { font: 700 15px var(--af-f-display); font-stretch: var(--af-display-stretch); display: flex; align-items: center; gap: 10px; }
+.strip .n { font: 500 15px var(--af-font-mono); color: var(--af-fg-subtle); border-right: 2px solid var(--af-canvas); align-self: stretch; display: flex; align-items: center; }
+.strip .who { font: 700 15px var(--af-font-display); font-stretch: var(--af-display-stretch); display: flex; align-items: center; gap: 10px; }
 .strip .who i { width: 8px; height: 8px; background: var(--c); display: inline-block; flex: none; }
 .strip .what { color: var(--af-fg-muted); font-size: 16px; }
-.strip .st { font: 500 12px var(--af-f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--af-fg-subtle); display: flex; align-items: center; gap: 8px; }
+.strip .st { font: 500 12px var(--af-font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--af-fg-subtle); display: flex; align-items: center; gap: 8px; }
 .strip .st i { width: 8px; height: 8px; display: inline-block; flex: none; }
-.st-run i { border-radius: 50%; background: var(--af-st-run); }
-.st-appr { color: var(--af-st-appr) !important; }
-.st-appr i { background: var(--af-st-appr); transform: rotate(45deg); width: 7px !important; height: 7px !important; }
-.strip.attn { background: color-mix(in srgb, var(--af-st-appr) 7%, var(--af-raised)); box-shadow: inset 2px 0 0 var(--af-st-appr); }
+.st-run i { border-radius: 50%; background: var(--af-status-running); }
+.st-appr { color: var(--af-status-approval) !important; }
+.st-appr i { background: var(--af-status-approval); transform: rotate(45deg); width: 7px !important; height: 7px !important; }
+.strip.attn { background: color-mix(in srgb, var(--af-status-approval) 7%, var(--af-raised)); box-shadow: inset 2px 0 0 var(--af-status-approval); }
 
 /* roadmap */
 .road { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; flex: 1; }
 .phase { background: var(--af-raised); padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
-.phase .k { font: 500 12px var(--af-f-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
-.phase h3 { margin: 0; font: 700 22px/1.15 var(--af-f-display); font-stretch: var(--af-display-stretch); }
+.phase .k { font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.phase h3 { margin: 0; font: 700 22px/1.15 var(--af-font-display); font-stretch: var(--af-display-stretch); }
 .phase ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
 .phase li { color: var(--af-fg-muted); font-size: 16px; padding-left: 18px; position: relative; }
 .phase li::before { content: ""; position: absolute; left: 0; top: .6em; width: 8px; height: 1px; background: var(--af-fg-subtle); }
@@ -211,10 +340,10 @@ p { margin: 0; }
 
 /* chrome: counter and controls, outside the scaled stage */
 .hud { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; align-items: center; z-index: 5; }
-.hud button { width: 34px; height: 34px; border: 1px solid var(--af-line-strong); background: var(--af-surface); color: var(--af-fg); border-radius: var(--af-r-ctl); cursor: pointer; font: 500 14px var(--af-f-mono); }
+.hud button { width: 34px; height: 34px; border: 1px solid var(--af-line-strong); background: var(--af-surface); color: var(--af-fg); border-radius: var(--af-radius-control); cursor: pointer; font: 500 14px var(--af-font-mono); }
 .hud button:hover { border-color: var(--af-fg); }
 .hud button:focus-visible { outline: 2px solid var(--af-focus); outline-offset: 2px; }
-.hud output { font: 500 12px var(--af-f-mono); color: var(--af-fg-subtle); min-width: 56px; text-align: center; }
+.hud output { font: 500 12px var(--af-font-mono); color: var(--af-fg-subtle); min-width: 56px; text-align: center; }
 
 @media print {
   @page { size: 1280px 720px; margin: 0; }
@@ -238,11 +367,11 @@ p { margin: 0; }
       <p class="lede">Hand work to cloud coding agents and keep every change reviewable. Five open-source tools for a team of six running about sixty agent sessions.</p>
     </div>
     <div class="tools">
-      <div class="tool" style="--c:var(--af-p-hangar)"><b>hangar</b><span>Runs the agents</span><small>Run</small></div>
-      <div class="tool" style="--c:var(--af-p-flightdeck)"><b>flightdeck</b><span>Judges the runs</span><small>Judge</small></div>
-      <div class="tool" style="--c:var(--af-p-aidlc)"><b>ai-dlc</b><span>Defines the harness</span><small>Define</small></div>
-      <div class="tool" style="--c:var(--af-p-workspace)"><b>workspace</b><span>Governs risky actions</span><small>Govern</small></div>
-      <div class="tool" style="--c:var(--af-p-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Capability</small></div>
+      <div class="tool" style="--c:var(--af-product-hangar)"><b>hangar</b><span>Runs the agents</span><small>Run</small></div>
+      <div class="tool" style="--c:var(--af-product-flightdeck)"><b>flightdeck</b><span>Judges the runs</span><small>Judge</small></div>
+      <div class="tool" style="--c:var(--af-product-aidlc)"><b>ai-dlc</b><span>Defines the harness</span><small>Define</small></div>
+      <div class="tool" style="--c:var(--af-product-tower)"><b>workspace</b><span>Governs risky actions</span><small>Govern</small></div>
+      <div class="tool" style="--c:var(--af-product-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Capability</small></div>
     </div>
   </div>
   <div class="foot"><span>sean-koval.github.io/agent-factory</span><b>01 / 07</b></div>
@@ -265,17 +394,17 @@ p { margin: 0; }
   <h2>Four planes, one loop, one gate</h2>
   <div class="art"><svg class="af-d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 610" role="img" aria-label="Four planes, one loop">
 <style>
-  .af-d .bg { fill: var(--af-canvas, #000); }
+  .af-d .bg { fill: var(--af-canvas, #000000); }
   .af-d .box { fill: var(--af-raised, #141414); }
   .af-d .box-hub { fill: var(--af-raised, #141414); stroke: var(--af-brand-line, #FFC400); stroke-width: 1.5; }
   .af-d .box-plan { fill: none; stroke: var(--af-line-strong, #6B6B6B); stroke-width: 1; stroke-dasharray: 4 4; }
   .af-d .box-ext { fill: var(--af-surface, #0A0A0A); stroke: var(--af-line-strong, #6B6B6B); stroke-width: 1; }
   .af-d .person { fill: var(--af-surface, #0A0A0A); stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1; }
-  .af-d .bound { fill: none; stroke: var(--af-rule, #3A3A3A); stroke-width: 1; stroke-dasharray: 2 5; }
+  .af-d .bound { fill: none; stroke: var(--af-rule, #424242); stroke-width: 1; stroke-dasharray: 2 5; }
   .af-d .bound-fill { fill: var(--af-surface, #0A0A0A); }
-  .af-d .name { font: 700 15px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
-  .af-d .name-s { font: 700 13px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
-  .af-d .title { font: 700 20px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
+  .af-d .name { font: 700 15px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #FFFFFF); }
+  .af-d .name-s { font: 700 13px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #FFFFFF); }
+  .af-d .title { font: 700 20px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #FFFFFF); }
   .af-d .body { font: 400 12.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-muted, #A6A6A6); }
   .af-d .lbl { font: 500 10.5px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-fg-subtle, #8A8A8A); }
   .af-d .lbl-hi { font: 500 10.5px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-brand-text, #FFC400); }
@@ -283,7 +412,7 @@ p { margin: 0; }
   .af-d .edge-plan { fill: none; stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1.25; stroke-dasharray: 5 4; }
   .af-d .elabel { font: 400 11.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-subtle, #8A8A8A); }
   .af-d .arrowhead { fill: var(--af-fg-subtle, #8A8A8A); }
-  .af-d .dot { fill: var(--af-dot, #262626); }
+  .af-d .dot { fill: var(--af-dot-field, #262626); }
 </style>
 <defs><marker id="four-planes,-one-loop-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker></defs><rect class="bg" width="1280" height="610"/>
 <style>
@@ -292,7 +421,7 @@ p { margin: 0; }
   .af-d .lbl { font-size: 12.5px; }
   .af-d .elabel { font-size: 15px; }
 </style>
-<rect class="box" x="40" y="20" width="330" height="150" rx="3"/><text class="lbl" x="62" y="52">DOORS</text><text class="name" x="62" y="84">Many doors</text><text class="body" x="62" y="114">Jira, GitHub, Slack, MCP,</text><text class="body" x="62" y="138">schedules</text><rect class="box" x="40" y="230" width="330" height="150" rx="3"/><rect x="40" y="230" width="330" height="3" fill="var(--af-p-aidlc, #69C27E)"/><text class="lbl" x="62" y="262">AI-DLC + HARNESS REPO</text><text class="name" x="62" y="294">Define</text><text class="body" x="62" y="324">harness.lock, one digest,</text><text class="body" x="62" y="348">the workflow plugin</text><rect class="box-hub" x="470" y="120" width="340" height="260" rx="3"/><rect x="470" y="120" width="340" height="3" fill="var(--af-p-hangar, #EE8F63)"/><text class="lbl" x="492" y="152">HANGAR</text><text class="name" x="492" y="184">Run</text><text class="body" x="492" y="214">Sandboxes, sessions, jobs</text><text class="body" x="492" y="238">and trials on GKE</text><text class="body" x="492" y="262">Verify, push through the</text><text class="body" x="492" y="286">gateway, land on approval</text><rect class="box" x="910" y="20" width="330" height="150" rx="3"/><rect x="910" y="20" width="330" height="3" fill="var(--af-p-workspace, #C5A93B)"/><text class="lbl" x="932" y="52">TOWER</text><text class="name" x="932" y="84">Govern</text><text class="body" x="932" y="114">Rules, human approvals,</text><text class="body" x="932" y="138">signed receipts</text><rect class="box" x="910" y="230" width="330" height="150" rx="3"/><text class="lbl" x="932" y="262">GITHUB</text><text class="name" x="932" y="294">One gate: the PR</text><text class="body" x="932" y="324">A second human approves</text><text class="body" x="932" y="348">the exact commit</text><rect class="box" x="470" y="440" width="340" height="150" rx="3"/><rect x="470" y="440" width="340" height="3" fill="var(--af-p-flightdeck, #D98CD2)"/><text class="lbl" x="492" y="472">FLIGHTDECK</text><text class="name" x="492" y="504">Judge</text><text class="body" x="492" y="534">Paired statistics and</text><text class="body" x="492" y="558">behavior specs on every run</text><path class="edge" d="M370 95H420V180H468" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="380" y="85" text-anchor="start">work</text><path class="edge" d="M370 305H468" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="380" y="295" text-anchor="start">lock</text><path class="edge" d="M810 165H860V95H908" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="820" y="155" text-anchor="start">decide</text><path class="edge" d="M908 130H880V200H812" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="888" y="230" text-anchor="start"></text><path class="edge" d="M810 305H908" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="820" y="295" text-anchor="start">PR</text><path class="edge" d="M560 380V438" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="572" y="418" text-anchor="start">every run</text><path class="edge" d="M720 440V382" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="708" y="418" text-anchor="end">trials</text><path class="edge" d="M470 515H205V382" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="215" y="505" text-anchor="start">promote the next harness</text></svg>
+<rect class="box" x="40" y="20" width="330" height="150" rx="3"/><text class="lbl" x="62" y="52">DOORS</text><text class="name" x="62" y="84">Many doors</text><text class="body" x="62" y="114">Jira, GitHub, Slack, MCP,</text><text class="body" x="62" y="138">schedules</text><rect class="box" x="40" y="230" width="330" height="150" rx="3"/><rect x="40" y="230" width="330" height="3" fill="var(--af-product-aidlc, #69C27E)"/><text class="lbl" x="62" y="262">AI-DLC + HARNESS REPO</text><text class="name" x="62" y="294">Define</text><text class="body" x="62" y="324">harness.lock, one digest,</text><text class="body" x="62" y="348">the workflow plugin</text><rect class="box-hub" x="470" y="120" width="340" height="260" rx="3"/><rect x="470" y="120" width="340" height="3" fill="var(--af-product-hangar, #EE8F63)"/><text class="lbl" x="492" y="152">HANGAR</text><text class="name" x="492" y="184">Run</text><text class="body" x="492" y="214">Sandboxes, sessions, jobs</text><text class="body" x="492" y="238">and trials on GKE</text><text class="body" x="492" y="262">Verify, push through the</text><text class="body" x="492" y="286">gateway, land on approval</text><rect class="box" x="910" y="20" width="330" height="150" rx="3"/><rect x="910" y="20" width="330" height="3" fill="var(--af-product-tower, #C5A93B)"/><text class="lbl" x="932" y="52">TOWER</text><text class="name" x="932" y="84">Govern</text><text class="body" x="932" y="114">Rules, human approvals,</text><text class="body" x="932" y="138">signed receipts</text><rect class="box" x="910" y="230" width="330" height="150" rx="3"/><text class="lbl" x="932" y="262">GITHUB</text><text class="name" x="932" y="294">One gate: the PR</text><text class="body" x="932" y="324">A second human approves</text><text class="body" x="932" y="348">the exact commit</text><rect class="box" x="470" y="440" width="340" height="150" rx="3"/><rect x="470" y="440" width="340" height="3" fill="var(--af-product-flightdeck, #D98CD2)"/><text class="lbl" x="492" y="472">FLIGHTDECK</text><text class="name" x="492" y="504">Judge</text><text class="body" x="492" y="534">Paired statistics and</text><text class="body" x="492" y="558">behavior specs on every run</text><path class="edge" d="M370 95H420V180H468" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="380" y="85" text-anchor="start">work</text><path class="edge" d="M370 305H468" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="380" y="295" text-anchor="start">lock</text><path class="edge" d="M810 165H860V95H908" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="820" y="155" text-anchor="start">decide</text><path class="edge" d="M908 130H880V200H812" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="888" y="230" text-anchor="start"></text><path class="edge" d="M810 305H908" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="820" y="295" text-anchor="start">PR</text><path class="edge" d="M560 380V438" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="572" y="418" text-anchor="start">every run</text><path class="edge" d="M720 440V382" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="708" y="418" text-anchor="end">trials</text><path class="edge" d="M470 515H205V382" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="215" y="505" text-anchor="start">promote the next harness</text></svg>
 </div>
   <div class="foot"><span>Each tool owns one plane and meets the others at versioned contracts</span><b>03 / 07</b></div>
 </section>
@@ -302,11 +431,11 @@ p { margin: 0; }
   <h2>A Jira ticket to a merged PR</h2>
   <div class="strips">
     <div class="strip"><span class="n">01</span><span class="who"><i style="--c:var(--af-fg-subtle)"></i>Jira</span><span class="what">An engineer moves the ticket to “Ready for agent”</span><span class="st st-run"><i></i>queued</span></div>
-    <div class="strip"><span class="n">02</span><span class="who"><i style="--c:var(--af-p-hangar)"></i>hangar</span><span class="what">Ticket text is untrusted, so the job starts tainted</span><span class="st st-run"><i></i>admitted</span></div>
-    <div class="strip"><span class="n">03</span><span class="who"><i style="--c:var(--af-p-hangar)"></i>Sandbox</span><span class="what">The agent works with a pinned harness; every step is traced</span><span class="st st-run"><i></i>running</span></div>
-    <div class="strip"><span class="n">04</span><span class="who"><i style="--c:var(--af-p-hangar)"></i>Gateway</span><span class="what">hangar verifies, then pushes one commit as the GitHub App</span><span class="st st-run"><i></i>delivered</span></div>
-    <div class="strip attn"><span class="n">05</span><span class="who"><i style="--c:var(--af-st-appr)"></i>Reviewer</span><span class="what">A draft PR waits for a second human to approve the exact commit</span><span class="st st-appr"><i></i>needs approval</span></div>
-    <div class="strip"><span class="n">06</span><span class="who"><i style="--c:var(--af-p-flightdeck)"></i>Outbox</span><span class="what">The merged run is written once, for flightdeck to judge</span><span class="st st-run"><i></i>captured</span></div>
+    <div class="strip"><span class="n">02</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>hangar</span><span class="what">Ticket text is untrusted, so the job starts tainted</span><span class="st st-run"><i></i>admitted</span></div>
+    <div class="strip"><span class="n">03</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>Sandbox</span><span class="what">The agent works with a pinned harness; every step is traced</span><span class="st st-run"><i></i>running</span></div>
+    <div class="strip"><span class="n">04</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>Gateway</span><span class="what">hangar verifies, then pushes one commit as the GitHub App</span><span class="st st-run"><i></i>delivered</span></div>
+    <div class="strip attn"><span class="n">05</span><span class="who"><i style="--c:var(--af-status-approval)"></i>Reviewer</span><span class="what">A draft PR waits for a second human to approve the exact commit</span><span class="st st-appr"><i></i>needs approval</span></div>
+    <div class="strip"><span class="n">06</span><span class="who"><i style="--c:var(--af-product-flightdeck)"></i>Outbox</span><span class="what">The merged run is written once, for flightdeck to judge</span><span class="st st-run"><i></i>captured</span></div>
   </div>
   <div class="foot"><span>Only approvals and failures light up · everything else stays quiet</span><b>04 / 07</b></div>
 </section>
@@ -316,17 +445,17 @@ p { margin: 0; }
   <h2>Change the harness on evidence, not impressions</h2>
   <div class="art"><svg class="af-d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 600" role="img" aria-label="The harness improvement loop">
 <style>
-  .af-d .bg { fill: var(--af-canvas, #000); }
+  .af-d .bg { fill: var(--af-canvas, #000000); }
   .af-d .box { fill: var(--af-raised, #141414); }
   .af-d .box-hub { fill: var(--af-raised, #141414); stroke: var(--af-brand-line, #FFC400); stroke-width: 1.5; }
   .af-d .box-plan { fill: none; stroke: var(--af-line-strong, #6B6B6B); stroke-width: 1; stroke-dasharray: 4 4; }
   .af-d .box-ext { fill: var(--af-surface, #0A0A0A); stroke: var(--af-line-strong, #6B6B6B); stroke-width: 1; }
   .af-d .person { fill: var(--af-surface, #0A0A0A); stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1; }
-  .af-d .bound { fill: none; stroke: var(--af-rule, #3A3A3A); stroke-width: 1; stroke-dasharray: 2 5; }
+  .af-d .bound { fill: none; stroke: var(--af-rule, #424242); stroke-width: 1; stroke-dasharray: 2 5; }
   .af-d .bound-fill { fill: var(--af-surface, #0A0A0A); }
-  .af-d .name { font: 700 15px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
-  .af-d .name-s { font: 700 13px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
-  .af-d .title { font: 700 20px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
+  .af-d .name { font: 700 15px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #FFFFFF); }
+  .af-d .name-s { font: 700 13px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #FFFFFF); }
+  .af-d .title { font: 700 20px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #FFFFFF); }
   .af-d .body { font: 400 12.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-muted, #A6A6A6); }
   .af-d .lbl { font: 500 10.5px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-fg-subtle, #8A8A8A); }
   .af-d .lbl-hi { font: 500 10.5px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-brand-text, #FFC400); }
@@ -334,7 +463,7 @@ p { margin: 0; }
   .af-d .edge-plan { fill: none; stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1.25; stroke-dasharray: 5 4; }
   .af-d .elabel { font: 400 11.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-subtle, #8A8A8A); }
   .af-d .arrowhead { fill: var(--af-fg-subtle, #8A8A8A); }
-  .af-d .dot { fill: var(--af-dot, #262626); }
+  .af-d .dot { fill: var(--af-dot-field, #262626); }
 </style>
 <defs><marker id="the-harness-improvement--arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker></defs><rect class="bg" width="1280" height="600"/>
 <style>
@@ -343,7 +472,7 @@ p { margin: 0; }
   .af-d .lbl { font-size: 12.5px; }
   .af-d .elabel { font-size: 15px; }
 </style>
-<circle cx="640" cy="300" r="210" fill="none" stroke="var(--af-rule, #3A3A3A)" stroke-width="1.25" stroke-dasharray="3 6"/><text class="name" x="640" y="292" text-anchor="middle">harness_digest</text><text class="lbl" x="640" y="322" text-anchor="middle">ONE IDENTITY FROM LOCK TO REPORT</text><circle cx="640" cy="90" r="9" fill="var(--af-p-aidlc, #69C27E)"/><text class="name" x="662.0" y="86.0" text-anchor="start">1  Change</text><text class="body" x="662.0" y="112.0" text-anchor="start">a skill or hook in ai-dlc</text><circle cx="840" cy="235" r="9" fill="var(--af-p-hangar, #EE8F63)"/><text class="name" x="865.7218684219822" y="231.10643118126103" text-anchor="start">2  Freeze</text><text class="body" x="865.7218684219822" y="257.10643118126103" text-anchor="start">a good run into harness.lock</text><circle cx="763" cy="470" r="9" fill="var(--af-p-flightdeck, #D98CD2)"/><text class="name" x="789.4349029814193" y="465.89356881873897" text-anchor="start">3  Experiment</text><text class="body" x="789.4349029814193" y="491.89356881873897" text-anchor="start">stable vs candidate, paired</text><circle cx="517" cy="470" r="9" fill="var(--af-p-flightdeck, #D98CD2)"/><text class="name" x="490.5650970185807" y="465.89356881873897" text-anchor="end">4  Report</text><text class="body" x="490.5650970185807" y="491.89356881873897" text-anchor="end">verdict with intervals on the PR</text><circle cx="440" cy="235" r="9" fill="var(--af-p-hangar, #EE8F63)"/><text class="name" x="414.27813157801774" y="231.1064311812611" text-anchor="end">5  Promote</text><text class="body" x="414.27813157801774" y="257.1064311812611" text-anchor="end">move stable; drift checks guard it</text></svg>
+<circle cx="640" cy="300" r="210" fill="none" stroke="var(--af-rule, #424242)" stroke-width="1.25" stroke-dasharray="3 6"/><text class="name" x="640" y="292" text-anchor="middle">harness_digest</text><text class="lbl" x="640" y="322" text-anchor="middle">ONE IDENTITY FROM LOCK TO REPORT</text><circle cx="640" cy="90" r="9" fill="var(--af-product-aidlc, #69C27E)"/><text class="name" x="662.0" y="86.0" text-anchor="start">1  Change</text><text class="body" x="662.0" y="112.0" text-anchor="start">a skill or hook in ai-dlc</text><circle cx="840" cy="235" r="9" fill="var(--af-product-hangar, #EE8F63)"/><text class="name" x="865.7218684219822" y="231.10643118126103" text-anchor="start">2  Freeze</text><text class="body" x="865.7218684219822" y="257.10643118126103" text-anchor="start">a good run into harness.lock</text><circle cx="763" cy="470" r="9" fill="var(--af-product-flightdeck, #D98CD2)"/><text class="name" x="789.4349029814193" y="465.89356881873897" text-anchor="start">3  Experiment</text><text class="body" x="789.4349029814193" y="491.89356881873897" text-anchor="start">stable vs candidate, paired</text><circle cx="517" cy="470" r="9" fill="var(--af-product-flightdeck, #D98CD2)"/><text class="name" x="490.5650970185807" y="465.89356881873897" text-anchor="end">4  Report</text><text class="body" x="490.5650970185807" y="491.89356881873897" text-anchor="end">verdict with intervals on the PR</text><circle cx="440" cy="235" r="9" fill="var(--af-product-hangar, #EE8F63)"/><text class="name" x="414.27813157801774" y="231.1064311812611" text-anchor="end">5  Promote</text><text class="body" x="414.27813157801774" y="257.1064311812611" text-anchor="end">move stable; drift checks guard it</text></svg>
 </div>
   <div class="foot"><span>Infrastructure failures are retried and left out of every statistic</span><b>05 / 07</b></div>
 </section>

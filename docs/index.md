@@ -15,11 +15,11 @@ hide:
 </div>
 
 <div class="af-tools">
-  <a class="af-tool" href="tools/hangar/" style="--af-tool: var(--af-p-hangar)"><small>Run</small><b>hangar</b><span>Cloud sandboxes, sessions, jobs and experiment trials, from a Jira ticket to a landed PR.</span></a>
-  <a class="af-tool" href="tools/flightdeck/" style="--af-tool: var(--af-p-flightdeck)"><small>Judge</small><b>flightdeck</b><span>Reads every run from Parquet and answers whether a harness change made agents better.</span></a>
-  <a class="af-tool" href="tools/ai-dlc/" style="--af-tool: var(--af-p-aidlc)"><small>Define</small><b>ai-dlc</b><span>Authors the team workflow plugin, provisions machines, gates local work on CI.</span></a>
-  <a class="af-tool" href="tools/workspace/" style="--af-tool: var(--af-p-workspace)"><small>Govern</small><b>Tower</b><span>One decision point for risky actions: rules, human approvals, signed receipts.</span></a>
-  <a class="af-tool" href="tools/spaceport/" style="--af-tool: var(--af-p-spaceport)"><small>Capability</small><b>Spaceport</b><span>Reviewed data products that agents query through four MCP tools. Frozen.</span></a>
+  <a class="af-tool" href="tools/hangar/" style="--af-tool: var(--af-product-hangar)"><small>Run</small><b>hangar</b><span>Cloud sandboxes, sessions, jobs and experiment trials, from a Jira ticket to a landed PR.</span></a>
+  <a class="af-tool" href="tools/flightdeck/" style="--af-tool: var(--af-product-flightdeck)"><small>Judge</small><b>flightdeck</b><span>Reads every run from Parquet and answers whether a harness change made agents better.</span></a>
+  <a class="af-tool" href="tools/ai-dlc/" style="--af-tool: var(--af-product-aidlc)"><small>Define</small><b>ai-dlc</b><span>Authors the team workflow plugin, provisions machines, gates local work on CI.</span></a>
+  <a class="af-tool" href="tools/workspace/" style="--af-tool: var(--af-product-tower)"><small>Govern</small><b>Tower</b><span>One decision point for risky actions: rules, human approvals, signed receipts.</span></a>
+  <a class="af-tool" href="tools/spaceport/" style="--af-tool: var(--af-product-spaceport)"><small>Capability</small><b>Spaceport</b><span>Reviewed data products that agents query through four MCP tools. Frozen.</span></a>
 </div>
 
 ## How it fits together

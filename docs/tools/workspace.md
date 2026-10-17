@@ -1,4 +1,4 @@
-<style>:root { --af-product: var(--af-p-workspace); }</style>
+<style>:root, [data-md-color-scheme] { --af-product: var(--af-product-tower); }</style>
 
 <span class="af-eyebrow">Govern plane</span>
 

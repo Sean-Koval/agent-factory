@@ -1,0 +1,55 @@
+<!-- @dsCard group="Cards" height=500 subtitle="Tonal, no border: top, body, foot; default and lit" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Card</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px">
+  <section class="af-stack">
+    <span class="af-lbl">Default and lit</span>
+    <div class="af-grid af-grid--2">
+      <article class="af-card">
+        <div class="af-card__top"><span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="5.5" width="15" height="9"/><path d="M7.5 5.5v9M10.5 9h4.5M10.5 11.5h2.5"/></svg>Session<span class="af-lbl__sub">turn 7</span></span><span class="af-card__meta">2 min ago</span></div>
+        <div class="af-card__body">
+          <h3 class="af-card__title">Fix the flaky auth refresh test</h3>
+          <p class="af-card__desc">Freeze the clock in the test instead of the code, then run the auth suite again.</p>
+          <span class="af-meta">
+            <span class="af-meta__item af-meta__item--strong"><span class="af-meta__key">sandbox</span><span class="af-meta__val">HGR-7Q2K</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">harness</span><span class="af-meta__val">claude-code</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">model</span><span class="af-meta__val">opus</span></span>
+          </span>
+        </div>
+        <div class="af-card__foot"><span class="af-status af-status--running"><i class="af-status__mark"></i>Running</span><span><b>$0.42</b> so far</span></div>
+      </article>
+      <article class="af-card af-card--lit">
+        <div class="af-card__top"><span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub">WS-APR-0391</span></span><span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span></div>
+        <div class="af-card__body">
+          <h3 class="af-card__title">Push to main needs a reviewer</h3>
+          <p class="af-card__desc">HGR-3MX9 finished the fix and holds at PR until someone approves the push.</p>
+          <span class="af-meta">
+            <span class="af-meta__item af-meta__item--approval"><span class="af-meta__key">policy</span><span class="af-meta__val">require-approval-main-push</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">waiting</span><span class="af-meta__val">41 min</span></span>
+          </span>
+        </div>
+        <div class="af-card__foot"><span>Expires in <b>54 min</b></span><a class="af-link" href="#WS-APR-0391">Review</a></div>
+      </article>
+    </div>
+  </section>
+  <section class="af-stack">
+    <span class="af-lbl">Anatomy</span>
+    <div class="af-grid af-grid--2" style="align-items:center">
+      <article class="af-card" style="min-height:196px">
+        <div class="af-card__top"><span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14"/><path d="M8.5 7v6l5-3z"/></svg>Label<span class="af-lbl__sub">sub</span></span><span class="af-card__meta">meta</span></div>
+        <div class="af-card__body">
+          <h3 class="af-card__title">Body</h3>
+          <p class="af-card__desc">Title, description, inline data, readouts or a list. Parts sit 12 px apart.</p>
+        </div>
+        <div class="af-card__foot"><span>Foot, on a faint divider, pinned to the bottom</span><a class="af-link" href="#foot">Action</a></div>
+      </article>
+      <dl class="af-kv" style="align-content:center">
+        <dt>Card</dt><dd><span class="af-mono af-muted">.af-card</span> raised tone, radius 4, padding 16; no border, no shadow</dd>
+        <dt>Top</dt><dd><span class="af-mono af-muted">__top</span> a label left; meta or a status right</dd>
+        <dt>Body</dt><dd><span class="af-mono af-muted">__body</span> title, description, inline data</dd>
+        <dt>Foot</dt><dd><span class="af-mono af-muted">__foot</span> faint divider; a summary left, one action right</dd>
+        <dt>Lit</dt><dd><span class="af-mono af-muted">--lit</span> needs a person: orange ring and a 6% tint</dd>
+      </dl>
+    </div>
+  </section>
+</main>
+</body></html>

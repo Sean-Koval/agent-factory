@@ -5,9 +5,10 @@
     python3 scripts/theme_release.py notes [tag]        # prints that entry (release notes)
     python3 scripts/theme_release.py check --base REF   # CI: a theme change needs a new entry
 
-The changelog's newest `## theme-vN` heading is the release. When `airframe.css` or
-`airframe-docs.css` differ from REF, `check` requires the changelog to gain a heading with a
-higher N than REF's newest, so every token change is recorded and tagged once.
+The changelog's newest `## theme-vN` heading is the release. When a published theme file
+(THEME_FILES: the Airframe outputs generated from airframe/, and airframe-docs.css) differs from
+REF, `check` requires the changelog to gain a heading with a higher N than REF's newest, so
+every token change is recorded and tagged once.
 """
 
 from __future__ import annotations
@@ -20,7 +21,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CHANGELOG = "theme/CHANGELOG.md"
-THEME_FILES = ("theme/airframe.css", "theme/airframe-docs.css")
+THEME_FILES = ("theme/airframe.css", "theme/airframe-docs.css", "theme/airframe-components.css",
+               "theme/airframe-icons.svg", "theme/airframe-tokens.json")
 HEADING = re.compile(r"^## (theme-v(\d+))\b", re.MULTILINE)
 
 

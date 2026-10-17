@@ -1,15 +1,17 @@
 name: theme
-# Airframe releases. On a pull request, a theme change must add a theme/CHANGELOG.md entry.
+# Airframe releases. airframe/ is the source; theme/ is generated from it (scripts/airframe.py) and
+# vendored by the tool repos. On a pull request, theme/ must match airframe/ and a theme change must
+# add a theme/CHANGELOG.md entry.
 # On main, the newest entry is tagged theme-vN (once) with a GitHub release, then each tool repo
 # gets a sync PR. Cross-repo PRs need a GitHub App (variable THEME_SYNC_APP_ID, secret
 # THEME_SYNC_APP_KEY) installed on the tool repos with contents and pull-requests write; its
 # tokens last an hour. Without it the run prints the one-command sync to run locally instead.
 on:
   pull_request:
-    paths: ["theme/**", "scripts/theme_*", ".github/workflows/theme.yml"]
+    paths: ["airframe/**", "theme/**", "scripts/theme_*", "scripts/airframe.py", "tests/test_airframe.py", "tests/test_theme*.py", ".github/workflows/theme.yml"]
   push:
     branches: [main]
-    paths: ["theme/airframe.css", "theme/airframe-docs.css", "theme/CHANGELOG.md"]
+    paths: ["theme/airframe*", "theme/CHANGELOG.md"]
   workflow_dispatch:
 
 permissions:
@@ -26,8 +28,10 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+      - name: theme/ is generated from airframe/ and the sources use tokens only
+        run: python3 scripts/airframe.py check
       - name: Tests
-        run: python3 -m unittest discover -s tests -p 'test_theme*.py' -v
+        run: python3 -m unittest discover -s tests -p 'test_airframe.py' -v && python3 -m unittest discover -s tests -p 'test_theme*.py' -v
       - name: A theme change adds a changelog entry
         if: github.event_name == 'pull_request'
         run: python3 scripts/theme_release.py check --base "origin/${{ github.base_ref }}"

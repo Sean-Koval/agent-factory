@@ -1,0 +1,50 @@
+<!-- @dsCard group="Alerts" height=310 subtitle="Flat lamps with black legends: caution, warning, and the dark no-cautions state" -->
+<!doctype html><html><head><meta charset="utf-8"><title>MasterCaution</title></head><body>
+<main class="af-stack" style="padding:24px;gap:8px">
+  <section class="af-master af-master--caution" role="alert" aria-label="Master caution">
+    <div class="af-master__lamp" aria-hidden="true">Master<br>caution</div>
+    <div class="af-master__body">
+      <p class="af-master__title">HGR-3MX9 is holding at PR. Push to main needs a reviewer.</p>
+      <span class="af-meta">
+        <span class="af-meta__item af-meta__item--approval"><span class="af-meta__key">policy</span><span class="af-meta__val">require-approval-main-push</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">harness</span><span class="af-meta__val">codex</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">model</span><span class="af-meta__val">gpt-5.1</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">diff</span><span class="af-meta__val">+42 −17</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">tests</span><span class="af-meta__val">212 of 212</span></span>
+      </span>
+    </div>
+    <div class="af-master__act">
+      <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg>View diff</button>
+      <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve push</button>
+    </div>
+  </section>
+  <section class="af-master af-master--warning" role="alert" aria-label="Master warning">
+    <div class="af-master__lamp" aria-hidden="true">Master<br>warning</div>
+    <div class="af-master__body">
+      <p class="af-master__title">HGR-0PZ4 failed at test. 3 of 41 tests fail after the edit.</p>
+      <span class="af-meta">
+        <span class="af-meta__item af-meta__item--failed"><span class="af-meta__key">test</span><span class="af-meta__val">test_auth_refresh</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">harness</span><span class="af-meta__val">pi</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">model</span><span class="af-meta__val">gemini-3-pro</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">turn</span><span class="af-meta__val">9</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">age</span><span class="af-meta__val">00:03:12</span></span>
+      </span>
+    </div>
+    <div class="af-master__act">
+      <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 2.5v15"/><path d="M5 5h6M8 9h7M11 13h3.5M13 17h4"/></svg>Open trace</button>
+      <button type="button" class="af-btn af-btn--secondary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10-6.5z"/></svg>Retry turn</button>
+    </div>
+  </section>
+  <section class="af-master af-master--clear" aria-label="No cautions">
+    <div class="af-master__lamp" aria-hidden="true">Master<br>caution</div>
+    <div class="af-master__body">
+      <p class="af-master__title">No cautions.</p>
+      <span class="af-meta">
+        <span class="af-meta__item"><span class="af-meta__key">fleet</span><span class="af-meta__val">40 nominal</span></span>
+        <span class="af-meta__item"><span class="af-meta__key">last approval</span><span class="af-meta__val">6 min ago</span></span>
+      </span>
+    </div>
+    <div class="af-master__act"></div>
+  </section>
+</main>
+</body></html>

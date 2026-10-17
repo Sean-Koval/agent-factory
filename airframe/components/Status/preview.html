@@ -1,0 +1,39 @@
+<!-- @dsCard group="Foundations" height=450 subtitle="Color + shape + word; plain, lit, and the dark-cockpit rule" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Status</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px">
+  <section class="af-stack">
+    <span class="af-lbl">Plain<span class="af-lbl__sub">the mark carries the color, the word stays fg</span></span>
+    <div class="af-row" style="flex-wrap:wrap;gap:10px 24px">
+      <span class="af-status af-status--running"><i class="af-status__mark"></i>Running</span>
+      <span class="af-status af-status--queued"><i class="af-status__mark"></i>Queued</span>
+      <span class="af-status af-status--approval"><i class="af-status__mark"></i>Needs approval</span>
+      <span class="af-status af-status--failed"><i class="af-status__mark"></i>Failed</span>
+      <span class="af-status af-status--denied"><i class="af-status__mark"></i>Denied</span>
+      <span class="af-status af-status--off"><i class="af-status__mark"></i>Spun down</span>
+    </div>
+  </section>
+  <section class="af-stack">
+    <span class="af-lbl">Lit<span class="af-lbl__sub">counts and headers: the word takes the color</span></span>
+    <div class="af-row" style="flex-wrap:wrap;gap:10px 24px">
+      <span class="af-status af-status--running af-status--lit"><i class="af-status__mark"></i>39 running</span>
+      <span class="af-status af-status--queued af-status--lit"><i class="af-status__mark"></i>4 queued</span>
+      <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>1 waiting on you</span>
+      <span class="af-status af-status--failed af-status--lit"><i class="af-status__mark"></i>1 failed</span>
+    </div>
+  </section>
+  <section class="af-stack">
+    <span class="af-lbl">Dark cockpit<span class="af-lbl__sub">only what needs a person carries color</span></span>
+    <div class="af-panel" style="padding:6px;max-width:720px">
+      <ul class="af-list">
+        <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">HGR-7Q2K</span><span class="af-list__sub">claude-code, opus</span></span><span class="af-status af-status--running"><i class="af-status__mark"></i>Running</span><span class="af-list__time">00:14:32</span></li>
+        <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">HGR-8C1T</span><span class="af-list__sub">claude-code, sonnet</span></span><span class="af-status af-status--running"><i class="af-status__mark"></i>Running</span><span class="af-list__time">01:02:55</span></li>
+        <li class="af-list__row is-attention"><span class="af-list__main"><span class="af-list__id">HGR-3MX9</span><span class="af-list__sub">codex, gpt-5.1</span></span><span class="af-status af-status--approval"><i class="af-status__mark"></i>Needs approval</span><span class="af-list__time">00:41:07</span></li>
+        <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">HGR-2D9C</span><span class="af-list__sub">codex, gpt-5.1</span></span><span class="af-status af-status--running"><i class="af-status__mark"></i>Running</span><span class="af-list__time">00:22:10</span></li>
+        <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">HGR-0PZ4</span><span class="af-list__sub">pi, gemini-3-pro</span></span><span class="af-status af-status--failed"><i class="af-status__mark"></i>Failed</span><span class="af-list__time">00:03:12</span></li>
+        <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">HGR-5JD2</span><span class="af-list__sub">codex, gpt-5.1</span></span><span class="af-status af-status--queued"><i class="af-status__mark"></i>Queued</span><span class="af-list__time">00:00:48</span></li>
+        <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">HGR-1WQ8</span><span class="af-list__sub">claude-code, opus</span></span><span class="af-status af-status--off"><i class="af-status__mark"></i>Spun down</span><span class="af-list__time">04:00:00</span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+</body></html>

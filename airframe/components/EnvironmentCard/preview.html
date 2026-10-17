@@ -1,0 +1,25 @@
+<!-- @dsCard group="Cards" height=290 subtitle="An image a sandbox boots from: name, purpose, digest, use; one failed build" -->
+<!doctype html><html><head><meta charset="utf-8"><title>EnvironmentCard</title></head><body>
+<main style="padding:24px">
+  <div class="af-grid af-grid--3">
+    <article class="af-card">
+      <div class="af-card__top"><span class="af-card__lead"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3l7 3.5-7 3.5-7-3.5z"/><path d="M3 10l7 3.5 7-3.5"/><path d="M3 13.5 10 17l7-3.5"/></svg><span class="af-card__name">base-codex</span></span><span class="af-tag">default</span></div>
+      <p class="af-card__desc">Codex and Claude Code with the shared skill set, 14 tools and package-registry egress.</p>
+      <dl class="af-kv af-kv--tight"><dt>Image</dt><dd class="af-mono">sha256:41bd…0c9e</dd><dt>Harnesses</dt><dd>claude-code, codex, pi</dd><dt>In use</dt><dd>22 sandboxes</dd></dl>
+      <div class="af-card__foot"><span>Built 2 h ago by CI</span><button type="button" class="af-btn af-btn--secondary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="4.5" r="1.75"/><circle cx="14" cy="4.5" r="1.75"/><circle cx="10" cy="15.5" r="1.75"/><path d="M6 6.25V7.5c0 1.5 1 2.5 2.5 2.5h3c1.5 0 2.5-1 2.5-2.5V6.25M10 10v3.75"/></svg>Fork</button></div>
+    </article>
+    <article class="af-card">
+      <div class="af-card__top"><span class="af-card__lead"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="9"/><circle cx="12.5" cy="9" r="2.5"/><path d="M5.5 7.5v3M3.5 17h6"/></svg><span class="af-card__name">rust-1.83-gpu</span></span><span class="af-tag">gpu pool</span></div>
+      <p class="af-card__desc">Rust toolchain on L4 nodes for the inference crates. The pool spins down at 01:00.</p>
+      <dl class="af-kv af-kv--tight"><dt>Image</dt><dd class="af-mono">sha256:7c02…e19a</dd><dt>Harnesses</dt><dd>claude-code</dd><dt>In use</dt><dd>4 sandboxes</dd></dl>
+      <div class="af-card__foot"><span>Built yesterday by sean</span><button type="button" class="af-btn af-btn--secondary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="4.5" r="1.75"/><circle cx="14" cy="4.5" r="1.75"/><circle cx="10" cy="15.5" r="1.75"/><path d="M6 6.25V7.5c0 1.5 1 2.5 2.5 2.5h3c1.5 0 2.5-1 2.5-2.5V6.25M10 10v3.75"/></svg>Fork</button></div>
+    </article>
+    <article class="af-card">
+      <div class="af-card__top"><span class="af-card__lead"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3l7 3.5-7 3.5-7-3.5z"/><path d="M3 10l7 3.5 7-3.5"/><path d="M3 13.5 10 17l7-3.5"/></svg><span class="af-card__name">base-py312</span></span><span class="af-status af-status--failed"><i class="af-status__mark"></i>Build failed</span></div>
+      <p class="af-card__desc">Python 3.12 with uv and the data tooling. The last build failed on a pinned wheel.</p>
+      <dl class="af-kv af-kv--tight"><dt>Image</dt><dd class="af-mono">sha256:a3f8…5b21</dd><dt>Harnesses</dt><dd>pi, codex</dd><dt>In use</dt><dd>1 sandbox, on the old image</dd></dl>
+      <div class="af-card__foot"><span>Failed 3 h ago in CI</span><button type="button" class="af-btn af-btn--secondary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10-6.5z"/></svg>Rebuild</button></div>
+    </article>
+  </div>
+</main>
+</body></html>

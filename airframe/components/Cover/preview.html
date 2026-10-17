@@ -1,0 +1,54 @@
+<!-- @dsCard height=320 -->
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Airframe</title>
+<style>
+  .cv{position:relative;width:960px;height:320px;overflow:hidden;background:var(--af-canvas)}
+  .cv__art{position:absolute;inset:0;width:960px;height:320px;display:block}
+  .cv-t{rx:var(--af-radius-control);ry:var(--af-radius-control)}
+  .cv-brand{fill:var(--af-brand)}
+  .cv-ink{fill:var(--af-fg)}
+  .cv-lamp{fill:var(--af-lamp-caution)}
+  .cv-s3{fill:var(--af-stage-test)}
+  .cv-s2{fill:var(--af-stage-edit)}
+  .cv-s1{fill:var(--af-stage-plan)}
+  .cv__text{position:absolute;left:var(--af-space-48);bottom:var(--af-space-32);width:440px}
+  .cv__name{margin:0;font-family:var(--af-font-display);font-stretch:var(--af-display-stretch);font-weight:700;font-size:84px;line-height:.92;letter-spacing:-0.01em;color:var(--af-fg)}
+  .cv__tag{margin:var(--af-space-16) 0 0;font-family:var(--af-font-sans);font-size:14px;line-height:1.5;color:var(--af-fg-muted)}
+</style></head>
+<body>
+<div class="cv">
+  <!--
+    blocks: brand slab 204x204 (4x4 tiles merged, bleeding off top and right); fg ink 100x48; stage-test 100x48; stage-edit 100x48 + singles; lamp-caution one 48x48 tile, kept small.
+    arrangement: one flush modular grid hung off the top-right corner, stepping down toward the name like a fleet board's pools; empty slots are canvas.
+    pattern: tiles (row "geometric, modular, dense UI"), quiet stage-plan / stage-edit / stage-test greys, some merged two-wide, chosen from "Dark cockpit: quiet until a human is needed" - a board where only the tile that needs a person is lit.
+    scales: tiles space-48, gaps space-4 (pitch 52), corners radius-control; name inset space-48 / space-32, tagline gap space-16; nothing left of x = 572.
+  -->
+  <svg class="cv__art" viewBox="0 0 960 320" aria-hidden="true">
+    <rect class="cv-t cv-brand" x="780" y="-20" width="204" height="204"/>
+    <rect class="cv-t cv-s1" x="624" y="-20" width="48" height="48"/>
+    <rect class="cv-t cv-s2" x="676" y="-20" width="48" height="48"/>
+    <rect class="cv-t cv-s1" x="728" y="-20" width="48" height="48"/>
+    <rect class="cv-t cv-s1" x="676" y="32" width="48" height="48"/>
+    <rect class="cv-t cv-s3" x="728" y="32" width="48" height="48"/>
+    <rect class="cv-t cv-s1" x="624" y="84" width="48" height="48"/>
+    <rect class="cv-t cv-s1" x="728" y="84" width="48" height="48"/>
+    <rect class="cv-t cv-s1" x="572" y="136" width="48" height="48"/>
+    <rect class="cv-t cv-lamp" x="624" y="136" width="48" height="48"/>
+    <rect class="cv-t cv-s2" x="676" y="136" width="100" height="48"/>
+    <rect class="cv-t cv-s1" x="624" y="188" width="48" height="48"/>
+    <rect class="cv-t cv-s2" x="728" y="188" width="48" height="48"/>
+    <rect class="cv-t cv-s1" x="780" y="188" width="48" height="48"/>
+    <rect class="cv-t cv-s3" x="832" y="188" width="100" height="48"/>
+    <rect class="cv-t cv-s1" x="936" y="188" width="48" height="48"/>
+    <rect class="cv-t cv-s1" x="676" y="240" width="48" height="48"/>
+    <rect class="cv-t cv-s1" x="728" y="240" width="48" height="48"/>
+    <rect class="cv-t cv-s2" x="780" y="240" width="48" height="48"/>
+    <rect class="cv-t cv-s1" x="832" y="240" width="48" height="48"/>
+    <rect class="cv-t cv-ink" x="884" y="240" width="100" height="48"/>
+  </svg>
+  <div class="cv__text">
+    <h1 class="cv__name">Airframe</h1>
+    <p class="cv__tag">Agent infrastructure, quiet until a human is needed.</p>
+  </div>
+</div>
+</body></html>

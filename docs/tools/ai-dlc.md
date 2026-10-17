@@ -1,4 +1,4 @@
-<style>:root { --af-product: var(--af-p-aidlc); }</style>
+<style>:root, [data-md-color-scheme] { --af-product: var(--af-product-aidlc); }</style>
 
 <span class="af-eyebrow">Define plane</span>
 
