@@ -43,4 +43,5 @@ hangar sits in the middle. Work arrives through the doors, the harness arrives a
 
 - [Architecture](architecture/index.md): the system context, the containers and where they run.
 - [Flows](architecture/flows.md): a ticket to a merged PR, improving the harness, a risky action, the nightly pipeline, onboarding a repo.
+- [Roadmap](roadmap.md): the four phases and their themes, with progress rebuilt daily from GitHub issues.
 - [Decisions](decisions.md): choices that span more than one repo.

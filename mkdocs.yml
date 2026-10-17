@@ -35,7 +35,7 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.highlight
   - pymdownx.superfences
-  - pymdownx.snippets: {base_path: [docs/assets/diagrams], check_paths: true}
+  - pymdownx.snippets: {base_path: [docs/assets/diagrams, generated], check_paths: true}
 
 nav:
   - Overview: index.md
@@ -50,6 +50,7 @@ nav:
       - ai-dlc: tools/ai-dlc.md
       - Governed workspace: tools/workspace.md
       - Spaceport: tools/spaceport.md
+  - Roadmap: roadmap.md
   - Decisions: decisions.md
   - Glossary: glossary.md
   - Deck: deck.md
