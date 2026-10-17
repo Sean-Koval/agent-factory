@@ -11,7 +11,7 @@ The suite-level home for Sean's team tooling for cloud coding agents: the docs s
 | hangar | Run | [Sean-Koval/hangar](https://github.com/Sean-Koval/hangar) |
 | flightdeck | Judge | [Sean-Koval/flightdeck](https://github.com/Sean-Koval/flightdeck) |
 | ai-dlc | Define | [Sean-Koval/ai-dlc](https://github.com/Sean-Koval/ai-dlc) |
-| Governed workspace | Govern | Sean-Koval/governed-agent-workspace |
+| Tower | Govern | Sean-Koval/governed-agent-workspace (to be renamed `tower`) |
 | Spaceport | Capability (frozen) | Sean-Koval/spaceport |
 
 ## What lives here

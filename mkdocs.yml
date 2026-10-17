@@ -48,7 +48,7 @@ nav:
       - hangar: tools/hangar.md
       - flightdeck: tools/flightdeck.md
       - ai-dlc: tools/ai-dlc.md
-      - Governed workspace: tools/workspace.md
+      - Tower: tools/workspace.md
       - Spaceport: tools/spaceport.md
   - Roadmap: roadmap.md
   - Decisions: decisions.md

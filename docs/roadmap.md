@@ -1,6 +1,6 @@
 # Roadmap
 
-What the suite builds next, in four phases and a backlog, across hangar, flightdeck, ai-dlc, Tower (the governed workspace), Spaceport and this repo. Phases are GitHub milestones of the same name in every repo; themes group the issues that deliver one outcome.
+What the suite builds next, in four phases and a backlog, across hangar, flightdeck, ai-dlc, Tower, Spaceport and this repo. Phases are GitHub milestones of the same name in every repo; themes group the issues that deliver one outcome.
 
 The counts and lists below are rebuilt from GitHub issue state every day and on every publish, so they match GitHub at build time. To move an issue between themes, or to place a new one, edit [`roadmap.toml`](https://github.com/Sean-Koval/agent-factory/blob/main/roadmap.toml); open issues it does not place appear under [Unsorted](#unsorted). Private repositories are named but their issues are not listed here.
 
