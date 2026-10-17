@@ -1,0 +1,100 @@
+name: theme
+# Airframe releases. On a pull request, a theme change must add a theme/CHANGELOG.md entry.
+# On main, the newest entry is tagged theme-vN (once) with a GitHub release, then each tool repo
+# gets a sync PR. Cross-repo PRs need a GitHub App (variable THEME_SYNC_APP_ID, secret
+# THEME_SYNC_APP_KEY) installed on the tool repos with contents and pull-requests write; its
+# tokens last an hour. Without it the run prints the one-command sync to run locally instead.
+on:
+  pull_request:
+    paths: ["theme/**", "scripts/theme_*", ".github/workflows/theme.yml"]
+  push:
+    branches: [main]
+    paths: ["theme/airframe.css", "theme/airframe-docs.css", "theme/CHANGELOG.md"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: theme-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Tests
+        run: python3 -m unittest discover -s tests -p 'test_theme*.py' -v
+      - name: A theme change adds a changelog entry
+        if: github.event_name == 'pull_request'
+        run: python3 scripts/theme_release.py check --base "origin/${{ github.base_ref }}"
+
+  release:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Tag the newest changelog entry (once)
+        id: tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="$(python3 scripts/theme_release.py version)"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+            echo "$tag already exists at $(git rev-list -n1 "$tag")"
+            exit 0
+          fi
+          python3 scripts/theme_release.py notes "$tag" > notes.md
+          git tag "$tag" "$GITHUB_SHA"
+          git push origin "refs/tags/$tag"
+          gh api "repos/$GITHUB_REPOSITORY/releases" -f tag_name="$tag" -f name="Airframe $tag" \
+            -F body=@notes.md --jq .html_url
+
+  sync:
+    needs: release
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - id: app
+        if: vars.THEME_SYNC_APP_ID != ''
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.THEME_SYNC_APP_ID }}
+          private-key: ${{ secrets.THEME_SYNC_APP_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: hangar,flightdeck,ai-dlc,governed-agent-workspace
+      - name: Open sync PRs in the tool repos
+        if: steps.app.outputs.token != ''
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          gh auth setup-git
+          sh scripts/theme_sync.sh "${{ needs.release.outputs.tag }}" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: No cross-repo token; print the one-command sync
+        if: steps.app.outputs.token == ''
+        run: |
+          tag="${{ needs.release.outputs.tag }}"
+          {
+            echo "### Airframe $tag is published"
+            echo
+            echo "This workflow has no cross-repo token (GitHub App variable THEME_SYNC_APP_ID and secret THEME_SYNC_APP_KEY),"
+            echo "so it did not open sync PRs. From an agent-factory checkout, with gh logged in as a maintainer, run:"
+            echo
+            echo '```sh'
+            echo "sh scripts/theme_sync.sh $tag"
+            echo '```'
+            echo
+            echo "It opens one PR per tool repo (hangar, flightdeck, ai-dlc, Tower) whose vendored files differ."
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "::notice title=Airframe $tag::Run 'sh scripts/theme_sync.sh $tag' to open the tool-repo sync PRs."

@@ -1,0 +1,153 @@
+# Roadmap themes for docs/roadmap.md. scripts/roadmap.py reads this file, fetches issue state
+# from the GitHub REST API and writes generated/roadmap.md (CI only, never committed).
+#
+# Issue references are "<repo key>#<number>" or a range "<repo key>#<first>-<last>".
+# A theme may also take every issue in its phase's milestone that carries `label`.
+# Open issues that no theme lists (epics aside) appear under "Unsorted", so nothing hides:
+# when a new issue is filed, add it to a theme here.
+
+# Repositories, in display order. `slugs` are tried in order, so a rename can list the new
+# name first while the old one still answers. Private repositories are skipped unless the
+# script runs with --include-private (the published site never shows them).
+[[repo]]
+key = "hangar"
+name = "hangar"
+slugs = ["Sean-Koval/hangar"]
+epics = [119, 153]
+
+[[repo]]
+key = "flightdeck"
+name = "flightdeck"
+slugs = ["Sean-Koval/flightdeck"]
+epics = [1]
+
+[[repo]]
+key = "ai-dlc"
+name = "ai-dlc"
+slugs = ["Sean-Koval/ai-dlc"]
+epics = [189]
+
+[[repo]]
+key = "workspace"
+name = "Tower (workspace)"
+slugs = ["Sean-Koval/tower", "Sean-Koval/governed-agent-workspace"]
+epics = [7]
+
+[[repo]]
+key = "spaceport"
+name = "Spaceport"
+slugs = ["Sean-Koval/spaceport"]
+epics = [10]
+
+[[repo]]
+key = "agent-factory"
+name = "agent-factory"
+slugs = ["Sean-Koval/agent-factory"]
+epics = []
+
+# Phases match milestones by title prefix ("P2 Adopt & capture (wk 3-4)" starts with "P2").
+[[phase]]
+key = "P1"
+title = "P1 · Safe release"
+when = "weeks 1-2"
+milestone = "P1"
+
+[[phase.theme]]
+title = "Security and credentials"
+issues = ["hangar#121-130"]
+
+[[phase.theme]]
+title = "Harness identity and readiness"
+issues = ["hangar#131", "hangar#132", "hangar#155"]
+
+[[phase.theme]]
+title = "CI green"
+issues = ["hangar#120", "hangar#205", "hangar#207", "workspace#27"]
+
+[[phase.theme]]
+title = "Framing cleanup"
+issues = ["workspace#8-12", "spaceport#11"]
+
+[[phase]]
+key = "P2"
+title = "P2 · Adopt and capture"
+when = "weeks 3-4"
+milestone = "P2"
+
+[[phase.theme]]
+title = "Team harness"
+issues = ["hangar#133", "hangar#134", "hangar#136", "hangar#138", "hangar#139", "hangar#137", "hangar#221", "ai-dlc#191", "ai-dlc#192", "ai-dlc#193", "agent-factory#4"]
+
+[[phase.theme]]
+title = "Review throughput"
+issues = ["hangar#159", "hangar#160", "hangar#161"]
+
+[[phase.theme]]
+title = "Doors and inbox"
+issues = ["hangar#156", "hangar#157", "hangar#158", "hangar#162"]
+
+[[phase.theme]]
+title = "Capture and metrics"
+issues = ["flightdeck#2-4", "flightdeck#5", "flightdeck#6", "hangar#163", "hangar#164", "hangar#165", "hangar#166", "hangar#167", "hangar#189", "hangar#168", "hangar#169", "hangar#170"]
+
+[[phase.theme]]
+title = "Governance shadow"
+issues = ["workspace#13-19", "workspace#21", "workspace#28", "hangar#171", "hangar#172", "hangar#174", "hangar#176"]
+
+[[phase.theme]]
+title = "Show, don't tell"
+issues = ["hangar#219", "flightdeck#44", "ai-dlc#213", "workspace#37", "spaceport#21", "agent-factory#1", "agent-factory#2"]
+
+[[phase.theme]]
+title = "Cleanup and docs"
+issues = ["hangar#141", "hangar#142", "hangar#143", "hangar#187", "hangar#220", "hangar#151", "hangar#154", "hangar#191", "ai-dlc#190", "ai-dlc#194-208", "workspace#23", "workspace#25", "workspace#26", "workspace#36", "spaceport#12", "spaceport#13", "spaceport#15"]
+
+[[phase]]
+key = "P3"
+title = "P3 · flightdeck v0"
+when = "weeks 5-6"
+milestone = "P3"
+
+[[phase.theme]]
+title = "v0 core"
+issues = ["flightdeck#7-11", "flightdeck#14"]
+
+[[phase.theme]]
+title = "One real decision"
+issues = ["flightdeck#20", "flightdeck#12", "flightdeck#13"]
+
+[[phase.theme]]
+title = "Ports and boundaries"
+issues = ["flightdeck#17", "flightdeck#18", "flightdeck#19", "flightdeck#23", "flightdeck#45", "hangar#135", "hangar#144-147", "hangar#222", "ai-dlc#195", "ai-dlc#208"]
+
+[[phase.theme]]
+title = "Judge depth"
+issues = ["flightdeck#15", "flightdeck#16", "flightdeck#21", "flightdeck#22", "workspace#20", "workspace#24"]
+
+[[phase]]
+key = "P4"
+title = "P4 · Frontier"
+when = "week 7 on"
+milestone = "P4"
+
+[[phase.theme]]
+title = "Governed tool calls"
+issues = ["hangar#173", "hangar#175", "hangar#190", "workspace#22"]
+
+[[phase.theme]]
+title = "Replay, trials and shadows"
+issues = ["hangar#140", "hangar#177-186", "flightdeck#24-32", "flightdeck#37"]
+
+[[phase]]
+key = "Backlog"
+title = "Backlog"
+when = "unscheduled"
+milestone = "Backlog"
+
+[[phase.theme]]
+title = "Spikes"
+label = "type:spike"
+
+[[phase.theme]]
+title = "Later"
+issues = ["flightdeck#33-35", "spaceport#14", "agent-factory#3"]
