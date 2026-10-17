@@ -1,0 +1,42 @@
+# CI for examples/team-harness (the same checks as its own .github/workflows/check.yml, run from the subdirectory).
+name: team-harness
+on:
+  pull_request:
+    paths: ["examples/team-harness/**", ".github/workflows/team-harness.yml"]
+  push:
+    branches: [main]
+    paths: ["examples/team-harness/**", ".github/workflows/team-harness.yml"]
+
+permissions:
+  contents: read
+
+env:
+  HANGAR_REF: 6dc8a395639c164dd884f10f8baa32ba2cc85c49
+  FLIGHTDECK_REF: 73c9178c0ad577b40eed56a7f3e090e899fb8795
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: examples/team-harness
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # channels resolve through the history of each harness.lock
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install hangar and flightdeck from git
+        run: |
+          pip install "hangar @ git+https://github.com/Sean-Koval/hangar@${HANGAR_REF}" \
+                      "flightdeck @ git+https://github.com/Sean-Koval/flightdeck@${FLIGHTDECK_REF}" pytest
+      - name: hangar harness check
+        run: |
+          for d in harnesses/*/; do hangar harness check "$d"; done
+      - name: Guides, environments and channels
+        run: python scripts/check_registry.py .
+      - name: Behavior specs lint
+        run: flightdeck spec lint flightdeck/specs/*.yaml
+      - name: Hook tests
+        run: python -m pytest -q tests
