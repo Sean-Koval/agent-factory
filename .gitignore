@@ -1,0 +1,5 @@
+site/
+docs/theme/
+docs/deck/
+__pycache__/
+deck/fragment.html

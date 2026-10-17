@@ -1,0 +1,61 @@
+site_name: Agent factory
+site_description: Define, run, judge and govern cloud coding agents for a team.
+site_url: https://sean-koval.github.io/agent-factory/
+repo_url: https://github.com/Sean-Koval/agent-factory
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  font: false
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - content.code.copy
+    - toc.follow
+  palette:
+    - scheme: slate
+      toggle: {icon: material/weather-sunny, name: Light}
+    - scheme: default
+      toggle: {icon: material/weather-night, name: Dark}
+
+extra_css:
+  - theme/airframe.css
+  - theme/airframe-docs.css
+  - theme/suite.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc: {permalink: true}
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.snippets: {base_path: [docs/assets/diagrams], check_paths: true}
+
+nav:
+  - Overview: index.md
+  - Architecture:
+      - architecture/index.md
+      - Contracts: architecture/contracts.md
+      - Flows: architecture/flows.md
+  - Tools:
+      - tools/index.md
+      - hangar: tools/hangar.md
+      - flightdeck: tools/flightdeck.md
+      - ai-dlc: tools/ai-dlc.md
+      - Governed workspace: tools/workspace.md
+      - Spaceport: tools/spaceport.md
+  - Decisions: decisions.md
+  - Glossary: glossary.md
+  - Deck: deck.md
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Sean-Koval/agent-factory

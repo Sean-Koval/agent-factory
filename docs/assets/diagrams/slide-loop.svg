@@ -1,0 +1,30 @@
+<svg class="af-d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 600" role="img" aria-label="The harness improvement loop">
+<style>
+  .af-d .bg { fill: var(--af-canvas, #000); }
+  .af-d .box { fill: var(--af-raised, #141414); }
+  .af-d .box-hub { fill: var(--af-raised, #141414); stroke: var(--af-brand-line, #FFC400); stroke-width: 1.5; }
+  .af-d .box-plan { fill: none; stroke: var(--af-line-strong, #6B6B6B); stroke-width: 1; stroke-dasharray: 4 4; }
+  .af-d .box-ext { fill: var(--af-surface, #0A0A0A); stroke: var(--af-line-strong, #6B6B6B); stroke-width: 1; }
+  .af-d .person { fill: var(--af-surface, #0A0A0A); stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1; }
+  .af-d .bound { fill: none; stroke: var(--af-rule, #3A3A3A); stroke-width: 1; stroke-dasharray: 2 5; }
+  .af-d .bound-fill { fill: var(--af-surface, #0A0A0A); }
+  .af-d .name { font: 700 15px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
+  .af-d .name-s { font: 700 13px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
+  .af-d .title { font: 700 20px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
+  .af-d .body { font: 400 12.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-muted, #A6A6A6); }
+  .af-d .lbl { font: 500 10.5px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-fg-subtle, #8A8A8A); }
+  .af-d .lbl-hi { font: 500 10.5px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-brand-text, #FFC400); }
+  .af-d .edge { fill: none; stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1.25; }
+  .af-d .edge-plan { fill: none; stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1.25; stroke-dasharray: 5 4; }
+  .af-d .elabel { font: 400 11.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-subtle, #8A8A8A); }
+  .af-d .arrowhead { fill: var(--af-fg-subtle, #8A8A8A); }
+  .af-d .dot { fill: var(--af-dot, #262626); }
+</style>
+<defs><marker id="the-harness-improvement--arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker></defs><rect class="bg" width="1280" height="600"/>
+<style>
+  .af-d .name { font-size: 22px; }
+  .af-d .body { font-size: 16px; }
+  .af-d .lbl { font-size: 12.5px; }
+  .af-d .elabel { font-size: 15px; }
+</style>
+<circle cx="640" cy="300" r="210" fill="none" stroke="var(--af-rule, #3A3A3A)" stroke-width="1.25" stroke-dasharray="3 6"/><text class="name" x="640" y="292" text-anchor="middle">harness_digest</text><text class="lbl" x="640" y="322" text-anchor="middle">ONE IDENTITY FROM LOCK TO REPORT</text><circle cx="640" cy="90" r="9" fill="var(--af-p-aidlc, #69C27E)"/><text class="name" x="662.0" y="86.0" text-anchor="start">1  Change</text><text class="body" x="662.0" y="112.0" text-anchor="start">a skill or hook in ai-dlc</text><circle cx="840" cy="235" r="9" fill="var(--af-p-hangar, #EE8F63)"/><text class="name" x="865.7218684219822" y="231.10643118126103" text-anchor="start">2  Freeze</text><text class="body" x="865.7218684219822" y="257.10643118126103" text-anchor="start">a good run into harness.lock</text><circle cx="763" cy="470" r="9" fill="var(--af-p-flightdeck, #D98CD2)"/><text class="name" x="789.4349029814193" y="465.89356881873897" text-anchor="start">3  Experiment</text><text class="body" x="789.4349029814193" y="491.89356881873897" text-anchor="start">stable vs candidate, paired</text><circle cx="517" cy="470" r="9" fill="var(--af-p-flightdeck, #D98CD2)"/><text class="name" x="490.5650970185807" y="465.89356881873897" text-anchor="end">4  Report</text><text class="body" x="490.5650970185807" y="491.89356881873897" text-anchor="end">verdict with intervals on the PR</text><circle cx="440" cy="235" r="9" fill="var(--af-p-hangar, #EE8F63)"/><text class="name" x="414.27813157801774" y="231.1064311812611" text-anchor="end">5  Promote</text><text class="body" x="414.27813157801774" y="257.1064311812611" text-anchor="end">move stable; drift checks guard it</text></svg>

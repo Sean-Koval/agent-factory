@@ -1,0 +1,16 @@
+<style>:root { --af-product: var(--af-p-workspace); }</style>
+
+<span class="af-eyebrow">Govern plane</span>
+
+# Governed workspace
+
+The team's governance plane: one decision point for risky actions, with human approvals and signed receipts.
+
+| | |
+| --- | --- |
+| Owns | Cedar rules, approvals where the approver is never the requester, RFC 8693 passports, hash-chained receipts, reconciliation of tool calls against receipts, an approvals inbox. |
+| Does not own | Enforcement inside sandboxes or landing mechanics. The workspace decides; hangar enforces. |
+| Entry points | A REST decision API (planned, spec 0015), an MCP gateway, a Claude Code hook, a web inbox. |
+| Used by | Approvers and leads, hangar's decision client, auditors. |
+
+[Repository](https://github.com/Sean-Koval/governed-agent-workspace){ .md-button }

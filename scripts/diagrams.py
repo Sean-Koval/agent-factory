@@ -262,5 +262,82 @@ def main() -> None:
         print("wrote", OUT / f"{name}.svg")
 
 
+# ---------------------------------------------------------------------------------------------
+# Slide-sized drawings: fewer words, larger type, made for 1280×720 slides
+
+
+SLIDE_STYLE = """
+<style>
+  .af-d .name { font-size: 22px; }
+  .af-d .body { font-size: 16px; }
+  .af-d .lbl { font-size: 12.5px; }
+  .af-d .elabel { font-size: 15px; }
+</style>
+"""
+
+
+def sbox(x, y, w, h, eyebrow, name, lines=(), kind="box", product=None):
+    out = [f'<rect class="{kind}" x="{x}" y="{y}" width="{w}" height="{h}" rx="3"/>']
+    if product:
+        out.append(f'<rect x="{x}" y="{y}" width="{w}" height="3" fill="{PRODUCT[product]}"/>')
+    out.append(f'<text class="lbl" x="{x + 22}" y="{y + 32}">{esc(eyebrow)}</text>')
+    out.append(f'<text class="name" x="{x + 22}" y="{y + 64}">{esc(name)}</text>')
+    for i, line in enumerate(lines):
+        out.append(f'<text class="body" x="{x + 22}" y="{y + 94 + 24 * i}">{esc(line)}</text>')
+    return "".join(out)
+
+
+def slide_planes() -> str:
+    b = [SLIDE_STYLE,
+         sbox(40, 20, 330, 150, "DOORS", "Many doors", ["Jira, GitHub, Slack, MCP,", "schedules"]),
+         sbox(40, 230, 330, 150, "AI-DLC + HARNESS REPO", "Define", ["harness.lock, one digest,", "the workflow plugin"], product="aidlc"),
+         sbox(470, 120, 340, 260, "HANGAR", "Run", ["Sandboxes, sessions, jobs", "and trials on GKE", "Verify, push through the", "gateway, land on approval"], kind="box-hub", product="hangar"),
+         sbox(910, 20, 330, 150, "GOVERNED WORKSPACE", "Govern", ["Rules, human approvals,", "signed receipts"], product="workspace"),
+         sbox(910, 230, 330, 150, "GITHUB", "One gate: the PR", ["A second human approves", "the exact commit"]),
+         sbox(470, 440, 340, 150, "FLIGHTDECK", "Judge", ["Paired statistics and", "behavior specs on every run"], product="flightdeck"),
+         edge("M370 95H420V180H468"), text(380, 85, "work"),
+         edge("M370 305H468"), text(380, 295, "lock"),
+         edge("M810 165H860V95H908"), text(820, 155, "decide"),
+         edge("M908 130H880V200H812"), text(888, 230, ""),
+         edge("M810 305H908"), text(820, 295, "PR"),
+         edge("M560 380V438"), text(572, 418, "every run"),
+         edge("M720 440V382"), text(708, 418, "trials", anchor="end"),
+         edge("M470 515H205V382"), text(215, 505, "promote the next harness"),
+         ]
+    return svg(1280, 610, "Four planes, one loop", b)
+
+
+def slide_loop() -> str:
+    cx, cy, r = 640, 300, 210
+    import math
+    steps = [("1", "Change", "a skill or hook in ai-dlc", "aidlc"),
+             ("2", "Freeze", "a good run into harness.lock", "hangar"),
+             ("3", "Experiment", "stable vs candidate, paired", "flightdeck"),
+             ("4", "Report", "verdict with intervals on the PR", "flightdeck"),
+             ("5", "Promote", "move stable; drift checks guard it", "hangar")]
+    b = [SLIDE_STYLE, f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="var(--af-rule, #3A3A3A)" stroke-width="1.25" stroke-dasharray="3 6"/>',
+         text(cx, cy - 8, "harness_digest", "name", anchor="middle"),
+         text(cx, cy + 22, "ONE IDENTITY FROM LOCK TO REPORT", "lbl", anchor="middle")]
+    for i, (n, name, line, prod) in enumerate(steps):
+        a = -math.pi / 2 + i * 2 * math.pi / len(steps)
+        x, y = cx + r * math.cos(a), cy + r * math.sin(a)
+        b.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="9" fill="{PRODUCT[prod]}"/>')
+        right = math.cos(a) >= -0.01
+        tx = x + (26 if right else -26)
+        anchor = "start" if right else "end"
+        if abs(math.cos(a)) < 0.2:
+            tx, anchor = x + 22, "start"
+        b.append(text(tx, y - 4, f"{n}  {name}", "name", anchor=anchor))
+        b.append(text(tx, y + 22, line, "body", anchor=anchor))
+    return svg(1280, 600, "The harness improvement loop", b)
+
+
+def main_slides() -> None:
+    for name, fn in (("slide-planes", slide_planes), ("slide-loop", slide_loop)):
+        (OUT / f"{name}.svg").write_text(fn())
+        print("wrote", OUT / f"{name}.svg")
+
+
 if __name__ == "__main__":
     main()
+    main_slides()

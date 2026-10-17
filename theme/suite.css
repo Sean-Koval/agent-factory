@@ -1,0 +1,2 @@
+:root { --af-product: var(--af-brand); }
+.af-figure svg { width: 100%; height: auto; display: block; }
