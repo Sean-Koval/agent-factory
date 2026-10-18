@@ -1,6 +1,6 @@
 # Repository guidance
 
-agent-factory is the suite-level home for hangar, flightdeck, ai-dlc, Tower and Spaceport: the docs site, the deck, the architecture diagrams, the example team harness, and **Airframe**, the design system every tool uses.
+agent-factory is the suite-level home for hangar, flightdeck, ai-dlc, Tower and Spaceport: the docs site, the deck, the architecture diagrams, a pointer to the example team harness ([Sean-Koval/team-harness](https://github.com/Sean-Koval/team-harness)), and **Airframe**, the design system every tool uses.
 
 ## Airframe is the design source of truth
 
