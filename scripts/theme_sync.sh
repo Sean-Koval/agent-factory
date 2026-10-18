@@ -16,8 +16,7 @@ root="$(cd "$(dirname "$0")/.." && pwd)"
 owner="${THEME_SYNC_OWNER:-Sean-Koval}"
 tag="${1:-$(python3 "$root/scripts/theme_release.py" version)}"
 [ $# -gt 0 ] && shift
-# The governed workspace is being renamed Tower; GitHub redirects the old name after the rename.
-repos="${*:-hangar flightdeck ai-dlc governed-agent-workspace}"
+repos="${*:-hangar flightdeck ai-dlc tower}"
 branch="airframe/$tag"
 
 case "$tag" in theme-v[0-9]*) ;; *) echo "theme_sync: '$tag' is not a theme-vN tag" >&2; exit 2 ;; esac
