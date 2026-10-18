@@ -25,7 +25,7 @@ The suite-level home for Sean's team tooling for cloud coding agents: the docs s
 | Path | What it is |
 | --- | --- |
 | `airframe/` | **Airframe's source of truth**: `tokens.json` (every color, font and size), the component CSS, icons, component docs and the brand book. See [`airframe/README.md`](airframe/README.md). |
-| `theme/airframe.css`, `theme/airframe-components.css`, `theme/airframe-icons.svg`, `theme/airframe-tokens.json` | Generated from `airframe/` by `scripts/airframe.py build`; never edited by hand. Tokens (`--af-*`), the `af-` component classes, the icon sprite, and tokens for scripts. |
+| `theme/airframe.css`, `theme/airframe-components.css`, `theme/airframe-icons.svg`, `theme/airframe.js`, `theme/airframe-tokens.json` | Generated from `airframe/` by `scripts/airframe.py build`; never edited by hand. Tokens (`--af-*`), the `af-` component classes, the icon sprite, the optional helpers module, and tokens for scripts. |
 | `theme/airframe-docs.css` | Maps the docs theme onto Airframe tokens. Each tool vendors what it needs with its `scripts/sync-airframe.sh`. |
 | `theme/CHANGELOG.md` | One `theme-vN` entry per theme change, listing each token. Merging an entry tags `theme-vN` and starts the sync to the tool repos. |
 | `brand/` | Each product's README banner (Night and Day), social preview, favicon and header mark, generated from Airframe by `scripts/banners.py`; tool repos vendor theirs with `scripts/sync-brand.sh`. See [`brand/README.md`](brand/README.md). |

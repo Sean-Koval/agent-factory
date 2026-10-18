@@ -10,8 +10,9 @@
 Generated (never edit by hand):
 
     theme/airframe.css             every token as --af-<name>, both themes, plus the theme-v1 names as aliases
-    theme/airframe-components.css  the af- component classes: fonts, type styles, base, core, viz
+    theme/airframe-components.css  the af- component classes: fonts, type styles, base, core, agents, patterns, viz
     theme/airframe-icons.svg       the icon sprite (<use href="airframe-icons.svg#af-agent">)
+    theme/airframe.js              the optional helpers (markup builders, toast, confirm, drawer), copied from airframe/js/
     theme/airframe-tokens.json     tokens resolved per theme, for scripts (diagrams, decks, tests)
     theme/airframe-tailwind.css    a Tailwind CSS v4 @theme that maps every utility onto the --af- tokens
     theme/airframe.tokens.json     the tokens in the W3C Design Tokens (DTCG 2025.10) format, Night
@@ -39,7 +40,8 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "airframe"
 THEME = ROOT / "theme"
 TOKENS = SRC / "tokens.json"
-STYLES = ("base.css", "core.css", "viz.css")
+STYLES = ("base.css", "core.css", "agents.css", "patterns.css", "viz.css")
+HELPERS = SRC / "js" / "airframe.js"
 FONTS_URL = ("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900"
              "&family=DM+Mono:wght@400;500&family=Red+Hat+Text:ital,wght@0,400..700;1,400..700&display=swap")
 PREFIX = "--af-"
@@ -419,6 +421,7 @@ def outputs(tokens: dict | None = None) -> dict[Path, str]:
         THEME / "airframe.css": tokens_css(tokens),
         THEME / "airframe-components.css": components_css(tokens),
         THEME / "airframe-icons.svg": (SRC / "icons" / "airframe-icons.svg").read_text(),
+        THEME / "airframe.js": HELPERS.read_text(),
         THEME / "airframe-tokens.json": dump(resolved(tokens)),
         THEME / "airframe-tailwind.css": tailwind_css(tokens),
         THEME / "airframe.tokens.json": dump(dtcg(tokens, "dark")),
@@ -511,7 +514,7 @@ def contrast(a: str, b: str) -> float:
 
 # ---------------------------------------------------------------- gallery
 
-GROUPS = ("Foundations", "Cards", "Controls", "Navigation", "Alerts", "Governance", "Data", "Fleet", "Marketing")
+GROUPS = ("Foundations", "Cards", "Controls", "Navigation", "Patterns", "Alerts", "Governance", "Data", "Fleet", "Marketing")
 MARKER = re.compile(r'^\s*<!--\s*@dsCard\b(.*?)-->')
 ATTR = re.compile(r'([A-Za-z]+)(?:=(?:"([^"]*)"|(\S+)))?')
 
@@ -629,7 +632,7 @@ def gallery(dest: Path) -> int:
     if dest.exists():
         shutil.rmtree(dest)
     dest.mkdir(parents=True)
-    for f in ("airframe.css", "airframe-components.css", "airframe-icons.svg"):
+    for f in ("airframe.css", "airframe-components.css", "airframe-icons.svg", "airframe.js"):
         shutil.copy(THEME / f, dest / f)
     items = components()
     for it in items:

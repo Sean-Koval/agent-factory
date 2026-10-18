@@ -1,0 +1,67 @@
+<!-- @dsCard group="Data" height=900 subtitle="A unified, greyscale diff: file header with the +N −M stat, hunk headers, additions in fg with a gutter bar, deletions in fg-muted, line comments that go to the agent, and the one hunk a failing test points at" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Diff</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:960px">
+  <section class="af-stack">
+    <span class="af-lbl">Unified, greyscale<span class="af-lbl__sub">the change is the brightest thing; only a failing hunk takes a mark</span></span>
+    <div class="af-diff" aria-label="Diff of src/auth/refresh.py">
+      <header class="af-diff__file">
+        <svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg>
+        <span class="af-diff__path"><small>src/auth/</small>refresh.py</span>
+        <span class="af-diff__stat"><b class="af-diff__add">+42</b><b class="af-diff__del">−17</b></span>
+        <span class="af-meta" style="font-size:11px"><span class="af-meta__item"><span class="af-meta__key">against</span><span class="af-meta__val">main</span></span><span class="af-meta__item"><span class="af-meta__key">commit</span><span class="af-meta__val">a41f2c0</span></span></span>
+        <span class="af-diff__tools">
+          <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 7h10v10H7z"/><path d="M13 7V3H3v10h4"/></svg>Copy patch</button>
+          <button type="button" class="af-btn af-btn--ghost af-btn--sm af-btn--icon" aria-label="More"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 9.25h1.5v1.5h-1.5zM9.25 9.25h1.5v1.5h-1.5zM14.5 9.25h1.5v1.5h-1.5z"/></svg></button>
+        </span>
+      </header>
+
+      <section class="af-diff__hunk">
+        <div class="af-diff__hh"><code>@@ -118,7 +118,9 @@ def refresh(token: Token) -&gt; Token:</code></div>
+        <div class="af-diff__line af-diff__line--ctx"><span class="af-diff__n">118</span><span class="af-diff__n">118</span><span class="af-diff__s"> </span><code class="af-diff__code">    now = time.time()</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--del"><span class="af-diff__n">119</span><span class="af-diff__n"></span><span class="af-diff__s">−</span><code class="af-diff__code">    if token.expires_at &lt; now:</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--add"><span class="af-diff__n"></span><span class="af-diff__n">119</span><span class="af-diff__s">+</span><code class="af-diff__code">    # refresh a little early so a slow network never hands out a dead token</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--add"><span class="af-diff__n"></span><span class="af-diff__n">120</span><span class="af-diff__s">+</span><code class="af-diff__code">    if token.expires_at - EARLY_REFRESH_S &lt; now:</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--ctx"><span class="af-diff__n">120</span><span class="af-diff__n">121</span><span class="af-diff__s"> </span><code class="af-diff__code">        return _issue(token.subject, now)</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--del"><span class="af-diff__n">121</span><span class="af-diff__n"></span><span class="af-diff__s">−</span><code class="af-diff__code">    return token</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--add"><span class="af-diff__n"></span><span class="af-diff__n">122</span><span class="af-diff__s">+</span><code class="af-diff__code">    return token.with_checked_at(now)</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt" aria-pressed="true">Comment</button></div>
+        <div class="af-diff__thread" role="group" aria-label="Comment thread on line 122">
+          <div class="af-comment">
+            <span class="af-avatar af-avatar--person af-avatar--22" title="Sean Koval">SK</span>
+            <span class="af-comment__who"><span class="af-comment__name">Sean</span><span class="af-comment__time">14:09</span></span>
+            <p class="af-comment__text"><code>with_checked_at</code> allocates a new token on every call. Mutate in place or cache the check; this path runs per request.</p>
+          </div>
+          <div class="af-composer">
+            <div class="af-composer__box">
+              <textarea class="af-composer__input" rows="1" placeholder="Reply" aria-label="Reply"></textarea>
+              <div class="af-composer__row">
+                <span class="af-diff__note"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5L3.5 6.25V13.75L10 17.5L16.5 13.75V6.25"/><path d="M9.25 9.25h1.5v1.5h-1.5z"/></svg><span>Sent to the agent with your next message</span></span>
+                <button type="button" class="af-btn af-btn--primary af-btn--sm af-composer__send">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="af-diff__line af-diff__line--ctx"><span class="af-diff__n">122</span><span class="af-diff__n">123</span><span class="af-diff__s"> </span><code class="af-diff__code"></code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+      </section>
+
+      <section class="af-diff__hunk af-diff__hunk--failed">
+        <div class="af-diff__hh"><code>@@ -140,6 +142,10 @@ def _issue(subject: str, now: float) -&gt; Token:</code><span class="af-status af-status--failed"><i class="af-status__mark"></i>test 38 of 41 points here</span></div>
+        <div class="af-diff__line af-diff__line--ctx"><span class="af-diff__n">140</span><span class="af-diff__n">142</span><span class="af-diff__s"> </span><code class="af-diff__code">    claims = {"sub": subject, "iat": int(now)}</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--add"><span class="af-diff__n"></span><span class="af-diff__n">143</span><span class="af-diff__s">+</span><code class="af-diff__code">    claims["exp"] = int(now + TTL_S)</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--add"><span class="af-diff__n"></span><span class="af-diff__n">144</span><span class="af-diff__s">+</span><code class="af-diff__code">    claims["nbf"] = int(now) - 1</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--add"><span class="af-diff__n"></span><span class="af-diff__n">145</span><span class="af-diff__s">+</span><code class="af-diff__code">    claims["checked_at"] = now</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--add"><span class="af-diff__n"></span><span class="af-diff__n">146</span><span class="af-diff__s">+</span><code class="af-diff__code">    assert claims["exp"] &gt; claims["nbf"]</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__line af-diff__line--ctx"><span class="af-diff__n">141</span><span class="af-diff__n">147</span><span class="af-diff__s"> </span><code class="af-diff__code">    return Token(subject, claims, signed=_sign(claims))</code><button type="button" class="af-btn af-btn--ghost af-diff__cmt">Comment</button></div>
+        <div class="af-diff__more">12 unchanged lines</div>
+      </section>
+    </div>
+  </section>
+
+  <section class="af-stack">
+    <span class="af-lbl">In a list<span class="af-lbl__sub">the stat alone, as keyed data or in a file header</span></span>
+    <div class="af-panel" style="max-width:720px">
+      <header class="af-diff__file" style="border-bottom:0"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg><span class="af-diff__path"><small>tests/</small>test_refresh.py</span><span class="af-diff__stat"><b class="af-diff__add">+9</b><b class="af-diff__del">−0</b></span><span class="af-diff__tools"><button type="button" class="af-btn af-btn--ghost af-btn--sm">Open</button></span></header>
+      <header class="af-diff__file" style="border-bottom:0;border-top:1px solid var(--af-line-subtle)"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg><span class="af-diff__path"><small>src/auth/</small>tokens.py</span><span class="af-diff__stat"><b class="af-diff__add">+3</b><b class="af-diff__del">−3</b></span><span class="af-diff__tools"><button type="button" class="af-btn af-btn--ghost af-btn--sm">Open</button></span></header>
+    </div>
+  </section>
+</main>
+</body></html>

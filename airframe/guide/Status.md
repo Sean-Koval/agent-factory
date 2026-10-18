@@ -60,3 +60,36 @@ Keep the role; specialize the word only when it says more. The shape and color n
 - **Spaceport.** Refreshing (running role). Queued. Needs approval: a schema change waits for the owner. Failed: the refresh failed. Denied: access request refused. Deprecated (off role).
 
 Write the reason next to every lit status as keyed inline data: `POLICY require-approval-main-push`, `STAGE test`, `HELD 41 min`.
+
+## A question is not an approval, but it is the same role
+
+An agent that stops to ask ("Which database should the migration target?") needs a person as much as a held push does, so a
+question takes the approval role: the orange diamond, the lit card, the place at the top of the queue. The word tells them
+apart: **Needs approval** for a yes or no on an action, **Needs input** for a question with options or free text. Never a
+new shape or a new color for questions; the sixth status is still `off`. See the ApprovalCard and Question components.
+
+## Waiting on others stays grey
+
+A request that needs more signatures than it has, where this person has signed or cannot sign, is **Waiting on others**: the
+queued role (a grey ring) with words that say how many, `Waiting on 2 others`, and a quorum strip that says whose signature
+is in. It is not orange, because nobody *here* is needed; the card is not lit and has no primary action. The moment it
+becomes this person's turn it is an approval again. The same goes for a question addressed to someone else.
+
+## Alert inhibition
+
+Airbus inhibits alerts during takeoff and landing so a crew mid-task is not interrupted by anything that can wait. Airframe
+inhibits them during a decision: while a dialog or a drawer is open, or a text field has focus (a deny reason, a steer, an
+answer), non-critical notices are held and shown afterwards, in order. A notice about the thing the person is doing, or
+about a connection that dropped, is critical and shows at once. MasterCaution is not inhibited; it is the summary the held
+notices roll up into. The Toast component and `airframe.js` implement the rule; a product that writes its own notices follows it.
+
+## Sources
+
+Two references shaped these rules and say the same things in their own words. Carbon's status indicator pattern asks for
+at least two of color, shape and symbol, 3:1 contrast on the mark, the highest-attention status for a group, and no more
+than five or six indicators ([carbondesignsystem.com/patterns/status-indicator-pattern](https://www.carbondesignsystem.com/patterns/status-indicator-pattern)).
+The Airbus ECAM color code maps onto the dark cockpit one to one: red for immediate action (failed, denied), amber for
+awareness and possible action (needs approval), white for titles and labels, and blue for "an action or selection still to
+be carried out", which is what the brand yellow means here; ECAM also clears an action line once the state is reached and
+inhibits alerts by flight phase ([ECAM guide](https://flyawaysimulation.com/ask/answers/airbus-a320-ecam-how-to-use/),
+[Airbus on alert inhibition](https://www2023.icao.int/ESAF/Documents/meetings/2017/AFI%20FOSAS%202017/Day%201%20Docs/Day_1_2_Airbuspihlo.pdf)).

@@ -1,0 +1,52 @@
+<!-- @dsCard group="Patterns" height=520 subtitle="Bottom centre, overlay tone, one optional action; the bad variant carries the failed mark; role=status; held while a person is mid-decision" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Toast</title>
+<script type="module">
+import { toast, inhibited } from "./airframe.js";
+const say = { save: () => toast("Snapshot of HGR-3MX9 saved.", { action: { label: "Open", onClick: () => {} } }),
+  plain: () => toast("Settings saved."),
+  bad: () => toast("HGR-0PZ4 failed at test. 38 of 41 passed.", { tone: "bad", action: { label: "Open log", onClick: () => {} } }),
+  critical: () => toast("Connection to hangar lost. Reconnecting.", { tone: "bad", critical: true, timeout: 0 }),
+  later: () => setTimeout(() => toast("HGR-7Q2K opened a pull request.", { action: { label: "Open", onClick: () => {} } }), 3000) };
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-toast]"); if (b) say[b.dataset.toast](); });
+const held = document.getElementById("held"); setInterval(() => { held.textContent = inhibited() ? "held: a field has focus" : "clear"; }, 300);
+</script>
+</head><body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
+  <section class="af-stack">
+    <span class="af-lbl">Toasts<span class="af-lbl__sub">overlay tone, a hairline, the only shadow besides menus</span></span>
+    <div class="af-toasts af-toasts--inline">
+      <div class="af-toast"><span class="af-toast__msg">Settings saved.</span></div>
+      <div class="af-toast"><span class="af-toast__msg">Snapshot of <b>HGR-3MX9</b> saved.</span><button type="button" class="af-btn af-btn--ghost af-btn--sm af-toast__act">Open</button></div>
+      <div class="af-toast"><span class="af-toast__msg">Approved. Receipt <b>TWR-RCPT-88A1</b> is on the record.</span><button type="button" class="af-btn af-btn--ghost af-btn--sm af-toast__act"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Receipt</button></div>
+      <div class="af-toast af-toast--bad"><span class="af-status af-status--failed" aria-hidden="true"><i class="af-status__mark"></i></span><span class="af-toast__msg"><b>HGR-0PZ4</b> failed at test. 38 of 41 passed.</span><button type="button" class="af-btn af-btn--ghost af-btn--sm af-toast__act">Open log</button></div>
+      <div class="af-toast af-toast--bad"><span class="af-status af-status--failed" aria-hidden="true"><i class="af-status__mark"></i></span><span class="af-toast__msg">Connection to hangar lost. Reconnecting; nothing was sent.</span></div>
+    </div>
+  </section>
+
+  <div class="af-grid af-grid--2" style="gap:28px 24px;align-items:start">
+    <section class="af-stack">
+      <span class="af-lbl">Live<span class="af-lbl__sub">with airframe.js: toast(msg, {tone, action, timeout, critical})</span></span>
+      <div class="af-card" style="gap:12px">
+        <div class="af-row" style="flex-wrap:wrap">
+          <button type="button" class="af-btn af-btn--secondary af-btn--sm" data-toast="plain">Plain</button>
+          <button type="button" class="af-btn af-btn--secondary af-btn--sm" data-toast="save">With an action</button>
+          <button type="button" class="af-btn af-btn--secondary af-btn--sm" data-toast="bad">Bad</button>
+          <button type="button" class="af-btn af-btn--secondary af-btn--sm" data-toast="critical">Critical, kept</button>
+          <button type="button" class="af-btn af-btn--ghost af-btn--sm" data-toast="later">One in 3 s</button>
+        </div>
+        <p class="af-card__desc">Plain toasts leave after 3.5 s; a toast with an action or a failed mark stays 7 s. A critical toast shows at once and, with <span class="af-mono">timeout: 0</span>, stays until its cause clears.</p>
+      </div>
+    </section>
+    <section class="af-stack">
+      <span class="af-lbl">Alert inhibition<span class="af-lbl__sub">held while a person is mid-decision</span></span>
+      <div class="af-card" style="gap:12px">
+        <label class="af-field">
+          <span class="af-field__label">Reason for denying</span>
+          <span class="af-input af-input--area af-input--sans"><textarea rows="2" placeholder="Press One in 3 s, then write here and keep writing"></textarea></span>
+          <span class="af-field__hint">While a modal dialog or a drawer is open, or a field like this has focus, non-critical toasts are held and shown afterwards, in order: the toast due in 3 s waits until you leave the field. State now: <span class="af-mono" id="held">clear</span>.</span>
+        </label>
+      </div>
+    </section>
+  </div>
+</main>
+</body></html>

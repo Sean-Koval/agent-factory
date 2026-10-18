@@ -1,0 +1,73 @@
+<!-- @dsCard group="Patterns" height=620 subtitle="Title in two sizes, a lede, a summary line (status mark, keyed counts, capacity), an actions slot; stacks when narrow" -->
+<!doctype html><html><head><meta charset="utf-8"><title>PageHeader</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
+  <section class="af-stack">
+    <span class="af-lbl">Page<span class="af-lbl__sub">display 36, lede, summary, actions</span></span>
+    <header class="af-page-head af-page-head--rule">
+      <div class="af-page-head__text">
+        <h1 class="af-page-head__title">Fleet</h1>
+        <p class="af-page-head__lede">Forty sandboxes across three environments. One needs you.</p>
+        <div class="af-page-head__sum">
+          <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>1 waiting on you</span>
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">running</span><span class="af-meta__val">31</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">queued</span><span class="af-meta__val">4</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">failed</span><span class="af-meta__val">1</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">off</span><span class="af-meta__val">3</span></span>
+          </span>
+          <span class="af-cap af-cap--sm">27 of 120 slots<span class="af-cap__bar"><i style="width:22.5%"></i></span></span>
+        </div>
+      </div>
+      <div class="af-page-head__actions">
+        <button type="button" class="af-btn af-btn--ghost"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14l-5.25 6.25v6.25l-3.5-1.75v-4.5z"/></svg>Filter</button>
+        <button type="button" class="af-btn af-btn--secondary"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/><circle cx="10" cy="10" r="2.5"/></svg>Snapshot all</button>
+        <button type="button" class="af-btn af-btn--primary"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5v13l10-6.5z"/></svg>Start a sandbox</button>
+      </div>
+    </header>
+  </section>
+
+  <section class="af-stack">
+    <span class="af-lbl">Detail<span class="af-lbl__sub">display 24 with the tail number, eyebrow, no rule</span></span>
+    <header class="af-page-head af-page-head--s">
+      <div class="af-page-head__text">
+        <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="7" width="14" height="10"/><path d="M2 3.5h16V7H2z"/><path d="M8 10.5h4"/></svg>Sandbox<span class="af-lbl__sub">base-codex</span><span class="af-lbl__sub">us-east4</span></span>
+        <h2 class="af-page-head__title"><span class="af-id">HGR-3MX9</span> is holding at PR</h2>
+        <p class="af-page-head__lede">Push to main needs your approval. Policy require-approval-main-push holds it; it expires in 54 min.</p>
+        <div class="af-page-head__sum">
+          <span class="af-status af-status--approval"><i class="af-status__mark"></i>Needs approval</span>
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">harness</span><span class="af-meta__val">codex</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">model</span><span class="af-meta__val">gpt-5.1</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">age</span><span class="af-meta__val">00:41:07</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">cost</span><span class="af-meta__val">$1.18</span></span>
+          </span>
+        </div>
+      </div>
+      <div class="af-page-head__actions">
+        <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 2.5v15"/><path d="M5 5h6M8 9h7M11 13h3.5M13 17h4"/></svg>Open trace</button>
+        <button type="button" class="af-btn af-btn--secondary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13"/><path d="M6 8l2.5 2L6 12M10.5 12.5H14"/></svg>Watch</button>
+        <button type="button" class="af-btn af-btn--primary af-btn--sm">Review push</button>
+      </div>
+    </header>
+  </section>
+
+  <section class="af-stack">
+    <span class="af-lbl">Narrow<span class="af-lbl__sub">below 760 px the actions drop under the text</span></span>
+    <div style="max-width:380px;padding:16px;background:var(--af-raised);border-radius:var(--af-radius-card)">
+      <header class="af-page-head" style="flex-direction:column;align-items:stretch;gap:12px">
+        <div class="af-page-head__text">
+          <h1 class="af-page-head__title" style="font-size:28px">Approvals</h1>
+          <div class="af-page-head__sum">
+            <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>2 waiting on you</span>
+            <span class="af-meta"><span class="af-meta__item"><span class="af-meta__key">others</span><span class="af-meta__val">3</span></span></span>
+          </div>
+        </div>
+        <div class="af-page-head__actions" style="justify-content:flex-start">
+          <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14l-5.25 6.25v6.25l-3.5-1.75v-4.5z"/></svg>Filter</button>
+          <button type="button" class="af-btn af-btn--secondary af-btn--sm">History</button>
+        </div>
+      </header>
+    </div>
+  </section>
+</main>
+</body></html>

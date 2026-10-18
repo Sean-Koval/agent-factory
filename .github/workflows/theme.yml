@@ -8,7 +8,7 @@ name: theme
 # tokens last an hour. Without it the run prints the one-command sync to run locally instead.
 on:
   pull_request:
-    paths: ["airframe/**", "theme/**", "scripts/theme_*", "scripts/airframe.py", "tests/test_airframe.py", "tests/test_theme*.py", ".github/workflows/theme.yml"]
+    paths: ["airframe/**", "theme/**", "scripts/theme_*", "scripts/airframe.py", "tests/test_airframe*.py", "tests/airframe_js.test.mjs", "tests/test_theme*.py", ".github/workflows/theme.yml"]
   push:
     branches: [main]
     paths: ["theme/airframe*", "theme/CHANGELOG.md"]
@@ -31,7 +31,7 @@ jobs:
       - name: theme/ is generated from airframe/ and the sources use tokens only
         run: python3 scripts/airframe.py check
       - name: Tests
-        run: python3 -m unittest discover -s tests -p 'test_airframe.py' -v && python3 -m unittest discover -s tests -p 'test_theme*.py' -v
+        run: python3 -m unittest discover -s tests -p 'test_airframe*.py' -v && python3 -m unittest discover -s tests -p 'test_theme*.py' -v
       - name: A theme change adds a changelog entry
         if: github.event_name == 'pull_request'
         run: python3 scripts/theme_release.py check --base "origin/${{ github.base_ref }}"

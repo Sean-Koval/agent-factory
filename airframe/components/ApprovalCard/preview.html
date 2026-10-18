@@ -1,59 +1,197 @@
-<!-- @dsCard group="Governance" height=590 subtitle="A held action waiting on a reviewer: policy, checks, expiry, decision, receipt; and a denied placard row" -->
+<!-- @dsCard group="Governance" height=1560 subtitle="A held action waiting on a reviewer: inspect, deny with a reason, approve, edit then approve, approve for the session, quorum; waiting on others; verdict rows" -->
 <!doctype html><html><head><meta charset="utf-8"><title>ApprovalCard</title></head><body>
-<main class="af-stack af-stack--block" style="padding:24px;max-width:720px">
-  <article class="af-card af-card--lit af-approval" aria-labelledby="apr-cmd">
-    <div class="af-card__top">
-      <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub">TWR-APR-0391</span></span>
-      <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span>
-    </div>
-    <div class="af-approval__subject">
-      <p class="af-approval__cmd" id="apr-cmd">git push origin main</p>
-      <span class="af-meta">
-        <span class="af-meta__item"><span class="af-meta__key">repo</span><span class="af-meta__val">acme/api</span></span>
-        <span class="af-meta__item"><span class="af-meta__key">from</span><span class="af-meta__val">hgr/fix-flaky-auth</span></span>
-        <span class="af-meta__item"><span class="af-meta__key">files</span><span class="af-meta__val">3</span></span>
-        <span class="af-meta__item"><span class="af-meta__key">diff</span><span class="af-meta__val">+42 −17</span></span>
-      </span>
-    </div>
-    <dl class="af-kv" style="grid-template-columns:104px minmax(0,1fr);gap:10px 16px">
-      <dt>Requested by</dt>
-      <dd><span class="af-id">HGR-3MX9</span> <span class="af-muted">for sean, 41 min ago</span></dd>
-      <dt>Policy</dt>
-      <dd><span class="af-mono">require-approval-main-push</span> <span class="af-tag" style="margin-left:6px">cedar</span>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
+  <section class="af-stack">
+    <span class="af-lbl">Yours to decide<span class="af-lbl__sub">lit; inspect, refuse, accept; a second accept extends the mandate</span></span>
+    <article class="af-card af-card--lit af-approval" aria-labelledby="apr-cmd" style="max-width:760px">
+      <div class="af-card__top">
+        <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub">TWR-APR-0391</span></span>
+        <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span>
+      </div>
+      <div class="af-approval__subject">
+        <p class="af-approval__cmd" id="apr-cmd">git push origin main</p>
+        <span class="af-meta">
+          <span class="af-meta__item"><span class="af-meta__key">repo</span><span class="af-meta__val">acme/api</span></span>
+          <span class="af-meta__item"><span class="af-meta__key">from</span><span class="af-meta__val">hgr/fix-flaky-auth</span></span>
+          <span class="af-meta__item"><span class="af-meta__key">files</span><span class="af-meta__val">3</span></span>
+          <span class="af-meta__item"><span class="af-meta__key">diff</span><span class="af-meta__val">+42 −17</span></span>
+        </span>
+      </div>
+      <dl class="af-kv" style="grid-template-columns:104px minmax(0,1fr);gap:10px 16px">
+        <dt>Requested by</dt>
+        <dd><span class="af-who"><span class="af-avatar af-avatar--agent af-avatar--22" title="codex" aria-hidden="true"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5L3.5 6.25V13.75L10 17.5L16.5 13.75V6.25"/><path d="M9.25 9.25h1.5v1.5h-1.5z"/></svg></span><span class="af-id">HGR-3MX9</span></span> <span class="af-muted">codex, for Sean, 41 min ago</span></dd>
+        <dt>Policy</dt>
+        <dd><span class="af-mono">require-approval-main-push</span> <span class="af-tag" style="margin-left:6px">cedar</span>
 <pre class="af-code"><span class="af-code__c">// hold pushes to main until a reviewer signs</span>
 <span class="af-code__k">forbid</span> (principal, action == Action::<span class="af-code__s">"git:push"</span>, resource)
 <span class="af-code__k">when</span>   { resource.ref == <span class="af-code__s">"refs/heads/main"</span> }
 <span class="af-code__k">unless</span> { context.approval.granted };</pre></dd>
-      <dt>Checks</dt>
-      <dd><ul class="af-checks"><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>tests 212 of 212</li><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>lint clean</li><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>no secrets touched</li></ul></dd>
-      <dt>Expires</dt>
-      <dd>in <span class="af-mono">54 min</span>, then the push is dropped</dd>
-    </dl>
-    <div class="af-approval__act">
-      <span class="af-meta"><span class="af-meta__item"><span class="af-meta__key">reviewer</span><span class="af-meta__val">platform-oncall</span></span></span>
-      <div class="af-approval__btns">
-        <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny</button>
-        <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve push</button>
+        <dt>Checks</dt>
+        <dd><ul class="af-checks"><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>tests 212 of 212</li><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>lint clean</li><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>no secrets touched</li></ul></dd>
+        <dt>Expires</dt>
+        <dd>in <span class="af-mono">54 min</span>, then the push is dropped</dd>
+      </dl>
+      <div class="af-approval__act">
+        <span class="af-meta"><span class="af-meta__item"><span class="af-meta__key">reviewer</span><span class="af-meta__val">platform-oncall</span></span></span>
+        <div class="af-approval__btns">
+          <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg>View diff</button>
+          <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny</button>
+          <button type="button" class="af-btn af-btn--secondary af-btn--sm">Approve for this session</button>
+          <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve push</button>
+        </div>
       </div>
-    </div>
-    <div class="af-card__foot">
-      <span class="af-receipt"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Your decision is filed as receipt <b>TWR-RCPT-88A1</b></span>
-    </div>
-  </article>
-  <section class="af-stack" style="gap:8px">
-    <span class="af-lbl">Decided<span class="af-lbl__sub">denied by policy</span></span>
-    <div class="af-verdict">
-      <span class="af-status af-status--denied"><i class="af-status__mark"></i>Denied</span>
-      <span class="af-verdict__body">
-        <span class="af-verdict__cmd">write secrets/prod.env</span>
+      <p class="af-approval__hint"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 9v4.5"/><path d="M10 6.5h.01"/></svg><span>For this session extends the mandate: codex may push to main until the session ends, in <b>2 h 10 min</b>, and the grant is filed as <b>TWR-GRT-0A12</b>. Each push still gets a receipt.</span></p>
+      <div class="af-approval__quorum">
+        <span class="af-avatars"><span class="af-avatar af-avatar--person af-avatar--22" title="Priya Natarajan">PN</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="platform-oncall: not signed yet">PO</span></span>
+        <span class="af-approval__signed"><b>1 of 2</b> signed</span>
         <span class="af-meta">
-          <span class="af-meta__item af-meta__item--failed"><span class="af-meta__key">policy</span><span class="af-meta__val">deny-secret-paths</span></span>
-          <span class="af-meta__item"><span class="af-meta__key">sandbox</span><span class="af-meta__val">HGR-9KD4</span></span>
-          <span class="af-meta__item"><span class="af-meta__key">receipt</span><span class="af-meta__val">TWR-RCPT-88A4</span></span>
+          <span class="af-meta__item"><span class="af-meta__key">signed</span><span class="af-meta__val">Priya, 14:02</span></span>
+          <span class="af-meta__item af-meta__item--strong"><span class="af-meta__key">waiting</span><span class="af-meta__val">you, for platform-oncall</span></span>
         </span>
-      </span>
-      <span class="af-verdict__time">14:07:40</span>
-    </div>
+      </div>
+      <div class="af-card__foot">
+        <span class="af-receipt"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Your decision is filed as receipt <b>TWR-RCPT-88A1</b></span>
+      </div>
+    </article>
   </section>
+
+  <div class="af-grid af-grid--2" style="gap:28px 24px;align-items:start">
+    <section class="af-stack">
+      <span class="af-lbl">Deny with a reason<span class="af-lbl__sub">required; the error is the failed mark and words</span></span>
+      <article class="af-card af-card--lit af-approval" aria-labelledby="apr2-cmd">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub">TWR-APR-0392</span></span>
+          <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span>
+        </div>
+        <div class="af-approval__subject">
+          <p class="af-approval__cmd" id="apr2-cmd">curl -X POST https://api.stripe.com/v1/refunds</p>
+          <span class="af-meta">
+            <span class="af-meta__item af-meta__item--strong"><span class="af-meta__key">amount</span><span class="af-meta__val">$1,240.00</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">charge</span><span class="af-meta__val">ch_3Qx…88231</span></span>
+            <span class="af-meta__item af-meta__item--approval"><span class="af-meta__key">policy</span><span class="af-meta__val">refunds-over-500-need-a-person</span></span>
+          </span>
+        </div>
+        <div class="af-approval__reason" role="group" aria-labelledby="deny-lbl">
+          <label class="af-field">
+            <span class="af-field__label" id="deny-lbl">Reason for denying (required)</span>
+            <span class="af-input af-input--area af-input--sans is-invalid"><textarea rows="2" placeholder="What the requester should change" aria-invalid="true" aria-describedby="deny-err"></textarea></span>
+            <span class="af-field__error" id="deny-err"><span class="af-status af-status--failed"><i class="af-status__mark"></i>Give a reason. It goes on the receipt and back to HGR-4KQ1.</span></span>
+          </label>
+          <div class="af-approval__btns">
+            <button type="button" class="af-btn af-btn--ghost af-btn--sm">Cancel</button>
+            <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny refund</button>
+          </div>
+        </div>
+        <div class="af-card__foot">
+          <span class="af-receipt"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Denial and reason are filed as receipt <b>TWR-RCPT-88A2</b></span>
+        </div>
+      </article>
+    </section>
+
+    <section class="af-stack">
+      <span class="af-lbl">Edit, then approve<span class="af-lbl__sub">the arguments become editable; what runs is your version</span></span>
+      <article class="af-card af-card--lit af-approval af-approval--editing" aria-labelledby="apr3-cmd">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub">TWR-APR-0393</span><span class="af-lbl__sub">editing</span></span>
+          <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span>
+        </div>
+        <div class="af-approval__subject">
+          <p class="af-approval__cmd" id="apr3-cmd">gh pr merge 412</p>
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">repo</span><span class="af-meta__val">acme/api</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">asked by</span><span class="af-meta__val">HGR-3MX9</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">checks</span><span class="af-meta__val">9 of 9</span></span>
+          </span>
+        </div>
+        <label class="af-field">
+          <span class="af-field__label">Arguments (edited)</span>
+          <span class="af-input af-input--area af-approval__edit"><textarea rows="3" aria-label="Arguments" spellcheck="false">--squash
+--delete-branch
+--subject "Fix flaky auth refresh (&#35;412)"</textarea></span>
+          <span class="af-field__hint">Was <span class="af-mono">--merge --delete-branch</span>. The receipt records both versions.</span>
+        </label>
+        <div class="af-approval__act">
+          <span class="af-meta"><span class="af-meta__item"><span class="af-meta__key">reviewer</span><span class="af-meta__val">you</span></span></span>
+          <div class="af-approval__btns">
+            <button type="button" class="af-btn af-btn--ghost af-btn--sm">Reset</button>
+            <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny</button>
+            <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve edited</button>
+          </div>
+        </div>
+        <div class="af-card__foot">
+          <span class="af-receipt"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Filed as receipt <b>TWR-RCPT-88A3</b>, with your edit as a teaching</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="af-stack">
+      <span class="af-lbl">Waiting on others<span class="af-lbl__sub">a quorum not yet met and not your turn stays grey</span></span>
+      <article class="af-card af-approval af-approval--waiting" aria-labelledby="apr4-cmd">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub">TWR-APR-0394</span></span>
+          <span class="af-status af-status--queued"><i class="af-status__mark"></i>Waiting on 2 others</span>
+        </div>
+        <div class="af-approval__subject">
+          <p class="af-approval__cmd" id="apr4-cmd">deploy api@2.14.0 to prod</p>
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">env</span><span class="af-meta__val">prod</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">policy</span><span class="af-meta__val">prod-needs-three-signers</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">expires</span><span class="af-meta__val">in 3 h</span></span>
+          </span>
+        </div>
+        <div class="af-approval__quorum">
+          <span class="af-avatars"><span class="af-avatar af-avatar--person af-avatar--22" title="Sean Koval">SK</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="Marcus Lee: not signed yet">ML</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="release-managers: not signed yet">RM</span></span>
+          <span class="af-approval__signed"><b>1 of 3</b> signed</span>
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">yours</span><span class="af-meta__val">in, 13:48</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">waiting</span><span class="af-meta__val">Marcus, release-managers</span></span>
+          </span>
+        </div>
+        <div class="af-card__foot">
+          <span>Nobody here is needed. You will be told when it is decided.</span>
+          <button type="button" class="af-btn af-btn--ghost af-btn--sm">Open</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="af-stack" style="gap:8px">
+      <span class="af-lbl">Decided<span class="af-lbl__sub">verdict rows; a denial carries its reason</span></span>
+      <div class="af-verdict">
+        <span class="af-status af-status--denied"><i class="af-status__mark"></i>Denied</span>
+        <span class="af-verdict__body">
+          <span class="af-verdict__cmd">curl -X POST https://api.stripe.com/v1/refunds</span>
+          <span class="af-verdict__why">Refund the original charge, not a new one. Reason by Sean.</span>
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">policy</span><span class="af-meta__val">refunds-over-500-need-a-person</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">receipt</span><span class="af-meta__val">TWR-RCPT-88A2</span></span>
+          </span>
+        </span>
+        <span class="af-verdict__time">14:07:40</span>
+      </div>
+      <div class="af-verdict">
+        <span class="af-verdict__ok"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approved</span>
+        <span class="af-verdict__body">
+          <span class="af-verdict__cmd">gh pr merge 412 --squash --delete-branch</span>
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">edited by</span><span class="af-meta__val">Sean</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">receipt</span><span class="af-meta__val">TWR-RCPT-88A3</span></span>
+          </span>
+        </span>
+        <span class="af-verdict__time">14:12:05</span>
+      </div>
+      <div class="af-verdict">
+        <span class="af-status af-status--denied"><i class="af-status__mark"></i>Denied</span>
+        <span class="af-verdict__body">
+          <span class="af-verdict__cmd">write secrets/prod.env</span>
+          <span class="af-meta">
+            <span class="af-meta__item af-meta__item--failed"><span class="af-meta__key">policy</span><span class="af-meta__val">deny-secret-paths</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">sandbox</span><span class="af-meta__val">HGR-9KD4</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">receipt</span><span class="af-meta__val">TWR-RCPT-88A4</span></span>
+          </span>
+        </span>
+        <span class="af-verdict__time">14:07:40</span>
+      </div>
+    </section>
+  </div>
 </main>
 </body></html>

@@ -43,10 +43,13 @@ class BuildTests(unittest.TestCase):
     def test_gallery_and_pages_build(self):
         with tempfile.TemporaryDirectory() as tmp:
             n = af.gallery(Path(tmp) / "gallery")
-            self.assertGreaterEqual(n, 20)
+            self.assertGreaterEqual(n, 30)
             index = (Path(tmp) / "gallery" / "index.html").read_text()
             self.assertIn('href="Status.html"', index)
+            self.assertIn(">Patterns<", index)
+            self.assertLess(index.index(">Patterns<"), index.index(">Governance<"), "patterns are listed with the other groups")
             self.assertTrue((Path(tmp) / "gallery" / "airframe-components.css").exists())
+            self.assertTrue((Path(tmp) / "gallery" / "airframe.js").exists(), "the gallery serves the helpers for the live previews")
             written = af.pages(Path(tmp) / "pages")
             self.assertIn("--af-status-approval", (Path(tmp) / "pages" / "airframe-colors.md").read_text())
             self.assertEqual(len(written), 5)
@@ -123,8 +126,27 @@ class ForcedColorsTests(unittest.TestCase):
         self.assertRegex(base, r"\.af-card--lit\{outline")
         for cls in (".af-stand__mark", ".af-lane-mark--fail", ".af-lane-mark--deny"):
             self.assertIn(cls, viz)
+        core = forced_block((af.SRC / "styles" / "core.css").read_text())
+        self.assertIn(".af-avatar--agent::before{background:CanvasText}", core, "the hexagon keeps its edge")
+        agents = forced_block((af.SRC / "styles" / "agents.css").read_text())
+        self.assertRegex(agents, r"\.af-diff__line--add \.af-diff__s.*border-left:2px solid CanvasText", "diff gutter bars survive")
+        patterns = forced_block((af.SRC / "styles" / "patterns.css").read_text())
+        self.assertRegex(patterns, r"\.af-toast,\.af-dialog,\.af-drawer\{outline")
         for name in af.STYLES:
             self.assertNotIn("forced-color-adjust", (af.SRC / "styles" / name).read_text(), name)
+
+    def test_diffs_are_greyscale_and_chips_are_not_pills(self):
+        agents = af.strip_css((af.SRC / "styles" / "agents.css").read_text())
+        diff = "\n".join(line for line in agents.splitlines() if ".af-diff" in line or ".af-comment" in line)
+        self.assertNotIn("status-approval", diff.replace("af-diff__hh>.af-status", ""))
+        self.assertNotIn("status-denied", diff)
+        self.assertNotIn("product-", diff)
+        self.assertNotIn("brand", diff)
+        css = "\n".join(af.strip_css((af.SRC / "styles" / n).read_text()) for n in af.STYLES)
+        for cls in ("af-chip", "af-obj", "af-tag"):
+            rule = re.search(rf"^\.{cls}\{{([^}}]*)\}}", css, re.M)
+            self.assertIsNotNone(rule, cls)
+            self.assertIn("radius-control", rule.group(1), f".{cls} keeps the 2px radius; there are no pills")
 
 
 class ExportTests(unittest.TestCase):

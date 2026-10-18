@@ -100,8 +100,31 @@
 .af-select__value small{font-size:inherit;color:var(--af-fg-subtle);margin-left:6px}
 .af-input:hover,.af-select:hover,.af-input.is-hover,.af-select.is-hover{border-color:var(--af-fg-subtle)}
 .af-input:focus-within,.af-input.is-focus,.af-select.is-focus{outline:2px solid var(--af-focus);outline-offset:2px}
-.af-input.is-disabled,.af-input:has(input:disabled),.af-select:disabled{opacity:.45;cursor:default;border-color:var(--af-line-strong)}
+.af-input.is-disabled,.af-input:has(input:disabled),.af-input:has(textarea:disabled),.af-select:disabled{opacity:.45;cursor:default;border-color:var(--af-line-strong)}
 .af-input.is-invalid{border-color:var(--af-status-failed)}
+/* multi-line and prose variants: a textarea in the same well; sans for sentences people write (answers, reasons), mono stays for data */
+.af-input--area{height:auto;min-height:64px;align-items:stretch;padding:8px 10px}
+.af-input textarea{flex:1;min-width:0;min-height:0;padding:0;border:0;outline:0;background:transparent;color:var(--af-fg);font:inherit;line-height:1.5;resize:vertical}
+.af-input textarea::placeholder{color:var(--af-fg-subtle);opacity:1}
+.af-input--sans{font-family:var(--af-font-sans);font-size:14px}
+/* inline field error: the failed mark and words, in fg; never a red fill or red text */
+.af-field__error{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;line-height:1.4;color:var(--af-fg)}
+.af-field__error .af-status{font-size:inherit;white-space:normal;align-items:flex-start}
+.af-field__error .af-status__mark{margin-top:5px}
+
+/* ---- chip: an option or a suggestion. 2px radius, hairline; pressed inverts like a segment. Never a status, never a pill. ---- */
+.af-chip{display:inline-flex;align-items:center;gap:6px;height:28px;max-width:100%;padding:0 10px;border:1px solid var(--af-line-strong);border-radius:var(--af-radius-control);background:transparent;color:var(--af-fg);
+  font-family:var(--af-font-sans);font-size:13px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;
+  transition:background var(--af-dur) var(--af-ease),color var(--af-dur) var(--af-ease),border-color var(--af-dur) var(--af-ease)}
+.af-chip:hover{background:var(--af-selected)}
+.af-chip[aria-pressed="true"]{background:var(--af-fg);border-color:var(--af-fg);color:var(--af-canvas)}
+.af-chip .af-ic{width:14px;height:14px;color:var(--af-fg-subtle)}
+.af-chip[aria-pressed="true"] .af-ic{color:inherit}
+.af-chip--mono{font-family:var(--af-font-mono);font-size:12px}
+.af-chip--sm{height:24px;padding:0 8px;font-size:12px}
+.af-chip:disabled,.af-chip.is-dismissed{opacity:.45;cursor:default}
+.af-chip:disabled:hover,.af-chip.is-dismissed:hover{background:transparent}
+.af-chips{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
 
 .af-switch{position:relative;flex:none;width:38px;height:20px;padding:0;border:1px solid var(--af-line-strong);border-radius:var(--af-radius-control);background:var(--af-surface);cursor:pointer;
   transition:background var(--af-dur) var(--af-ease),border-color var(--af-dur) var(--af-ease)}
@@ -166,9 +189,46 @@ a.af-seg__btn{display:inline-flex;align-items:center;text-decoration:none}
 .af-search>.af-ic{width:14px;height:14px}
 .af-search>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .af-search .af-kbd{flex:none;font-size:10.5px}
-.af-avatar{width:30px;height:30px;flex:none;display:grid;place-items:center;padding:0;border:1px solid var(--af-line-strong);border-radius:var(--af-radius-round);background:transparent;color:var(--af-fg);
-  font-family:var(--af-font-mono);font-weight:500;font-size:10.5px;letter-spacing:.04em;cursor:pointer}
-.af-avatar:hover{background:var(--af-selected)}
+/* ---- avatar triad: people round, agents hexagonal, firms square. Initials in mono on a 1px line-strong edge, no fill, no hue.
+   The default (no variant) is the round person avatar the nav uses. Sizes 22, 28, 44; 30 is the nav's. ---- */
+.af-avatar{position:relative;width:30px;height:30px;flex:none;display:grid;place-items:center;padding:0;border:1px solid var(--af-line-strong);border-radius:var(--af-radius-round);background:transparent;color:var(--af-fg);
+  font-family:var(--af-font-mono);font-weight:500;font-size:10.5px;line-height:1;letter-spacing:.04em;text-decoration:none;white-space:nowrap}
+button.af-avatar,a.af-avatar{cursor:pointer}
+button.af-avatar:hover,a.af-avatar:hover{background:var(--af-selected)}
+.af-avatar>.af-ic{width:16px;height:16px;color:var(--af-fg-muted)}
+.af-avatar--person{border-radius:var(--af-radius-round)}
+.af-avatar--firm{border-radius:var(--af-radius-control)}
+.af-avatar--22{width:22px;height:22px;font-size:9px}.af-avatar--22>.af-ic{width:12px;height:12px}
+.af-avatar--28{width:28px;height:28px;font-size:10px}.af-avatar--28>.af-ic{width:14px;height:14px}
+.af-avatar--44{width:44px;height:44px;font-size:14px}.af-avatar--44>.af-ic{width:22px;height:22px}
+.af-avatar--pending{border-style:dashed;color:var(--af-fg-subtle)}
+/* the hexagon is three clipped layers: a ground ring (transparent unless stacked), a 1px line-strong edge, the fill. The box is
+   4px larger than its siblings with a -2px margin, so the visible hexagon matches their size and the ring has room. */
+.af-avatar--agent{--af-hex:polygon(50% 0,93.3% 25%,93.3% 75%,50% 100%,6.7% 75%,6.7% 25%);width:34px;height:34px;margin:-2px;border:0;border-radius:0;background:var(--af-avatar-ground,transparent);clip-path:var(--af-hex)}
+.af-avatar--agent::before,.af-avatar--agent::after{content:"";position:absolute;inset:2px;z-index:-1;background:var(--af-line-strong);clip-path:var(--af-hex)}
+.af-avatar--agent::after{inset:3px;background:var(--af-avatar-fill,var(--af-raised))}
+button.af-avatar--agent:hover::after,a.af-avatar--agent:hover::after{background:var(--af-selected)}
+.af-avatar--agent.af-avatar--22{width:26px;height:26px}.af-avatar--agent.af-avatar--28{width:32px;height:32px}.af-avatar--agent.af-avatar--44{width:48px;height:48px}
+.af-avatar--agent.af-avatar--pending::before{background:var(--af-line)}
+@supports not (clip-path:polygon(0 0,0 0,0 0)){
+  .af-avatar--agent{width:30px;height:30px;margin:0;border:1px solid var(--af-line-strong);background:transparent}
+  .af-avatar--agent::before,.af-avatar--agent::after{display:none}
+  .af-avatar--agent.af-avatar--22{width:22px;height:22px}.af-avatar--agent.af-avatar--28{width:28px;height:28px}.af-avatar--agent.af-avatar--44{width:44px;height:44px}
+}
+/* stacked group: 2px ground ring between neighbours; set --af-avatar-ground to the ground the group sits on (raised by default) */
+.af-avatars{--af-avatar-ground:var(--af-raised);display:inline-flex;align-items:center;flex:none}
+.af-avatars>.af-avatar{margin-left:-5px;box-shadow:0 0 0 2px var(--af-avatar-ground)}
+.af-avatars>.af-avatar--22{margin-left:-3px}
+.af-avatars>.af-avatar--44{margin-left:-8px}
+.af-avatars>.af-avatar--agent{margin-left:-7px;box-shadow:none}
+.af-avatars>.af-avatar--agent.af-avatar--22{margin-left:-5px}
+.af-avatars>.af-avatar--agent.af-avatar--44{margin-left:-10px}
+.af-avatars>.af-avatar:first-child{margin-left:0}
+.af-avatars>.af-avatar--agent:first-child{margin-left:-2px}
+.af-avatars__more{margin-left:8px;font-family:var(--af-font-mono);font-size:11px;color:var(--af-fg-subtle);white-space:nowrap}
+.af-who{display:inline-flex;align-items:center;gap:8px;min-width:0}
+.af-who__name{font-weight:500;font-size:13.5px;color:var(--af-fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.af-who__sub{font-size:12px;color:var(--af-fg-subtle);white-space:nowrap}
 @media (max-width:860px){
   .af-nav__tabs{flex:0 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none}
   .af-search{flex:none;width:auto;min-width:0}.af-search>span{display:none}
@@ -287,4 +347,11 @@ a.af-seg__btn{display:inline-flex;align-items:center;text-decoration:none}
   .af-table tbody tr:is(.is-selected,[aria-selected="true"]) td:first-child{border-left:3px solid Highlight}
   .af-seg__btn[aria-pressed="true"],.af-seg__btn[aria-current="page"]{background:Highlight;color:HighlightText}
   .af-nav__tab:is([aria-current="page"],.is-active)::after{background:CanvasText}
+  .af-chip[aria-pressed="true"]{background:Highlight;color:HighlightText;border-color:Highlight}
+  /* the hexagon keeps its shape: edge in CanvasText, fill in Canvas (clip-path is geometry, so it survives) */
+  .af-avatar--agent{background:Canvas}
+  .af-avatar--agent::before{background:CanvasText}
+  .af-avatar--agent::after{background:Canvas}
+  .af-avatars>.af-avatar{box-shadow:0 0 0 2px Canvas}
+  .af-input.is-invalid{outline:2px solid CanvasText;outline-offset:-2px}
 }

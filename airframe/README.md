@@ -5,13 +5,14 @@ The design system for every tool in the suite, and its single source of truth. D
 | Path | What it is |
 | --- | --- |
 | `tokens.json` | Every color (Night and Day), font, type style, space, radius, layout and icon value, each with a usage note. Change values here and nowhere else. |
-| `styles/` | The component CSS (`base.css` atoms, `core.css` console parts, `viz.css` fleet board, lanes, traces, icons). Tokens only: `var(--af-<name>)`, never a color literal. |
+| `styles/` | The component CSS (`base.css` atoms, `core.css` console parts, `agents.css` the approval decisions, question, composer, diff and object chip, `patterns.css` page header, empty state, toast, dialog and drawer, `viz.css` fleet board, lanes, traces, icons). Tokens only: `var(--af-<name>)`, never a color literal. |
+| `js/airframe.js` | The one optional script: an ES module with no dependencies and no build step. Markup helpers that match the contracts (`status`, `icon`, `meta`, `btn`, `avatar`, `obj`, `tag`) and three behaviours (`toast`, `confirm`, `drawer`), with alert inhibition. Published as `theme/airframe.js`. |
 | `components/<Name>/` | One folder per component: `README.md` (what you provide, markup, when to use, do and don't) and `preview.html` (rendered in the gallery and on the claude.ai Design System page). |
 | `icons/` | 55 icons on a 20 px grid, one file each, the `airframe-icons.svg` sprite and `icons.json`; `marks.json` holds the six product marks. |
 | `fonts/` | The three families as small static files, for generating assets whose text must be outlines (banners). Sites load the families from Google Fonts. |
 | `guide/` | The brand book: [principles, voice, layout and accessibility](guide/brand.md), [Status](guide/Status.md), [Data](guide/Data.md), [Products](guide/Products.md). |
 
-`python3 scripts/airframe.py build` turns this folder into `theme/airframe.css`, `theme/airframe-components.css`, `theme/airframe-icons.svg` and `theme/airframe-tokens.json`, plus three exports for other toolchains: `theme/airframe-tailwind.css` (a Tailwind CSS v4 `@theme` over the tokens) and `theme/airframe.tokens.json` / `theme/airframe-day.tokens.json` (the W3C Design Tokens format, one file per theme); `check` (in CI) fails when they are stale, when a source has a color literal, or when a `var(--af-*)` is not a token. Every change to `theme/` needs a `theme/CHANGELOG.md` entry, and merging it releases `theme-vN` to the tool repos.
+`python3 scripts/airframe.py build` turns this folder into `theme/airframe.css`, `theme/airframe-components.css`, `theme/airframe-icons.svg`, `theme/airframe.js` and `theme/airframe-tokens.json`, plus three exports for other toolchains: `theme/airframe-tailwind.css` (a Tailwind CSS v4 `@theme` over the tokens) and `theme/airframe.tokens.json` / `theme/airframe-day.tokens.json` (the W3C Design Tokens format, one file per theme); `check` (in CI) fails when they are stale, when a source has a color literal, or when a `var(--af-*)` is not a token. Every change to `theme/` needs a `theme/CHANGELOG.md` entry, and merging it releases `theme-vN` to the tool repos.
 
 `python3 scripts/banners.py` turns the tokens, the marks and the fonts into each product's brand surfaces in [`brand/`](../brand/README.md): README banner, social preview, favicon and header mark.
 

@@ -1,0 +1,94 @@
+<!-- @dsCard group="Patterns" height=760 subtitle="A right sheet (480 px) and a bottom drawer over a scrim; toast above drawer above scrim; Escape, focus return and an inert page with airframe.js" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Drawer</title>
+<script type="module">
+import { drawer, toast } from "./airframe.js";
+document.getElementById("open-right").addEventListener("click", () => drawer.open("#live-right"));
+document.getElementById("open-bottom").addEventListener("click", () => drawer.open("#live-bottom", { scrim: false }));
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-close]"); if (b) drawer.close(b.closest(".af-drawer")); });
+document.getElementById("live-toast").addEventListener("click", () => toast("Snapshot of HGR-3MX9 saved.", { critical: true, action: { label: "Open" } }));
+</script>
+</head><body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
+  <section class="af-stack">
+    <span class="af-lbl">Right sheet<span class="af-lbl__sub">480 px, the detail of one object; the page behind is inert</span></span>
+    <div style="position:relative;height:420px;overflow:hidden;border-radius:var(--af-radius-card);background:var(--af-canvas);box-shadow:inset 0 0 0 1px var(--af-line);transform:translateZ(0)">
+      <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+        <header class="af-page-head af-page-head--s"><div class="af-page-head__text"><h2 class="af-page-head__title">Approvals</h2></div></header>
+        <div class="af-panel" style="padding:6px"><ul class="af-list">
+          <li class="af-list__row is-attention"><span class="af-list__main"><span class="af-list__id">TWR-APR-0391</span><span class="af-list__sub">git push origin main</span></span><span class="af-status af-status--approval"><i class="af-status__mark"></i>Needs approval</span><span class="af-list__time">00:41:07</span></li>
+          <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">TWR-APR-0394</span><span class="af-list__sub">deploy api@2.14.0 to prod</span></span><span class="af-status af-status--queued"><i class="af-status__mark"></i>Waiting on 2 others</span><span class="af-list__time">02:58:00</span></li>
+          <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">TWR-APR-0390</span><span class="af-list__sub">write secrets/prod.env</span></span><span class="af-status af-status--denied"><i class="af-status__mark"></i>Denied</span><span class="af-list__time">14:07:40</span></li>
+        </ul></div>
+      </div>
+      <div class="af-scrim is-open"></div>
+      <aside class="af-drawer af-drawer--right is-open" role="dialog" aria-modal="true" aria-labelledby="dr1" style="position:absolute">
+        <header class="af-drawer__head">
+          <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i></span>
+          <h2 class="af-drawer__title" id="dr1"><span class="af-id">TWR-APR-0391</span> git push origin main</h2>
+          <button type="button" class="af-btn af-btn--ghost af-btn--sm af-btn--icon" aria-label="Close"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
+        </header>
+        <div class="af-drawer__body af-stack" style="gap:16px">
+          <dl class="af-kv">
+            <dt>Requested by</dt><dd><span class="af-id">HGR-3MX9</span> <span class="af-muted">codex, for Sean, 41 min ago</span></dd>
+            <dt>Policy</dt><dd><span class="af-mono">require-approval-main-push</span></dd>
+            <dt>Checks</dt><dd><ul class="af-checks"><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>tests 212 of 212</li><li><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>lint clean</li></ul></dd>
+            <dt>Expires</dt><dd>in <span class="af-mono">54 min</span>, then the push is dropped</dd>
+          </dl>
+          <span class="af-receipt"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Your decision is filed as receipt <b>TWR-RCPT-88A1</b></span>
+        </div>
+        <footer class="af-drawer__foot">
+          <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg>View diff</button>
+          <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny</button>
+          <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve push</button>
+        </footer>
+      </aside>
+    </div>
+  </section>
+
+  <section class="af-stack">
+    <span class="af-lbl">Bottom drawer<span class="af-lbl__sub">a terminal or log under the page; a toast lifts above it</span></span>
+    <div style="position:relative;height:300px;overflow:hidden;border-radius:var(--af-radius-card);background:var(--af-canvas);box-shadow:inset 0 0 0 1px var(--af-line);transform:translateZ(0);--af-drawer-h:60%;--af-drawer-inset:60%">
+      <div style="padding:16px 20px"><header class="af-page-head af-page-head--s"><div class="af-page-head__text"><h2 class="af-page-head__title"><span class="af-id">HGR-3MX9</span></h2><p class="af-page-head__lede">Turn 7 of fix-flaky-auth.</p></div></header></div>
+      <aside class="af-drawer af-drawer--bottom is-open" role="region" aria-labelledby="dr2" style="position:absolute">
+        <span class="af-drawer__grip" aria-hidden="true"></span>
+        <header class="af-drawer__head">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13"/><path d="M6 8l2.5 2L6 12M10.5 12.5H14"/></svg>Terminal<span class="af-lbl__sub">HGR-3MX9</span></span>
+          <h2 class="af-drawer__title" id="dr2" style="font-size:13px;color:var(--af-fg-subtle)">Agent has control</h2>
+          <button type="button" class="af-btn af-btn--secondary af-btn--sm">Take over</button>
+          <button type="button" class="af-btn af-btn--ghost af-btn--sm af-btn--icon" aria-label="Close"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
+        </header>
+        <div class="af-drawer__body">
+          <div class="af-term" style="border-radius:0;box-shadow:none;height:100%"><pre><span class="af-term__p">$</span> pytest tests/test_refresh.py -q
+<span class="af-term__ok">✓</span> 38 passed <span class="af-term__dim">in 4.1 s</span>
+<span class="af-term__err">✗</span> test_refresh_token_expiry <span class="af-term__dim">assert exp &gt; nbf</span>
+<span class="af-term__p">$</span> <span class="af-term__cursor"></span></pre></div>
+        </div>
+      </aside>
+      <div class="af-toasts" style="position:absolute"><div class="af-toast"><span class="af-toast__msg">Snapshot of <b>HGR-3MX9</b> saved.</span><button type="button" class="af-btn af-btn--ghost af-btn--sm af-toast__act">Open</button></div></div>
+    </div>
+  </section>
+
+  <section class="af-stack">
+    <span class="af-lbl">Live<span class="af-lbl__sub">with airframe.js: drawer.open(el), drawer.close(el); Escape and the scrim close it</span></span>
+    <div class="af-card" style="gap:12px">
+      <div class="af-row" style="flex-wrap:wrap">
+        <button type="button" class="af-btn af-btn--secondary af-btn--sm" id="open-right">Open the right sheet</button>
+        <button type="button" class="af-btn af-btn--secondary af-btn--sm" id="open-bottom">Open the bottom drawer</button>
+        <button type="button" class="af-btn af-btn--ghost af-btn--sm" id="live-toast">Raise a toast</button>
+      </div>
+      <p class="af-card__desc">Focus moves into the drawer and returns to the opener on close; everything else becomes inert. Open the bottom drawer, then raise the toast: it sits above the drawer.</p>
+    </div>
+  </section>
+
+  <div class="af-drawer af-drawer--right" id="live-right" aria-labelledby="live-right-title">
+    <header class="af-drawer__head"><h2 class="af-drawer__title" id="live-right-title"><span class="af-id">TWR-APR-0391</span> git push origin main</h2><button type="button" class="af-btn af-btn--ghost af-btn--sm af-btn--icon" aria-label="Close" data-close><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button></header>
+    <div class="af-drawer__body"><dl class="af-kv"><dt>Requested by</dt><dd><span class="af-id">HGR-3MX9</span></dd><dt>Policy</dt><dd><span class="af-mono">require-approval-main-push</span></dd></dl></div>
+    <footer class="af-drawer__foot"><button type="button" class="af-btn af-btn--ghost af-btn--sm" data-close>Close</button><button type="button" class="af-btn af-btn--primary af-btn--sm" data-close>Approve push</button></footer>
+  </div>
+  <div class="af-drawer af-drawer--bottom" id="live-bottom" aria-labelledby="live-bottom-title">
+    <header class="af-drawer__head"><span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13"/><path d="M6 8l2.5 2L6 12M10.5 12.5H14"/></svg>Terminal<span class="af-lbl__sub">HGR-3MX9</span></span><h2 class="af-drawer__title" id="live-bottom-title" style="font-size:13px;color:var(--af-fg-subtle)">Agent has control</h2><button type="button" class="af-btn af-btn--ghost af-btn--sm af-btn--icon" aria-label="Close" data-close><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button></header>
+    <div class="af-drawer__body"><div class="af-term" style="border-radius:0;box-shadow:none;height:100%"><pre><span class="af-term__p">$</span> pytest -q
+<span class="af-term__ok">✓</span> 41 passed <span class="af-term__dim">in 4.4 s</span></pre></div></div>
+  </div>
+</main>
+</body></html>
