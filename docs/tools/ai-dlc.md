@@ -1,16 +1,20 @@
 <style>:root, [data-md-color-scheme] { --af-product: var(--af-product-aidlc); }</style>
 
-<span class="af-eyebrow">Define plane</span>
+<span class="af-eyebrow">Supports the Define plane</span>
 
 # ai-dlc
 
-Authors the team's workflow plugin, provisions developer machines and gates local work on CI.
+Authors the optional workflow plugin, provisions machines, gates local work on CI.
+
+The [team harness repo](../team-harness.md) defines the harness; ai-dlc contributes one optional component to it, its workflow plugin, and sets up engineers' machines ([ADR 0001](https://github.com/Sean-Koval/ai-dlc/blob/main/docs/decisions/0001-refocus-ai-dlc.md)).
 
 | | |
 | --- | --- |
-| Owns | The `ai-dlc-workflow` Claude Code plugin with its content digest, machine enrollment and bootstrap, the CI-gated work lifecycle, team skills. |
-| Does not own | Running agents (hangar), evaluation (moved to flightdeck) or tracker intake (hangar's doors). Linear is not supported. |
+| Owns | The `ai-dlc-workflow` Claude Code plugin with its content digest and its Codex form, publishing it into a team harness repo, machine enrollment and bootstrap, the CI-gated work lifecycle, team skills. |
+| Does not own | The harness itself (the team harness repo), running agents (hangar), evaluation (moved to flightdeck) or tracker intake (hangar's doors). Linear is not supported. |
 | Entry points | The `ai-dlc` CLI, a local MCP server, the plugin. |
-| Used by | Each engineer on their own machine, and CI. |
+| Used by | Each engineer on their own machine, CI, and the team harness repo, which pins the plugin. |
+| Status | **Shipped:** the workflow plugin and its Codex form ([#191](https://github.com/Sean-Koval/ai-dlc/issues/191), [#193](https://github.com/Sean-Koval/ai-dlc/issues/193)), hooks that work without the CLI ([#192](https://github.com/Sean-Koval/ai-dlc/issues/192)), the ADR `checks:` convention ([#207](https://github.com/Sean-Koval/ai-dlc/issues/207)), `ai-dlc eval` moved to flightdeck ([#195](https://github.com/Sean-Koval/ai-dlc/issues/195)). **In progress:** the refocus epic ([#189](https://github.com/Sean-Koval/ai-dlc/issues/189)) and its docs sweep ([#208](https://github.com/Sean-Koval/ai-dlc/issues/208)). Features outside ADR 0001's list are frozen. |
+| Docs site | Not yet published: GitHub Pages is off ([ai-dlc#230](https://github.com/Sean-Koval/ai-dlc/issues/230)). |
 
-[Docs site](https://sean-koval.github.io/ai-dlc/){ .md-button .md-button--primary } [Repository](https://github.com/Sean-Koval/ai-dlc){ .md-button }
+[Repository](https://github.com/Sean-Koval/ai-dlc){ .md-button .md-button--primary }
