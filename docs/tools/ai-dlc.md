@@ -15,6 +15,6 @@ The [team harness repo](../team-harness.md) defines the harness; ai-dlc contribu
 | Entry points | The `ai-dlc` CLI, a local MCP server, the plugin. |
 | Used by | Each engineer on their own machine, CI, and the team harness repo, which pins the plugin. |
 | Status | **Shipped:** the workflow plugin and its Codex form ([#191](https://github.com/Sean-Koval/ai-dlc/issues/191), [#193](https://github.com/Sean-Koval/ai-dlc/issues/193)), hooks that work without the CLI ([#192](https://github.com/Sean-Koval/ai-dlc/issues/192)), the ADR `checks:` convention ([#207](https://github.com/Sean-Koval/ai-dlc/issues/207)), `ai-dlc eval` moved to flightdeck ([#195](https://github.com/Sean-Koval/ai-dlc/issues/195)). **In progress:** the refocus epic ([#189](https://github.com/Sean-Koval/ai-dlc/issues/189)) and its docs sweep ([#208](https://github.com/Sean-Koval/ai-dlc/issues/208)). Features outside ADR 0001's list are frozen. |
-| Docs site | Not yet published: GitHub Pages is off ([ai-dlc#230](https://github.com/Sean-Koval/ai-dlc/issues/230)). |
+| Docs site | Live: [sean-koval.github.io/ai-dlc](https://sean-koval.github.io/ai-dlc/) |
 
-[Repository](https://github.com/Sean-Koval/ai-dlc){ .md-button .md-button--primary }
+[Docs site](https://sean-koval.github.io/ai-dlc/){ .md-button .md-button--primary } [Repository](https://github.com/Sean-Koval/ai-dlc){ .md-button }

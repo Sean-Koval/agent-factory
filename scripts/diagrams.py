@@ -235,11 +235,11 @@ def containers() -> str:
                                                     "Pools off 01:00–10:00 ET · optional Kata heavy tier for Docker"],
             eyebrow="AGENT SANDBOX ADD-ON", product="hangar", name_cls="name-s"),
         box(346, 670, 168, 108, "Checkpoints", ["Session state that", "outlives the disk"], eyebrow="GCS", name_cls="name-s"),
-        box(530, 670, 168, 108, "Run outbox", ["hangar.run/v1,", "written once"], eyebrow="GCS", name_cls="name-s"),
+        box(530, 670, 168, 108, "Run outbox", ["hangar.run/v1,", "written once"], eyebrow="GCS · OFF IN DEPLOY", name_cls="name-s"),
         box(714, 670, 160, 108, "Data plane", ["Parquet tables,", "one folder a day"], eyebrow="GCS", name_cls="name-s"),
         box(346, 806, 168, 116, "Images", ["Environment images", "and harness packs"], eyebrow="ARTIFACT REGISTRY", name_cls="name-s"),
         box(530, 806, 344, 116, "Compactor", ["Flattens new runs into Parquet each", "night, while the sandbox pools are off"],
-            eyebrow="CLOUD RUN JOB · NIGHTLY", product="flightdeck", name_cls="name-s"),
+            eyebrow="CLOUD RUN JOB · NOT DEPLOYED", product="flightdeck", name_cls="name-s"),
         # externals
         box(940, 150, 230, 104, "Jira and Slack", ["Doors in; questions and", "approvals out"], **E),
         box(940, 340, 230, 104, "GitHub", ["Team repos, PRs, the App,", "the team harness repo"], **E),
@@ -254,9 +254,10 @@ def containers() -> str:
         edge("M472 444V498"), text(480, 476, "creates"),
         edge("M754 500V446"), text(762, 478, "git, egress"),
         # to storage
-        edge("M362 420H354V652H614V668"),
-        edge("M354 652H430V668"),
-        edge("M614 778V804"), edge("M794 806V780"),
+        # the outbox and the compactor are on main but off in the GKE deploy until hangar#273
+        edge("M362 420H354V652H430V668"),
+        edge("M430 652H614V668", plan=True),
+        edge("M614 778V804", plan=True), edge("M794 806V780", plan=True),
         # to externals
         edge("M858 380H938"), text(866, 372, "push"),
         edge("M858 420H916V522H938"),
@@ -269,7 +270,7 @@ def containers() -> str:
 
 
 # ---------------------------------------------------------------------------------------------
-# 4. A ticket's journey: the seven steps on docs/architecture/how-it-fits.md, wide and stacked
+# 4. A ticket's journey: the seven steps on docs/how-it-fits.md, wide and stacked
 
 JOURNEY_STYLE = """
 <style>
