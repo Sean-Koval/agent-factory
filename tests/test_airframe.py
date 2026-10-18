@@ -257,6 +257,36 @@ class RegistryTests(unittest.TestCase):
         self.assertLess(skill.count("\n"), 500, "SKILL.md stays under 500 lines (Agent Skills guidance)")
 
 
+class DocsSiteTests(unittest.TestCase):
+    """The shared docs look: the suite strip partial and the CSS that styles it are published together."""
+
+    THEME = af.ROOT / "theme"
+
+    def test_suite_strip_names_the_family_once_and_links_only_public_sites(self):
+        strip = (self.THEME / "airframe-suite.html").read_text()
+        for product in ("hangar", "flightdeck", "tower", "ai-dlc", "airframe"):
+            self.assertEqual(strip.count(f'product == "{product}"'), 1, product)
+        self.assertEqual(strip.count('aria-current="true"'), 6)  # the home and five items can each be current
+        public = {"https://sean-koval.github.io/agent-factory/", "https://sean-koval.github.io/hangar/",
+                  "https://sean-koval.github.io/flightdeck/", "https://sean-koval.github.io/ai-dlc/",
+                  "https://sean-koval.github.io/agent-factory/airframe/"}
+        self.assertEqual(set(re.findall(r'href="(https://[^"]+)"', strip)), public)
+        self.assertNotIn("github.io/tower", strip)  # private for now: a plain word, not a dead link
+        self.assertIn('aria-label="Agent factory suite"', strip)
+
+    def test_strip_is_styled_vendored_and_released_together(self):
+        docs_css = (self.THEME / "airframe-docs.css").read_text()
+        for cls in (".af-suite", ".af-suite__home", ".af-suite__list", "[aria-current]"):
+            self.assertIn(cls, docs_css)
+        sync = (af.ROOT / "airframe" / "sync-airframe.sh").read_text()
+        self.assertIn("airframe-suite.html     overrides/partials/airframe-suite.html", sync)
+        self.assertIn('{% include "partials/airframe-suite.html" %}', (af.ROOT / "overrides" / "main.html").read_text())
+        self.assertIn("airframe-suite.html", (self.THEME / "CHANGELOG.md").read_text())
+        registry = af.registry()
+        docs_item = next(it for it in registry["items"] if it["name"] == "airframe-docs")
+        self.assertEqual({f["path"] for f in docs_item["files"]}, {"theme/airframe-docs.css", "theme/airframe-suite.html"})
+
+
 class SourceTests(unittest.TestCase):
     def test_components_document_themselves(self):
         for comp in sorted(p for p in (af.SRC / "components").iterdir() if p.is_dir() and p.name != "Cover"):

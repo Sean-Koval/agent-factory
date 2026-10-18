@@ -29,7 +29,8 @@ Everything a tool loads is in `theme/`:
 | --- | --- | --- |
 | `airframe.css` | Every token as `--af-<name>`, Night and Day. Generated. | Everything |
 | `airframe-components.css` | The `af-` classes: buttons, statuses, cards, tables, approval and question cards, composer, diff, avatars, object chips, page header, empty state, toast, dialog, drawer, fleet board, lanes, traces, plus the fonts. Generated. | Consoles and web apps |
-| `airframe-docs.css` | Maps the docs theme (Zensical / Material) onto the tokens. Hand-written. | Docs sites |
+| `airframe-docs.css` | Maps the docs theme (Zensical / Material) onto the tokens: header, tabs, type, tables, admonitions, code, figures, the home hero and the suite strip. Hand-written. | Docs sites |
+| `airframe-suite.html` | The suite strip above the docs header: the family's docs sites, with the product marker under the current one. A template partial, rendered by the docs theme. Hand-written. | Docs sites |
 | `airframe-icons.svg` | The icon sprite: `<svg class="af-ic"><use href="airframe-icons.svg#af-agent"/></svg>`. Generated. | Consoles and web apps |
 | `airframe.js` | Optional. One ES module, no dependencies: markup helpers that match the contracts (`status`, `btn`, `meta`, `avatar`, `obj`…) and the toast, confirm and drawer behaviours with alert inhibition. Generated (copied from `airframe/js/`). | Consoles and web apps |
 | `airframe-tokens.json` | Tokens resolved per theme, for scripts that draw (diagrams, decks, charts). Generated. | Build scripts |
@@ -50,6 +51,21 @@ A page is themed by `data-theme="dark"` or `data-theme="light"` on `<html>` (or 
   <div class="af-card__foot"><span>Held <b>41 min</b></span><button class="af-btn af-btn--primary af-btn--sm">Review</button></div>
 </article>
 ```
+
+## The docs sites
+
+Every product's docs site is Material for MkDocs or Zensical with three vendored files and a few lines of config, so the five sites read as one family: the same header with the product's mark and hue, the same home hero, page anatomy, tables, admonitions, code and figures, and the suite strip that links each site to the others and back here.
+
+1. Vendor `airframe.css`, `airframe-docs.css` and `airframe-suite.html` with `scripts/sync-airframe.sh theme-vN` (the template lists the destinations: `docs/stylesheets/` and `overrides/partials/`).
+2. In `mkdocs.yml`: `theme.logo` and `theme.favicon` are the product's `mark.svg` and `favicon.svg` from [`brand/`](https://github.com/Sean-Koval/agent-factory/tree/main/brand); `extra_css` loads `airframe.css`, `airframe-docs.css`, then the site's own `product.css` (one line: `:root, [data-md-color-scheme] { --af-product: var(--af-product-hangar); }`); `theme.custom_dir: overrides`; and `extra.airframe.product: hangar` (or `flightdeck`, `tower`, `ai-dlc`, `agent-factory`) names the current item in the strip.
+3. `overrides/main.html`, the one template a site owns, is two lines:
+
+    ```jinja
+    {% extends "base.html" %}
+    {% block announce %}{% include "partials/airframe-suite.html" %}{% endblock %}
+    ```
+
+The home page is an `af-hero`: an `af-eyebrow` (`Agent factory · Run plane`), one display headline, one `af-lede`, two `md-button`s (one primary) and, with `af-hero--visual`, a `figure.af-hero__visual` holding a real capture of the product. Every other page is a title, one sentence (the first paragraph is styled as the lede), sections, and a "See also" list.
 
 ## How the tools stay in sync
 

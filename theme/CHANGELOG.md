@@ -5,6 +5,34 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v8 · 2026-10-18
+
+The docs look, shared: every product's docs site reads as one family and links to the others. No token values
+change; no `af-` component class changes.
+
+- New published file `airframe-suite.html`: the suite strip, one quiet row above the docs header that names the
+  suite and links each product's public docs site (agent factory, hangar, flightdeck, Tower once public, ai-dlc,
+  Airframe), with the 2px product marker under the current one. It is a Material / Zensical partial, rendered
+  server side, so it works without JavaScript on Material for MkDocs and on Zensical. A site adds it with config
+  only: `theme.custom_dir: overrides`, a two-line `overrides/main.html` that extends `base.html` and includes
+  `partials/airframe-suite.html` in the `announce` block, and `extra.airframe.product: <name>` for the current
+  item. Tool repos vendor it with `sync-airframe.sh` (`airframe-suite.html overrides/partials/airframe-suite.html`).
+  The list lives in the partial, not in each site's config, so the family stays identical everywhere.
+- `airframe-docs.css`:
+  - `.md-banner` and `.af-suite*`: the strip's layout and type (mono capital plane, product name in the display
+    face, `fg-muted` at rest, `fg` and the `--af-product` marker when current, `fg-subtle` for an unlinked item).
+    Below 600px the plane words drop and the row scrolls sideways.
+  - Page anatomy: the first paragraph after the page title is the lede on every page (`h1 + p`, `fg-muted`, `.9rem`,
+    62ch), so a page written as "title, one sentence, sections" reads the same on every site without markup.
+  - `af-hero--visual`: a variant of the home hero with a slot for a real product capture, `figure.af-hero__visual`
+    (image or video, `radius-card`, a 1px `line` edge, a mono caption). Words left, the product on the right from
+    960px; the visual follows the actions below that.
+  - The hero's dot field no longer sits behind the words on phones: below 960px it is a small field at the top
+    right, as on the README banners; the headline drops to 2em. On wide screens it starts at 64% so it stays off
+    the lede.
+  - Tables take the full column width (`display: table; width: 100%`) instead of shrinking to their content and
+    wrapping every cell; wide tables still scroll inside `.md-typeset__scrollwrap`.
+
 ## theme-v7 · 2026-10-18
 
 Docs fix: the secondary docs button now matches Airframe's Button. No token values change.

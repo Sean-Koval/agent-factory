@@ -39,6 +39,18 @@
       ]
     },
     {
+      "name": "airframe-docs",
+      "type": "registry:item",
+      "title": "Airframe for a docs site",
+      "description": "The docs-site look for Material for MkDocs or Zensical: airframe-docs.css maps the theme onto the tokens (header with the product mark and hue, home hero, page anatomy, tables, admonitions, code, figures), and airframe-suite.html is the suite strip above the header that links every product's docs site. Needs airframe.css; wire with theme.custom_dir, extra.airframe.product and a two-line overrides/main.html (see the Airframe docs).",
+      "categories": ["design-system", "docs"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
+      "files": [
+        {"path": "theme/airframe-docs.css", "type": "registry:file", "target": "~/docs/stylesheets/airframe-docs.css"},
+        {"path": "theme/airframe-suite.html", "type": "registry:file", "target": "~/overrides/partials/airframe-suite.html"}
+      ]
+    },
+    {
       "name": "skill",
       "type": "registry:item",
       "title": "Airframe skill for coding agents",
