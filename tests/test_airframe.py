@@ -85,6 +85,48 @@ class ContrastTests(unittest.TestCase):
             self.assertNotIn(v["brand"].upper(), statuses, theme)
 
 
+SYSTEM_COLORS = {"Canvas", "CanvasText", "LinkText", "VisitedText", "ActiveText", "ButtonFace", "ButtonText",
+                 "ButtonBorder", "Field", "FieldText", "Highlight", "HighlightText", "SelectedItem", "SelectedItemText",
+                 "Mark", "MarkText", "GrayText", "AccentColor", "AccentColorText"}
+
+
+def forced_block(css: str) -> str:
+    """The body of the stylesheet's @media (forced-colors: active) block, or '' when it has none."""
+    start = css.find("@media (forced-colors: active){")
+    if start < 0:
+        return ""
+    i, depth = css.index("{", start), 0
+    for j in range(i, len(css)):
+        depth += {"{": 1, "}": -1}.get(css[j], 0)
+        if depth == 0:
+            return css[i + 1 : j]
+    raise AssertionError("unbalanced forced-colors block")
+
+
+class ForcedColorsTests(unittest.TestCase):
+    """Windows Contrast Themes replace colors and drop box-shadows; statuses must keep their shape and edges there."""
+
+    def test_every_stylesheet_has_a_forced_colors_block_of_system_colors_only(self):
+        for name in af.STYLES:
+            body = forced_block((af.SRC / "styles" / name).read_text())
+            self.assertTrue(body, f"{name} has no @media (forced-colors: active) block")
+            self.assertNotIn("var(", body, f"{name}: tokens are replaced in forced colors; use system colors")
+            self.assertNotRegex(body, r"#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(", name)
+            for value in re.findall(r"(?:background|color|outline|border(?:-[a-z]+)?):([^;}]*)", body):
+                words = {w for w in re.findall(r"[A-Za-z]+", value)} - {"solid", "dashed", "none", "transparent", "px"}
+                self.assertLessEqual(words, SYSTEM_COLORS | {"left", "style", "width"}, f"{name}: {value}")
+
+    def test_status_marks_and_lit_edges_survive(self):
+        base = forced_block((af.SRC / "styles" / "base.css").read_text())
+        viz = forced_block((af.SRC / "styles" / "viz.css").read_text())
+        self.assertIn(".af-status__mark{background:CanvasText}", base)
+        self.assertRegex(base, r"\.af-card--lit\{outline")
+        for cls in (".af-stand__mark", ".af-lane-mark--fail", ".af-lane-mark--deny"):
+            self.assertIn(cls, viz)
+        for name in af.STYLES:
+            self.assertNotIn("forced-color-adjust", (af.SRC / "styles" / name).read_text(), name)
+
+
 class SourceTests(unittest.TestCase):
     def test_components_document_themselves(self):
         for comp in sorted(p for p in (af.SRC / "components").iterdir() if p.is_dir() and p.name != "Cover"):

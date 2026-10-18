@@ -327,3 +327,28 @@ button.af-lanes__label:focus-visible{outline:2px solid var(--af-focus);outline-o
 
 @media (max-width:1100px){.af-statecols{grid-template-columns:repeat(2,minmax(0,1fr))}.af-statecol--wide{grid-column:span 2}}
 @media (max-width:640px){.af-statecols{grid-template-columns:minmax(0,1fr)}.af-statecol--wide{grid-column:auto}.af-statecol--wide .af-statecol__list{grid-template-columns:minmax(0,1fr)}}
+
+/* Forced colors: marks, pips and lane marks in CanvasText; tiles get an outline, attention tiles a 2px one; hatched
+   waits become dashed outlines because gradients and box-shadows are dropped (see base.css) */
+@media (forced-colors: active){
+  .af-stand__mark,.af-lane-mark--fail,.af-lane-mark--deny,.af-span--failed::after{background:CanvasText}
+  .af-stand--queued .af-stand__mark{background:transparent;border-color:CanvasText}
+  .af-stand__pip,.af-track__seg i{background:GrayText}
+  .af-stand__pip--done,.af-stand__pip--now,.af-track__seg--done i,.af-track__seg--now i{background:CanvasText}
+  .af-stand,.af-bay,.af-mini{outline:1px solid CanvasText;outline-offset:-1px}
+  .af-stand--approval,.af-stand--failed,.af-stand--denied,.af-bay--approval,.af-bay--failed,.af-bay--denied,
+  .af-mini--approval,.af-mini--failed,.af-mini--denied{outline-width:2px;outline-offset:-2px}
+  .af-stand--off{outline-style:dashed}
+  .af-lane-seg--plan,.af-lane-seg--edit,.af-lane-seg--test{background:GrayText}
+  .af-lane-seg--pr,.af-lane-mark--merge{outline:1px solid CanvasText;outline-offset:-1px}
+  .af-lane-seg--wait,.af-span--wait{background:none;outline:2px solid CanvasText;outline-offset:-2px}
+  .af-span--failed{outline:2px solid CanvasText;outline-offset:-2px}
+  .af-span--model,.af-span--sandbox{background:GrayText}
+  .af-span--tool{outline:1px solid CanvasText;outline-offset:-1px}
+  .af-span--turn::before{background:CanvasText}
+  .af-bay--new,.af-stand--free{outline:none}
+  .af-stand[aria-pressed="true"],.af-bay.is-selected,.af-mini.is-selected{outline:2px solid Highlight;outline-offset:2px}
+  .af-lanes__row--selected .af-lanes__label{border-left:2px solid Highlight}
+  .af-trace__row[aria-pressed="true"]{outline:2px solid Highlight;outline-offset:-2px}
+  .af-lanes__now,.af-lanes__now::before,.af-lanes__keynow{background:Highlight}
+}

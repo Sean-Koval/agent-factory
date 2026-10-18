@@ -26,22 +26,27 @@ Airframe has six statuses and no others. Every status is color + shape + word, s
 - Never animate a status. No pulse, no blink, no spinner on running.
 - Never use `brand` or a product hue for a status, and never a status color for anything that is not a status. The one exception is `chart-5`, the attention series, which borrows the caution orange to mean "look here".
 - Keep failed and denied apart by shape, not hue: failed is a triangle with a word, denied is a placard.
+- Survive forced colors (Windows Contrast Themes). The browser replaces colors there, so marks paint in `CanvasText`, lit edges and tonal tiles become outlines and selection uses `Highlight`; the shape and the word carry the status. Never set `forced-color-adjust: none` on a status.
 - Light the master lamps from the same rule. MasterCaution shows `lamp-caution` when anything in its scope needs approval and `lamp-warning` when anything failed or was denied; when both apply, warning sits first. With nothing to say it stays dark (`af-master--clear`).
 
-## Grouping: a group shows its most severe child
+## Grouping: a group leads with what needs a person
 
-A pool, environment, job, experiment or page header shows the status of its most severe child, in this order:
+A pool, environment, job, experiment or page header shows the status of the child that most needs attention, and
+lists its children, columns and keyed counts in the same order:
 
-1. **denied**
-2. **failed**
-3. **approval**
+1. **approval**: a person is needed now
+2. **failed**: something broke and someone should look
+3. **denied**: policy stopped it; already decided, kept on record
 4. **running**
 5. **queued**
 6. **off**
 
+A held request leads a denied one because the held one is work and the denied one is a record. (MasterCaution is the
+exception: its two lamps follow the cockpit convention, warning before caution.)
+
 - A pool with 16 running sandboxes and one waiting on approval shows **Needs approval**.
 - A group that is all queued shows **Queued**; a group with any running child shows **Running**. A group is off only when every child is off.
-- Pair the group mark with keyed counts so nothing is hidden: `RUNNING 16  WAITING 1  QUEUED 3`. Write zero counts as `0`; drop a count only when the role cannot occur in that scope.
+- Pair the group mark with keyed counts so nothing is hidden: `WAITING 1  RUNNING 16  QUEUED 3`. Write zero counts as `0`; drop a count only when the role cannot occur in that scope.
 - A lit group mark is a pointer, not a summary. Clicking it takes the person to the child that lit it.
 
 ## Examples by product

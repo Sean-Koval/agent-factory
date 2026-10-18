@@ -47,7 +47,7 @@ The middle density of the fleet: enough room to read each task and act on it wit
 
 ## Do
 
-- Order each group attention first (approval, denied, failed), then running, starting, paused.
+- Order each group attention first (approval, failed, denied), then running, starting, paused (the order in `guide/Status.md`).
 - Keep one action per bay; the rest live in the sandbox's detail.
 - End each group with the dashed "Start in …" bay, so capacity reads as room, not as empty boxes.
 
