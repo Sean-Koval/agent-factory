@@ -160,11 +160,12 @@ class RenderTests(unittest.TestCase):
         return self.text[start: end if end > 0 else None]
 
     def test_counts_match_milestones(self):
-        # P1 milestone: issues 1, 2, 3, 7, 8 -> 2 closed of 5. Backlog: 4 and 6 -> 1 of 2.
+        # P1 milestone: issues 2, 3, 7, 8 (epic 1 excluded) -> 2 closed of 4. Backlog: 4 and 6 -> 1 of 2.
         row = next(line for line in self.text.splitlines() if line.startswith("| [P1"))
-        self.assertIn("2 / 5", row)
-        self.assertIn("2 of 5 closed", self.section("## P1"))
+        self.assertIn("2 / 4", row)
+        self.assertIn("2 of 4 closed", self.section("## P1"))
         self.assertIn("1 of 2 closed", self.section("## Backlog"))
+        self.assertIn("alpha#1]", self.section("## Epics"))  # still listed, just not counted
 
     def test_unsorted_lists_every_unplaced_open_issue(self):
         unsorted = self.section("## Unsorted")
@@ -185,6 +186,20 @@ class RenderTests(unittest.TestCase):
         self.assertIn("Also in private repositories: secret#5", self.text)
         self.assertNotIn("Issue 5", self.text)
         self.assertNotIn("| secret", self.text.splitlines()[4])
+
+    def test_theme_with_only_private_issues_says_so(self):
+        cfg = load(CONFIG.replace('title = "Spikes"\nlabel = "type:spike"',
+                                  'title = "Spikes"\nlabel = "type:spike"\n\n[[phase.theme]]\n'
+                                  'title = "Hidden"\nissues = ["secret#5-6"]'))
+        text, _ = roadmap.render(cfg, self.states, NOW)
+        hidden = text[text.index("### Hidden"):text.index("## Unsorted")]
+        self.assertIn("2 issues in private repositories", hidden)
+        self.assertIn("In private repositories: secret#5, secret#6", hidden)
+        self.assertNotIn("0 of 0 closed", hidden)
+        self.assertNotIn("No issues yet", hidden)
+        core = self.section("### Core")  # a mixed theme keeps its count and its private note
+        self.assertIn("2 of 3 closed", core)
+        self.assertIn("Also in private repositories: secret#5", core)
 
     def test_titles_are_escaped_outside_code(self):
         self.assertIn("Use `a <b>` and a\\_b\\|c", self.text)
