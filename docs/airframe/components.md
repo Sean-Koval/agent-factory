@@ -4,7 +4,7 @@
 
 Each component is a set of `af-` classes in `theme/airframe-components.css`. Its folder in [`airframe/components/`](https://github.com/Sean-Koval/agent-factory/tree/main/airframe/components) holds a README (what you provide, the markup, when to use it, do and don't) and the `preview.html` the gallery renders.
 
-[Open the gallery](../gallery/){ .md-button .md-button--primary }
+[Open the gallery](gallery/){ .md-button .md-button--primary }
 
 --8<-- "airframe-components.md"
 
