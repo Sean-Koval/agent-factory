@@ -74,6 +74,22 @@ FleetView shows every sandbox in a fleet as a stand (tile), grouped by pool, and
 - Running and queued stands stay grey. Needs approval, failed and denied stands take a 1px inset ring and a faint tint in their status color, and their current pip lights in it too. Off stands are a 1px `line` outline with no fill; free slots a dashed `line` outline.
 - A selected stand takes a 1px `brand-text` outline offset 2px, and the inspector line under the board shows its keyed data and actions.
 
+## Diffs
+
+A diff is greyscale, like code. The change is the brightest thing: additions in `fg` with a 2px `fg` bar in the gutter,
+deletions in `fg-muted` with a 2px `line-strong` bar, context in `fg-subtle`, the sign column (`+`, `−`) carrying the meaning
+without hue, line numbers in mono. The stat is two mono numbers, `+42 −17`, in the same tones. No red, no green, no fills:
+a change is work, not a state, and the rule that color appears only when a person is needed holds. The one mark a diff may
+carry is the failed triangle in the header of the hunk a failing test points at, with the test in the words (`test 38 of 41
+points here`). Line comments route to the agent and say so. See the Diff component.
+
+## Objects by reference
+
+A business object from another system (a ticket, a pull request, an account) is a chip: source glyph, mono key, title, state
+word, on a `surface` tile with a hairline. Its title and state are a cache with a timestamp, never the record, so the chip
+shows source, freshness and provenance on hover. A chip the viewer may not open shows the key alone with the word
+`restricted`. The approval diamond is the only color a chip may carry. See the ObjectChip component.
+
 ## Charts
 
 - Draw charts in greyscale: `chart-1` (primary, `fg`-strength), `chart-2`, `chart-3`, `chart-4`, with `chart-6` for grid emphasis.

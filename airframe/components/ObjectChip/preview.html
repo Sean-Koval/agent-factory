@@ -1,0 +1,68 @@
+<!-- @dsCard group="Foundations" height=560 subtitle="A business object by reference: source glyph, mono key, title, state word on a surface tile; link, restricted and approval-mark variants; hover shows source, freshness and provenance" -->
+<!doctype html><html><head><meta charset="utf-8"><title>ObjectChip</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
+  <section class="af-stack">
+    <span class="af-lbl">Objects<span class="af-lbl__sub">a ticket, a pull request, an account, a trade, a repo</span></span>
+    <div class="af-card" style="gap:14px">
+      <div class="af-objs">
+        <a class="af-obj af-obj--link" href="#jira-pay-412"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 6.5h15v10h-15z"/><path d="M7 6.5v-3h6v3"/><path d="M2.5 11h15"/></svg><span class="af-obj__key">PAY-412</span><span class="af-obj__title">Refund double charge on order 88231</span><span class="af-obj__state">In progress</span></a>
+        <a class="af-obj af-obj--link" href="#gh-pr"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="5.5" cy="4.5" r="1.75"/><circle cx="5.5" cy="15.5" r="1.75"/><circle cx="14.5" cy="15.5" r="1.75"/><path d="M5.5 6.25v7.5M14.5 13.75V8c0-1.5-1-2.5-2.5-2.5H8.5M10.5 3.5l-2 2 2 2"/></svg><span class="af-obj__key">acme/api&#35;412</span><span class="af-obj__title">Fix flaky auth refresh</span><span class="af-obj__state">Open</span></a>
+        <a class="af-obj af-obj--link" href="#sf-globex"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="5" rx="6.5" ry="2.5"/><path d="M3.5 5v10c0 1.38 2.91 2.5 6.5 2.5s6.5-1.12 6.5-2.5V5"/><path d="M3.5 10c0 1.38 2.91 2.5 6.5 2.5s6.5-1.12 6.5-2.5"/></svg><span class="af-obj__key">001Qx…88A</span><span class="af-obj__title">Globex Corporation</span><span class="af-obj__state">Account</span></a>
+        <a class="af-obj af-obj--link" href="#repo"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="4.5" r="1.75"/><circle cx="6" cy="15.5" r="1.75"/><circle cx="14" cy="6.5" r="1.75"/><path d="M6 6.25v7.5M14 8.25c0 3.5-3 4.5-7.4 5.2"/></svg><span class="af-obj__key">acme/payments-core</span><span class="af-obj__state">Repo</span></a>
+        <span class="af-obj"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 6.5h15v10h-15z"/><path d="M7 6.5v-3h6v3"/><path d="M2.5 11h15"/></svg><span class="af-obj__key">HGR-JOB-0F21</span><span class="af-obj__title">Ticket PAY-412 handed to hangar</span></span>
+      </div>
+      <p class="af-card__desc">Key in mono, title in the body face, state as a word. The chip never takes a status fill: a ticket's "In progress" is a word, not a running circle.</p>
+    </div>
+  </section>
+
+  <div class="af-grid af-grid--2" style="gap:28px 24px;align-items:start">
+    <section class="af-stack">
+      <span class="af-lbl">Trust line<span class="af-lbl__sub">on hover or focus: source, freshness, provenance</span></span>
+      <div class="af-card" style="gap:14px;padding-bottom:84px">
+        <p class="af-card__desc">The title and state are a cache with a timestamp, never the record. The line says where they came from, when, and which agent or person touched the object last.</p>
+        <div class="af-objs">
+          <a class="af-obj af-obj--link is-open" href="#jira-pay-412"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 6.5h15v10h-15z"/><path d="M7 6.5v-3h6v3"/><path d="M2.5 11h15"/></svg><span class="af-obj__key">PAY-412</span><span class="af-obj__title">Refund double charge on order 88231</span><span class="af-obj__state">In progress</span>
+            <span class="af-obj__trust" role="tooltip"><span class="af-meta">
+              <span class="af-meta__item"><span class="af-meta__key">source</span><span class="af-meta__val">Jira, acme.atlassian.net</span></span>
+              <span class="af-meta__item"><span class="af-meta__key">read</span><span class="af-meta__val">2 min ago</span></span>
+              <span class="af-meta__item"><span class="af-meta__key">by</span><span class="af-meta__val">Breaks, receipt TWR-RCPT-0101</span></span>
+              <span class="af-meta__item"><span class="af-meta__key">edited</span><span class="af-meta__val">Priya, 09:14</span></span>
+            </span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="af-stack">
+      <span class="af-lbl">Restricted, and waiting<span class="af-lbl__sub">the approval mark is the one color a chip carries</span></span>
+      <div class="af-card" style="gap:14px">
+        <div class="af-objs">
+          <span class="af-obj af-obj--restricted" tabindex="0"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8.5"/><path d="M6.75 9V6.25a3.25 3.25 0 0 1 6.5 0V9"/><path d="M10 12.25v2"/></svg><span class="af-obj__key">TR-88231</span><span class="af-obj__state">restricted</span>
+            <span class="af-obj__trust" role="tooltip"><span class="af-meta">
+              <span class="af-meta__item"><span class="af-meta__key">source</span><span class="af-meta__val">trades, custody desk</span></span>
+              <span class="af-meta__item"><span class="af-meta__key">you</span><span class="af-meta__val">may not open it</span></span>
+            </span></span>
+          </span>
+          <span class="af-obj af-obj--restricted"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8.5"/><path d="M6.75 9V6.25a3.25 3.25 0 0 1 6.5 0V9"/><path d="M10 12.25v2"/></svg><span class="af-obj__key">001Qx…77C</span><span class="af-obj__state">restricted</span></span>
+        </div>
+        <div class="af-objs">
+          <a class="af-obj af-obj--link" href="#gh-pr-b"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="5.5" cy="4.5" r="1.75"/><circle cx="5.5" cy="15.5" r="1.75"/><circle cx="14.5" cy="15.5" r="1.75"/><path d="M5.5 6.25v7.5M14.5 13.75V8c0-1.5-1-2.5-2.5-2.5H8.5M10.5 3.5l-2 2 2 2"/></svg><span class="af-obj__key">acme/api&#35;418</span><span class="af-obj__title">Rotate signing keys</span><span class="af-obj__state af-status af-status--approval"><i class="af-status__mark"></i>Needs approval</span></a>
+          <a class="af-obj af-obj--link" href="#jira-pay-415"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 6.5h15v10h-15z"/><path d="M7 6.5v-3h6v3"/><path d="M2.5 11h15"/></svg><span class="af-obj__key">PAY-415</span><span class="af-obj__title">Client note for Globex</span><span class="af-obj__state af-status af-status--approval"><i class="af-status__mark"></i>Needs your approval</span></a>
+        </div>
+        <p class="af-card__desc">Restricted shows the key only, so the viewer sees that the object exists and nothing more. The diamond on a chip means a decision about that object waits, as on any status.</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="af-stack">
+    <span class="af-lbl">In a sentence and in a row<span class="af-lbl__sub">chips sit inline at 26 px</span></span>
+    <div class="af-card" style="gap:12px;max-width:760px">
+      <p style="margin:0;font-size:14px;line-height:1.8;color:var(--af-fg)">Breaks matched 3 of 4 breaks against <a class="af-obj af-obj--link" href="#sf-globex"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="5" rx="6.5" ry="2.5"/><path d="M3.5 5v10c0 1.38 2.91 2.5 6.5 2.5s6.5-1.12 6.5-2.5V5"/><path d="M3.5 10c0 1.38 2.91 2.5 6.5 2.5s6.5-1.12 6.5-2.5"/></svg><span class="af-obj__key">001Qx…88A</span><span class="af-obj__title">Globex Corporation</span></a> and ticketed the fourth as <a class="af-obj af-obj--link" href="#jira-pay-412"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 6.5h15v10h-15z"/><path d="M7 6.5v-3h6v3"/><path d="M2.5 11h15"/></svg><span class="af-obj__key">PAY-412</span></a>. The client note waits for you.</p>
+      <ul class="af-list">
+        <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">TWR-RCPT-0101</span><span class="af-list__sub">read 3 tickets</span></span><span class="af-objs"><a class="af-obj af-obj--link" href="#jira-pay-412"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 6.5h15v10h-15z"/><path d="M7 6.5v-3h6v3"/><path d="M2.5 11h15"/></svg><span class="af-obj__key">PAY-412</span></a></span><span class="af-list__time">09:14:02</span></li>
+        <li class="af-list__row"><span class="af-list__main"><span class="af-list__id">TWR-RCPT-0102</span><span class="af-list__sub">opened a pull request</span></span><span class="af-objs"><a class="af-obj af-obj--link" href="#gh-pr"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="5.5" cy="4.5" r="1.75"/><circle cx="5.5" cy="15.5" r="1.75"/><circle cx="14.5" cy="15.5" r="1.75"/><path d="M5.5 6.25v7.5M14.5 13.75V8c0-1.5-1-2.5-2.5-2.5H8.5M10.5 3.5l-2 2 2 2"/></svg><span class="af-obj__key">acme/api&#35;412</span></a></span><span class="af-list__time">09:31:48</span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+</body></html>

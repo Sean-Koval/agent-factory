@@ -1,0 +1,114 @@
+/* ===== Airframe · patterns — the page-level recipes every console writes twice: page header, empty state, toast, dialog,
+   drawer. CSS and a markup contract; the optional airframe.js carries the behaviour (toast timing and inhibition, confirm,
+   drawer focus and inert). Tokens only. Floating surfaces (toast, trust lines, menus) are the only ones with a shadow. ===== */
+
+/* ---- layers and sizes: toast above drawer above scrim; a dialog uses the browser's top layer, above all three ---- */
+:root{--af-z-scrim:100;--af-z-drawer:110;--af-z-toast:120;--af-drawer-w:480px;--af-drawer-h:40vh;--af-drawer-inset:0px}
+html.af-drawer-open--bottom{--af-drawer-inset:var(--af-drawer-h)}
+
+/* ---- page header: title (two sizes), lede, a summary line (status mark, keyed counts, capacity), an actions slot ---- */
+.af-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--af-space-16) var(--af-space-24);min-width:0}
+.af-page-head--rule{padding-bottom:var(--af-space-16);border-bottom:1px solid var(--af-rule)}
+.af-page-head__text{display:flex;flex-direction:column;gap:var(--af-space-8);min-width:0}
+.af-page-head__text>.af-lbl{margin-bottom:var(--af-space-4)}
+.af-page-head__title{margin:0;font-family:var(--af-font-display);font-stretch:var(--af-display-stretch);font-weight:700;font-size:36px;line-height:1.05;letter-spacing:-.005em;color:var(--af-fg);text-wrap:balance}
+.af-page-head__title .af-id{font-size:.86em;font-weight:500;letter-spacing:0;color:var(--af-fg)}
+.af-page-head--s .af-page-head__title{font-size:24px;line-height:1.1;letter-spacing:0}
+.af-page-head__lede{margin:0;max-width:62ch;font-size:14px;line-height:1.5;color:var(--af-fg-muted);text-wrap:pretty}
+.af-page-head--s .af-page-head__lede{font-size:13.5px}
+.af-page-head__sum{display:flex;flex-wrap:wrap;align-items:center;gap:var(--af-space-8) var(--af-space-20);min-width:0;padding-top:var(--af-space-4)}
+.af-page-head__sum>.af-meta{font-size:11.5px}
+.af-page-head__actions{display:flex;flex:none;align-items:center;justify-content:flex-end;gap:var(--af-space-8);flex-wrap:wrap}
+@media (max-width:760px){
+  .af-page-head{flex-direction:column;align-items:stretch;gap:var(--af-space-12)}
+  .af-page-head__title{font-size:28px}
+  .af-page-head--s .af-page-head__title{font-size:22px}
+  .af-page-head__actions{justify-content:flex-start}
+}
+
+/* ---- empty state: icon, display title, one sentence, one primary action and at most one text link.
+   Kinds: no-data, after-action, error (no illustration, no second action). The clear state ("Nothing is waiting on you.")
+   is the hero of a needs-you queue, so it gets the large title and the grey counts. ---- */
+.af-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--af-space-12);min-height:220px;padding:var(--af-space-40) var(--af-space-24);text-align:center;color:var(--af-fg);min-width:0}
+.af-empty>.af-ic{width:24px;height:24px;color:var(--af-fg-subtle);margin-bottom:var(--af-space-4)}
+.af-empty>.af-status{font-size:13px}
+.af-empty__title{margin:0;max-width:30ch;font-family:var(--af-font-display);font-stretch:var(--af-display-stretch);font-weight:600;font-size:22px;line-height:1.15;letter-spacing:0;color:var(--af-fg);text-wrap:balance}
+.af-empty__text{margin:0;max-width:46ch;font-size:14px;line-height:1.5;color:var(--af-fg-muted);text-wrap:pretty}
+.af-empty__text b{font-weight:500;color:var(--af-fg);white-space:nowrap}
+.af-empty__text .af-mono{font-size:13px;color:var(--af-fg)}
+.af-empty__counts{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--af-space-8) var(--af-space-24);padding-top:var(--af-space-4)}
+.af-empty__act{display:flex;align-items:center;justify-content:center;gap:var(--af-space-16);flex-wrap:wrap;margin-top:var(--af-space-8)}
+.af-empty__act .af-link{font-size:13px}
+.af-empty--clear{min-height:280px;gap:var(--af-space-16)}
+.af-empty--clear .af-empty__title{font-size:28px;line-height:1.1;letter-spacing:-.005em}
+.af-empty[data-kind="error"]>.af-ic{display:none}
+.af-empty[data-kind="error"] .af-empty__title{font-family:var(--af-font-sans);font-stretch:normal;font-size:17px;line-height:1.35}
+.af-empty--compact{flex-direction:row;align-items:center;justify-content:flex-start;gap:var(--af-space-12);min-height:0;padding:var(--af-space-12) var(--af-space-16);text-align:left}
+.af-empty--compact>.af-ic{width:16px;height:16px;margin:0}
+.af-empty--compact .af-empty__title{font-family:var(--af-font-sans);font-stretch:normal;font-weight:600;font-size:13.5px;line-height:1.4;max-width:none}
+.af-empty--compact .af-empty__text{font-size:13px;max-width:none}
+.af-empty--compact .af-empty__body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.af-empty--compact .af-empty__act{margin:0 0 0 auto;flex:none;gap:var(--af-space-8)}
+
+/* ---- toast: bottom centre, overlay tone, one optional action; the bad variant carries the failed mark; role=status.
+   Lifts above an open bottom drawer through --af-drawer-inset. ---- */
+.af-toasts{position:fixed;left:50%;bottom:calc(var(--af-space-16) + var(--af-drawer-inset));z-index:var(--af-z-toast);display:flex;flex-direction:column;align-items:center;gap:var(--af-space-8);
+  width:max-content;max-width:min(560px,calc(100vw - 32px));margin:0;padding:0;transform:translateX(-50%);pointer-events:none}
+.af-toast{display:flex;align-items:center;gap:var(--af-space-12);min-height:40px;max-width:100%;padding:8px 8px 8px 14px;background:var(--af-overlay);border:1px solid var(--af-line);border-radius:var(--af-radius-card);box-shadow:var(--af-shadow-overlay);
+  color:var(--af-fg);font-family:var(--af-font-sans);font-size:13.5px;line-height:1.4;text-align:left;pointer-events:auto}
+.af-toast>.af-status{flex:none}
+.af-toast__msg{min-width:0;text-wrap:pretty}
+.af-toast__msg b{font-family:var(--af-font-mono);font-weight:500;font-size:12.5px;letter-spacing:.01em}
+.af-toast__act{flex:none;margin-left:auto}
+.af-toast:not(:has(.af-toast__act)){padding-right:14px}
+.af-toast.is-leaving{opacity:0;transition:opacity var(--af-dur) var(--af-ease)}
+/* in flow, for documentation and previews */
+.af-toasts--inline{position:static;transform:none;width:auto;max-width:none;align-items:flex-start;pointer-events:auto}
+
+/* ---- dialog: a <dialog> with title-m, body, and a footer in inspect / refuse / accept order. A confirm replaces window.confirm():
+   the confirming button is primary, or danger when the action destroys something. The scrim is the ::backdrop. ---- */
+.af-dialog{width:min(480px,calc(100vw - 32px));max-width:none;max-height:calc(100vh - 64px);margin:auto;padding:0;border:0;border-radius:var(--af-radius-card);background:var(--af-raised);color:var(--af-fg);overflow:hidden}
+.af-dialog--wide{width:min(640px,calc(100vw - 32px))}
+/* in flow, for documentation and previews (not modal, so it does not inhibit toasts) */
+.af-dialog--inline{position:static;margin:0;width:auto;max-width:480px}
+.af-dialog::backdrop{background:color-mix(in srgb,var(--af-canvas) 72%,transparent)}
+.af-dialog__form{display:flex;flex-direction:column;max-height:calc(100vh - 64px);min-width:0}
+.af-dialog__head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--af-space-12);padding:var(--af-space-20) var(--af-space-20) 0}
+.af-dialog__head>.af-lbl{margin-bottom:var(--af-space-8)}
+.af-dialog__title{margin:0;font-family:var(--af-font-sans);font-weight:600;font-size:20px;line-height:1.3;letter-spacing:-.01em;color:var(--af-fg);text-wrap:balance}
+.af-dialog__body{padding:var(--af-space-12) var(--af-space-20) var(--af-space-20);font-size:14px;line-height:1.5;color:var(--af-fg-muted);overflow:auto;min-height:0}
+.af-dialog__body p{margin:0}
+.af-dialog__body p+p{margin-top:var(--af-space-8)}
+.af-dialog__body b{font-weight:500;color:var(--af-fg)}
+.af-dialog__body .af-mono,.af-dialog__body .af-id{color:var(--af-fg);white-space:nowrap}
+.af-dialog__body>.af-field,.af-dialog__body>.af-kv{margin-top:var(--af-space-12)}
+.af-dialog__foot{display:flex;align-items:center;justify-content:flex-end;gap:var(--af-space-8);flex-wrap:wrap;padding:var(--af-space-12) var(--af-space-20);border-top:1px solid var(--af-line-subtle)}
+.af-dialog__foot>.af-btn--ghost:first-child{margin-right:auto}
+
+/* ---- drawer: a right sheet (480px) or a bottom drawer (40vh) over a scrim; toast above drawer above scrim.
+   Open with the is-open class (airframe.js adds Escape, focus return and an inert page). ---- */
+.af-scrim{position:fixed;inset:0;z-index:var(--af-z-scrim);background:color-mix(in srgb,var(--af-canvas) 72%,transparent)}
+.af-scrim:not(.is-open){display:none}
+.af-drawer{position:fixed;z-index:var(--af-z-drawer);display:flex;flex-direction:column;min-width:0;background:var(--af-raised);color:var(--af-fg);outline:0}
+.af-drawer:not(.is-open){display:none}
+.af-drawer--right{top:0;right:0;bottom:0;width:min(var(--af-drawer-w),100vw);border-left:1px solid var(--af-line)}
+.af-drawer--bottom{left:0;right:0;bottom:0;height:var(--af-drawer-h);border-top:1px solid var(--af-line)}
+.af-drawer__head{display:flex;align-items:center;gap:var(--af-space-12);flex:none;min-height:var(--af-header-h);padding:0 var(--af-space-12) 0 var(--af-space-20);border-bottom:1px solid var(--af-line-subtle);min-width:0}
+.af-drawer--bottom .af-drawer__head{min-height:40px;padding-left:var(--af-space-16)}
+.af-drawer__title{flex:1;min-width:0;margin:0;font-family:var(--af-font-sans);font-weight:600;font-size:16px;line-height:1.35;letter-spacing:-.005em;color:var(--af-fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.af-drawer__title .af-id{font-size:15px}
+.af-drawer__head>.af-status{flex:none}
+.af-drawer__body{flex:1;min-height:0;overflow:auto;padding:var(--af-space-20)}
+.af-drawer--bottom .af-drawer__body{padding:0}
+.af-drawer__foot{display:flex;align-items:center;justify-content:flex-end;gap:var(--af-space-8);flex:none;flex-wrap:wrap;padding:var(--af-space-12) var(--af-space-20);border-top:1px solid var(--af-line-subtle)}
+.af-drawer__foot>.af-btn--ghost:first-child{margin-right:auto}
+.af-drawer__grip{position:absolute;left:50%;top:-1px;width:40px;height:3px;margin-left:-20px;background:var(--af-line-strong);cursor:row-resize}
+@media (max-width:760px){.af-drawer--right{width:100vw;border-left:0}}
+
+/* Forced colors: the floating surfaces keep their edges, the scrim stays a scrim */
+@media (forced-colors: active){
+  .af-toast,.af-dialog,.af-drawer{outline:1px solid CanvasText;outline-offset:-1px}
+  .af-dialog::backdrop,.af-scrim{background:Canvas;opacity:.8}
+  .af-page-head--rule{border-bottom-color:CanvasText}
+  .af-drawer__grip{background:CanvasText}
+}

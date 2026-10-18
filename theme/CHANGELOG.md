@@ -5,6 +5,59 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v6 · 2026-10-18
+
+Airframe for agents: the parts a person needs to work with an agent, from the design team's research, audit and Tower
+streams and Sean's decisions of October 17. No token values change; no existing class changes its look except where noted.
+
+- New published file `airframe.js` (copied from `airframe/js/airframe.js` by the build): one ES module, no dependencies,
+  no build step, no Web Components. Markup helpers that match the contracts with every value escaped: `status`, `icon`,
+  `meta`, `btn`, `avatar`, `obj`, `tag`, `el`. Behaviours: `toast(msg, {tone, action, timeout, critical})`,
+  `confirm({title, body, ok, cancel, danger, inspect})` returning `Promise<boolean>` on an `af-dialog`, and
+  `drawer.open/close/toggle` with Escape, focus return and an inert page. Alert inhibition: while an `af-dialog` or
+  `af-drawer` is open, or a text field has focus, non-critical toasts are held and shown afterwards (`inhibited()`, `flush()`).
+- `airframe-components.css` gains two stylesheets, `agents.css` and `patterns.css`, and these classes:
+  - ApprovalCard v2: `af-approval__reason` (deny with a required reason: an `af-field` with `af-input--area` and an
+    `af-field__error` carrying the failed mark and words), `af-approval__edit` and `af-approval--editing` (the arguments
+    become editable; the primary reads "Approve edited"), `af-approval__hint` (what "Approve for this session" grants and for
+    how long), `af-approval__quorum` and `af-approval__signed` (signer avatars, "1 of 2 signed"), `af-approval--waiting`
+    (waiting on others: the queued ring and words, no lit ring, no primary), `af-verdict__ok` (approved is a quiet check and
+    a word) and `af-verdict__why` (a denial carries its reason). The action row wraps.
+  - Question: `af-question`, `af-question__q`, `__ctx`, `__opts`, `__free`, `__act`; the approval role with the word
+    "Needs input"; free text dismisses the option chips through `:has()`.
+  - Composer: `af-composer`, `af-composer__queued` ("Queued · applies after this tool call" with a take-back),
+    `__qmsg`, `__box`, `__input`, `__row`, `__chips`, `__send`, `__why`; `is-disabled` says why.
+  - Diff: `af-diff`, `af-diff__file`, `__path`, `__stat`, `__add`, `__del`, `__tools`, `__hunk`, `__hunk--failed`, `__hh`,
+    `__line`, `__line--ctx|add|del`, `__n`, `__s`, `__code`, `__cmt`, `__more`, `__thread`, `__note`; `af-comment`,
+    `af-comment__who`, `__name`, `__time`, `__text`. Greyscale: additions in `fg` with a 2px `fg` gutter bar, deletions in
+    `fg-muted` with a 2px `line-strong` bar, context in `fg-subtle`; the only color is the failed triangle on the hunk a
+    failing test points at.
+  - Avatar: `af-avatar--person|agent|firm`, `af-avatar--22|28|44`, `af-avatar--pending`, `af-avatars`, `af-avatars__more`,
+    `af-who`, `af-who__name`, `__sub`. People round, agents hexagonal (clip-path, with a forced-colors edge and a
+    no-clip-path square fallback), firms square. The plain `af-avatar` (the nav's account button) is unchanged except that
+    its pointer cursor and hover now apply only to a `button` or `a`.
+  - ObjectChip: `af-obj`, `af-obj--link`, `af-obj--restricted`, `af-obj__key`, `__title`, `__state` (with
+    `af-status--approval` for the one color a chip may carry), `af-obj__trust`, `af-objs`.
+  - Button: `af-btn--text`, sentence-case Red Hat Text 13.5 px (13 small); the rule "friendlier where people read, mono
+    where data is" is in the Button README.
+  - Controls: `af-input--area` (a textarea in the input well), `af-input--sans`, `af-field__error`, `af-chip`,
+    `af-chip--mono`, `af-chip--sm`, `af-chips`; `af-id` no longer wraps.
+  - Patterns (new dsCard group): PageHeader `af-page-head`, `af-page-head--s`, `--rule`, `__text`, `__title`, `__lede`,
+    `__sum`, `__actions`; EmptyState `af-empty[data-kind]`, `af-empty--clear`, `--compact`, `__title`, `__text`,
+    `__counts`, `__act`, `__body`; Toast `af-toasts`, `af-toasts--inline`, `af-toast`, `af-toast--bad`, `__msg`, `__act`,
+    `is-leaving`; Dialog `af-dialog`, `af-dialog--wide`, `--danger`, `__form`, `__head`, `__title`, `__body`, `__foot`;
+    Drawer `af-scrim`, `af-drawer`, `af-drawer--right|bottom`, `__head`, `__title`, `__body`, `__foot`, `__grip`, and the
+    `is-open` state; layer variables `--af-z-scrim` 100, `--af-z-drawer` 110, `--af-z-toast` 120, sizes `--af-drawer-w`
+    480px, `--af-drawer-h` 40vh, `--af-drawer-inset` (set through `html.af-drawer-open--bottom`).
+  - Forced colors: every new part keeps its edges and marks in system colors (gutter bars and the hexagon edge in
+    `CanvasText`, pressed chips in `Highlight`, the diff and chips as outlines).
+- `registry.json`: new items `helpers` (airframe.js), `approval-card`, `question`, `composer`, `diff`, `avatar`,
+  `object-chip`, `page-header`, `empty-state`, `toast`, `dialog`, `drawer`; the skill lists every component.
+- Brand book: `guide/Status.md` adds "A question is not an approval, but it is the same role", "Waiting on others stays
+  grey", "Alert inhibition" and the Carbon and Airbus ECAM sources; `guide/brand.md` adds "Who has the controls" (Agent has
+  control, grey; You have control, brand) and the avatar triad; `guide/Data.md` adds the greyscale diff rule and objects by
+  reference. The command palette is deferred to theme-v7.
+
 ## theme-v5 · 2026-10-17
 
 Distribution, from the design team's registry stream: Airframe can now be installed with the shadcn CLI and

@@ -28,9 +28,10 @@ Everything a tool loads is in `theme/`:
 | File | What it is | Who loads it |
 | --- | --- | --- |
 | `airframe.css` | Every token as `--af-<name>`, Night and Day. Generated. | Everything |
-| `airframe-components.css` | The `af-` classes: buttons, statuses, cards, tables, fleet board, lanes, traces, plus the fonts. Generated. | Consoles and web apps |
+| `airframe-components.css` | The `af-` classes: buttons, statuses, cards, tables, approval and question cards, composer, diff, avatars, object chips, page header, empty state, toast, dialog, drawer, fleet board, lanes, traces, plus the fonts. Generated. | Consoles and web apps |
 | `airframe-docs.css` | Maps the docs theme (Zensical / Material) onto the tokens. Hand-written. | Docs sites |
 | `airframe-icons.svg` | The icon sprite: `<svg class="af-ic"><use href="airframe-icons.svg#af-agent"/></svg>`. Generated. | Consoles and web apps |
+| `airframe.js` | Optional. One ES module, no dependencies: markup helpers that match the contracts (`status`, `btn`, `meta`, `avatar`, `obj`…) and the toast, confirm and drawer behaviours with alert inhibition. Generated (copied from `airframe/js/`). | Consoles and web apps |
 | `airframe-tokens.json` | Tokens resolved per theme, for scripts that draw (diagrams, decks, charts). Generated. | Build scripts |
 
 A page is themed by `data-theme="dark"` or `data-theme="light"` on `<html>` (or any element, for a nested scope). With neither, Day follows the reader's OS setting and Night is the fallback.

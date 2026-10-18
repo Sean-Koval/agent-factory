@@ -1,0 +1,78 @@
+<!-- @dsCard group="Governance" height=720 subtitle="An agent asks a person: the question, its context, option chips or free text, one primary action; the same diamond, the word Needs input" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Question</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
+  <div class="af-grid af-grid--2" style="gap:28px 24px;align-items:start">
+    <section class="af-stack">
+      <span class="af-lbl">Needs input<span class="af-lbl__sub">options as chips; free text dismisses them</span></span>
+      <article class="af-card af-card--lit af-question" aria-labelledby="q1">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5L3.5 6.25V13.75L10 17.5L16.5 13.75V6.25"/><path d="M9.25 9.25h1.5v1.5h-1.5z"/></svg>Question<span class="af-lbl__sub">HGR-3MX9</span><span class="af-lbl__sub">turn 7</span></span>
+          <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs input</span>
+        </div>
+        <p class="af-question__q" id="q1">Which database should the migration target?</p>
+        <p class="af-question__ctx">The repo has two: <code>orders</code> (Postgres 15) and <code>orders_legacy</code> (Postgres 12). The migration touches <code>shipments</code>, which exists in both. The ticket does not say.</p>
+        <div class="af-question__opts" role="group" aria-label="Options">
+          <button type="button" class="af-chip af-chip--mono" aria-pressed="true">orders</button>
+          <button type="button" class="af-chip af-chip--mono" aria-pressed="false">orders_legacy</button>
+          <button type="button" class="af-chip" aria-pressed="false">Both, legacy first</button>
+          <button type="button" class="af-chip" aria-pressed="false">Stop and ask the ticket owner</button>
+        </div>
+        <label class="af-field af-question__free">
+          <span class="af-field__label">Or answer in your own words</span>
+          <span class="af-input af-input--area af-input--sans"><textarea rows="2" placeholder="Free text dismisses the options"></textarea></span>
+        </label>
+        <div class="af-question__act">
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">asked</span><span class="af-meta__val">6 min ago</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">while</span><span class="af-meta__val">holding the turn</span></span>
+          </span>
+          <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10h12"/><path d="M11.5 5.5 16 10l-4.5 4.5"/></svg>Answer</button>
+        </div>
+        <div class="af-card__foot">
+          <span class="af-receipt"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Your answer goes to the agent and onto the run's record</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="af-stack">
+      <span class="af-lbl">Free text in progress<span class="af-lbl__sub">the chips dim as the person types</span></span>
+      <article class="af-card af-card--lit af-question" aria-labelledby="q2">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5L3.5 6.25V13.75L10 17.5L16.5 13.75V6.25"/><path d="M9.25 9.25h1.5v1.5h-1.5z"/></svg>Question<span class="af-lbl__sub">HGR-7Q2K</span><span class="af-lbl__sub">turn 3</span></span>
+          <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs input</span>
+        </div>
+        <p class="af-question__q" id="q2">The flaky test passes locally. Skip it, fix it, or stop here?</p>
+        <p class="af-question__ctx"><code>test_refresh_token_expiry</code> failed 2 of 5 runs on CI and 0 of 20 here. The fix is to freeze the clock in the test; the skip is one decorator.</p>
+        <div class="af-question__opts" role="group" aria-label="Options">
+          <button type="button" class="af-chip" aria-pressed="false">Fix it</button>
+          <button type="button" class="af-chip" aria-pressed="false">Skip it and note why</button>
+          <button type="button" class="af-chip" aria-pressed="false">Stop here</button>
+        </div>
+        <label class="af-field af-question__free">
+          <span class="af-field__label">Or answer in your own words</span>
+          <span class="af-input af-input--area af-input--sans is-focus"><textarea rows="2" placeholder="Free text dismisses the options">Fix it by freezing the clock, and open the PR against staging, not main.</textarea></span>
+        </label>
+        <div class="af-question__act">
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">asked</span><span class="af-meta__val">1 min ago</span></span>
+          </span>
+          <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10h12"/><path d="M11.5 5.5 16 10l-4.5 4.5"/></svg>Answer</button>
+        </div>
+      </article>
+      <span class="af-lbl" style="margin-top:12px">Answered<span class="af-lbl__sub">a verdict row in the run</span></span>
+      <div class="af-verdict">
+        <span class="af-verdict__ok"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Answered</span>
+        <span class="af-verdict__body">
+          <span class="af-verdict__cmd">Which database should the migration target?</span>
+          <span class="af-verdict__why">orders. By Sean, as the agent's next message.</span>
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">sandbox</span><span class="af-meta__val">HGR-3MX9</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">waited</span><span class="af-meta__val">7 min</span></span>
+          </span>
+        </span>
+        <span class="af-verdict__time">14:18:22</span>
+      </div>
+    </section>
+  </div>
+</main>
+</body></html>

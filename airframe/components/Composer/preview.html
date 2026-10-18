@@ -1,0 +1,76 @@
+<!-- @dsCard group="Controls" height=480 subtitle="An input with suggestion chips and one send button; a queued message with a take-back; a disabled state that says why" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Composer</title></head><body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
+  <div class="af-grid af-grid--2" style="gap:28px 24px;align-items:start">
+    <section class="af-stack">
+      <span class="af-lbl">Steer a running agent<span class="af-lbl__sub">the message queues; the row above takes it back</span></span>
+      <div class="af-card" style="gap:14px">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 3.5h15v10h-8l-4 3.5v-3.5h-3z"/><path d="M6 7.25h8M6 10h5"/></svg>Session<span class="af-lbl__sub">HGR-3MX9</span><span class="af-lbl__sub">turn 7</span></span>
+          <span class="af-status af-status--running"><i class="af-status__mark"></i>Running a tool call</span>
+        </div>
+        <div class="af-composer">
+          <div class="af-composer__queued">
+            <span class="af-lbl">Queued<span class="af-lbl__sub">applies after this tool call</span></span>
+            <span class="af-composer__qmsg">Use the legacy table and keep the old index.</span>
+            <button type="button" class="af-btn af-btn--ghost af-btn--sm af-btn--icon" aria-label="Take back the queued message"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
+          </div>
+          <div class="af-composer__box">
+            <textarea class="af-composer__input" rows="1" placeholder="Steer the agent" aria-label="Message to the agent"></textarea>
+            <div class="af-composer__row">
+              <div class="af-composer__chips" role="group" aria-label="Suggestions">
+                <button type="button" class="af-chip af-chip--sm">Run the tests first</button>
+                <button type="button" class="af-chip af-chip--sm">Open a draft PR</button>
+                <button type="button" class="af-chip af-chip--sm">Explain the last change</button>
+              </div>
+              <button type="button" class="af-btn af-btn--primary af-btn--sm af-composer__send"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10h12"/><path d="M11.5 5.5 16 10l-4.5 4.5"/></svg>Send</button>
+            </div>
+          </div>
+          <p class="af-composer__why"><span class="af-status af-status--queued"><i class="af-status__mark"></i></span>The agent is busy; your message will queue and apply after this tool call.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="af-stack">
+      <span class="af-lbl">Idle agent<span class="af-lbl__sub">sends at once; no queue row</span></span>
+      <div class="af-card" style="gap:14px">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 3.5h15v10h-8l-4 3.5v-3.5h-3z"/><path d="M6 7.25h8M6 10h5"/></svg>Session<span class="af-lbl__sub">HGR-7Q2K</span><span class="af-lbl__sub">turn 4</span></span>
+          <span class="af-status af-status--queued"><i class="af-status__mark"></i>Idle, turn done</span>
+        </div>
+        <div class="af-composer">
+          <div class="af-composer__box">
+            <textarea class="af-composer__input" rows="2" placeholder="Steer the agent" aria-label="Message to the agent">Freeze the clock in the test instead of the code, then push.</textarea>
+            <div class="af-composer__row">
+              <div class="af-composer__chips" role="group" aria-label="Suggestions">
+                <button type="button" class="af-chip af-chip--sm">Looks good, continue</button>
+                <button type="button" class="af-chip af-chip--sm">Show me the diff first</button>
+              </div>
+              <button type="button" class="af-btn af-btn--primary af-btn--sm af-composer__send"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10h12"/><path d="M11.5 5.5 16 10l-4.5 4.5"/></svg>Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="af-lbl" style="margin-top:12px">Disabled<span class="af-lbl__sub">says why, and what would enable it</span></span>
+      <div class="af-card" style="gap:14px">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 3.5h15v10h-8l-4 3.5v-3.5h-3z"/><path d="M6 7.25h8M6 10h5"/></svg>Session<span class="af-lbl__sub">HGR-1WQ8</span></span>
+          <span class="af-status af-status--off"><i class="af-status__mark"></i>Spun down</span>
+        </div>
+        <div class="af-composer is-disabled">
+          <div class="af-composer__box">
+            <textarea class="af-composer__input" rows="1" placeholder="Steer the agent" aria-label="Message to the agent" disabled></textarea>
+            <div class="af-composer__row">
+              <div class="af-composer__chips" role="group" aria-label="Suggestions">
+                <button type="button" class="af-chip af-chip--sm" disabled>Resume where it stopped</button>
+              </div>
+              <button type="button" class="af-btn af-btn--primary af-btn--sm af-composer__send" disabled><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10h12"/><path d="M11.5 5.5 16 10l-4.5 4.5"/></svg>Send</button>
+            </div>
+          </div>
+          <p class="af-composer__why">The sandbox spun down at 01:00 with the pool. Start it to send; the conversation is kept.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+</body></html>

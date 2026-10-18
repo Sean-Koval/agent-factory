@@ -51,6 +51,17 @@
       ]
     },
     {
+      "name": "helpers",
+      "type": "registry:item",
+      "title": "Airframe helpers (airframe.js)",
+      "description": "One ES module, no dependencies, no build step: markup helpers that match the component contracts (status, icon, meta, btn, avatar, obj, tag; everything escaped) and three behaviours: toast (held while a person is mid-decision), confirm (an af-dialog that replaces window.confirm) and drawer (Escape, focus return, inert page). The CSS comes with the airframe item.",
+      "categories": ["helpers", "javascript"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
+      "files": [
+        {"path": "theme/airframe.js", "type": "registry:file", "target": "~/airframe/airframe.js"}
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:item",
       "title": "Button",
@@ -92,6 +103,127 @@
       "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status", "Sean-Koval/agent-factory/button"],
       "files": [
         {"path": "airframe/components/FleetBays/README.md", "type": "registry:file", "target": "~/airframe/components/FleetBays.md"}
+      ]
+    },
+    {
+      "name": "approval-card",
+      "type": "registry:item",
+      "title": "Approval card",
+      "description": "A held action waiting on a reviewer: the exact command, policy, checks, expiry; inspect, deny with a required reason, approve, approve edited, approve for the session; a quorum strip and the grey waiting-on-others state; verdict rows. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "governance"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status", "Sean-Koval/agent-factory/button", "Sean-Koval/agent-factory/avatar"],
+      "files": [
+        {"path": "airframe/components/ApprovalCard/README.md", "type": "registry:file", "target": "~/airframe/components/ApprovalCard.md"}
+      ]
+    },
+    {
+      "name": "question",
+      "type": "registry:item",
+      "title": "Question",
+      "description": "An agent asks a person: the question, its context, option chips plus free text (free text dismisses the options), one primary action; the approval role with the word Needs input. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "governance"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status", "Sean-Koval/agent-factory/button"],
+      "files": [
+        {"path": "airframe/components/Question/README.md", "type": "registry:file", "target": "~/airframe/components/Question.md"}
+      ]
+    },
+    {
+      "name": "composer",
+      "type": "registry:item",
+      "title": "Composer",
+      "description": "An input with suggestion chips and one send button: a queued row (applies after this tool call) with a take-back, and a disabled state that says why. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "controls"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/button"],
+      "files": [
+        {"path": "airframe/components/Composer/README.md", "type": "registry:file", "target": "~/airframe/components/Composer.md"}
+      ]
+    },
+    {
+      "name": "diff",
+      "type": "registry:item",
+      "title": "Diff",
+      "description": "A unified, greyscale diff: file header with the +N −M stat, hunk headers, additions in fg with a gutter bar, deletions in fg-muted, line numbers, per-line comments routed to the agent, and the failed triangle on the hunk a failing test points at. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "data"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/composer", "Sean-Koval/agent-factory/avatar"],
+      "files": [
+        {"path": "airframe/components/Diff/README.md", "type": "registry:file", "target": "~/airframe/components/Diff.md"}
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:item",
+      "title": "Avatar",
+      "description": "The avatar triad: people round, agents hexagonal, firms square; initials in mono on a hairline at 22, 28 or 44 px; stacked groups and the af-who row. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "foundations"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
+      "files": [
+        {"path": "airframe/components/Avatar/README.md", "type": "registry:file", "target": "~/airframe/components/Avatar.md"}
+      ]
+    },
+    {
+      "name": "object-chip",
+      "type": "registry:item",
+      "title": "Object chip",
+      "description": "A business object by reference: source glyph, mono key, title, state word on a surface tile; link, restricted and approval-mark variants; a trust line (source, freshness, provenance) on hover. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "foundations"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status"],
+      "files": [
+        {"path": "airframe/components/ObjectChip/README.md", "type": "registry:file", "target": "~/airframe/components/ObjectChip.md"}
+      ]
+    },
+    {
+      "name": "page-header",
+      "type": "registry:item",
+      "title": "Page header",
+      "description": "Title in two sizes, a lede, a summary line (status mark, keyed counts, capacity) and an actions slot; stacks when narrow. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["pattern"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status", "Sean-Koval/agent-factory/button"],
+      "files": [
+        {"path": "airframe/components/PageHeader/README.md", "type": "registry:file", "target": "~/airframe/components/PageHeader.md"}
+      ]
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:item",
+      "title": "Empty state",
+      "description": "No data, after an action and error, plus a compact variant; the clear state (Nothing is waiting on you) as the hero. One primary action and at most one link; errors get no illustration and no second action. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["pattern"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/button"],
+      "files": [
+        {"path": "airframe/components/EmptyState/README.md", "type": "registry:file", "target": "~/airframe/components/EmptyState.md"}
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:item",
+      "title": "Toast",
+      "description": "Bottom centre, overlay tone, one optional action, the failed mark for a bad outcome, role=status; lifts above a bottom drawer; held while a person is mid-decision (alert inhibition). Installs the contract; the behaviour is in helpers.",
+      "categories": ["pattern"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/helpers"],
+      "files": [
+        {"path": "airframe/components/Toast/README.md", "type": "registry:file", "target": "~/airframe/components/Toast.md"}
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:item",
+      "title": "Dialog",
+      "description": "A <dialog> with title, body and a footer in inspect, refuse, accept order; the confirm and danger variants replace window.confirm(). Installs the contract; the behaviour is in helpers.",
+      "categories": ["pattern"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/button", "Sean-Koval/agent-factory/helpers"],
+      "files": [
+        {"path": "airframe/components/Dialog/README.md", "type": "registry:file", "target": "~/airframe/components/Dialog.md"}
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:item",
+      "title": "Drawer",
+      "description": "A right sheet (480 px) and a bottom drawer (40vh) over a scrim, toast above drawer above scrim; Escape, focus return and an inert page with helpers. Installs the contract; the behaviour is in helpers.",
+      "categories": ["pattern"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/helpers"],
+      "files": [
+        {"path": "airframe/components/Drawer/README.md", "type": "registry:file", "target": "~/airframe/components/Drawer.md"}
       ]
     },
     {

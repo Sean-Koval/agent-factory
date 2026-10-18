@@ -8,7 +8,8 @@
 # Template: agent-factory airframe/sync-airframe.sh. Each tool repo keeps a copy as
 # scripts/sync-airframe.sh and lists what it vendors in FILES, one "<theme file> <destination>"
 # pair per line. Published theme files: airframe.css (tokens), airframe-components.css (the af-
-# classes), airframe-docs.css (docs-site mapping), airframe-icons.svg (sprite), airframe-tokens.json,
+# classes), airframe-docs.css (docs-site mapping), airframe-icons.svg (sprite), airframe.js (the
+# optional helpers: markup builders, toast, confirm, drawer), airframe-tokens.json,
 # airframe-tailwind.css (Tailwind v4 theme), airframe.tokens.json and airframe-day.tokens.json (DTCG).
 # Projects without a fixed layout can use the registry instead: npx shadcn@latest add
 # Sean-Koval/agent-factory/airframe#<tag> (see docs/airframe/registry.md).

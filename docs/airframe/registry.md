@@ -15,12 +15,12 @@ npx shadcn@latest add https://sean-koval.github.io/agent-factory/r/airframe.json
 From the repository, pinned to a release tag (a [GitHub source registry](https://ui.shadcn.com/docs/registry/github); the CLI reads `registry.json` at the repo root):
 
 ```sh
-npx shadcn@latest add Sean-Koval/agent-factory/airframe#theme-v5
-npx shadcn@latest add Sean-Koval/agent-factory/skill#theme-v5
+npx shadcn@latest add Sean-Koval/agent-factory/airframe#theme-v6
+npx shadcn@latest add Sean-Koval/agent-factory/skill#theme-v6
 npx shadcn@latest list Sean-Koval/agent-factory
 ```
 
-A `#ref` pins the item you name; the CLI does not carry it to that item's dependencies, which it reads from `main`. So `button#theme-v5` installs that tag's contract but the current `airframe` files. Pin the whole set by naming every item in one command, or install from the site, where each release's items are built together.
+A `#ref` pins the item you name; the CLI does not carry it to that item's dependencies, which it reads from `main`. So `button#theme-v6` installs that tag's contract but the current `airframe` files. Pin the whole set by naming every item in one command, or install from the site, where each release's items are built together.
 
 As a named registry, for the `shadcn` MCP server and `@airframe/<item>` addresses (needs a full `components.json`):
 
@@ -36,7 +36,9 @@ As a named registry, for the `shadcn` MCP server and `@airframe/<item>` addresse
 | `airframe-tailwind` | The tokens plus `airframe-tailwind.css`, a Tailwind v4 `@theme` over them: `bg-canvas`, `text-fg-muted`, `font-display`, `text-label`, `rounded-card`, and no default palette. |
 | `airframe-tokens` | `airframe.tokens.json` (Night) and `airframe-day.tokens.json` (Day) in the [W3C Design Tokens format](https://www.designtokens.org/tr/drafts/format/), plus the resolved `airframe-tokens.json`. For Figma variables, Style Dictionary, Terrazzo and scripts that draw. |
 | `skill` | The Airframe skill for coding agents, at `.claude/skills/airframe/` (Claude Code) and `.agents/skills/airframe/` (Codex): the rules, the classes, where each contract lives. |
-| `button`, `status`, `card`, `fleet-bay` | The component's contract as `airframe/components/<Name>.md`, next to the code; each depends on `airframe`. |
+| `helpers` | `airframe/airframe.js`: the optional ES module with the markup helpers (`status`, `icon`, `meta`, `btn`, `avatar`, `obj`, `tag`) and the toast, confirm and drawer behaviours. No dependencies, no build step. |
+| `button`, `status`, `card`, `fleet-bay`, `approval-card`, `question`, `composer`, `diff`, `avatar`, `object-chip` | A component's contract as `airframe/components/<Name>.md`, next to the code; each depends on `airframe` and on the components it is built from. |
+| `page-header`, `empty-state`, `toast`, `dialog`, `drawer` | The patterns' contracts, the same way; toast, dialog and drawer also pull in `helpers`. |
 | `react` | `src/components/airframe/{Button,Status,Card,Icon}.tsx`: thin wrappers that only compose `af-` classes. A prototype; the consoles are vanilla JS. |
 
 The source is [`registry.json`](https://github.com/Sean-Koval/agent-factory/blob/main/registry.json) at the repository root; `python3 scripts/airframe.py registry DIR` inlines each item's files into `DIR/<item>.json`, which this site serves under `/r/`. `python3 scripts/airframe.py check` validates the registry with the rest of Airframe.

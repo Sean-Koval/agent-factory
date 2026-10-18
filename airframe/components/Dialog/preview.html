@@ -1,0 +1,90 @@
+<!-- @dsCard group="Patterns" height=620 subtitle="A <dialog>: title, body, footer in inspect / refuse / accept order; the confirm and danger variants replace window.confirm()" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Dialog</title>
+<script type="module">
+import { confirm, toast } from "./airframe.js";
+document.getElementById("live-confirm").addEventListener("click", async () => {
+  const yes = await confirm({ title: "Destroy HGR-3MX9?", body: "The sandbox and its 2 snapshots are deleted. The job's receipt stays on the record.", ok: "Destroy", cancel: "Keep it", danger: true,
+    inspect: { label: "Open trace", onClick: () => toast("Trace opened in a new tab.") } });
+  toast(yes ? "HGR-3MX9 destroyed. Receipt TWR-RCPT-88A9." : "Kept HGR-3MX9.");
+});
+document.getElementById("live-plain").addEventListener("click", async () => {
+  const yes = await confirm({ title: "Approve the push for this session?", body: "codex may push to main until the session ends, in 2 h 10 min. Each push still gets a receipt.", ok: "Approve for this session", cancel: "Not now" });
+  toast(yes ? "Mandate extended. Grant TWR-GRT-0A12." : "No change.");
+});
+</script>
+</head><body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
+  <div class="af-grid af-grid--2" style="gap:28px 24px;align-items:start">
+    <section class="af-stack">
+      <span class="af-lbl">Confirm<span class="af-lbl__sub">the confirming verb is primary</span></span>
+      <dialog class="af-dialog af-dialog--inline" open aria-labelledby="d1">
+        <form method="dialog" class="af-dialog__form">
+          <header class="af-dialog__head"><h2 class="af-dialog__title" id="d1">Approve the push for this session?</h2></header>
+          <div class="af-dialog__body">
+            <p>codex may push to <b>acme/api</b> main until the session ends, in <span class="af-mono">2 h 10 min</span>. Each push still gets a receipt, and the grant is filed as <span class="af-id">TWR-GRT-0A12</span>.</p>
+          </div>
+          <footer class="af-dialog__foot">
+            <button type="button" class="af-btn af-btn--secondary" value="cancel">Not now</button>
+            <button type="button" class="af-btn af-btn--primary" value="ok"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve for this session</button>
+          </footer>
+        </form>
+      </dialog>
+    </section>
+
+    <section class="af-stack">
+      <span class="af-lbl">Danger<span class="af-lbl__sub">replaces window.confirm(); inspect left, refuse, then the danger verb</span></span>
+      <dialog class="af-dialog af-dialog--danger af-dialog--inline" open aria-labelledby="d2">
+        <form method="dialog" class="af-dialog__form">
+          <header class="af-dialog__head"><h2 class="af-dialog__title" id="d2">Destroy <span class="af-id">HGR-3MX9</span>?</h2></header>
+          <div class="af-dialog__body">
+            <p>The sandbox and its 2 snapshots are deleted. The job's receipt stays on the record.</p>
+            <p>It is holding a push to main that <b>Priya</b> has not decided yet; destroying it drops the request.</p>
+          </div>
+          <footer class="af-dialog__foot">
+            <button type="button" class="af-btn af-btn--ghost"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 2.5v15"/><path d="M5 5h6M8 9h7M11 13h3.5M13 17h4"/></svg>Open trace</button>
+            <button type="button" class="af-btn af-btn--secondary" value="cancel">Keep it</button>
+            <button type="button" class="af-btn af-btn--danger" value="ok">Destroy</button>
+          </footer>
+        </form>
+      </dialog>
+    </section>
+
+    <section class="af-stack">
+      <span class="af-lbl">Form<span class="af-lbl__sub">a field in the body; sentence-case buttons where people read</span></span>
+      <dialog class="af-dialog af-dialog--inline" open aria-labelledby="d3">
+        <form method="dialog" class="af-dialog__form">
+          <header class="af-dialog__head">
+            <div><span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="4.5" r="1.75"/><circle cx="14" cy="4.5" r="1.75"/><circle cx="10" cy="15.5" r="1.75"/><path d="M6 6.25V7.5c0 1.5 1 2.5 2.5 2.5h3c1.5 0 2.5-1 2.5-2.5V6.25M10 10v3.75"/></svg>Fork<span class="af-lbl__sub">HGR-3MX9</span></span><h2 class="af-dialog__title" id="d3">Fork this session</h2></div>
+          </header>
+          <div class="af-dialog__body">
+            <p>The fork starts from turn 7 with the same environment and a copy of the working tree.</p>
+            <label class="af-field">
+              <span class="af-field__label">Name</span>
+              <span class="af-input"><input type="text" value="fix-flaky-auth-2" aria-label="Fork name"></span>
+            </label>
+            <label class="af-field" style="margin-top:12px">
+              <span class="af-field__label">First message</span>
+              <span class="af-input af-input--area af-input--sans"><textarea rows="2" placeholder="Optional. What the fork should do first"></textarea></span>
+            </label>
+          </div>
+          <footer class="af-dialog__foot">
+            <button type="button" class="af-btn af-btn--secondary af-btn--text" value="cancel">Cancel</button>
+            <button type="button" class="af-btn af-btn--primary af-btn--text" value="ok">Fork session</button>
+          </footer>
+        </form>
+      </dialog>
+    </section>
+
+    <section class="af-stack">
+      <span class="af-lbl">Live<span class="af-lbl__sub">with airframe.js: await confirm({title, body, ok, cancel, danger, inspect})</span></span>
+      <div class="af-card" style="gap:12px">
+        <div class="af-row" style="flex-wrap:wrap">
+          <button type="button" class="af-btn af-btn--secondary af-btn--sm" id="live-plain">Confirm</button>
+          <button type="button" class="af-btn af-btn--danger af-btn--sm" id="live-confirm">Destroy…</button>
+        </div>
+        <p class="af-card__desc">Returns a <span class="af-mono">Promise&lt;boolean&gt;</span>. Escape and the refusing button resolve false; focus returns to the button that opened it; toasts raised meanwhile show after it closes.</p>
+      </div>
+    </section>
+  </div>
+</main>
+</body></html>
