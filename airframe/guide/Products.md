@@ -52,3 +52,12 @@ There is no blue in the family. hangar's clay sits near the caution orange and T
 | Tower | A control tower: a cab on a stem. | The one point that clears or holds every request. |
 | ai-dlc | A closed loop with three waypoint triangles. | A flight plan flown the same way every time: the dev loop. |
 | Spaceport | An orbit ellipse, a launch tower and a satellite dot. | Where data products are launched and tracked. |
+
+## Brand surfaces
+
+A product's README banner, social preview, favicon and docs header mark are generated, never drawn: `scripts/banners.py` builds them from the tokens, `icons/marks.json` and the fonts in `fonts/` into `brand/<product>/`, and each tool repo vendors its own with `scripts/sync-brand.sh`.
+
+- One composition for the family: eyebrow (`Agent factory · Run plane`), the mark beside the name in the display face, the product's line, and the suite strip with the 2px marker under this product's plane. The hue appears in the mark and the marker only; the brand yellow is the eyebrow hairline.
+- Night and Day both ship; a README shows them with `<picture>` and `prefers-color-scheme`. The social preview is Night.
+- Text is outlined, because images served by GitHub load no web fonts. Change copy in the script, not in a file.
+- The repository description, the docs `site_description` and the banner's line say the same thing.

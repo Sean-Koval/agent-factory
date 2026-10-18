@@ -23,11 +23,11 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-      - run: pip install zensical==0.0.71 playwright==1.55.0
+      - run: pip install zensical==0.0.71 playwright==1.55.0 fonttools==4.65.0 uharfbuzz==0.56.3
       - run: python -m playwright install --with-deps chromium
       - name: Unit tests
         run: python3 -m unittest discover -s tests -v
-      - name: Build diagrams, deck (with PDF), roadmap data and site
+      - name: Build diagrams, brand surfaces, deck (with PDF), roadmap data and site
         env:
           # Public repositories only; private ones are skipped. Fail rather than publish a
           # placeholder roadmap when GitHub cannot be read.
@@ -35,11 +35,12 @@ jobs:
           ROADMAP_ARGS: --strict
         run: |
           python3 scripts/diagrams.py
+          python3 scripts/banners.py
           python3 scripts/build_deck.py --pdf
           sh scripts/build_site.sh
-      - name: Diagrams and deck are committed up to date; the roadmap data is not committed
+      - name: Diagrams, brand SVGs and deck are committed up to date; the roadmap data is not committed
         run: |
-          git diff --exit-code -- docs/assets/diagrams/*.svg deck/index.html
+          git diff --exit-code -- docs/assets/diagrams/*.svg brand docs/assets/brand deck/index.html
           test -z "$(git ls-files generated)"
       - name: Roadmap in the job summary
         run: grep -A40 '^## Progress' generated/roadmap.md | sed '/^## Epics/,$d' >> "$GITHUB_STEP_SUMMARY"
