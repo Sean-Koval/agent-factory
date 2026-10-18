@@ -1,7 +1,7 @@
 Product marks are outline tiles (1 px `line-strong`, 2 px radius) with a stroke glyph in the product hue; the hue appears nowhere else except docs headers and the 2 px marker under the active nav tab.
 
 ## You provide
-- The product: `airframe`, `hangar`, `flightdeck`, `workspace`, `aidlc` or `spaceport`, as an `af-hue--<product>` class. It sets `--pc`, which the mark and the nav marker read.
+- The product: `airframe`, `hangar`, `flightdeck`, `tower`, `aidlc` or `spaceport`, as an `af-hue--<product>` class (`af-hue--workspace` still works for Tower). It sets `--pc`, which the mark and the nav marker read.
 - The glyph SVG (24 px viewBox) below. The tile sets stroke 1.6, square caps, miter joins, `currentColor`.
 
 ## Markup
@@ -15,12 +15,14 @@ Product marks are outline tiles (1 px `line-strong`, 2 px radius) with a stroke 
 
 Sizes: `af-mark--sm` 24 px (menus, crumbs), default 30 px (headers, lockups), `af-mark--lg` 44 px (docs headers, covers).
 
+The same glyphs live in `airframe/icons/marks.json`, which `scripts/banners.py` reads to generate each product's favicon, header mark, README banner and social preview (`brand/<product>/`). Change a glyph in both places; `tests/test_banners.py` checks they agree.
+
 | Product | Class | Hue token | Glyph paths (viewBox 0 0 24 24) |
 |---|---|---|---|
 | Airframe | `af-hue--airframe` | `brand-text` | `<path d="M4 20 L12 4 L20 20"/><path d="M7.5 14 H16.5"/>` |
 | hangar | `af-hue--hangar` | `product-hangar` | `<path d="M3 20 V13 A9 9 0 0 1 21 13 V20"/><path d="M2 20 H22"/><path d="M9 20 V15 H15 V20"/>` |
 | flightdeck | `af-hue--flightdeck` | `product-flightdeck` | `<circle cx="12" cy="12" r="9"/><path d="M4.4 16.9 L21 12.8"/><path d="M6.5 11 H10 L12 13 L14 11 H17.5"/>` |
-| workspace | `af-hue--workspace` | `product-workspace` | `<path d="M6 4 H18 L16.5 9 H7.5 Z"/><path d="M10 9 V20"/><path d="M14 9 V20"/><path d="M7 20 H17"/><path d="M12 4 V2"/>` |
+| Tower | `af-hue--tower` | `product-tower` | `<path d="M6 4 H18 L16.5 9 H7.5 Z"/><path d="M10 9 V20"/><path d="M14 9 V20"/><path d="M7 20 H17"/><path d="M12 4 V2"/>` |
 | ai-dlc | `af-hue--aidlc` | `product-aidlc` | `<circle cx="12" cy="12" r="8"/><g fill="currentColor" stroke="none"><path d="M12 2.2 L14 5.6 H10 Z"/><path d="M18.93 14.2 L20.93 17.6 H16.93 Z"/><path d="M5.07 14.2 L7.07 17.6 H3.07 Z"/></g>` |
 | Spaceport | `af-hue--spaceport` | `product-spaceport` | `<ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(-20 12 12)"/><path d="M12 5 L13.5 8 V17 H10.5 V8 Z"/><path d="M9.5 20 H14.5"/><circle cx="21.4" cy="8.6" r="1.4" fill="currentColor" stroke="none"/>` |
 
