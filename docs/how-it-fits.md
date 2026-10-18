@@ -1,9 +1,14 @@
+---
+hide:
+  - toc
+---
+
 # How it fits
 
 <style>
-  /* The journey has a wide drawing and a stacked one; a phone gets the stacked one. */
+  /* The journey has a wide drawing and a stacked one; phones and narrow tablets get the stacked one. */
   .af-journey--stacked { display: none !important; }
-  @media (max-width: 640px) {
+  @media (max-width: 959px) {
     .af-journey--wide { display: none !important; }
     .af-journey--stacked { display: block !important; max-width: 26rem; }
   }
@@ -23,7 +28,7 @@ Agent factory is how a team of six runs about sixty coding-agent sessions withou
 
 <figure class="af-figure af-journey--wide">
 --8<-- "journey.svg"
-<figcaption>The seven steps, numbered as above · <a href="../assets/diagrams/journey.svg">full size</a></figcaption>
+<figcaption>The seven steps, numbered as above · <a href="assets/diagrams/journey.svg">full size</a></figcaption>
 </figure>
 
 <figure class="af-figure af-journey--stacked">
@@ -41,10 +46,10 @@ Agent factory is how a team of six runs about sixty coding-agent sessions withou
 | Sandboxes, sessions, jobs, turns | owns | – | – | – | – | – | – |
 | Harness content and channels | uses (freeze, check, thaw) | – | uses (variants) | owns | uses (publishes the plugin) | – | – |
 | Manifest, trace, outbox | owns | uses (reconciliation) | uses | – | – | – | – |
-| Parquet data plane, statistics, specs, reports | – | – | owns | uses (specs, `decision.yaml`) | – | – | – |
+| Parquet data plane, statistics, specs, reports | – | – | owns | uses (specs, the decision file) | – | – | – |
 | Trials and pin sets | owns (runs them) | – | owns (sampling) | – | – | – | – |
 | Decision point, passports, receipts | uses (enforces) | owns | – | – | – | later | – |
-| The PR gate and landing | owns | uses (`landing.approve`) | – | – | – | – | – |
+| The PR gate and landing | owns | uses (landing approvals) | – | – | – | – | – |
 | Workflow plugin, machine setup | – | – | – | uses | owns | – | – |
 | Governed data over MCP | – | later | – | uses (binding) | – | owns (frozen) | – |
 | Design system, suite docs, roadmap | uses | uses | uses | – | uses | – | owns |
