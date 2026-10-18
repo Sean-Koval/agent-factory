@@ -11,7 +11,10 @@ python3 scripts/airframe.py registry docs/r
 python3 scripts/diagrams.py
 python3 scripts/build_deck.py
 python3 scripts/roadmap.py ${ROADMAP_ARGS:-}
-rm -rf docs/theme docs/deck && mkdir -p docs/theme docs/deck && cp theme/*.css theme/*.json docs/theme/
-cp deck/index.html docs/deck/index.html
+# The slides go to deck/slides/: docs/deck.md already renders to site/deck/index.html.
+rm -rf docs/theme docs/deck && mkdir -p docs/theme docs/deck/slides && cp theme/*.css theme/*.json docs/theme/
+cp deck/index.html docs/deck/slides/index.html
 [ -f deck/agent-factory.pdf ] && cp deck/agent-factory.pdf docs/deck/
 ${ZENSICAL:-zensical} build
+grep -q 'class="slide' site/deck/slides/index.html || {
+  echo "build_site: site/deck/slides/index.html is not the slides" >&2; exit 1; }

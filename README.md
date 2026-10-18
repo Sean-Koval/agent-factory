@@ -8,7 +8,7 @@
 The suite-level home for Sean's team tooling for cloud coding agents: the docs site, the introduction deck, the architecture diagrams and **Airframe**, the design system every tool's docs site and console uses.
 
 - Docs: <https://sean-koval.github.io/agent-factory/>
-- Deck: <https://sean-koval.github.io/agent-factory/deck/> (PDF alongside)
+- Deck: <https://sean-koval.github.io/agent-factory/deck/slides/> (PDF and diagrams on <https://sean-koval.github.io/agent-factory/deck/>)
 - Roadmap: <https://sean-koval.github.io/agent-factory/roadmap/> (rebuilt daily from issue state)
 - Airframe: <https://sean-koval.github.io/agent-factory/airframe/> (tokens, components, icons, gallery)
 
