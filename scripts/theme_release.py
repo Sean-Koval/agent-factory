@@ -22,7 +22,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CHANGELOG = "theme/CHANGELOG.md"
 THEME_FILES = ("theme/airframe.css", "theme/airframe-docs.css", "theme/airframe-components.css",
-               "theme/airframe-icons.svg", "theme/airframe-tokens.json")
+               "theme/airframe-icons.svg", "theme/airframe-tokens.json", "theme/airframe-tailwind.css",
+               "theme/airframe.tokens.json", "theme/airframe-day.tokens.json")
 HEADING = re.compile(r"^## (theme-v(\d+))\b", re.MULTILINE)
 
 

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "airframe",
+  "homepage": "https://sean-koval.github.io/agent-factory/airframe/",
+  "items": [
+    {
+      "name": "airframe",
+      "type": "registry:item",
+      "title": "Airframe",
+      "description": "The Airframe design system as the tool repos vendor it: the --af- tokens (Night and Day), the af- component classes and the icon sprite. CSS only; works in any project. Load airframe.css, then airframe-components.css.",
+      "categories": ["design-system", "css", "tokens"],
+      "files": [
+        {"path": "theme/airframe.css", "type": "registry:file", "target": "~/airframe/airframe.css"},
+        {"path": "theme/airframe-components.css", "type": "registry:file", "target": "~/airframe/airframe-components.css"},
+        {"path": "theme/airframe-icons.svg", "type": "registry:file", "target": "~/airframe/airframe-icons.svg"}
+      ]
+    },
+    {
+      "name": "airframe-tailwind",
+      "type": "registry:item",
+      "title": "Airframe for Tailwind CSS v4",
+      "description": "The --af- tokens plus a Tailwind v4 @theme that maps every utility onto them (bg-canvas, text-fg-muted, font-mono, text-label, rounded-card). Removes Tailwind's default color, font, radius and shadow scales so an Airframe project has no bg-blue-500. Import both files after `@import \"tailwindcss\"`.",
+      "categories": ["design-system", "tailwind", "tokens"],
+      "files": [
+        {"path": "theme/airframe.css", "type": "registry:file", "target": "~/airframe/airframe.css"},
+        {"path": "theme/airframe-tailwind.css", "type": "registry:file", "target": "~/airframe/airframe-tailwind.css"}
+      ]
+    },
+    {
+      "name": "airframe-tokens",
+      "type": "registry:item",
+      "title": "Airframe design tokens (DTCG)",
+      "description": "Every Airframe token in the W3C Design Tokens format (DTCG 2025.10), one complete file per theme, for Figma variables, Style Dictionary, Terrazzo and other token tools. Also the resolved-per-theme JSON the suite's scripts use.",
+      "categories": ["design-system", "tokens"],
+      "files": [
+        {"path": "theme/airframe.tokens.json", "type": "registry:file", "target": "~/airframe/airframe.tokens.json"},
+        {"path": "theme/airframe-day.tokens.json", "type": "registry:file", "target": "~/airframe/airframe-day.tokens.json"},
+        {"path": "theme/airframe-tokens.json", "type": "registry:file", "target": "~/airframe/airframe-tokens.json"}
+      ]
+    },
+    {
+      "name": "skill",
+      "type": "registry:item",
+      "title": "Airframe skill for coding agents",
+      "description": "A SKILL.md (Agent Skills standard) that keeps Claude Code and Codex on Airframe when they build UI: tokens only, the af- classes, the six statuses, the dark-cockpit rule, and where each component's contract lives. Installs for both agents.",
+      "categories": ["agents", "skill"],
+      "registryDependencies": ["airframe"],
+      "files": [
+        {"path": ".claude/skills/airframe/SKILL.md", "type": "registry:file", "target": "~/.claude/skills/airframe/SKILL.md"},
+        {"path": ".claude/skills/airframe/SKILL.md", "type": "registry:file", "target": "~/.agents/skills/airframe/SKILL.md"}
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:item",
+      "title": "Button",
+      "description": "DM Mono capitals on a 2px radius: primary (signal yellow, one per view), secondary, ghost and danger, at 34 or 28 px. Installs the component contract (markup, classes, do and don't); the CSS comes with the airframe item.",
+      "categories": ["component", "controls"],
+      "registryDependencies": ["airframe"],
+      "files": [
+        {"path": "airframe/components/Button/README.md", "type": "registry:file", "target": "~/airframe/components/Button.md"}
+      ]
+    },
+    {
+      "name": "status",
+      "type": "registry:item",
+      "title": "Status",
+      "description": "The six statuses, each color + shape + word: running (grey circle), queued (ring), needs approval (orange diamond), failed (red triangle), denied (red placard), off (small dot). Running and queued stay grey: the dark-cockpit rule. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "status"],
+      "registryDependencies": ["airframe"],
+      "files": [
+        {"path": "airframe/components/Status/README.md", "type": "registry:file", "target": "~/airframe/components/Status.md"}
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:item",
+      "title": "Card",
+      "description": "Tonal cards: raised on canvas, 4px radius, 16px padding, no border and no shadow, with top, body and foot parts and a lit state for when a person is needed. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "cards"],
+      "registryDependencies": ["airframe"],
+      "files": [
+        {"path": "airframe/components/Card/README.md", "type": "registry:file", "target": "~/airframe/components/Card.md"}
+      ]
+    },
+    {
+      "name": "fleet-bay",
+      "type": "registry:item",
+      "title": "Fleet bays",
+      "description": "The fleet as bays: one box per sandbox grouped by environment, with tail number, status, the work, owner, harness, a labeled stage track, lease left and the one action it needs. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "fleet"],
+      "registryDependencies": ["airframe", "status", "button"],
+      "files": [
+        {"path": "airframe/components/FleetBays/README.md", "type": "registry:file", "target": "~/airframe/components/FleetBays.md"}
+      ]
+    },
+    {
+      "name": "react",
+      "type": "registry:item",
+      "title": "Airframe React wrappers",
+      "description": "Thin React components over the af- classes: Button, Status, Card and Icon. They compose class names only, so they cannot drift from the CSS; the CSS comes with the airframe item. A prototype: the suite's consoles are vanilla JS today.",
+      "categories": ["react", "component"],
+      "registryDependencies": ["airframe"],
+      "files": [
+        {"path": "registry/react/Button.tsx", "type": "registry:file", "target": "~/src/components/airframe/Button.tsx"},
+        {"path": "registry/react/Status.tsx", "type": "registry:file", "target": "~/src/components/airframe/Status.tsx"},
+        {"path": "registry/react/Card.tsx", "type": "registry:file", "target": "~/src/components/airframe/Card.tsx"},
+        {"path": "registry/react/Icon.tsx", "type": "registry:file", "target": "~/src/components/airframe/Icon.tsx"}
+      ]
+    }
+  ]
+}

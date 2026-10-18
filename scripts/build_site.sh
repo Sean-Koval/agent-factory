@@ -7,10 +7,11 @@ cd "$(dirname "$0")/.."
 python3 scripts/airframe.py check
 python3 scripts/airframe.py pages generated
 python3 scripts/airframe.py gallery docs/airframe/gallery
+python3 scripts/airframe.py registry docs/r
 python3 scripts/diagrams.py
 python3 scripts/build_deck.py
 python3 scripts/roadmap.py ${ROADMAP_ARGS:-}
-rm -rf docs/theme docs/deck && mkdir -p docs/theme docs/deck && cp theme/*.css docs/theme/
+rm -rf docs/theme docs/deck && mkdir -p docs/theme docs/deck && cp theme/*.css theme/*.json docs/theme/
 cp deck/index.html docs/deck/index.html
 [ -f deck/agent-factory.pdf ] && cp deck/agent-factory.pdf docs/deck/
 ${ZENSICAL:-zensical} build
