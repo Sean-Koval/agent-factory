@@ -5,6 +5,25 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v3 · 2026-10-17
+
+Fleet views: the same sandboxes four ways, chosen by Sean from the fleet layout study. No token
+values change.
+
+- `airframe-components.css` gains three components and their shared parts:
+  - FleetBays (`af-bays`, `af-bay`): a box per sandbox with its task, owner, harness, a labeled
+    stage track, lease left and one action; dashed "Start in …" bay per environment.
+  - FleetColumns (`af-statecols`, `af-statecol`, `af-mini`): one column per state, attention
+    first, Running two wide, sticky heads.
+  - FleetOwners (`af-owners`): people down, environments across, stand tiles in the cells, with
+    each person's share of the per-person cap.
+  - Shared: `af-cap` (capacity bar), `af-track` (labeled plan / edit / test / PR track),
+    `af-person` (initials and name).
+- `af-seg__btn` also styles links: `aria-current="page"` reads as pressed, so a segmented switch
+  can move between pages or views.
+- Brand book: Tower's tail-number prefix is `TWR-` (`TWR-APR-0391`, `TWR-RCPT-88A1`), replacing
+  `WS-` from the governed-workspace name.
+
 ## theme-v2 · 2026-10-17
 
 Airframe's full system moves here and becomes the source of truth. Values now live in

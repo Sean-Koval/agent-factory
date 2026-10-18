@@ -1,7 +1,7 @@
 An approval card shows one held action waiting on a reviewer: the exact command, the Cedar policy that held it, the checks that passed, when it expires, the Deny / Approve decision and the receipt it will file; a verdict row records a decided or denied action on one line.
 
 ## You provide
-- The approval ID (`WS-APR-0391`) and the held command in mono (`git push origin main`), with keyed facts about it (repo, from, files, diff).
+- The approval ID (`TWR-APR-0391`) and the held command in mono (`git push origin main`), with keyed facts about it (repo, from, files, diff).
 - Who asked (the sandbox tail number) and for whom.
 - The policy name and, optionally, its Cedar source in an `af-code` block.
 - Checks as a list with check icons, an expiry in plain words, the reviewer, and the receipt ID the decision will file.
@@ -11,7 +11,7 @@ An approval card shows one held action waiting on a reviewer: the exact command,
 ```html
 <article class="af-card af-card--lit af-approval">
   <div class="af-card__top">
-    <span class="af-lbl"><svg class="af-ic" …>approval</svg>Approval<span class="af-lbl__sub">WS-APR-0391</span></span>
+    <span class="af-lbl"><svg class="af-ic" …>approval</svg>Approval<span class="af-lbl__sub">TWR-APR-0391</span></span>
     <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span>
   </div>
   <div class="af-approval__subject">
@@ -32,7 +32,7 @@ An approval card shows one held action waiting on a reviewer: the exact command,
       <button type="button" class="af-btn af-btn--primary af-btn--sm">Approve push</button>
     </div>
   </div>
-  <div class="af-card__foot"><span class="af-receipt"><svg class="af-ic" …>receipt</svg>Your decision is filed as receipt <b>WS-RCPT-88A1</b></span></div>
+  <div class="af-card__foot"><span class="af-receipt"><svg class="af-ic" …>receipt</svg>Your decision is filed as receipt <b>TWR-RCPT-88A1</b></span></div>
 </article>
 
 <div class="af-verdict">

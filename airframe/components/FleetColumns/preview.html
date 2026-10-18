@@ -1,0 +1,61 @@
+<!-- @dsCard group="Fleet" height=900 subtitle="One column per state, attention first; Running spans two" -->
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Fleet columns</title></head>
+<body>
+<main style="padding:24px"><div class="af-statecols" id="cols-root"></div></main>
+<script>
+(function () {
+  var ENVS = ['base-codex', 'checkout-python', 'rust-1.83-gpu', 'research'];
+  // code, env, state, stage (0 plan .. 3 PR, -1 none), work, owner, harness, age min, note, word
+  var RAW = [
+    ['3MX9', 0, 'approval', 3, 'Push the refunds migration to main', 'sean', 'codex', 41, 'Push to main held by require-approval-main-push.', null, 'Review the push', 'primary'],
+    ['YQZT', 0, 'approval', 2, 'Fix the flaky payments test', 'priya', 'claude-code', 26, 'The agent asked: retry the whole test, or only the client call?', 'Needs input', 'Answer the agent', 'primary'],
+    ['0PZ4', 1, 'failed', 0, 'migrate-orders', 'marco', 'codex', 8, 'Image build failed: pip install exited 1 (psycopg2 needs pg_config).', null, 'Retry the build', 'secondary'],
+    ['9KD4', 0, 'denied', 2, 'Rotate the Stripe key in CI', 'omar', 'codex', 12, 'Denied by deny-secrets-egress. No receipt issued.', null, 'View the decision', 'secondary'],
+    ['7Q2K', 0, 'running', 1, 'Add pagination to GET /orders', 'priya', 'claude-code', 5],
+    ['QLJG', 0, 'running', 2, 'orders-pagination', 'priya', 'claude-code', 18],
+    ['KQ0D', 0, 'running', 1, 'tax-rules', 'marco', 'codex', 24],
+    ['C5KJ', 0, 'running', 2, 'partial-refunds', 'sean', 'codex', 27],
+    ['4JBM', 1, 'running', 2, 'Fix the timezone bug in invoices', 'priya', 'codex', 19],
+    ['S57R', 1, 'running', 3, 'Add OpenAPI examples', 'li', 'claude-code', 31],
+    ['6HXD', 2, 'running', 2, 'Port the tokenizer to SIMD', 'priya', 'claude-code', 38],
+    ['R0SS', 2, 'running', 3, 'Fix the borrow error in the planner', 'dana', 'claude-code', 17],
+    ['FA1V', 0, 'queued', -1, 'Add rate limits to /refunds', 'dana', 'codex', 1],
+    ['8C1T', 2, 'queued', -1, 'GPU smoke tests', 'li', 'codex', 1],
+    ['0BZP', 1, 'off', -1, 'refunds-spike', 'sean', 'codex', 95, null, 'Paused'],
+    ['443T', 3, 'off', -1, 'retrieval-eval', 'priya', 'claude-code', 180, null, 'Spun down']
+  ];
+  var COLS = [
+    ['Needs you', 'approval', ['approval'], false, 'Nothing is waiting on you.'],
+    ['Failed or denied', 'failed', ['failed', 'denied'], false, 'No failures.'],
+    ['Running', 'running', ['running'], true, 'Nothing running.'],
+    ['Starting', 'queued', ['queued'], false, 'Nothing starting.'],
+    ['Paused or spun down', 'off', ['off'], false, 'Nothing paused.']
+  ];
+  var WORD = { running: 'Running', queued: 'Starting', approval: 'Needs approval', failed: 'Failed', denied: 'Denied', off: 'Paused' };
+  function age(m) { return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + (m % 60) + ' min'; }
+  function pips(stage) {
+    return [0, 1, 2, 3].map(function (i) {
+      var c = stage < 0 || i > stage ? '' : i < stage ? ' af-stand__pip--done' : ' af-stand__pip--now';
+      return '<i class="af-stand__pip' + c + '"></i>';
+    }).join('');
+  }
+  function card(r) {
+    var w = r[9] || WORD[r[2]];
+    var act = r[8] ? '<p class="af-bay__note">' + r[8] + '</p><div><button type="button" class="af-btn af-btn--' + r[11] + ' af-btn--sm">' + r[10] + '</button></div>' : '';
+    return '<article class="af-mini af-mini--' + r[2] + '" aria-label="HGR-' + r[0] + ', ' + w + '">'
+      + '<div class="af-mini__top"><b>HGR-' + r[0] + '</b><span>' + ENVS[r[1]] + '</span></div>'
+      + '<p class="af-mini__title">' + r[4] + '</p>'
+      + '<span class="af-stand__pips" aria-hidden="true">' + pips(r[3]) + '</span>'
+      + '<div class="af-mini__top"><span>' + r[5] + ' · ' + r[6] + '</span><span>' + age(r[7]) + '</span></div>' + act + '</article>';
+  }
+  document.getElementById('cols-root').innerHTML = COLS.map(function (c) {
+    var items = RAW.filter(function (r) { return c[2].indexOf(r[2]) >= 0; });
+    return '<section class="af-statecol' + (c[3] ? ' af-statecol--wide' : '') + '" aria-label="' + c[0] + '">'
+      + '<div class="af-statecol__head"><span class="af-status af-status--' + c[1] + ' af-status--lit"><i class="af-status__mark"></i>' + c[0] + '</span><span class="af-statecol__count">' + items.length + '</span></div>'
+      + (items.length ? '<div class="af-statecol__list">' + items.map(card).join('') + '</div>' : '<div class="af-statecol__empty">' + c[4] + '</div>')
+      + '</section>';
+  }).join('');
+})();
+</script>
+</body></html>

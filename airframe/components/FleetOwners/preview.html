@@ -1,0 +1,60 @@
+<!-- @dsCard group="Fleet" height=640 subtitle="People down, environments across: who uses the capacity, and where" -->
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Fleet owners</title></head>
+<body>
+<main style="padding:24px"><div class="af-panel af-owners"><div class="af-owners__rows" id="owners-root"></div></div></main>
+<script>
+(function () {
+  var ENVS = [['base-codex', 0], ['checkout-python', 0], ['rust-1.83-gpu', 1], ['research', 0]];
+  var PEOPLE = [['sean', 'Sean', 'SK'], ['priya', 'Priya', 'PR'], ['marco', 'Marco', 'MA'], ['dana', 'Dana', 'DA'], ['li', 'Li', 'LI'], ['omar', 'Omar', 'OM']];
+  // code, env, state, stage (0 plan .. 3 PR, -1 none), work, owner, cost $
+  var RAW = [
+    ['3MX9', 0, 'approval', 3, 'Push the refunds migration to main', 'sean', 0.62], ['C5KJ', 0, 'running', 2, 'partial-refunds', 'sean', 0.36],
+    ['BH62', 1, 'running', 1, 'refund-webhooks', 'sean', 0.21], ['0BZP', 1, 'off', -1, 'refunds-spike', 'sean', 0.88],
+    ['1WDX', 3, 'running', 1, 'harness-v4 trial A', 'sean', 0.27], ['E9YL', 3, 'running', 1, 'harness-v4 trial B', 'sean', 0.25],
+    ['YQZT', 0, 'approval', 2, 'Fix the flaky payments test', 'priya', 0.29], ['7Q2K', 0, 'running', 1, 'Add pagination to GET /orders', 'priya', 0.18],
+    ['QLJG', 0, 'running', 2, 'orders-pagination', 'priya', 0.33], ['4JBM', 1, 'running', 2, 'Fix the timezone bug in invoices', 'priya', 0.24],
+    ['6HXD', 2, 'running', 2, 'Port the tokenizer to SIMD', 'priya', 1.42],
+    ['KQ0D', 0, 'running', 1, 'tax-rules', 'marco', 0.41], ['0PZ4', 1, 'failed', 0, 'migrate-orders', 'marco', 0.02],
+    ['WCWG', 1, 'running', 0, 'Upgrade Django to 5.2', 'marco', 0.03], ['ZW85', 2, 'running', 1, 'cuda-graphs', 'marco', 0.31],
+    ['AW0Q', 0, 'running', 0, 'Speed up the orders report query', 'dana', 0.05], ['FA1V', 0, 'queued', -1, 'Add rate limits to /refunds', 'dana', 0],
+    ['2KQV', 1, 'running', 1, 'csv-export', 'dana', 0.71], ['R0SS', 2, 'running', 3, 'Fix the borrow error in the planner', 'dana', 0.58],
+    ['UBV0', 0, 'running', 3, 'chore: bump ruff to 0.15', 'li', 0.07], ['1U3B', 0, 'queued', -1, 'lint-sweep', 'li', 0],
+    ['S57R', 1, 'running', 3, 'Add OpenAPI examples', 'li', 0.39], ['8C1T', 2, 'queued', -1, 'GPU smoke tests', 'li', 0],
+    ['9KD4', 0, 'denied', 2, 'Rotate the Stripe key in CI', 'omar', 0.08], ['VEXZ', 0, 'running', 1, 'search-index', 'omar', 0.52],
+    ['0HLH', 1, 'running', 2, 'audit-log-export', 'omar', 0.66], ['98AX', 2, 'running', 1, 'bench-flash-attn', 'omar', 1.05]
+  ];
+  var RANK = { approval: 0, denied: 1, failed: 2, running: 3, queued: 4, off: 5 };
+  var WORD = { running: 'Running', queued: 'Starting', approval: 'Needs approval', failed: 'Failed', denied: 'Denied', off: 'Paused' };
+  var ENV_IC = '<svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3l7 3.5-7 3.5-7-3.5z"/><path d="M3 10l7 3.5 7-3.5M3 13.5 10 17l7-3.5"/></svg>';
+  var GPU_IC = '<svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="9"/><circle cx="12.5" cy="9" r="2.5"/><path d="M5.5 7.5v3M3.5 17h6"/></svg>';
+  function tile(r) {
+    var p = [0, 1, 2, 3].map(function (i) {
+      var c = r[3] < 0 || i > r[3] ? '' : i < r[3] ? ' af-stand__pip--done' : ' af-stand__pip--now';
+      return '<i class="af-stand__pip' + c + '"></i>';
+    }).join('');
+    return '<button type="button" class="af-stand af-stand--' + r[2] + '" aria-pressed="false" aria-label="HGR-' + r[0] + ', ' + WORD[r[2]] + ', ' + r[4] + '" title="' + r[4] + '">'
+      + '<span class="af-stand__tail">' + r[0] + '</span><i class="af-stand__mark"></i><span class="af-stand__pips">' + p + '</span></button>';
+  }
+  var head = '<div class="af-owners__row"><div class="af-owners__h">Person<small>cap 20 each</small></div>' + ENVS.map(function (e, i) {
+    return '<div class="af-owners__h">' + (e[1] ? GPU_IC : ENV_IC) + e[0] + '<small>' + RAW.filter(function (r) { return r[1] === i; }).length + '</small></div>';
+  }).join('') + '</div>';
+  var rows = PEOPLE.map(function (p) {
+    var mine = RAW.filter(function (r) { return r[5] === p[0]; });
+    var used = mine.length; // paused sandboxes hold a slot; spun-down ones would be left out
+    var cost = mine.reduce(function (s, r) { return s + r[6]; }, 0);
+    var needs = mine.filter(function (r) { return r[2] === 'approval'; }).length;
+    var who = '<div class="af-owners__who"><span class="af-person"><span class="af-person__av" aria-hidden="true">' + p[2] + '</span><span class="af-person__name">' + p[1] + '</span></span>'
+      + '<span class="af-cap af-cap--sm"><span class="af-cap__bar" aria-hidden="true"><i style="width:' + Math.round(used / 20 * 100) + '%"></i></span>' + used + ' of 20</span>'
+      + '<span class="af-meta"><span class="af-meta__item"><span class="af-meta__key">today</span><span class="af-meta__val">$' + cost.toFixed(2) + '</span></span>'
+      + (needs ? '<span class="af-meta__item af-meta__item--approval"><span class="af-meta__key">needs you</span><span class="af-meta__val">' + needs + '</span></span>' : '') + '</span></div>';
+    var cells = ENVS.map(function (e, i) {
+      var t = mine.filter(function (r) { return r[1] === i; }).sort(function (a, b) { return RANK[a[2]] - RANK[b[2]]; });
+      return '<div class="af-owners__cell">' + (t.length ? '<div class="af-fleet__board">' + t.map(tile).join('') + '</div>' : '<span class="af-owners__none">—</span>') + '</div>';
+    }).join('');
+    return '<div class="af-owners__row">' + who + cells + '</div>';
+  }).join('');
+  document.getElementById('owners-root').innerHTML = head + rows;
+})();
+</script>
+</body></html>
