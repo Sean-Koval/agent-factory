@@ -111,7 +111,7 @@ body { background: var(--af-canvas); }
 .md-typeset a.headerlink, .md-typeset .md-button { text-decoration: none; }
 
 /* buttons */
-.md-typeset .md-button { border-radius: var(--af-radius-control); border: 1px solid var(--af-line-strong); color: var(--af-fg); font-family: var(--af-font-mono); font-size: .64rem; letter-spacing: .06em; text-transform: uppercase; padding: .55em 1.2em; }
+.md-typeset .md-button { border-radius: var(--af-radius-control); border: 1px solid var(--af-line-strong); background: transparent; color: var(--af-fg); font-family: var(--af-font-mono); font-size: .64rem; letter-spacing: .06em; text-transform: uppercase; padding: .55em 1.2em; }
 .md-typeset .md-button--primary { background: var(--af-brand); border-color: var(--af-brand); color: var(--af-on-brand); }
 .md-typeset .md-button:hover { border-color: var(--af-fg); background: transparent; color: var(--af-fg); }
 .md-typeset .md-button--primary:hover { background: var(--af-brand-hover); border-color: var(--af-brand-hover); color: var(--af-on-brand); }
