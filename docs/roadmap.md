@@ -16,7 +16,7 @@ The counts and lists below are rebuilt from GitHub issue state every day and on 
 - **No big harness spec.** A harness is native files plus a small lock; no new format or compiler in the next six weeks.
 - **flightdeck waits for evidence.** No flightdeck code before week 5 and twenty labelled failures; v0 must change one real decision before it gets a UI.
 - **Shadows wait for reviewers.** Shadow runs stay off until review wait p50 is under four hours.
-- **Spaceport is frozen.** Cleanup only, until its MCP tools ask the workspace's decision point.
+- **Spaceport is frozen.** Cleanup only, until its MCP tools ask Tower's decision point.
 
 Choices that bind more than one repo are recorded on [Decisions](decisions.md).
 
