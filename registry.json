@@ -44,7 +44,7 @@
       "title": "Airframe skill for coding agents",
       "description": "A SKILL.md (Agent Skills standard) that keeps Claude Code and Codex on Airframe when they build UI: tokens only, the af- classes, the six statuses, the dark-cockpit rule, and where each component's contract lives. Installs for both agents.",
       "categories": ["agents", "skill"],
-      "registryDependencies": ["airframe"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
       "files": [
         {"path": ".claude/skills/airframe/SKILL.md", "type": "registry:file", "target": "~/.claude/skills/airframe/SKILL.md"},
         {"path": ".claude/skills/airframe/SKILL.md", "type": "registry:file", "target": "~/.agents/skills/airframe/SKILL.md"}
@@ -56,7 +56,7 @@
       "title": "Button",
       "description": "DM Mono capitals on a 2px radius: primary (signal yellow, one per view), secondary, ghost and danger, at 34 or 28 px. Installs the component contract (markup, classes, do and don't); the CSS comes with the airframe item.",
       "categories": ["component", "controls"],
-      "registryDependencies": ["airframe"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
       "files": [
         {"path": "airframe/components/Button/README.md", "type": "registry:file", "target": "~/airframe/components/Button.md"}
       ]
@@ -67,7 +67,7 @@
       "title": "Status",
       "description": "The six statuses, each color + shape + word: running (grey circle), queued (ring), needs approval (orange diamond), failed (red triangle), denied (red placard), off (small dot). Running and queued stay grey: the dark-cockpit rule. Installs the contract; the CSS comes with the airframe item.",
       "categories": ["component", "status"],
-      "registryDependencies": ["airframe"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
       "files": [
         {"path": "airframe/components/Status/README.md", "type": "registry:file", "target": "~/airframe/components/Status.md"}
       ]
@@ -78,7 +78,7 @@
       "title": "Card",
       "description": "Tonal cards: raised on canvas, 4px radius, 16px padding, no border and no shadow, with top, body and foot parts and a lit state for when a person is needed. Installs the contract; the CSS comes with the airframe item.",
       "categories": ["component", "cards"],
-      "registryDependencies": ["airframe"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
       "files": [
         {"path": "airframe/components/Card/README.md", "type": "registry:file", "target": "~/airframe/components/Card.md"}
       ]
@@ -89,7 +89,7 @@
       "title": "Fleet bays",
       "description": "The fleet as bays: one box per sandbox grouped by environment, with tail number, status, the work, owner, harness, a labeled stage track, lease left and the one action it needs. Installs the contract; the CSS comes with the airframe item.",
       "categories": ["component", "fleet"],
-      "registryDependencies": ["airframe", "status", "button"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status", "Sean-Koval/agent-factory/button"],
       "files": [
         {"path": "airframe/components/FleetBays/README.md", "type": "registry:file", "target": "~/airframe/components/FleetBays.md"}
       ]
@@ -100,7 +100,7 @@
       "title": "Airframe React wrappers",
       "description": "Thin React components over the af- classes: Button, Status, Card and Icon. They compose class names only, so they cannot drift from the CSS; the CSS comes with the airframe item. A prototype: the suite's consoles are vanilla JS today.",
       "categories": ["react", "component"],
-      "registryDependencies": ["airframe"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
       "files": [
         {"path": "registry/react/Button.tsx", "type": "registry:file", "target": "~/src/components/airframe/Button.tsx"},
         {"path": "registry/react/Status.tsx", "type": "registry:file", "target": "~/src/components/airframe/Status.tsx"},

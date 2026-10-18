@@ -20,6 +20,8 @@ npx shadcn@latest add Sean-Koval/agent-factory/skill#theme-v4
 npx shadcn@latest list Sean-Koval/agent-factory
 ```
 
+A `#ref` pins the item you name; the CLI does not carry it to that item's dependencies, which it reads from `main`. So `button#theme-v4` installs that tag's contract but the current `airframe` files. Pin the whole set by naming every item in one command, or install from the site, where each release's items are built together.
+
 As a named registry, for the `shadcn` MCP server and `@airframe/<item>` addresses (needs a full `components.json`):
 
 ```json

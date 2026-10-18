@@ -764,6 +764,7 @@ def pages(dest: Path) -> list[Path]:
 
 REGISTRY = ROOT / "registry.json"
 REGISTRY_URL = "https://sean-koval.github.io/agent-factory/r"
+REGISTRY_REPO = "Sean-Koval/agent-factory"   # the GitHub source-registry address of this repo
 ITEM_SCHEMA = "https://ui.shadcn.com/schema/registry-item.json"
 # https://ui.shadcn.com/schema/registry-item.json: the item types, and the file types (no font)
 ITEM_TYPES = ("registry:lib", "registry:block", "registry:component", "registry:ui", "registry:hook", "registry:theme",
@@ -814,25 +815,34 @@ def registry_problems() -> list[str]:
                 if not str(f.get("target", "")).startswith("~/"):
                     found.append(f"{where}: file {f.get('path')!r} needs a target starting with ~/ (universal item)")
         for dep in it.get("registryDependencies", []):
-            if dep not in names and not dep.startswith(("https://", "http://", "@")) and dep.count("/") < 2:
-                found.append(f"{where}: registryDependencies {dep!r} is not an item here, a URL or an address")
+            # a bare name means a shadcn/ui item to the CLI, on every route; items here are addressed by repo
+            if dep.startswith(f"{REGISTRY_REPO}/"):
+                if dep.split("#")[0].removeprefix(f"{REGISTRY_REPO}/") not in names:
+                    found.append(f"{where}: registryDependencies {dep!r} is not an item in this registry")
+            elif not dep.startswith(("https://", "http://", "@")):
+                found.append(f"{where}: registryDependencies {dep!r} must be {REGISTRY_REPO}/<item>, a URL or @namespace/<item>")
     return found
 
 
 def registry_items(base_url: str = REGISTRY_URL) -> dict[str, dict]:
     """Each item with its files' content inlined, as `shadcn build` would write them to public/r/.
 
-    Bare registryDependencies are rewritten to absolute URLs on the docs site: the shadcn CLI treats a bare
-    name as a shadcn/ui item, and the GitHub route pins its own ref per address.
+    Dependencies on this registry's own items (`Sean-Koval/agent-factory/<item>` in registry.json, which is
+    what the GitHub route needs) are rewritten to the item's URL on the docs site, so a URL install stays
+    on the site. The CLI treats a bare name as a shadcn/ui item on every route, so the source never uses one.
     """
     reg = registry()
     names = {it["name"] for it in reg["items"]}
+    prefix = f"{REGISTRY_REPO}/"
     out = {}
     for it in reg["items"]:
         item = {"$schema": ITEM_SCHEMA, **it}
         item["files"] = [{**f, "content": (ROOT / f["path"]).read_text()} for f in it["files"]]
         if it.get("registryDependencies"):
-            item["registryDependencies"] = [f"{base_url}/{d}.json" if d in names else d for d in it["registryDependencies"]]
+            item["registryDependencies"] = [
+                f"{base_url}/{d.removeprefix(prefix).split('#')[0]}.json"
+                if d.startswith(prefix) and d.removeprefix(prefix).split("#")[0] in names else d
+                for d in it["registryDependencies"]]
         item.setdefault("meta", {})["release"] = release()
         out[it["name"]] = item
     return out

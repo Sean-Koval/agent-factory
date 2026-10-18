@@ -216,6 +216,9 @@ class RegistryTests(unittest.TestCase):
             finally:
                 af.REGISTRY = real
         self.assertTrue(any("lowercase" in f for f in found))
+        for item in af.registry()["items"]:
+            for dep in item.get("registryDependencies", []):
+                self.assertTrue(dep.startswith(f"{af.REGISTRY_REPO}/"), f"{item['name']}: bare {dep!r} would resolve to shadcn/ui")
         self.assertTrue(any("does not exist" in f for f in found))
         self.assertTrue(any("target" in f for f in found))
 
