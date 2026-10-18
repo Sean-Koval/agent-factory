@@ -52,6 +52,10 @@ class BuildTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "gallery" / "airframe.js").exists(), "the gallery serves the helpers for the live previews")
             written = af.pages(Path(tmp) / "pages")
             self.assertIn("--af-status-approval", (Path(tmp) / "pages" / "airframe-colors.md").read_text())
+            # components.md sits next to gallery/ in docs/airframe/, so its preview links are siblings.
+            table = (Path(tmp) / "pages" / "airframe-components.md").read_text()
+            self.assertIn("](gallery/Button.html?theme=dark)", table)
+            self.assertNotIn("../gallery/", table)
             self.assertEqual(len(written), 5)
 
 
