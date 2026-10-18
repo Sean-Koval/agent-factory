@@ -5,7 +5,7 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
-## theme-v5 · draft
+## theme-v5 · 2026-10-17
 
 Distribution, from the design team's registry stream: Airframe can now be installed with the shadcn CLI and
 consumed from Tailwind and token tools. No token values change and no existing file changes.
