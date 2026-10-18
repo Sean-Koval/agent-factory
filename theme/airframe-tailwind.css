@@ -1,0 +1,157 @@
+/*
+  Airframe theme-v5 for Tailwind CSS v4. Generated from airframe/tokens.json by scripts/airframe.py; do not edit.
+  Load after Tailwind and the tokens (airframe.css: the --af- tokens, Night and Day):
+    @import "tailwindcss";
+    @import "./airframe/airframe.css";
+    @import "./airframe/airframe-tailwind.css";
+  Utilities: bg-canvas, text-fg-muted, border-line, bg-brand text-on-brand, font-display, font-mono,
+  text-body, text-label (size, line-height, weight and tracking of the type style), rounded-card,
+  shadow-overlay. Tailwind's default color, font, radius and shadow scales are removed on purpose.
+*/
+@theme inline {
+  --color-*: initial;
+  --font-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+
+  /* colors: every Airframe color token, by its own name */
+  --color-canvas: var(--af-canvas);
+  --color-surface: var(--af-surface);
+  --color-raised: var(--af-raised);
+  --color-overlay: var(--af-overlay);
+  --color-line-subtle: var(--af-line-subtle);
+  --color-line: var(--af-line);
+  --color-line-strong: var(--af-line-strong);
+  --color-rule: var(--af-rule);
+  --color-fg: var(--af-fg);
+  --color-fg-muted: var(--af-fg-muted);
+  --color-fg-subtle: var(--af-fg-subtle);
+  --color-fg-dim: var(--af-fg-dim);
+  --color-selected: var(--af-selected);
+  --color-brand: var(--af-brand);
+  --color-brand-hover: var(--af-brand-hover);
+  --color-brand-wash: var(--af-brand-wash);
+  --color-on-brand: var(--af-on-brand);
+  --color-brand-text: var(--af-brand-text);
+  --color-brand-line: var(--af-brand-line);
+  --color-focus: var(--af-focus);
+  --color-status-running: var(--af-status-running);
+  --color-status-queued: var(--af-status-queued);
+  --color-status-approval: var(--af-status-approval);
+  --color-status-failed: var(--af-status-failed);
+  --color-status-denied: var(--af-status-denied);
+  --color-on-status-denied: var(--af-on-status-denied);
+  --color-status-off: var(--af-status-off);
+  --color-lamp-caution: var(--af-lamp-caution);
+  --color-lamp-warning: var(--af-lamp-warning);
+  --color-on-lamp: var(--af-on-lamp);
+  --color-terminal-bg: var(--af-terminal-bg);
+  --color-terminal-fg: var(--af-terminal-fg);
+  --color-terminal-dim: var(--af-terminal-dim);
+  --color-terminal-ok: var(--af-terminal-ok);
+  --color-terminal-err: var(--af-terminal-err);
+  --color-code-keyword: var(--af-code-keyword);
+  --color-code-function: var(--af-code-function);
+  --color-code-string: var(--af-code-string);
+  --color-code-number: var(--af-code-number);
+  --color-code-comment: var(--af-code-comment);
+  --color-span-model: var(--af-span-model);
+  --color-span-tool: var(--af-span-tool);
+  --color-span-sandbox: var(--af-span-sandbox);
+  --color-stage-plan: var(--af-stage-plan);
+  --color-stage-edit: var(--af-stage-edit);
+  --color-stage-test: var(--af-stage-test);
+  --color-readout-cell: var(--af-readout-cell);
+  --color-display-window: var(--af-display-window);
+  --color-dot-field: var(--af-dot-field);
+  --color-product-hangar: var(--af-product-hangar);
+  --color-product-flightdeck: var(--af-product-flightdeck);
+  --color-product-tower: var(--af-product-tower);
+  --color-product-aidlc: var(--af-product-aidlc);
+  --color-product-spaceport: var(--af-product-spaceport);
+  --color-chart-1: var(--af-chart-1);
+  --color-chart-2: var(--af-chart-2);
+  --color-chart-3: var(--af-chart-3);
+  --color-chart-4: var(--af-chart-4);
+  --color-chart-5: var(--af-chart-5);
+  --color-chart-6: var(--af-chart-6);
+
+  /* type: the three faces; text-<style> sets size, line-height, weight and tracking */
+  --font-sans: var(--af-font-sans);
+  --font-mono: var(--af-font-mono);
+  --text-display-xl: 64px;
+  --text-display-xl--line-height: 1;
+  --text-display-xl--font-weight: 700;
+  --text-display-xl--letter-spacing: -0.01em;
+  --text-display-l: 48px;
+  --text-display-l--line-height: 1.02;
+  --text-display-l--font-weight: 700;
+  --text-display-l--letter-spacing: -0.01em;
+  --text-display-m: 36px;
+  --text-display-m--line-height: 1.05;
+  --text-display-m--font-weight: 700;
+  --text-display-m--letter-spacing: -0.005em;
+  --text-title-l: 22px;
+  --text-title-l--line-height: 1.15;
+  --text-title-l--font-weight: 600;
+  --text-title-l--letter-spacing: 0;
+  --text-title-m: 20px;
+  --text-title-m--line-height: 1.3;
+  --text-title-m--font-weight: 600;
+  --text-title-m--letter-spacing: -0.01em;
+  --text-title-s: 16px;
+  --text-title-s--line-height: 1.35;
+  --text-title-s--font-weight: 600;
+  --text-title-s--letter-spacing: -0.005em;
+  --text-body-l: 16px;
+  --text-body-l--line-height: 1.55;
+  --text-body-l--font-weight: 400;
+  --text-body: 14px;
+  --text-body--line-height: 1.5;
+  --text-body--font-weight: 400;
+  --text-body-s: 13px;
+  --text-body-s--line-height: 1.45;
+  --text-body-s--font-weight: 400;
+  --text-label: 11px;
+  --text-label--line-height: 1;
+  --text-label--font-weight: 500;
+  --text-label--letter-spacing: 0.08em;
+  --text-label-s: 10px;
+  --text-label-s--line-height: 1;
+  --text-label-s--font-weight: 500;
+  --text-label-s--letter-spacing: 0.09em;
+  --text-mono: 13px;
+  --text-mono--line-height: 1.5;
+  --text-mono--font-weight: 400;
+  --text-mono-s: 12px;
+  --text-mono-s--line-height: 1.45;
+  --text-mono-s--font-weight: 400;
+  --text-data: 13px;
+  --text-data--line-height: 1.3;
+  --text-data--font-weight: 500;
+  --tracking-label: var(--af-label-track);
+  --tracking-display: var(--af-display-track);
+
+  /* shape */
+  --radius-none: var(--af-radius-none);
+  --radius-control: var(--af-radius-control);
+  --radius-card: var(--af-radius-card);
+  --radius-round: var(--af-radius-round);
+  --shadow-overlay: var(--af-shadow-overlay);
+
+  /* layout: max-w-page, h-header, h-row, h-row-compact, h-lane, h-span */
+  --container-page: var(--af-container-max);
+  --spacing-header: var(--af-header-h);
+  --spacing-row: var(--af-row-h);
+  --spacing-row-compact: var(--af-row-h-compact);
+  --spacing-lane: var(--af-lane-h);
+  --spacing-span: var(--af-span-h);
+}
+
+/* Archivo Expanded is Archivo's width axis at 125%: the display face always sets both. */
+@utility font-display { font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); }
+
+/* The af- classes are unlayered, so a utility on the same element cannot override them; that is the
+   contract (compose af- classes as the component README shows, add utilities for layout around them).
+   Put Airframe's component CSS in a layer when a project must win with utilities:
+   @import "./airframe/airframe-components.css" layer(components); */

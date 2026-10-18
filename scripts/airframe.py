@@ -5,6 +5,7 @@
     python3 scripts/airframe.py check          # CI: theme/ is up to date and the sources obey the rules
     python3 scripts/airframe.py gallery DIR    # component previews in Night and Day (the docs site's gallery)
     python3 scripts/airframe.py pages DIR      # reference tables (tokens, components, icons) as Markdown snippets
+    python3 scripts/airframe.py registry DIR   # the shadcn-compatible registry as static JSON (the docs site's /r/)
 
 Generated (never edit by hand):
 
@@ -12,6 +13,13 @@ Generated (never edit by hand):
     theme/airframe-components.css  the af- component classes: fonts, type styles, base, core, viz
     theme/airframe-icons.svg       the icon sprite (<use href="airframe-icons.svg#af-agent">)
     theme/airframe-tokens.json     tokens resolved per theme, for scripts (diagrams, decks, tests)
+    theme/airframe-tailwind.css    a Tailwind CSS v4 @theme that maps every utility onto the --af- tokens
+    theme/airframe.tokens.json     the tokens in the W3C Design Tokens (DTCG 2025.10) format, Night
+    theme/airframe-day.tokens.json the same for Day (one complete file per theme; tools merge or pick)
+
+The registry: registry.json at the repo root lists the items (a GitHub source registry: `npx shadcn@latest
+add Sean-Koval/agent-factory/<item>#theme-vN`); `registry` inlines each item's files into DIR/<item>.json
+so the same items install from the docs site (`npx shadcn@latest add <site>/r/<item>.json`).
 
 Hand-written in theme/: airframe-docs.css (the docs-site mapping), suite.css, CHANGELOG.md.
 No dependencies beyond the Python standard library.
@@ -208,13 +216,213 @@ def components_css(tokens: dict) -> str:
     return "\n".join(parts) + "\n"
 
 
+# ---------------------------------------------------------------- exports: Tailwind v4 and DTCG
+
+def tailwind_css(tokens: dict) -> str:
+    """A Tailwind CSS v4 theme (https://tailwindcss.com/docs/theme) over the --af- tokens.
+
+    `@theme inline` makes every utility read the token variable itself, so bg-canvas follows data-theme.
+    The color, font, radius and shadow namespaces are reset first: an Airframe project has no bg-blue-500,
+    the same rule the CSS guard enforces (tokens only). Spacing keeps Tailwind's 4px scale, which is
+    Airframe's: p-4 is space-16, gap-3 is space-12.
+    """
+    ids = themes(tokens)
+    lines = [
+        "/*",
+        f"  Airframe {release()} for Tailwind CSS v4. Generated from airframe/tokens.json by scripts/airframe.py; do not edit.",
+        "  Load after Tailwind and the tokens (airframe.css: the --af- tokens, Night and Day):",
+        '    @import "tailwindcss";',
+        '    @import "./airframe/airframe.css";',
+        '    @import "./airframe/airframe-tailwind.css";',
+        "  Utilities: bg-canvas, text-fg-muted, border-line, bg-brand text-on-brand, font-display, font-mono,",
+        "  text-body, text-label (size, line-height, weight and tracking of the type style), rounded-card,",
+        "  shadow-overlay. Tailwind's default color, font, radius and shadow scales are removed on purpose.",
+        "*/",
+        "@theme inline {",
+        "  --color-*: initial;",
+        "  --font-*: initial;",
+        "  --radius-*: initial;",
+        "  --shadow-*: initial;",
+        "",
+        "  /* colors: every Airframe color token, by its own name */",
+    ]
+    for t in tokens["color"]["tokens"]:
+        lines.append(f"  --color-{t['name']}: var({PREFIX}{t['name']});")
+    lines += ["", "  /* type: the three faces; text-<style> sets size, line-height, weight and tracking */"]
+    for fam in tokens["type"]["families"]:
+        if fam != "display":  # font-display is a custom utility below: it needs the width axis too
+            lines.append(f"  --font-{fam}: var({PREFIX}font-{fam});")
+    for group in tokens["type"]["groups"]:
+        for s in group["styles"]:
+            name = s["name"]
+            lines.append(f"  --text-{name}: {s['fontSize']};")
+            if s.get("lineHeight") is not None:
+                lines.append(f"  --text-{name}--line-height: {s['lineHeight']};")
+            if s.get("fontWeight") is not None:
+                lines.append(f"  --text-{name}--font-weight: {s['fontWeight']};")
+            if s.get("letterSpacing") is not None:
+                lines.append(f"  --text-{name}--letter-spacing: {s['letterSpacing']};")
+    lines.append(f"  --tracking-label: var({PREFIX}label-track);")
+    lines.append(f"  --tracking-display: var({PREFIX}display-track);")
+    lines += ["", "  /* shape */"]
+    for t in tokens["radius"]["tokens"]:
+        short = t["name"].removeprefix("radius-")
+        lines.append(f"  --radius-{short}: var({PREFIX}{t['name']});")
+    for t in tokens["shadow"]["tokens"]:
+        short = t["name"].removeprefix("shadow-")
+        lines.append(f"  --shadow-{short}: var({PREFIX}{t['name']});")
+    lines += ["", "  /* layout: max-w-page, h-header, h-row, h-row-compact, h-lane, h-span */"]
+    layout = {t["name"] for t in tokens["layout"]["tokens"]}
+    for name, tw in (("container-max", "--container-page"), ("header-h", "--spacing-header"), ("row-h", "--spacing-row"),
+                     ("row-h-compact", "--spacing-row-compact"), ("lane-h", "--spacing-lane"), ("span-h", "--spacing-span")):
+        if name in layout:
+            lines.append(f"  {tw}: var({PREFIX}{name});")
+    lines.append("}")
+    lines += [
+        "",
+        "/* Archivo Expanded is Archivo's width axis at 125%: the display face always sets both. */",
+        f"@utility font-display {{ font-family: var({PREFIX}font-display); font-stretch: var({PREFIX}display-stretch); }}",
+        "",
+        "/* The af- classes are unlayered, so a utility on the same element cannot override them; that is the",
+        "   contract (compose af- classes as the component README shows, add utilities for layout around them).",
+        "   Put Airframe's component CSS in a layer when a project must win with utilities:",
+        "   @import \"./airframe/airframe-components.css\" layer(components); */",
+    ]
+    assert ids[0] == "dark"
+    return "\n".join(lines) + "\n"
+
+
+DTCG_EXT = "io.github.sean-koval.airframe"
+_PX = re.compile(r"^(-?\d+(?:\.\d+)?)(px|rem)$")
+_NUM = re.compile(r"^(-?\d+(?:\.\d+)?)(em|%)?$")
+_RGBA = re.compile(r"^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+)\s*)?\)$")
+_SHADOW = re.compile(r"^(-?\d+)(?:px)?\s+(-?\d+)(?:px)?\s+(-?\d+)(?:px)?(?:\s+(-?\d+)(?:px)?)?\s+(.+)$")
+
+
+def dtcg_color(css: str) -> dict:
+    """A CSS color (hex or rgb[a]) as a DTCG color value (Color Module 2025.10, sRGB)."""
+    m = _RGBA.match(css)
+    if m:
+        r, g, b = (int(m.group(i)) for i in (1, 2, 3))
+        alpha = float(m.group(4)) if m.group(4) is not None else 1.0
+    else:
+        h = css.lstrip("#")
+        if len(h) in (3, 4):
+            h = "".join(ch * 2 for ch in h)
+        r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
+        alpha = int(h[6:8], 16) / 255 if len(h) == 8 else 1.0
+    out = {"colorSpace": "srgb", "components": [round(r / 255, 4), round(g / 255, 4), round(b / 255, 4)],
+           "hex": f"#{r:02X}{g:02X}{b:02X}"}
+    if alpha != 1.0:
+        out["alpha"] = round(alpha, 4)
+    return out
+
+
+def dtcg_dimension(css: str) -> dict | None:
+    m = _PX.match(css.strip())
+    return {"value": float(m.group(1)) if "." in m.group(1) else int(m.group(1)), "unit": m.group(2)} if m else None
+
+
+def _dtcg_scalar(css: str, usage: str) -> dict:
+    """px/rem become dimension; em and % become number with the unit kept in $extensions (DTCG has no em)."""
+    d = dtcg_dimension(css)
+    if d:
+        return {"$type": "dimension", "$value": d, "$description": usage}
+    m = _NUM.match(css.strip())
+    if m:
+        n = float(m.group(1)) if "." in m.group(1) else int(m.group(1))
+        tok = {"$type": "number", "$value": n, "$description": usage}
+        if m.group(2):
+            tok["$extensions"] = {DTCG_EXT: {"unit": m.group(2), "css": css}}
+        return tok
+    raise ValueError(f"cannot express {css!r} as a DTCG value")
+
+
+def dtcg_shadow(css: str) -> dict:
+    m = _SHADOW.match(css.strip())
+    if not m:
+        raise ValueError(f"cannot parse shadow {css!r}")
+    px = lambda v: {"value": int(v or 0), "unit": "px"}  # noqa: E731
+    return {"color": dtcg_color(m.group(5).strip()), "offsetX": px(m.group(1)), "offsetY": px(m.group(2)),
+            "blur": px(m.group(3)), "spread": px(m.group(4))}
+
+
+def dtcg(tokens: dict, theme: str) -> dict:
+    """One complete W3C Design Tokens file (Format Module 2025.10) for a theme.
+
+    Groups: color, font (families and the display axis), type (typography composites), space, radius,
+    shadow, layout, icon. Letter-spacing in em is converted to px for the typography composite (the spec
+    allows px and rem only) and kept as written under $extensions. Themes are separate files because the
+    core format has no modes; the Resolver Module that adds them is still a preview draft.
+    """
+    ids = themes(tokens)
+    names = {t["id"]: t["name"] for t in tokens["color"]["themes"]}
+    doc: dict = {
+        "$description": (f"Airframe {release()}, {names[theme]} theme, in the Design Tokens Format Module 2025.10. "
+                         "Generated from airframe/tokens.json by scripts/airframe.py; do not edit. Each token's "
+                         "'css' extension names its CSS custom property or class."),
+        "$extensions": {DTCG_EXT: {"theme": theme, "themeName": names[theme], "release": release(),
+                                   "defaultTheme": ids[0], "prefix": PREFIX,
+                                   "format": "https://www.designtokens.org/tr/drafts/format/"}},
+    }
+    css = lambda name: {DTCG_EXT: {"css": f"{PREFIX}{name}"}}  # noqa: E731
+    doc["color"] = {"$type": "color"}
+    for t in tokens["color"]["tokens"]:
+        doc["color"][t["name"]] = {"$value": dtcg_color(value(t, theme, ids)), "$description": t["usage"],
+                                   "$extensions": css(t["name"])}
+    doc["font"] = {"$description": "Font families and the display axis settings."}
+    for fam, stack in tokens["type"]["families"].items():
+        doc["font"][fam] = {"$type": "fontFamily", "$value": [s.strip().strip('"') for s in stack.split(",")],
+                            "$extensions": css(f"font-{fam}")}
+    for t in tokens["font"]["tokens"]:
+        if t["name"] == "display-weight":
+            tok = {"$type": "fontWeight", "$value": int(t["value"]), "$description": t["usage"]}
+        else:
+            tok = _dtcg_scalar(t["value"], t["usage"])
+        tok.setdefault("$extensions", {}).update(css(t["name"]))
+        doc["font"][t["name"]] = tok
+    doc["type"] = {"$type": "typography", "$description": "The type styles (.af-type-<name>)."}
+    for group in tokens["type"]["groups"]:
+        for s in group["styles"]:
+            fam = s.get("family", group.get("family"))
+            size = dtcg_dimension(s["fontSize"])
+            val: dict = {"fontFamily": "{font." + fam + "}", "fontSize": size,
+                         "fontWeight": int(s.get("fontWeight", 400)), "lineHeight": float(s.get("lineHeight", 1))}
+            ext = {"css": f".af-type-{s['name']}"}
+            if s.get("letterSpacing") not in (None, "0"):
+                m = _NUM.match(str(s["letterSpacing"]))
+                if m and m.group(2) == "em" and size:
+                    val["letterSpacing"] = {"value": round(float(m.group(1)) * size["value"], 3), "unit": "px"}
+                    ext["letterSpacing"] = s["letterSpacing"]
+            for k in ("textTransform", "fontStyle", "tabular"):
+                if s.get(k):
+                    ext[k] = s[k]
+            doc["type"][s["name"]] = {"$value": val, "$description": s.get("usage", ""), "$extensions": {DTCG_EXT: ext}}
+    for fam, group in (("spacing", "space"), ("radius", "radius"), ("layout", "layout"), ("icon", "icon")):
+        doc[group] = {}
+        for t in tokens[fam]["tokens"]:
+            key = t["name"].removeprefix(f"{group}-") if group in ("space", "radius") else t["name"]
+            tok = _dtcg_scalar(str(t["value"]), t.get("usage", ""))
+            tok.setdefault("$extensions", {}).update(css(t["name"]))
+            doc[group][key] = tok
+    doc["shadow"] = {"$type": "shadow"}
+    for t in tokens["shadow"]["tokens"]:
+        doc["shadow"][t["name"].removeprefix("shadow-")] = {
+            "$value": dtcg_shadow(value(t, theme, ids)), "$description": t["usage"], "$extensions": css(t["name"])}
+    return doc
+
+
 def outputs(tokens: dict | None = None) -> dict[Path, str]:
     tokens = tokens or load_tokens()
+    dump = lambda d: json.dumps(d, indent=2, ensure_ascii=False) + "\n"  # noqa: E731
     return {
         THEME / "airframe.css": tokens_css(tokens),
         THEME / "airframe-components.css": components_css(tokens),
         THEME / "airframe-icons.svg": (SRC / "icons" / "airframe-icons.svg").read_text(),
-        THEME / "airframe-tokens.json": json.dumps(resolved(tokens), indent=2, ensure_ascii=False) + "\n",
+        THEME / "airframe-tokens.json": dump(resolved(tokens)),
+        THEME / "airframe-tailwind.css": tailwind_css(tokens),
+        THEME / "airframe.tokens.json": dump(dtcg(tokens, "dark")),
+        THEME / "airframe-day.tokens.json": dump(dtcg(tokens, "light")),
     }
 
 
@@ -255,8 +463,11 @@ def problems() -> list[str]:
         for lit in color_literals(path.read_text()):
             found.append(f"{path.relative_to(ROOT)}: color literal {lit}; use an Airframe token (var(--af-<name>))")
 
+    found += registry_problems()
+
     # every var(--af-...) the theme files and previews use must be a token, an alias or a local variable
-    css_files = [THEME / "airframe-components.css", THEME / "airframe-docs.css", THEME / "suite.css"]
+    css_files = [THEME / "airframe-components.css", THEME / "airframe-docs.css", THEME / "suite.css",
+                 THEME / "airframe-tailwind.css"]
     texts = {p: p.read_text() for p in css_files + sources if p.exists()}
     known = {PREFIX + n for n in token_names(tokens)} | {PREFIX + a for a in ALIASES} | {"--af-product", "--af-tool"}
     known |= defined_vars(*texts.values())
@@ -549,6 +760,113 @@ def pages(dest: Path) -> list[Path]:
     return written
 
 
+# ---------------------------------------------------------------- registry (shadcn-compatible)
+
+REGISTRY = ROOT / "registry.json"
+REGISTRY_URL = "https://sean-koval.github.io/agent-factory/r"
+REGISTRY_REPO = "Sean-Koval/agent-factory"   # the GitHub source-registry address of this repo
+ITEM_SCHEMA = "https://ui.shadcn.com/schema/registry-item.json"
+# https://ui.shadcn.com/schema/registry-item.json: the item types, and the file types (no font)
+ITEM_TYPES = ("registry:lib", "registry:block", "registry:component", "registry:ui", "registry:hook", "registry:theme",
+              "registry:page", "registry:file", "registry:style", "registry:base", "registry:font", "registry:item")
+FILE_TYPES = tuple(t for t in ITEM_TYPES if t != "registry:font")
+NAME_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+
+
+def registry() -> dict:
+    return json.loads(REGISTRY.read_text())
+
+
+def registry_problems() -> list[str]:
+    """registry.json obeys the shadcn registry schema, and every file it names exists.
+
+    Airframe items are "universal" items (type registry:item, every file with an explicit `~/` target),
+    so they install into any project: no components.json, Tailwind or React needed.
+    """
+    found: list[str] = []
+    if not REGISTRY.exists():
+        return ["registry.json is missing"]
+    try:
+        reg = registry()
+    except json.JSONDecodeError as e:
+        return [f"registry.json: {e}"]
+    for key in ("$schema", "name", "homepage", "items"):
+        if key not in reg:
+            found.append(f"registry.json: missing {key}")
+    names = [it.get("name") for it in reg.get("items", [])]
+    if len(set(names)) != len(names):
+        found.append("registry.json: item names must be unique")
+    for it in reg.get("items", []):
+        where = f"registry.json: item {it.get('name')!r}"
+        if not NAME_RE.match(str(it.get("name", ""))):
+            found.append(f"{where}: name must be lowercase letters, digits and dashes")
+        if it.get("type") not in ITEM_TYPES:
+            found.append(f"{where}: type {it.get('type')!r} is not a registry item type")
+        if not it.get("title") or not it.get("description"):
+            found.append(f"{where}: needs a title and a description (agents and the CLI search them)")
+        if not it.get("files"):
+            found.append(f"{where}: needs at least one file")
+        for f in it.get("files", []):
+            if f.get("type") not in FILE_TYPES:
+                found.append(f"{where}: file {f.get('path')!r} has type {f.get('type')!r}")
+            if not f.get("path") or not (ROOT / f["path"]).is_file():
+                found.append(f"{where}: file {f.get('path')!r} does not exist")
+            if f.get("type") in ("registry:file", "registry:page", "registry:item") or it.get("type") == "registry:item":
+                if not str(f.get("target", "")).startswith("~/"):
+                    found.append(f"{where}: file {f.get('path')!r} needs a target starting with ~/ (universal item)")
+        for dep in it.get("registryDependencies", []):
+            # a bare name means a shadcn/ui item to the CLI, on every route; items here are addressed by repo
+            if dep.startswith(f"{REGISTRY_REPO}/"):
+                if dep.split("#")[0].removeprefix(f"{REGISTRY_REPO}/") not in names:
+                    found.append(f"{where}: registryDependencies {dep!r} is not an item in this registry")
+            elif not dep.startswith(("https://", "http://", "@")):
+                found.append(f"{where}: registryDependencies {dep!r} must be {REGISTRY_REPO}/<item>, a URL or @namespace/<item>")
+    return found
+
+
+def registry_items(base_url: str = REGISTRY_URL) -> dict[str, dict]:
+    """Each item with its files' content inlined, as `shadcn build` would write them to public/r/.
+
+    Dependencies on this registry's own items (`Sean-Koval/agent-factory/<item>` in registry.json, which is
+    what the GitHub route needs) are rewritten to the item's URL on the docs site, so a URL install stays
+    on the site. The CLI treats a bare name as a shadcn/ui item on every route, so the source never uses one.
+    """
+    reg = registry()
+    names = {it["name"] for it in reg["items"]}
+    prefix = f"{REGISTRY_REPO}/"
+    out = {}
+    for it in reg["items"]:
+        item = {"$schema": ITEM_SCHEMA, **it}
+        item["files"] = [{**f, "content": (ROOT / f["path"]).read_text()} for f in it["files"]]
+        if it.get("registryDependencies"):
+            item["registryDependencies"] = [
+                f"{base_url}/{d.removeprefix(prefix).split('#')[0]}.json"
+                if d.startswith(prefix) and d.removeprefix(prefix).split("#")[0] in names else d
+                for d in it["registryDependencies"]]
+        item.setdefault("meta", {})["release"] = release()
+        out[it["name"]] = item
+    return out
+
+
+def registry_build(dest: Path, base_url: str = REGISTRY_URL) -> list[Path]:
+    found = registry_problems()
+    if found:
+        raise SystemExit("\n".join(f"airframe: {f}" for f in found))
+    dest.mkdir(parents=True, exist_ok=True)
+    written = []
+    items = registry_items(base_url)
+    for name, item in items.items():
+        p = dest / f"{name}.json"
+        p.write_text(json.dumps(item, indent=2, ensure_ascii=False) + "\n")
+        written.append(p)
+    reg = registry()
+    index = {**reg, "items": [{k: v for k, v in it.items() if k != "files"} | {"files": [
+        {k: v for k, v in f.items() if k != "content"} for f in it["files"]]} for it in reg["items"]]}
+    (dest / "registry.json").write_text(json.dumps(index, indent=2, ensure_ascii=False) + "\n")
+    written.append(dest / "registry.json")
+    return written
+
+
 # ---------------------------------------------------------------- cli
 
 def main(argv: list[str] | None = None) -> int:
@@ -560,6 +878,9 @@ def main(argv: list[str] | None = None) -> int:
     g.add_argument("dest", type=Path)
     p = sub.add_parser("pages")
     p.add_argument("dest", type=Path)
+    r = sub.add_parser("registry")
+    r.add_argument("dest", type=Path)
+    r.add_argument("--base-url", default=REGISTRY_URL, help="where DIR will be served (for registryDependencies)")
     args = ap.parse_args(argv)
 
     if args.cmd == "build":
@@ -582,6 +903,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "pages":
         for path in pages(args.dest):
             print(f"airframe: wrote {path}")
+        return 0
+    if args.cmd == "registry":
+        written = registry_build(args.dest, args.base_url.rstrip("/"))
+        print(f"airframe: {len(written) - 1} registry items + registry.json in {args.dest}")
         return 0
     return 2
 

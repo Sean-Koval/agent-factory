@@ -11,8 +11,10 @@ The design system for every tool in the suite, and its single source of truth. D
 | `fonts/` | The three families as small static files, for generating assets whose text must be outlines (banners). Sites load the families from Google Fonts. |
 | `guide/` | The brand book: [principles, voice, layout and accessibility](guide/brand.md), [Status](guide/Status.md), [Data](guide/Data.md), [Products](guide/Products.md). |
 
-`python3 scripts/airframe.py build` turns this folder into `theme/airframe.css`, `theme/airframe-components.css`, `theme/airframe-icons.svg` and `theme/airframe-tokens.json`; `check` (in CI) fails when they are stale, when a source has a color literal, or when a `var(--af-*)` is not a token. Every change to `theme/` needs a `theme/CHANGELOG.md` entry, and merging it releases `theme-vN` to the tool repos.
+`python3 scripts/airframe.py build` turns this folder into `theme/airframe.css`, `theme/airframe-components.css`, `theme/airframe-icons.svg` and `theme/airframe-tokens.json`, plus three exports for other toolchains: `theme/airframe-tailwind.css` (a Tailwind CSS v4 `@theme` over the tokens) and `theme/airframe.tokens.json` / `theme/airframe-day.tokens.json` (the W3C Design Tokens format, one file per theme); `check` (in CI) fails when they are stale, when a source has a color literal, or when a `var(--af-*)` is not a token. Every change to `theme/` needs a `theme/CHANGELOG.md` entry, and merging it releases `theme-vN` to the tool repos.
 
 `python3 scripts/banners.py` turns the tokens, the marks and the fonts into each product's brand surfaces in [`brand/`](../brand/README.md): README banner, social preview, favicon and header mark.
+
+`registry.json` at the repository root publishes the same files, the component contracts, a React wrapper set and the agent skill as a shadcn-compatible registry (`npx shadcn@latest add Sean-Koval/agent-factory/airframe#theme-vN`, or `<docs site>/r/<item>.json`); see the [Registry](https://sean-koval.github.io/agent-factory/airframe/registry/) page.
 
 Previews in the gallery and on the claude.ai Design System page are built from these same files. When anything else disagrees with this folder, this folder wins.

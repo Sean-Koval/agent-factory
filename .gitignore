@@ -2,6 +2,7 @@ site/
 docs/theme/
 docs/deck/
 docs/airframe/gallery/
+docs/r/
 __pycache__/
 deck/fragment.html
 generated/

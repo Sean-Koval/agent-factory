@@ -57,6 +57,7 @@ nav:
       - Tokens: airframe/tokens.md
       - Components: airframe/components.md
       - Icons: airframe/icons.md
+      - Registry: airframe/registry.md
   - Roadmap: roadmap.md
   - Decisions: decisions.md
   - Glossary: glossary.md
