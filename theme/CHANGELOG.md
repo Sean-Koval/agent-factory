@@ -5,6 +5,25 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v4 · 2026-10-17
+
+Accessibility patch from the design team's research stream: statuses now survive forced colors (Windows Contrast
+Themes), and the guide states one attention order. No token values change.
+
+- `airframe-components.css`: each stylesheet gains an `@media (forced-colors: active)` block in system colors only.
+  Before, the browser's forced palette erased the running, approval, failed and off marks, the denied placard's fill,
+  the lit card ring, tile edges, fleet pips, lane stages and trace spans, leaving only the words.
+  - Status marks, stand marks and lane marks paint in `CanvasText`, so the circle, diamond, triangle and dot still
+    say the status; the queued ring and the denied placard become outlines.
+  - Cards, stands, bays and minis get a 1px outline; lit and attention variants (`af-card--lit`, attention rows and
+    tiles, failed spans) a 2px one; human waits a 2px outline; queues stay dashed.
+  - Selection (`aria-pressed` stands, selected bays, minis, table rows, lanes, trace rows, pressed segments) uses
+    `Highlight`; the lanes' now line too.
+  - The primary button keeps a 2px `ButtonText` border so it still reads as the primary action.
+- Brand book: `guide/Status.md` states the attention order once, for group marks, columns and counts alike:
+  approval, failed, denied, then running, queued, off (it said denied first, which contradicted FleetView and the
+  hangar console); `FleetBays` now matches. Adds the forced-colors rule.
+
 ## theme-v3 · 2026-10-17
 
 Fleet views: the same sandboxes four ways, chosen by Sean from the fleet layout study. No token

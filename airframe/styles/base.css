@@ -92,3 +92,15 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 .af-readout b{font-weight:inherit;background:var(--af-readout-cell);padding:.05em .05em;margin-right:.07em}
 .af-readout b.af-readout__p{background:none;padding-inline:0;margin-right:.03em}
 .af-readout--l{font-size:clamp(34px,5vw,60px)} .af-readout--m{font-size:30px} .af-readout--s{font-size:20px}
+
+/* Forced colors (Windows Contrast Themes): the browser replaces background colors and drops box-shadows, which would
+   erase the status marks and the lit edge. Paint marks in CanvasText so the shape still says the status, and turn
+   tonal separation and lit edges into outlines. System colors only; never opt a status out of forced colors. */
+@media (forced-colors: active){
+  .af-status__mark{background:CanvasText}
+  .af-status--queued .af-status__mark{background:transparent;border-color:CanvasText}
+  .af-status--denied{background:Canvas;color:CanvasText;outline:1px solid CanvasText;outline-offset:-1px}
+  .af-card{outline:1px solid CanvasText;outline-offset:-1px}
+  .af-card--lit{outline-width:2px;outline-offset:-2px}
+  .af-btn--primary{border:2px solid ButtonText}
+}

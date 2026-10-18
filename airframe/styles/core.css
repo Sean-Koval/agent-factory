@@ -279,3 +279,12 @@ a.af-seg__btn{display:inline-flex;align-items:center;text-decoration:none}
   .af-hero__stage{padding:20px 0 20px 20px}
 }
 @media (max-width:520px){.af-hero .af-readouts{--af-cols:1}}
+
+/* Forced colors: attention rows keep an edge once their tint and inset ring are gone (see base.css) */
+@media (forced-colors: active){
+  .af-list__row.is-attention{outline:2px solid CanvasText;outline-offset:-2px}
+  .af-table tr.is-attention td:first-child{border-left:3px solid CanvasText}
+  .af-table tbody tr:is(.is-selected,[aria-selected="true"]) td:first-child{border-left:3px solid Highlight}
+  .af-seg__btn[aria-pressed="true"],.af-seg__btn[aria-current="page"]{background:Highlight;color:HighlightText}
+  .af-nav__tab:is([aria-current="page"],.is-active)::after{background:CanvasText}
+}
