@@ -8,7 +8,7 @@ Five products share one system. They differ only in name, glyph and hue, and the
 - Identify a product by its mark and its name, set in the display face. Names keep their case: hangar, flightdeck, Tower (the governed workspace), ai-dlc, Spaceport.
 - Use a product hue in three places only: the product mark, the docs or marketing header for that product, and the 2px nav marker under the active tab.
 - Never use a product hue for state, buttons, links, focus, selection or chart series. Inside a console, everything but the mark and the nav marker is greyscale, brand yellow or status.
-- Tail-number prefixes belong to a product: `HGR-` hangar, `FDK-` flightdeck, `WS-` Tower.
+- Tail-number prefixes belong to a product: `HGR-` hangar, `FDK-` flightdeck, `TWR-` Tower.
 
 ## Product hues
 

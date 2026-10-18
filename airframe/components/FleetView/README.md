@@ -74,7 +74,7 @@ Toggle `af-fleet--lanes` on the root and `aria-pressed` on the two `af-seg__btn`
 
 ## When to use
 
-The hangar fleet page, or any overview of up to a few hundred sandboxes where the question is "what needs me, and where is everything". Use FleetTable for a sortable list with columns, SessionLanes alone for history without the board, and TraceSpans for a single turn.
+The hangar fleet page, or any overview of up to a few hundred sandboxes where the question is "what needs me, and where is everything". It is the default of four fleet views over the same data: Board (this), Bays (FleetBays, a box per sandbox you can read and act on), Columns (FleetColumns, one column per state for triage) and Owners (FleetOwners, capacity by person). Offer them behind an `af-seg` switch (links take `aria-current="page"`) and keep the selection across views. Use FleetTable for a sortable list with columns, SessionLanes alone for history without the board, and TraceSpans for a single turn.
 
 ## Do
 

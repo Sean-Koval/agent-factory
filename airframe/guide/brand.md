@@ -8,7 +8,7 @@ Airframe is the shared design system for Sean's agent-infrastructure consoles. I
 |---|---|---|
 | **hangar** | Control plane for cloud coding-agent sandboxes: fleet, environments, sandboxes, sessions, jobs, approvals, traces. | `HGR-7Q2K` |
 | **flightdeck** | Harness evals: experiments, behavior checks over traces, promotion (the approver is never the author). | `FDK-EXP-0142` |
-| **Tower** (governed workspace) | One policy decision point for people and agents: decisions, approvals, receipts, audit trail. | `WS-APR-0391`, `WS-RCPT-88A1` |
+| **Tower** (governed workspace) | One policy decision point for people and agents: decisions, approvals, receipts, audit trail. | `TWR-APR-0391`, `TWR-RCPT-88A1` |
 | **ai-dlc** | Portable dev-environment kit: roles mapped to providers, a CLI and docs. | none |
 | **Spaceport** | Catalog of data products: cards, schemas, lineage. | none |
 
@@ -41,7 +41,7 @@ Three further sections carry the detailed rules: **Status** (the six statuses), 
 
 ### Tail-number IDs
 
-- Give every object a person can point at a tail number: product prefix, optional type, short code; uppercase, hyphenated. `HGR-7Q2K` sandbox, `FDK-EXP-0142` experiment, `WS-APR-0391` approval, `WS-RCPT-88A1` receipt.
+- Give every object a person can point at a tail number: product prefix, optional type, short code; uppercase, hyphenated. `HGR-7Q2K` sandbox, `FDK-EXP-0142` experiment, `TWR-APR-0391` approval, `TWR-RCPT-88A1` receipt.
 - Set IDs in `af-id` (DM Mono 500). Never lowercase, wrap or truncate an ID; truncate the description beside it. The fleet board may show the code alone (`7Q2K`) because the pool header carries the prefix.
 - Lead with the ID: "HGR-0PZ4 failed at test", not "Test failed for sandbox HGR-0PZ4".
 
@@ -58,7 +58,7 @@ Three further sections carry the detailed rules: **Status** (the six statuses), 
 
 - **hangar.** Headline: "Forty agents. One needs you." Lede: "hangar runs coding agents in isolated cloud sandboxes, holds risky steps for a human, and files a receipt for every decision." Alert: "HGR-3MX9 is holding at PR. Push to main needs your approval." Empty: "No sandboxes running. Start one from an environment." Buttons: Start a sandbox, Snapshot, Fork.
 - **flightdeck.** Headline: "Planner prompt v4". Result: "v4 beats v3 on 7 of 9 behavior checks. Tool-call budget regressed 12%." Gate: "Promotion needs an approver who is not the author." Buttons: Promote, Hold.
-- **Tower.** Request: "codex wants to push to main. Policy require-approval-main-push holds it for you." Outcome: "Approved by Sean at 14:02. Receipt WS-RCPT-88A1." Denial: "Denied by policy deny-secrets-egress. No receipt issued." Buttons: Approve, Deny.
+- **Tower.** Request: "codex wants to push to main. Policy require-approval-main-push holds it for you." Outcome: "Approved by Sean at 14:02. Receipt TWR-RCPT-88A1." Denial: "Denied by policy deny-secrets-egress. No receipt issued." Buttons: Approve, Deny.
 - **ai-dlc.** CLI: "Environment base-codex ready in 41 s." Docs: "Map each role to a provider once. Every repo picks it up."
 - **Spaceport.** Card: "orders_daily refreshed at 06:00." Gate: "Schema change on orders_daily needs the owner's approval."
 
