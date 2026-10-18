@@ -77,7 +77,7 @@ jobs:
           app-id: ${{ vars.THEME_SYNC_APP_ID }}
           private-key: ${{ secrets.THEME_SYNC_APP_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: hangar,flightdeck,ai-dlc,governed-agent-workspace
+          repositories: hangar,flightdeck,ai-dlc,tower
       - name: Open sync PRs in the tool repos
         if: steps.app.outputs.token != ''
         env:

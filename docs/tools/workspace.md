@@ -13,4 +13,4 @@ The team's governance plane: one decision point for risky actions, with human ap
 | Entry points | A REST decision API (planned, spec 0015), an MCP gateway, a Claude Code hook, a web inbox. |
 | Used by | Approvers and leads, hangar's decision client, auditors. |
 
-[Repository](https://github.com/Sean-Koval/governed-agent-workspace){ .md-button }
+[Repository](https://github.com/Sean-Koval/tower){ .md-button }
