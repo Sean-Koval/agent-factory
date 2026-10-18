@@ -10,4 +10,5 @@ candidate with the ai-dlc workflow plugin), imported from this directory as it s
 [`d59921b`](https://github.com/Sean-Koval/agent-factory/tree/d59921beeab0/examples/team-harness), and its own CI
 (`hangar harness check`, `scripts/check_registry.py`, `flightdeck spec lint`, hook tests) runs there.
 
-Make changes in that repository; this directory is kept only so old links land somewhere.
+Make changes in that repository; this directory is kept only so old links land somewhere. The suite site's
+[Team harness](https://sean-koval.github.io/agent-factory/team-harness/) page explains how it is used.

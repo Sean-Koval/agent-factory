@@ -12,13 +12,16 @@ The suite-level home for Sean's team tooling for cloud coding agents: the docs s
 - Roadmap: <https://sean-koval.github.io/agent-factory/roadmap/> (rebuilt daily from issue state)
 - Airframe: <https://sean-koval.github.io/agent-factory/airframe/> (tokens, components, icons, gallery)
 
-| Tool | Plane | Repo |
-| --- | --- | --- |
-| hangar | Run | [Sean-Koval/hangar](https://github.com/Sean-Koval/hangar) |
-| flightdeck | Judge | [Sean-Koval/flightdeck](https://github.com/Sean-Koval/flightdeck) |
-| ai-dlc | Define | [Sean-Koval/ai-dlc](https://github.com/Sean-Koval/ai-dlc) |
-| Tower | Govern | [Sean-Koval/tower](https://github.com/Sean-Koval/tower) (private; was governed-agent-workspace) |
-| Spaceport | Capability (frozen) | Sean-Koval/spaceport |
+| Tool | Plane | In one line | Repo |
+| --- | --- | --- | --- |
+| hangar | Run | Runs coding agents in isolated cloud sandboxes, from a ticket to a landed PR. | [Sean-Koval/hangar](https://github.com/Sean-Koval/hangar) |
+| flightdeck | Judge | Judges harness changes with paired statistics and behavior specs over every run. | [Sean-Koval/flightdeck](https://github.com/Sean-Koval/flightdeck) |
+| Tower | Govern | One decision point for risky actions: rules, human approvals, signed receipts. | Private repository (Sean-Koval/tower); docs site once public |
+| Team harness | Define | The harness as native files and a lock, frozen from a good run and promoted on evidence. | [Sean-Koval/team-harness](https://github.com/Sean-Koval/team-harness) (the public example) |
+| ai-dlc | Supports Define | Authors the optional workflow plugin, provisions machines, gates local work on CI. | [Sean-Koval/ai-dlc](https://github.com/Sean-Koval/ai-dlc) |
+| Spaceport | Capability (frozen) | Reviewed data products that agents query through four MCP tools. Frozen. | Private repository (Sean-Koval/spaceport); README only |
+
+Define is the team harness repo: native files and `harness.lock`, frozen from a good hangar run. ai-dlc contributes the optional workflow plugin and machine setup. [How it fits](https://sean-koval.github.io/agent-factory/how-it-fits/) follows one ticket through all of them.
 
 ## What lives here
 

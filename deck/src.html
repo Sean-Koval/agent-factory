@@ -112,13 +112,14 @@ p { margin: 0; }
   <div class="title-grid">
     <div style="display:flex;flex-direction:column;gap:26px">
       <h1>Agent factory</h1>
-      <p class="lede">Hand work to cloud coding agents and keep every change reviewable. Five open-source tools for a team of six running about sixty agent sessions.</p>
+      <p class="lede">Hand work to cloud coding agents and keep every change reviewable. Five tools and a team harness repo, for a team of six running about sixty agent sessions.</p>
     </div>
     <div class="tools">
       <div class="tool" style="--c:var(--af-product-hangar)"><b>hangar</b><span>Runs the agents</span><small>Run</small></div>
       <div class="tool" style="--c:var(--af-product-flightdeck)"><b>flightdeck</b><span>Judges the runs</span><small>Judge</small></div>
-      <div class="tool" style="--c:var(--af-product-aidlc)"><b>ai-dlc</b><span>Defines the harness</span><small>Define</small></div>
       <div class="tool" style="--c:var(--af-product-tower)"><b>Tower</b><span>Governs risky actions</span><small>Govern</small></div>
+      <div class="tool" style="--c:var(--af-fg-subtle)"><b>Harness</b><span>Defined in the team harness repo</span><small>Define</small></div>
+      <div class="tool" style="--c:var(--af-product-aidlc)"><b>ai-dlc</b><span>Authors the workflow plugin</span><small>Supports Define</small></div>
       <div class="tool" style="--c:var(--af-product-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Capability</small></div>
     </div>
   </div>
@@ -171,7 +172,7 @@ p { margin: 0; }
   <div class="readouts">
     <div class="ro"><span class="k">Taint</span><span class="v" style="font-size:34px">Tracked</span><p>Reading a web page, a remote MCP server or a ticket marks the run.</p></div>
     <div class="ro"><span class="k">Push</span><span class="v" style="font-size:34px">Fetch-only</span><p>Sandboxes can't push. hangar delivers one commit through its gateway.</p></div>
-    <div class="ro attn"><span class="k">Decision point</span><span class="v" style="font-size:34px">Ask first</span><p>Release, landing, egress and secrets go to the workspace: allow, deny or wait.</p></div>
+    <div class="ro attn"><span class="k">Decision point</span><span class="v" style="font-size:34px">Ask first</span><p>Release, landing, egress and secrets go to Tower: allow, deny or wait.</p></div>
     <div class="ro"><span class="k">Approver</span><span class="v" style="font-size:34px">Never you</span><p>The requester never approves their own risky work. Every decision is signed.</p></div>
   </div>
   <div class="foot"><span>Rollout: off, then shadow, then enforce, one decision kind at a time</span><b>06 / 07</b></div>
@@ -179,11 +180,11 @@ p { margin: 0; }
 
 <section class="slide" aria-label="Where it stands">
   <span class="eyebrow">Where it stands</span>
-  <h2>Running today, measuring next, governed by week six</h2>
+  <h2>Running and measured today, governed next</h2>
   <div class="road">
     <div class="phase"><span class="k">On main</span><h3>Safe to run</h3><ul><li>Sandboxes, jobs and sessions on GKE</li><li>Intake posture, taint gates, sealed graders</li><li>Manifests and traces with harness digests</li><li>flightdeck data plane and statistics</li></ul></div>
-    <div class="phase now"><span class="k">In review now</span><h3>Measure everything</h3><ul><li>Harness lock: freeze and thaw</li><li>Run outbox and retention</li><li>Reports, behavior specs, experiments</li><li>ai-dlc workflow plugin, Linear removed</li></ul></div>
-    <div class="phase"><span class="k">Next six weeks</span><h3>Team-wide</h3><ul><li>Team harness repo with a stable channel</li><li>Slack inbox, review-aware admission</li><li>Nightly compactor and spec alerts</li><li>Workspace decisions: shadow, then enforce</li></ul></div>
+    <div class="phase"><span class="k">On main</span><h3>Measure everything</h3><ul><li>Harness lock: freeze, check, thaw</li><li>Run outbox and nightly compactor</li><li>Reports, behavior specs, pinned trials</li><li>Slack inbox, Tower's decision API</li></ul></div>
+    <div class="phase now"><span class="k">Next</span><h3>Governed and decided</h3><ul><li>Tower decisions in shadow, then enforce</li><li>One real flightdeck decision</li><li>Team harness, frozen from a good run</li><li>Outbox and compactor on in the cluster</li></ul></div>
   </div>
   <div class="foot"><span>Docs: sean-koval.github.io/agent-factory</span><b>07 / 07</b></div>
 </section>

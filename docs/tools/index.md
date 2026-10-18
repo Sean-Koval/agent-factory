@@ -1,11 +1,14 @@
 # Tools
 
-Five tools, one per plane. Each has its own repository and, where the repository is public, its own docs site in the same theme.
+Five tools and the team harness repo. hangar, flightdeck and Tower each own a plane; the team harness repo is the Define plane; ai-dlc contributes the optional workflow plugin to it; Spaceport is a frozen capability. hangar, flightdeck and ai-dlc are public and have docs sites in the same theme. Tower and Spaceport are private repositories for now.
 
-| Tool | Plane | In one line |
-| --- | --- | --- |
-| [hangar](hangar.md) | Run | Cloud sandboxes, sessions, jobs and trials, from a ticket to a landed PR |
-| [flightdeck](flightdeck.md) | Judge | Paired statistics and behavior specs over every run |
-| [ai-dlc](ai-dlc.md) | Define | The team workflow plugin, machine setup, a CI-gated work lifecycle |
-| [Tower](workspace.md) | Govern | One decision point with approvals and signed receipts |
-| [Spaceport](spaceport.md) | Capability | Reviewed data products behind four MCP tools (frozen) |
+| Tool | Plane | In one line | Status | Docs site |
+| --- | --- | --- | --- | --- |
+| [hangar](hangar.md) | Run | Runs coding agents in isolated cloud sandboxes, from a ticket to a landed PR. | Shipped; asking Tower in progress | [Live](https://sean-koval.github.io/hangar/) |
+| [flightdeck](flightdeck.md) | Judge | Judges harness changes with paired statistics and behavior specs over every run. | v0 shipped; one real decision next | [Live](https://sean-koval.github.io/flightdeck/) |
+| [Tower](workspace.md) | Govern | One decision point for risky actions: rules, human approvals, signed receipts. | Decision API shipped; passports and inbox next | Private |
+| [Team harness](../team-harness.md) | Define | The harness as native files and a lock, frozen from a good run and promoted on evidence. | Example shipped; the team's repo next | [README](https://github.com/Sean-Koval/team-harness) |
+| [ai-dlc](ai-dlc.md) | Supports Define | Authors the optional workflow plugin, provisions machines, gates local work on CI. | Plugin shipped; refocus docs in progress | Not yet published |
+| [Spaceport](spaceport.md) | Capability | Reviewed data products that agents query through four MCP tools. Frozen. | Frozen | None (README only) |
+
+Each tool page lists what it owns, what it doesn't, and the issues behind its status.
