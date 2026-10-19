@@ -6,6 +6,6 @@ land: auto_after_approval
 # approvers: unset, so code owners approve: the database owners in CODEOWNERS
 self_approval: never                 # migrations always get a second person
 risk_paths: ["migrations/**"]
-branch_template: "{ticket}-{slug}"
+branch_template: "feature/{ticket_key}-{job}"
 require_ticket: true
-title_template: "{ticket}: {title}"
+title_template: "{ticket_key}: {title}"

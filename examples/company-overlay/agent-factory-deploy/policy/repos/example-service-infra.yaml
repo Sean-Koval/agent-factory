@@ -8,6 +8,6 @@ land: auto_after_approval
 # approvers: unset, so code owners approve: CODEOWNERS names the SRE team
 self_approval: never
 risk_paths: ["**/*.tf", "**/iam*.tf"]
-branch_template: "{ticket}-{slug}"   # the company's naming check: SVC-412-add-queue
+branch_template: "feature/{ticket_key}-{job}"   # the company naming check: feature/SVC-412-<job>
 require_ticket: true
-title_template: "{ticket}: {title}"
+title_template: "{ticket_key}: {title}"

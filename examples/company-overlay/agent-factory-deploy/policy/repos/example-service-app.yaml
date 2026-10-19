@@ -7,6 +7,6 @@ land: auto_after_approval
 self_approval: low_risk_with_ai_review
 ai_review: hangar
 risk_paths: ["**/auth/**", "deploy/**"]
-branch_template: "{ticket}-{slug}"
+branch_template: "feature/{ticket_key}-{job}"
 require_ticket: true
-title_template: "{ticket}: {title}"
+title_template: "{ticket_key}: {title}"

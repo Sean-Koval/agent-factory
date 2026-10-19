@@ -20,8 +20,10 @@ scripts/check.sh           CI: every overlay builds, and the policy applies clea
 ## What CD does on a merge
 
 1. `kustomize build overlays/<env> | kubectl apply -f -` (or Argo CD, Flux: whatever applies your other services).
-2. `hangar apply -f policy/` against that install, with an admin token from your secret manager. It is idempotent:
-   it creates or updates what the files say and reports anything set by hand since (drift).
+2. `hangar apply -f policy/` against that install, with an admin token from your secret manager. It is
+   declarative and idempotent: each object becomes what its file says, and one that already matches is left alone.
+   A scheduled `hangar apply -f policy/ --check` exits 1 on drift (anything set by hand since, or a repo policy no
+   file declares); `--prune` removes those policies.
 
 ## Common changes, each one reviewed PR
 

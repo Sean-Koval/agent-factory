@@ -6,6 +6,6 @@ environment: role-deploy
 verify: "./scripts/check.sh"
 land: manual                         # a person merges every deploy PR
 self_approval: never
-branch_template: "{ticket}-deploy-{environment}"
+branch_template: "deploy/{ticket_key}-{job}"
 require_ticket: true
-title_template: "{ticket}: deploy to {environment}"
+title_template: "{ticket_key}: {title}"
