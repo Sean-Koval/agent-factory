@@ -50,13 +50,36 @@ class BuildTests(unittest.TestCase):
             self.assertLess(index.index(">Patterns<"), index.index(">Governance<"), "patterns are listed with the other groups")
             self.assertTrue((Path(tmp) / "gallery" / "airframe-components.css").exists())
             self.assertTrue((Path(tmp) / "gallery" / "airframe.js").exists(), "the gallery serves the helpers for the live previews")
-            written = af.pages(Path(tmp) / "pages")
+            written = af.pages(Path(tmp) / "pages", Path(tmp) / "site")
             self.assertIn("--af-status-approval", (Path(tmp) / "pages" / "airframe-colors.md").read_text())
-            # components.md sits next to gallery/ in docs/airframe/, so its preview links are siblings.
-            table = (Path(tmp) / "pages" / "airframe-components.md").read_text()
-            self.assertIn("](gallery/Button.html?theme=dark)", table)
-            self.assertNotIn("../gallery/", table)
-            self.assertEqual(len(written), 5)
+            # components.md sits in docs/airframe/: its cards link to components/<Name>/ and show ../assets/airframe/<Name>.png
+            grid = (Path(tmp) / "pages" / "airframe-components.md").read_text()
+            self.assertIn('<a class="af-comp" href="components/Button/"', grid)
+            self.assertIn('src="../assets/airframe/Button.png"', grid)
+            self.assertIn("### Patterns", grid)
+            names = [i["name"] for i in af.components() if i["name"] != "Cover"]
+            self.assertEqual(len(written), 5 + len(names) + 4)
+            # a component page: the preview framed first, when to use before the markup, the markup collapsed
+            page = (Path(tmp) / "site" / "components" / "ApprovalCard.md").read_text()
+            self.assertTrue(page.startswith("---\ntitle: ApprovalCard\n---"))
+            self.assertIn('<iframe class="af-preview" src="../gallery/ApprovalCard.html?theme=dark"', page)
+            self.assertLess(page.index("## When to use"), page.index('??? note "Markup"'))
+            self.assertLess(page.index("## You provide"), page.index('??? note "Markup"'))
+            self.assertIn("    ```html", page)
+            guide = (Path(tmp) / "site" / "guide" / "brand.md").read_text()
+            self.assertIn("# Brand book", guide)
+            self.assertIn("## Principles", guide)
+
+    def test_every_component_has_a_thumbnail_and_a_nav_entry(self):
+        nav = (af.ROOT / "mkdocs.yml").read_text()
+        for it in af.components():
+            if it["name"] == "Cover":
+                continue
+            n = it["name"]
+            self.assertTrue((af.THUMBS / f"{n}.png").exists(), f"docs/assets/airframe/{n}.png is missing; run python3 scripts/captures.py airframe")
+            self.assertIn(f"- {n}: airframe/components/{n}.md", nav, f"mkdocs.yml nav lacks the {n} page")
+        for stem in ("brand", "status", "data", "products"):
+            self.assertIn(f"airframe/guide/{stem}.md", nav)
 
 
 class ContrastTests(unittest.TestCase):
