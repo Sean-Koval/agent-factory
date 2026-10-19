@@ -749,7 +749,7 @@ def pages(dest: Path) -> list[Path]:
             continue
         src = f"https://github.com/Sean-Koval/agent-factory/tree/main/airframe/components/{it['name']}"
         out.append(f"| [{it['name']}]({src}) | {it['group']} | {_cell(it['summary'])} | "
-                   f"[Night](../gallery/{it['name']}.html?theme=dark) · [Day](../gallery/{it['name']}.html?theme=light) |")
+                   f"[Night](gallery/{it['name']}.html?theme=dark) · [Day](gallery/{it['name']}.html?theme=light) |")
     (dest / "airframe-components.md").write_text("\n".join(out) + "\n")
     written.append(dest / "airframe-components.md")
 
