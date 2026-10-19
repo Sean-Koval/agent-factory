@@ -288,7 +288,7 @@ h1 { font-size: 64px; line-height: 1.02; max-width: 15ch; }
 h2 { font-size: 38px; line-height: 1.08; max-width: 26ch; }
 p { margin: 0; }
 .lede { font-size: 22px; color: var(--af-fg-muted); max-width: 46ch; line-height: 1.45; }
-.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-dim); }
+.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-muted); }
 .foot b { color: var(--af-fg-subtle); font-weight: 500; }
 .art { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
 .art svg { width: 100%; height: 100%; display: block; }
@@ -338,7 +338,8 @@ p { margin: 0; }
 .phase.now { box-shadow: inset 0 2px 0 var(--af-brand-line); }
 .phase.now .k { color: var(--af-brand-text); }
 
-/* screen slides: words on the left, a real capture on the right (docs/assets/captures, scripts/captures.py) */
+/* screen slides: words on the left, the subject of a real capture on the right (a named crop from scripts/captures.py,
+   so UI text stays legible at 880px); the footer is the slide's takeaway */
 .screen-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 36px; align-items: center; }
 .screen-grid h2 { font-size: 30px; max-width: none; }
 .screen-grid .lede { font-size: 16px; margin-top: 14px; max-width: none; }
@@ -349,7 +350,6 @@ p { margin: 0; }
 .screen { margin: 0; align-self: center; min-width: 0; }
 .screen img { display: block; width: auto; max-width: 100%; height: auto; max-height: 500px; border: 1px solid var(--af-line); border-radius: var(--af-radius-card); background: var(--af-canvas); }
 .screen figcaption { margin-top: 10px; font: 500 11px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); display: flex; justify-content: space-between; gap: 16px; }
-.screen figcaption i { font-style: normal; color: var(--af-fg-dim); }
 
 /* chrome: counter and controls, outside the scaled stage */
 .hud { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; align-items: center; z-index: 5; }
@@ -373,19 +373,19 @@ p { margin: 0; }
 <main class="deck" id="deck">
 
 <section class="slide on" aria-label="Title">
-  <span class="eyebrow">Team tooling · October 2026</span>
+  <span class="eyebrow">Team tooling</span>
   <div class="title-grid">
     <div style="display:flex;flex-direction:column;gap:26px">
       <h1>Agent factory</h1>
-      <p class="lede">Hand work to cloud coding agents and keep every change reviewable. Five tools and a team harness repo, for a team of six running about sixty agent sessions.</p>
+      <p class="lede">Hand work to cloud coding agents and keep every change reviewable. Four planes, five tools and a team harness repo, for a team of six running about sixty agent sessions.</p>
     </div>
     <div class="tools">
+      <div class="tool" style="--c:var(--af-fg-subtle)"><b>Team harness</b><span>Defines what the agents run</span><small>Define</small></div>
       <div class="tool" style="--c:var(--af-product-hangar)"><b>hangar</b><span>Runs the agents</span><small>Run</small></div>
       <div class="tool" style="--c:var(--af-product-flightdeck)"><b>flightdeck</b><span>Judges the runs</span><small>Judge</small></div>
       <div class="tool" style="--c:var(--af-product-tower)"><b>Tower</b><span>Governs risky actions</span><small>Govern</small></div>
-      <div class="tool" style="--c:var(--af-fg-subtle)"><b>Harness</b><span>Defined in the team harness repo</span><small>Define</small></div>
-      <div class="tool" style="--c:var(--af-product-aidlc)"><b>ai-dlc</b><span>Authors the workflow plugin</span><small>Supports Define</small></div>
-      <div class="tool" style="--c:var(--af-product-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Capability</small></div>
+      <div class="tool" style="--c:var(--af-product-aidlc)"><b>ai-dlc</b><span>Sets up machines and the workflow plugin</span><small>Setup</small></div>
+      <div class="tool" style="--c:var(--af-product-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Also in the suite</small></div>
     </div>
   </div>
   <div class="foot"><span>sean-koval.github.io/agent-factory</span><b>01 / 14</b></div>
@@ -400,7 +400,7 @@ p { margin: 0; }
     <div class="ro"><span class="k">Harness changes</span><span class="v">0<small>evidence</small></span><p>A new skill or prompt is judged by impressions, not paired runs.</p></div>
     <div class="ro attn"><span class="k">Untrusted input</span><span class="v">Every<small>ticket</small></span><p>Ticket text and web pages can steer an agent toward a push.</p></div>
   </div>
-  <div class="foot"><span>Agent factory</span><b>02 / 14</b></div>
+  <div class="foot"><span>Nobody can watch sixty streams; the tools must bring what needs a person to them</span><b>02 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="Four planes">
@@ -459,12 +459,12 @@ p { margin: 0; }
   <div class="screen-grid">
     <div>
       <h2>Ten agents. One needs you.</h2>
-      <p class="lede">Needs you is the console's first tab: held tool calls and agents' questions to decide here, then what failed and what waits for a review on GitHub. Everything running stays grey.</p>
-      <ul class="facts"><li>A question is answered in place; the agent continues with the answer.</li><li>A deny needs a reason. It goes on the receipt and back to the agent.</li><li>The clear state is the hero: <b>Nothing is waiting on you.</b></li></ul>
+      <p class="lede">Needs you is the console's first tab: questions and held tool calls to decide here, then what waits for a review on GitHub.</p>
+      <ul class="facts"><li>A question is answered in place; the agent continues with the answer.</li><li>A deny needs a reason. It goes on the receipt and back to the agent.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/hangar-needs-you.png" alt="hangar's Needs you view: a question card from job 8c4651d8 (Freeze time with a fixture in the test, or make the retry window configurable?) with an answer box, and below it draft PR #43 waiting for review"><figcaption><span>hangar · Needs you</span><i>Night · 1440 × 900</i></figcaption></figure>
+    <figure class="screen"><img src="captures/hangar-needs-you-narrow-question.png" alt="hangar's Needs you view: a question card from an agent (Freeze time with a fixture in the test, or make the retry window configurable?) with an answer box, and below it draft PR #43 waiting for review"><figcaption><span>hangar · Needs you</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>05 / 14</b></div>
+  <div class="foot"><span>Everything running stays grey; the one card that needs you is the only color</span><b>05 / 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="hangar: the review loop">
@@ -472,12 +472,12 @@ p { margin: 0; }
   <div class="screen-grid">
     <div>
       <h2>Review the change, reply to the agent</h2>
-      <p class="lede">A job's detail carries the agent's summary, a composer and the change as a greyscale diff. A comment on a line rides with your next message; the PR updates on the agent's next turn.</p>
-      <ul class="facts"><li><b>+5 −1</b> across 2 files, against the base commit, from the sandbox.</li><li>Copy the patch, or open the agent's terminal and work beside it.</li><li>Only a failing test lights a hunk; additions and deletions stay grey.</li></ul>
+      <p class="lede">A job's detail carries the agent's summary, a composer and the change as a greyscale diff. Your reply runs the next turn; the PR updates.</p>
+      <ul class="facts"><li><b>+5 −1</b> across 2 files, against the base commit, from the sandbox.</li><li>Only a failing test lights a hunk; additions and deletions stay grey.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/hangar-review.png" alt="Job #42's detail in hangar: the Reply to the agent composer, then Changes: files 2, +5 −1, with the diff of checkout/export.py switching encode(ascii, ignore) to encode(utf-8) and a new test"><figcaption><span>hangar · job #42, the change</span><i>Night · 1440 × 900</i></figcaption></figure>
+    <figure class="screen"><img src="captures/hangar-review-narrow-change.png" alt="Job #42's detail in hangar: the agent's summary, the Reply to the agent composer, then Changes: files 2, +5 −1, with the diff of checkout/export.py switching encode(ascii, ignore) to encode(utf-8)"><figcaption><span>hangar · job #42, the change</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>06 / 14</b></div>
+  <div class="foot"><span>Review and reply in one place; the PR follows the conversation</span><b>06 / 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="hangar: the Fleet">
@@ -485,12 +485,12 @@ p { margin: 0; }
   <div class="screen-grid">
     <div>
       <h2>The whole fleet on one board</h2>
-      <p class="lede">Board, Bays, Columns and Owners are four views of the same sandboxes and one selection. <b>10 of 120</b> slots in use; the one tile that needs a person is the only color on the page.</p>
-      <ul class="facts"><li>Arrow keys move across the board; Enter opens the detail beside it.</li><li>Each tile shows its stage: plan, edit, test, PR.</li><li>Allow or deny a held step, or answer a question, without leaving the Fleet.</li></ul>
+      <p class="lede">Board, Bays, Columns and Owners are four views of the same sandboxes and one selection. <b>10 of 120</b> slots in use.</p>
+      <ul class="facts"><li>Each tile shows its stage: plan, edit, test, PR.</li><li>Answer a question or decide a held step without leaving the Fleet.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/hangar-fleet.png" alt="hangar's Fleet board: the checkout-python pool with ten sandbox tiles, one marked Needs you and selected, and the detail panel beside it showing the agent's question"><figcaption><span>hangar · Fleet, Board view</span><i>Night · 1440 × 900</i></figcaption></figure>
+    <figure class="screen"><img src="captures/hangar-fleet-board.png" alt="hangar's Fleet board: the checkout-python pool with ten sandbox tiles, one marked Needs you and selected, and the legend"><figcaption><span>hangar · Fleet, Board view</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>07 / 14</b></div>
+  <div class="foot"><span>Ten agents at work; the one that needs a person is the only color on the board</span><b>07 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="Improving the harness">
@@ -535,12 +535,12 @@ p { margin: 0; }
   <div class="screen-grid">
     <div>
       <h2>The verdict lands on the harness PR</h2>
-      <p class="lede">flightdeck posts one comment on the pull request that changes the harness, and updates it in place: the verdict, the pins of both variants and the outcome with its interval.</p>
-      <ul class="facts"><li><b>treat is better than control</b> on resolved: +21.2 pp, CI +1.5 to +43.9.</li><li>Paired by task; cancelled, drifted and infrastructure failures are excluded and listed.</li><li>The approver is never the author.</li></ul>
+      <p class="lede">flightdeck posts one comment on the pull request that changes the harness and updates it in place: the verdict, both variants' pins, the outcome and its interval.</p>
+      <ul class="facts"><li><b>treat is better than control</b> on resolved: +21.2 pp, CI +1.5 to +43.9.</li><li>Paired by task; infrastructure failures are excluded and listed.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/flightdeck-verdict.png" alt="A GitHub pull request comment from flightdeck: Verdict, treat is better than control on resolved (+21.2 pp, CI +1.5 to +43.9), a Pins table comparing control and treat, and the Outcome table with trials, resolved rates and dollars per resolved task"><figcaption><span>flightdeck · report on PR #48, fixture experiment</span><i>As posted on GitHub</i></figcaption></figure>
+    <figure class="screen"><img src="captures/flightdeck-verdict-verdict.png" alt="A GitHub pull request comment from flightdeck: Verdict, treat is better than control on resolved (+21.2 pp, CI +1.5 to +43.9), and the Pins table comparing control and treat"><figcaption><span>flightdeck · report on PR #48, as posted on GitHub</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>09 / 14</b></div>
+  <div class="foot"><span>A harness change is promoted on paired evidence, by someone other than its author</span><b>09 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="Safe by default">
@@ -560,12 +560,12 @@ p { margin: 0; }
   <div class="screen-grid">
     <div>
       <h2>The Desk: what needs you, what finished, who you sign for</h2>
-      <p class="lede">Tower's home for a person. Start work from the composer, hand a task to hangar or ask an agent in its room, decide the cards that need your signature, and see the day's receipts.</p>
-      <ul class="facts"><li><b>5 waiting on you</b> · done today 2 · agents 8 of 8 running.</li><li>Each card says what will run, why it asked and what signing does.</li><li>Every decision files a receipt, chained into the record.</li></ul>
+      <p class="lede">Tower's home for a person: start work, decide the cards that need your signature, and see the day's receipts.</p>
+      <ul class="facts"><li>Each card says what will run, why it asked and what signing does.</li><li>Every decision files a receipt, chained into the record.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/tower-desk.png" alt="Tower's Desk for Marcus: a greeting, Start work with the composer set to Hand to hangar, a Needs you approval card for Breaks creating a ticket for Globex, and Agents you sign for with calls this hour"><figcaption><span>Tower · the Desk, as an approver</span><i>Night · 1440 × 900</i></figcaption></figure>
+    <figure class="screen"><img src="captures/tower-desk-approval.png" alt="Needs you on Tower's Desk: an approval card for the agent Breaks creating a ticket for Globex, with what will run, the risk and expiry, and what signing does"><figcaption><span>Tower · the Desk, as an approver</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>11 / 14</b></div>
+  <div class="foot"><span>What will run, why it asked and what signing does, before the button</span><b>11 / 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="Tower: objects and the composer">
@@ -573,25 +573,25 @@ p { margin: 0; }
   <div class="screen-grid">
     <div>
       <h2>Business objects by reference</h2>
-      <p class="lede">A Jira issue, a pull request, a hangar job: each is a chip, and each chip opens a page with what touched it, what is in play and a composer to start work about it.</p>
-      <ul class="facts"><li>Tower keeps a reference, never a copy; the title and state are read from the source.</li><li>The receipt carries the reference, hashed into the chain.</li><li>Ask Breaks in #fx-ops, in your name; the answer comes back here.</li></ul>
+      <p class="lede">A Jira issue, a pull request, a hangar job: each is a chip, and each chip opens a page with what touched it and what is in play.</p>
+      <ul class="facts"><li>Tower keeps a reference, never a copy; title and state are read from the source.</li><li>The receipt carries the reference, hashed into the chain.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/tower-object.png" alt="Tower's page for Jira issue PAY-412: its chip and source line, Start work about it with the composer set to Ask Breaks in #fx-ops, Agents that touched it, and In play with a hangar release waiting for a signature"><figcaption><span>Tower · object page, jira:issue/PAY-412</span><i>Night · 1440 × 900</i></figcaption></figure>
+    <figure class="screen"><img src="captures/tower-object-release.png" alt="In play on Tower's page for Jira issue PAY-412: hangar's job j-7f3a waiting for a maintainer to release it, with chips for the repo, the job and the issue"><figcaption><span>Tower · object page, jira:issue/PAY-412</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>12 / 14</b></div>
+  <div class="foot"><span>A release waits on a named person, and the receipt names the issue it was for</span><b>12 / 14</b></div>
 </section>
 
-<section class="slide slide--screen" aria-label="Airframe v6">
+<section class="slide slide--screen" aria-label="Airframe">
   <span class="eyebrow">Built on · Airframe</span>
   <div class="screen-grid">
     <div>
       <h2>One design system, every screen</h2>
-      <p class="lede">Airframe theme-v6 adds the parts a person needs to work with an agent: approval card, question, composer, diff, avatars, object chips, page header, empty state, toast, dialog and drawer. Every screen in this deck is built from it.</p>
-      <ul class="facts"><li>Tokens and <b>af-</b> classes only; a test in each repo fails on a color literal.</li><li>Night and Day, forced colors and reduced motion, in one stylesheet.</li><li>33 components in the gallery; the tool repos vendor a tagged release.</li></ul>
+      <p class="lede">Airframe holds the parts a person needs to work with an agent: approval card, question, composer, diff, object chips. Every screen in this deck is built from it.</p>
+      <ul class="facts"><li>Tokens and <b>af-</b> classes only; a test in each repo fails on a color literal.</li><li>Night and Day, forced colors and reduced motion, in one stylesheet.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/airframe-approvalcard.png" alt="The ApprovalCard preview in the Airframe gallery: a held git push with its Cedar policy, checks, expiry, Deny, Approve for this session and Approve push, a quorum of 1 of 2 signed, plus the deny-with-a-reason and edit-then-approve variants"><figcaption><span>Airframe · gallery, ApprovalCard</span><i>Night · 1440 × 900</i></figcaption></figure>
+    <figure class="screen"><img src="captures/airframe-approvalcard-card.png" alt="The ApprovalCard from the Airframe gallery: a held git push to main with its Cedar policy, checks, expiry, Deny, Approve for this session and Approve push, and a quorum of 1 of 2 signed"><figcaption><span>Airframe · gallery, ApprovalCard</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>13 / 14</b></div>
+  <div class="foot"><span>One stylesheet, every console and docs site; the tool repos vendor a tagged release</span><b>13 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="Where it stands">

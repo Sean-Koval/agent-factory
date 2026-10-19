@@ -104,6 +104,19 @@
         "page",
         "deck"
       ]
+    },
+    "airframe-approvalcard-card": {
+      "from": "airframe-approvalcard",
+      "box": [
+        16,
+        12,
+        780,
+        584
+      ],
+      "shows": "One ApprovalCard: a held push to main with its policy, checks, expiry, deny and approve, and the quorum",
+      "shown": [
+        "deck"
+      ]
     }
   },
   "flightdeck": {
