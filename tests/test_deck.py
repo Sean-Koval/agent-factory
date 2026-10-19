@@ -19,12 +19,13 @@ SLIDES = re.findall(r'<section class="slide[^"]*"[^>]*>(.*?)</section>', SRC, re
 
 
 class DeckTests(unittest.TestCase):
-    def test_screen_slides_show_a_named_crop(self):
-        crops = {f"{base}-{crop}" for base, cs in captures.CROPS.items() for crop in cs}
+    def test_screen_slides_show_a_named_crop_cut_for_a_slide(self):
+        crops = {f"{base}-{crop}": where for base, cs in captures.CROPS.items() for crop, (_, _, where) in cs.items()}
         shown = re.findall(r'src="captures/([\w-]+)\.png"', SRC)
         self.assertTrue(shown)
         for name in shown:
             self.assertIn(name, crops, f"the deck shows {name}, a full window, not the subject")
+            self.assertIn("deck", crops[name], f"{name} is not cut for a slide (800 x 500): its text would be under 11 px")
 
     def test_footers_are_takeaways_not_build_notes(self):
         for slide in SLIDES:
