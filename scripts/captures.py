@@ -18,7 +18,8 @@ Every product is captured from its own demo and fixture data through its real UI
   Screens: the Desk; an object page with its chips, composer and card.
 - flightdeck: docs/assets/report-comment.html, rendered by docs/assets/build.py from the fixture experiment: the
   verdict as the pull-request comment.
-- Airframe: this repository's gallery previews (ApprovalCard, Diff), built by scripts/airframe.py gallery.
+- Airframe: this repository's gallery previews (ApprovalCard, Diff), built by scripts/airframe.py gallery, plus a
+  Night thumbnail of every component's preview in docs/assets/airframe/ for the Components page.
 
 Needs Playwright with Chromium here (pip install playwright; python -m playwright install chromium) and each
 product's own environment: HANGAR_PYTHON (default `uv run --project <dir> python`) and TOWER_PYTHON (default
@@ -261,7 +262,12 @@ def flightdeck(br: Browser, manifest: dict) -> None:
 
 
 # ----------------------------------------------------------------------------------------------------- airframe
+THUMBS = ROOT / "docs" / "assets" / "airframe"          # one Night thumbnail per component, for the Components page
+THUMB_VIEW = {"width": 800, "height": 500}
+
+
 def airframe(br: Browser, manifest: dict) -> None:
+    """The two deck captures at 1440x900 and 2x, then a 800x500 Night thumbnail of every component's preview."""
     tmp = Path(tempfile.mkdtemp(prefix="af-gallery-"))
     try:
         subprocess.run([sys.executable, str(ROOT / "scripts" / "airframe.py"), "gallery", str(tmp)], check=True, capture_output=True)
@@ -271,11 +277,25 @@ def airframe(br: Browser, manifest: dict) -> None:
             page.wait_for_timeout(600)
             shoot(page, f"airframe-{comp.lower()}")
             page.context.close()
+        THUMBS.mkdir(parents=True, exist_ok=True)
+        names = sorted(p.stem for p in tmp.glob("*.html") if p.stem not in ("index", "Cover"))
+        for comp in names:
+            ctx = br.b.new_context(viewport=THUMB_VIEW, device_scale_factor=1, color_scheme="dark")
+            page = ctx.new_page()
+            page.goto((tmp / f"{comp}.html").as_uri() + "?theme=dark", wait_until="networkidle")
+            page.evaluate("document.fonts.ready")
+            page.wait_for_timeout(400)
+            page.add_style_tag(content=".afg-bar,.afg-spacer{display:none !important}")
+            page.screenshot(path=str(THUMBS / f"{comp}.png"))
+            print("captures: wrote", THUMBS / f"{comp}.png")
+            ctx.close()
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     manifest["airframe"] = {"repo": "Sean-Koval/agent-factory", "commit": commit(ROOT), "demo": "scripts/airframe.py gallery",
                             "screens": {"airframe-approvalcard": "The ApprovalCard preview from the gallery: inspect, deny with a reason, approve, quorum, waiting on others, verdicts",
-                                        "airframe-diff": "The Diff preview from the gallery: a greyscale diff with one failed hunk and a comment thread"}}
+                                        "airframe-diff": "The Diff preview from the gallery: a greyscale diff with one failed hunk and a comment thread"},
+                            "thumbnails": f"docs/assets/airframe/<Name>.png: the top {THUMB_VIEW['width']}x{THUMB_VIEW['height']} of every "
+                                          f"component's Night preview ({len(names)} components), shown on the Components page"}
 
 
 def main(argv: list[str]) -> int:

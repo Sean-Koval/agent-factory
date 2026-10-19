@@ -2,6 +2,8 @@ site/
 docs/theme/
 docs/deck/
 docs/airframe/gallery/
+docs/airframe/components/
+docs/airframe/guide/
 docs/r/
 overrides/partials/
 __pycache__/
