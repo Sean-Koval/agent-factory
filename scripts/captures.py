@@ -76,6 +76,9 @@ CROPS = {
     "flightdeck-verdict": {
         "verdict": ((0, 0, 936, 560), "The report comment on the harness PR: the verdict line and the pins of both variants"),
     },
+    "airframe-approvalcard": {
+        "card": ((16, 12, 780, 584), "One ApprovalCard: a held push to main with its policy, checks, expiry, deny and approve, and the quorum"),
+    },
 }
 
 # Extra work for hangar's demo, so the Fleet shows a pool rather than three tiles. Each becomes a real job on the
