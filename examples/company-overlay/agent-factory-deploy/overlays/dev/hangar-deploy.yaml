@@ -1,0 +1,14 @@
+# Values hangar's components substitute (replacements); kustomize never applies this object. The infra repo's
+# terraform outputs (agent-factory-infra) give most of them.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hangar-deploy
+  annotations:
+    config.kubernetes.io/local-config: "true"
+data:
+  gcp_service_account: hangar-dev@example-project.iam.gserviceaccount.com   # output gcp_service_account
+  secret_store: company-secret-store                                       # your ClusterSecretStore
+  outbox_url: gs://example-project-hangar-runs-dev                         # output run_bucket_url
+  domain: hangar-dev.example.com
+  static_ip_name: hangar-dev-ip                                            # output static_ip_name

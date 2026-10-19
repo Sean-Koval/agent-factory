@@ -1,0 +1,8 @@
+# The factory's own repos follow the same convention (README: "The factory runs on its own convention").
+schema: hangar.repo-policy/v1
+repo: example-org/agent-factory-infra
+environment: role-infra
+verify: "terraform fmt -check -recursive && terraform init -backend=false -input=false && terraform validate"
+land: manual
+self_approval: never
+require_ticket: true

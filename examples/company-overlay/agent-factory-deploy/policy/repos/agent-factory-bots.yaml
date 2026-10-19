@@ -1,0 +1,8 @@
+schema: hangar.repo-policy/v1
+repo: example-org/agent-factory-bots
+environment: role-code
+verify: "uv run --locked ruff check . && uv run --locked pytest -q"
+land: auto_after_approval
+self_approval: never
+risk_paths: ["**/auth/**", "Dockerfile", "requirements-plugins.txt"]
+require_ticket: true

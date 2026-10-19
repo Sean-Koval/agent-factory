@@ -1,0 +1,11 @@
+# The trigger-deployment repo. Agents may read it (the profile's `agent: read`); only the change set's deploy step,
+# which runs no agent, opens PRs here. Merging one is the input to the company's CD.
+schema: hangar.repo-policy/v1
+repo: example-org/example-service-deploy
+environment: role-deploy
+verify: "./scripts/check.sh"
+land: manual                         # a person merges every deploy PR
+self_approval: never
+branch_template: "{ticket}-deploy-{environment}"
+require_ticket: true
+title_template: "{ticket}: deploy to {environment}"

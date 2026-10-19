@@ -1,0 +1,11 @@
+schema: hangar.repo-policy/v1
+repo: example-org/example-service-db
+environment: role-database
+verify: "make migrate-up && make test && make migrate-down"   # against the sandbox's own database service
+land: auto_after_approval
+# approvers: unset, so code owners approve: the database owners in CODEOWNERS
+self_approval: never                 # migrations always get a second person
+risk_paths: ["migrations/**"]
+branch_template: "{ticket}-{slug}"
+require_ticket: true
+title_template: "{ticket}: {title}"

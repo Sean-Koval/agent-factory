@@ -1,0 +1,17 @@
+# The factory itself, on the same convention: a change to hangar's install is infra (terraform), code (the image and
+# plugins in agent-factory-bots) and the deploy repo (this one). There is no database repo in v1: hangar keeps its
+# state in SQLite on a PVC.
+schema: hangar.changeset-profile/v1
+name: agent-factory
+environment: work-multirepo
+repos:
+  infra:  {repo: example-org/agent-factory-infra}
+  code:   {repo: example-org/agent-factory-bots}
+  deploy: {repo: example-org/agent-factory-deploy, agent: read}
+land_order: [infra, code]
+deploy:
+  role: deploy
+  after: [infra, code]
+  ready: {kind: image-ready, image: "registry.example.com/agent-factory/hangar", tag: "{code.merge_sha}"}
+  apply: {kind: example-kustomize-bump}   # the company deliverer (agent-factory-bots/plugins): sets the overlay digest
+  environments: [dev]

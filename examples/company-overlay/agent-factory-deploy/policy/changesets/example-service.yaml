@@ -1,0 +1,19 @@
+# A change-set profile (hangar.changeset-profile/v1): one ticket, one agent, one sandbox with the service's four
+# repos, one linked PR per changed repo, landed in order, then a deterministic bump of the deploy repo.
+# Profiles live here, in the factory's deploy repo, and never in a target repo's .hangar/ (untrusted: a pusher there
+# must not reorder landing). The same profile is in the team harness as changesets/example-service.yaml.
+schema: hangar.changeset-profile/v1
+name: example-service
+environment: work-multirepo            # code toolchain + terraform + a database client and service
+repos:                                 # cloned to /workspace/<role>
+  infra:    {repo: example-org/example-service-infra}
+  database: {repo: example-org/example-service-db}
+  code:     {repo: example-org/example-service-app}
+  deploy:   {repo: example-org/example-service-deploy, agent: read}   # the agent may read it, never edit it
+land_order: [database, infra, code]    # each arms only after the previous changed role merged
+deploy:
+  role: deploy
+  after: [database, infra, code]       # only once every changed role has merged
+  ready: {kind: image-ready, image: "registry.example.com/example-service/app", tag: "{code.merge_sha}"}
+  apply: {kind: command, run: "./scripts/bump.sh dev {code.merge_sha}"}   # deterministic, no agent
+  environments: [dev]                  # prod promotion stays the company's CD and approvals
