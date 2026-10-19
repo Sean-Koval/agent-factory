@@ -41,7 +41,7 @@ def listener(relay: Relay, bot_user_id: int, follow: bool = True) -> Any:
                 cmd = commands.parse(text)
                 if cmd.verb == "ask":
                     job = await relay.ask(who, cmd)
-                    if follow:  # hold wait_for_turn in the background: questions and approvals reach the room
+                    if follow and job.get("id"):  # hold wait_for_turn: questions and approvals reach the room
                         task = asyncio.ensure_future(relay.follow(who, str(job["id"])))
                         tasks.add(task)
                         task.add_done_callback(tasks.discard)
