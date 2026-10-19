@@ -171,12 +171,20 @@ body { background: var(--af-canvas); }
 .md-typeset table:not([class]) td { border-top: 1px solid var(--af-line-subtle); }
 .md-typeset table:not([class]) tr:hover { background: var(--af-selected); box-shadow: none; }
 
-/* admonitions: tonal blocks with a status-colored start mark, never the brand */
-.md-typeset .admonition, .md-typeset details { border: 0; border-radius: var(--af-radius-card); background: var(--af-surface); box-shadow: inset 2px 0 0 var(--af-fg-subtle); font-size: .74rem; }
+/* admonitions: tonal blocks with a 2px start mark and a mono title. Every Material / Zensical type (note, abstract,
+   info, tip, success, question, warning, failure, danger, bug, example, quote and their aliases) maps to the greyscale
+   through --af-adm: the mark, the title icon and the details chevron take it, and the title never has a tint. Only two
+   families carry color, because a person must act: warning (caution, attention) is the approval role, danger (error)
+   and failure (fail, missing) the failed role. Success, tip, bug and question stay grey: the dark cockpit lights
+   nothing that needs nobody. Material's per-type focus ring (a tinted halo) becomes the focus token. The !important
+   rules outrank the theme's per-type tints (`.admonition.note`), which the modern Zensical theme paints on the block. */
+.md-typeset .admonition, .md-typeset details { --af-adm: var(--af-fg-subtle); border: 0; border-radius: var(--af-radius-card); background: var(--af-surface) !important; box-shadow: inset 2px 0 0 var(--af-adm); font-size: .74rem; }
+.md-typeset :is(.admonition, details):is(.warning, .caution, .attention) { --af-adm: var(--af-status-approval); }
+.md-typeset :is(.admonition, details):is(.danger, .error, .failure, .fail, .missing) { --af-adm: var(--af-status-failed); }
 .md-typeset .admonition-title, .md-typeset summary { background: transparent !important; font-family: var(--af-font-mono); font-size: .62rem; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-muted); }
-.md-typeset .admonition-title::before, .md-typeset summary::before { background-color: var(--af-fg-subtle) !important; }
-.md-typeset .admonition.warning, .md-typeset details.warning { box-shadow: inset 2px 0 0 var(--af-status-approval); }
-.md-typeset .admonition.danger, .md-typeset details.danger { box-shadow: inset 2px 0 0 var(--af-status-failed); }
+.md-typeset .admonition-title::before, .md-typeset summary::before { background-color: var(--af-adm) !important; }
+.md-typeset .admonition-title::after, .md-typeset summary::after { color: var(--af-fg-subtle) !important; }
+.md-typeset .admonition:focus-within, .md-typeset details:focus-within { box-shadow: inset 2px 0 0 var(--af-adm), 0 0 0 2px var(--af-focus) !important; }
 
 /* navigation: mono section labels, a brand mark on the current page */
 .md-nav__title { font-family: var(--af-font-mono); text-transform: uppercase; letter-spacing: var(--af-label-track); font-size: .6rem; color: var(--af-fg-subtle); box-shadow: none !important; background: transparent !important; }
@@ -249,6 +257,7 @@ body { background: var(--af-canvas); }
   .md-typeset .af-suite__home::before, .af-eyebrow::before { background: CanvasText; }
   .md-banner__inner.md-typeset::after { display: none; }
   .md-typeset .admonition, .md-typeset details { box-shadow: none; border-left: 2px solid CanvasText; }
+  .md-typeset .admonition:focus-within, .md-typeset details:focus-within { outline: 2px solid Highlight; outline-offset: 2px; }
   .af-tool { border-top-color: CanvasText; }
   .af-swatch { box-shadow: none; outline: 1px solid CanvasText; }
   .af-hero__visual > img, .af-hero__visual > video, .af-hero__visual > a > img { box-shadow: none; outline: 1px solid CanvasText; }

@@ -50,7 +50,7 @@ component contracts in `airframe/components/*.md` before writing markup.
 |---|---|---|
 | Avatar | Foundations | `af-avatar af-avatar--person\|agent\|firm` + `--22\|28\|44`: people round, agents hexagonal, firms square; `af-avatars` stacks; `af-who` beside a name. No hue, no photos. |
 | Button | Foundations | `af-btn af-btn--primary\|secondary\|ghost\|danger`, `af-btn--sm`, `af-btn--icon`; `af-btn--text` for sentence-case where people read. One primary per view; Deny is danger beside Approve. |
-| Icons | Foundations | 55 stroke glyphs on a 20px grid from the sprite; `af-ic`, `af-ic--14\|20\|24`. |
+| Icons | Foundations | 57 stroke glyphs on a 20px grid from the sprite; `af-ic`, `af-ic--14\|20\|24`. |
 | InlineData | Foundations | `af-meta` > `af-meta__item` > `af-meta__key` + `af-meta__val`: KEY value, never "a · b · c". |
 | Label | Foundations | `af-lbl` with optional `af-lbl__sub` and icon: small tracked mono capitals naming a card or section. |
 | ObjectChip | Foundations | `af-obj` (`a` with `af-obj--link`, or `span`) > source icon, `af-obj__key`, `__title`, `__state`; `af-obj--restricted` shows the key only; the approval mark is the one color; `af-obj__trust` on hover. Never a pill. |
