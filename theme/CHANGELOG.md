@@ -5,6 +5,14 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v7 · 2026-10-18
+
+Docs fix: the secondary docs button now matches Airframe's Button. No token values change.
+
+- `airframe-docs.css`: `.md-typeset .md-button` gets `background: transparent`. The docs theme's default filled it
+  with `--md-default-fg-color--lightest`, a grey in both Night and Day, but Airframe's secondary button is a
+  `line-strong` hairline with no fill. Hover and the primary button (`.md-button--primary`) are unchanged.
+
 ## theme-v6 · 2026-10-18
 
 Airframe for agents: the parts a person needs to work with an agent, from the design team's research, audit and Tower
