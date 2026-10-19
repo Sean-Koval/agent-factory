@@ -1,4 +1,4 @@
-<!-- @dsCard group="Governance" height=1560 subtitle="A held action waiting on a reviewer: inspect, deny with a reason, approve, edit then approve, approve for the session, quorum; waiting on others; verdict rows" -->
+<!-- @dsCard group="Governance" height=2080 subtitle="A held action waiting on a reviewer: inspect, deny with a reason, approve, edit then approve, approve for the session, quorum; waiting on others; verdict rows" -->
 <!doctype html><html><head><meta charset="utf-8"><title>ApprovalCard</title></head><body>
 <main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
   <section class="af-stack">
@@ -193,5 +193,36 @@
       </div>
     </section>
   </div>
+  <section class="af-stack">
+    <span class="af-lbl">In a narrow place<span class="af-lbl__sub">a docked panel or a phone, 320 px: the head wraps, the buttons share the line</span></span>
+    <div style="width:320px;max-width:100%">
+      <article class="af-card af-card--lit af-approval" aria-labelledby="apr5-cmd">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub">HGR-APR-8E7F50C8</span></span>
+          <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span>
+        </div>
+        <div class="af-approval__subject">
+          <p class="af-approval__cmd" id="apr5-cmd">git push origin main</p>
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">repo</span><span class="af-meta__val">acme/api</span></span>
+            <span class="af-meta__item af-meta__item--approval"><span class="af-meta__key">policy</span><span class="af-meta__val">require-approval-main-push</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">expires</span><span class="af-meta__val">in 54 min</span></span>
+          </span>
+        </div>
+        <div class="af-approval__act">
+          <span class="af-meta"><span class="af-meta__item"><span class="af-meta__key">reviewer</span><span class="af-meta__val">you</span></span></span>
+          <div class="af-approval__btns">
+            <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg>View diff</button>
+            <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny</button>
+            <button type="button" class="af-btn af-btn--secondary af-btn--sm">Allow for this turn</button>
+            <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Allow</button>
+          </div>
+        </div>
+        <div class="af-card__foot">
+          <span class="af-receipt"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-1.67-1.25-1.66 1.25L10 16.25 8.33 17.5 6.67 16.25 5 17.5z"/><path d="M7.5 6.5h5M7.5 9.5h5M7.5 12.5h3"/></svg>Filed as receipt <b>TWR-RCPT-88A5</b></span>
+        </div>
+      </article>
+    </div>
+  </section>
 </main>
 </body></html>

@@ -25,7 +25,10 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 
 /* ---- label: mono capitals ---- */
 .af-lbl{display:inline-flex;align-items:center;gap:7px;font-family:var(--af-font-mono);font-weight:500;font-size:11px;line-height:1;letter-spacing:.08em;text-transform:uppercase;color:var(--af-fg-muted);white-space:nowrap}
-.af-lbl__sub{color:var(--af-fg-subtle)}
+/* a label narrower than its place: the word stays whole; the sub (an ID, a region) ellipsizes as a last resort, after the
+   row it sits in has wrapped (see af-card__top). The full ID stays in the DOM for copy and screen readers. */
+.af-lbl__sub{color:var(--af-fg-subtle);min-width:0;overflow:hidden;text-overflow:ellipsis}
+.af-lbl__sub~.af-lbl__sub{flex-shrink:1e5}  /* a later sub (turn 7, editing) gives way, whole, before the ID loses a character */
 .af-lbl__sub::before{content:"\00B7";margin-right:7px;color:var(--af-fg-dim)}
 
 /* ---- button ---- */
@@ -73,7 +76,11 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 
 /* ---- card & panel: tonal (no border, separated by tone) ---- */
 .af-card{position:relative;background:var(--af-raised);border-radius:var(--af-radius-card);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
-.af-card__top{display:flex;justify-content:space-between;align-items:center;gap:8px;min-width:0}
+/* the head wraps before anything is cut: in a narrow place (a docked panel, a phone) the status drops under the label,
+   whole and visible; the label's sub ellipsizes only when the label alone is wider than the head */
+.af-card__top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;min-width:0}
+.af-card__top>.af-lbl{min-width:0;max-width:100%}
+.af-card__top>.af-status{flex:none}
 .af-card__meta{font-family:var(--af-font-mono);font-size:11px;color:var(--af-fg-subtle);white-space:nowrap}
 .af-card__foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;padding-top:10px;border-top:1px solid var(--af-line-subtle);font-size:12px;color:var(--af-fg-subtle);min-width:0}
 .af-card__foot b{color:var(--af-fg);font-weight:500}

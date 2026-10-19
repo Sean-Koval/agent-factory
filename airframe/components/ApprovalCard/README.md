@@ -105,6 +105,15 @@ Verdict rows:
 | Waiting on others | `af-status--queued`, Waiting on 2 others | plain, `af-approval--waiting` | none; a ghost Open |
 | Decided | verdict row | `af-verdict` | none |
 
+### In a narrow place
+
+A docked detail panel or a phone gives the card 320 px or less. Nothing is cut: the head (`af-card__top`) wraps, so the
+status drops under the label, whole and visible ("Needs approval" never runs past the edge); the label's sub (the ID)
+ellipsizes only when the label alone is wider than the head, and a second sub (`editing`) gives way first. The decision
+row wraps, and once it has wrapped the buttons share each line so the primary never sits alone at the end of a ragged row;
+inspect (the ghost) keeps its size. At full width nothing stretches. No container query or product CSS is needed; the
+preview's last card shows it at 320 px.
+
 ## When to use
 - The approvals queue, the approval drawer, and inline in a session when it holds.
 - Verdict rows in approval history and in a session's timeline.
@@ -123,3 +132,4 @@ Verdict rows:
 - Don't hide the policy behind a link when it fits in four lines.
 - Don't show more than one held action per card.
 - Don't light a card orange for a person who cannot decide it.
+- Don't fix a narrow card in product CSS (a `max-width` on the head, a container query on the buttons); the card wraps on its own, and a product that needs more proposes it here.

@@ -5,6 +5,29 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v9 · 2026-10-19
+
+Card heads and decisions that fit a narrow place, from hangar's quality pass (hangar #312): in the docked Fleet panel the
+ApprovalCard head "Approval · APR-8E7F50C8 / Needs approval" ran past the card's edge, as "Needs input" had on the Question
+card, and the decision buttons stacked into a ragged row. No token values change; no class is added or renamed, and at
+full width nothing moves.
+
+- `airframe-components.css`:
+  - `af-card__top` wraps (`flex-wrap: wrap`): in a narrow place the status drops under the label, whole and visible, before
+    anything is cut. Its `af-lbl` child gets `min-width: 0; max-width: 100%` and its `af-status` child `flex: none`.
+  - `af-lbl__sub` ellipsizes (`min-width: 0; overflow: hidden; text-overflow: ellipsis`) only when the label alone is wider
+    than its place; a later sub (`turn 7`, `editing`) gives way before the first (`flex-shrink: 1e5`), so a tail number
+    outlasts its qualifier. The full text stays in the DOM. Section labels whose sub ran into the next column now ellipsize.
+  - `af-approval__btns`: `max-width: 100%`; each `af-btn` in it is `flex: 1 1 auto` with centered content and the ghost
+    (inspect) stays `flex: none`, so once the row has wrapped the buttons share each line and the primary never sits alone
+    at the end of a ragged row. The row is still as wide as its buttons, so nothing stretches until it wraps. In
+    `af-approval__reason` the row is `align-self: flex-start` for the same reason. This replaces the container query hangar
+    carried in `app.css` (`.needs, .job-detail, .fd { container-type }` and `@container (max-width: 420px)`), which it can
+    drop on sync.
+  - `af-question__act > .af-btn`: `max-width: 100%`.
+- ApprovalCard, Question: the previews end with the card at 320 px; the READMEs say what wraps and what gives way. Card and
+  Label READMEs note the wrapping head and the ellipsizing sub.
+
 ## theme-v8 · 2026-10-18
 
 The docs look, shared: every product's docs site reads as one family and links to the others. No token values

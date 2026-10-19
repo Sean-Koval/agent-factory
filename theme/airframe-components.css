@@ -1,4 +1,4 @@
-/* Airframe theme-v8 components: the af- classes. Generated from airframe/styles/ by scripts/airframe.py;
+/* Airframe theme-v9 components: the af- classes. Generated from airframe/styles/ by scripts/airframe.py;
    do not edit. Load after airframe.css. Reference and previews: airframe/components/, and the
    gallery on https://sean-koval.github.io/agent-factory/airframe/ */
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=DM+Mono:wght@400;500&family=Red+Hat+Text:ital,wght@0,400..700;1,400..700&display=swap');
@@ -45,7 +45,10 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 
 /* ---- label: mono capitals ---- */
 .af-lbl{display:inline-flex;align-items:center;gap:7px;font-family:var(--af-font-mono);font-weight:500;font-size:11px;line-height:1;letter-spacing:.08em;text-transform:uppercase;color:var(--af-fg-muted);white-space:nowrap}
-.af-lbl__sub{color:var(--af-fg-subtle)}
+/* a label narrower than its place: the word stays whole; the sub (an ID, a region) ellipsizes as a last resort, after the
+   row it sits in has wrapped (see af-card__top). The full ID stays in the DOM for copy and screen readers. */
+.af-lbl__sub{color:var(--af-fg-subtle);min-width:0;overflow:hidden;text-overflow:ellipsis}
+.af-lbl__sub~.af-lbl__sub{flex-shrink:1e5}  /* a later sub (turn 7, editing) gives way, whole, before the ID loses a character */
 .af-lbl__sub::before{content:"\00B7";margin-right:7px;color:var(--af-fg-dim)}
 
 /* ---- button ---- */
@@ -93,7 +96,11 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 
 /* ---- card & panel: tonal (no border, separated by tone) ---- */
 .af-card{position:relative;background:var(--af-raised);border-radius:var(--af-radius-card);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
-.af-card__top{display:flex;justify-content:space-between;align-items:center;gap:8px;min-width:0}
+/* the head wraps before anything is cut: in a narrow place (a docked panel, a phone) the status drops under the label,
+   whole and visible; the label's sub ellipsizes only when the label alone is wider than the head */
+.af-card__top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;min-width:0}
+.af-card__top>.af-lbl{min-width:0;max-width:100%}
+.af-card__top>.af-status{flex:none}
 .af-card__meta{font-family:var(--af-font-mono);font-size:11px;color:var(--af-fg-subtle);white-space:nowrap}
 .af-card__foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;padding-top:10px;border-top:1px solid var(--af-line-subtle);font-size:12px;color:var(--af-fg-subtle);min-width:0}
 .af-card__foot b{color:var(--af-fg);font-weight:500}
@@ -492,9 +499,14 @@ button.af-avatar--agent:hover::after,a.af-avatar--agent:hover::after{background:
    failed triangle); diffs are greyscale: additions in fg with a 2px fg gutter bar, deletions in fg-muted. ===== */
 
 /* ---- approval card v2: decisions ---- */
-.af-approval__btns{flex-wrap:wrap;justify-content:flex-end}
+/* decisions that fit a narrow place (a docked panel, a phone): the row wraps, and once it has wrapped the buttons share each
+   line so the primary never sits alone at the end of a ragged row; inspect (ghost) keeps its size. At full width nothing
+   stretches: the row is as wide as its buttons. No container query needed, so a product declares nothing. */
+.af-approval__btns{flex-wrap:wrap;justify-content:flex-end;max-width:100%}
+.af-approval__btns>.af-btn{flex:1 1 auto;justify-content:center}
+.af-approval__btns>.af-btn--ghost{flex:0 0 auto}
 .af-approval__reason{display:flex;flex-direction:column;gap:12px;padding-top:12px;border-top:1px solid var(--af-line-subtle)}
-.af-approval__reason .af-approval__btns{margin-left:0;justify-content:flex-start}
+.af-approval__reason .af-approval__btns{margin-left:0;align-self:flex-start;justify-content:flex-start}
 .af-approval__edit{font-family:var(--af-font-mono);font-size:12.5px;line-height:1.6}
 .af-approval__edit textarea{white-space:pre;overflow-wrap:normal;overflow-x:auto;font-variant-numeric:tabular-nums}
 .af-approval__hint{display:flex;align-items:flex-start;gap:7px;margin:0;font-size:12.5px;line-height:1.45;color:var(--af-fg-muted)}
@@ -523,7 +535,7 @@ button.af-avatar--agent:hover::after,a.af-avatar--agent:hover::after{background:
 .af-question:has(.af-question__free textarea:not(:placeholder-shown)) .af-chip{opacity:.45;background:transparent;border-color:var(--af-line-strong);color:var(--af-fg);border-style:dashed}
 .af-question__act{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .af-question__act>.af-meta{font-size:11.5px}
-.af-question__act>.af-btn{margin-left:auto}
+.af-question__act>.af-btn{margin-left:auto;max-width:100%}
 
 /* ---- composer: an input with suggestion chips and one send button; a queued row with a take-back; a disabled state that says why ---- */
 .af-composer{display:flex;flex-direction:column;gap:8px;min-width:0}
