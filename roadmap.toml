@@ -62,7 +62,11 @@ issues = ["hangar#131", "hangar#132", "hangar#155"]
 
 [[phase.theme]]
 title = "CI green"
-issues = ["hangar#120", "hangar#205", "hangar#207", "hangar#245", "workspace#27"]
+issues = ["hangar#120", "hangar#205", "hangar#207", "hangar#245", "hangar#250", "workspace#27"]
+
+[[phase.theme]]
+title = "Release and first repo"
+issues = ["hangar#151", "hangar#274", "hangar#154"]
 
 [[phase.theme]]
 title = "Framing cleanup"
@@ -73,6 +77,10 @@ key = "P2"
 title = "P2 · Adopt and capture"
 when = "weeks 3-4"
 milestone = "P2"
+
+[[phase.theme]]
+title = "Adoption"
+issues = ["hangar#275", "hangar#276"]
 
 [[phase.theme]]
 title = "Team harness"
@@ -88,11 +96,11 @@ issues = ["hangar#156", "hangar#157", "hangar#158", "hangar#162"]
 
 [[phase.theme]]
 title = "Capture and metrics"
-issues = ["flightdeck#2-4", "flightdeck#5", "flightdeck#6", "hangar#163", "hangar#164", "hangar#165", "hangar#166", "hangar#167", "hangar#189", "hangar#168", "hangar#169", "hangar#170"]
+issues = ["flightdeck#2-4", "flightdeck#5", "flightdeck#6", "hangar#163", "hangar#164", "hangar#165", "hangar#166", "hangar#167", "hangar#189", "hangar#168", "hangar#169", "hangar#170", "hangar#273", "hangar#278"]
 
 [[phase.theme]]
 title = "Governance shadow"
-issues = ["workspace#13-19", "workspace#21", "workspace#28", "hangar#171", "hangar#172", "hangar#174", "hangar#176"]
+issues = ["workspace#13-19", "workspace#21", "workspace#28", "workspace#52", "hangar#171", "hangar#172", "hangar#174", "hangar#176", "hangar#277"]
 
 [[phase.theme]]
 title = "Security follow-through"
@@ -104,11 +112,11 @@ issues = ["ai-dlc#160", "ai-dlc#226", "ai-dlc#227"]
 
 [[phase.theme]]
 title = "Show, don't tell"
-issues = ["hangar#219", "flightdeck#44", "ai-dlc#213", "workspace#37", "spaceport#21", "agent-factory#1", "agent-factory#2"]
+issues = ["hangar#219", "flightdeck#44", "ai-dlc#213", "workspace#37", "agent-factory#1", "agent-factory#2"]
 
 [[phase.theme]]
 title = "Cleanup and docs"
-issues = ["hangar#141", "hangar#142", "hangar#143", "hangar#187", "hangar#220", "hangar#151", "hangar#154", "hangar#191", "hangar#246", "ai-dlc#190", "ai-dlc#194-208", "workspace#23", "workspace#25", "workspace#26", "workspace#36", "spaceport#12", "spaceport#13", "spaceport#15"]
+issues = ["hangar#141", "hangar#142", "hangar#143", "hangar#187", "hangar#220", "hangar#191", "hangar#246", "ai-dlc#190", "ai-dlc#194", "ai-dlc#196-197", "ai-dlc#199-202", "ai-dlc#204-207", "ai-dlc#230", "workspace#23", "workspace#25", "workspace#26", "workspace#36", "spaceport#12", "spaceport#13", "spaceport#15"]
 
 [[phase]]
 key = "P3"
@@ -162,4 +170,4 @@ issues = ["ai-dlc#53", "ai-dlc#85", "ai-dlc#172"]
 
 [[phase.theme]]
 title = "Later"
-issues = ["flightdeck#33-35", "spaceport#14", "agent-factory#3", "hangar#34"]
+issues = ["flightdeck#33-35", "spaceport#14", "spaceport#21", "agent-factory#3", "ai-dlc#203"]

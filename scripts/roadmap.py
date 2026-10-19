@@ -262,6 +262,15 @@ def count(issues: list[Issue]) -> tuple[int, int]:
     return sum(1 for i in issues if i.state == "closed"), len(issues)
 
 
+def milestone_work(s: RepoState, phase: Phase, phases: list[Phase]) -> list[Issue]:
+    """A repository's issues in a phase's milestone, epics excluded: an epic tracks the work, it isn't any."""
+    return [i for i in s.issues.values() if phase_of(i, phases) is phase and i.number not in s.repo.epics]
+
+
+def plural(n: int, word: str) -> str:
+    return f"{n} {word}" if n == 1 else f"{n} {word}s"
+
+
 def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str, list[str]]:
     """Return the Markdown include and a list of warnings."""
     warnings: list[str] = []
@@ -270,7 +279,7 @@ def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str,
     lines: list[str] = []
     stamp = now.strftime("%Y-%m-%d %H:%M UTC")
     lines.append(f'<p class="af-rm-stamp">Built {stamp} from GitHub issue state. '
-                 "Counts are closed / filed issues per milestone; pull requests are not counted.</p>")
+                 "Counts are closed / filed issues per milestone; epics and pull requests are not counted.</p>")
     lines.append("")
 
     # Progress grid: phases x repositories.
@@ -283,7 +292,7 @@ def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str,
         row = [f"[{phase.title}](#{anchor(phase.title)})"]
         total_c = total_n = 0
         for s in shown:
-            issues = [i for i in s.issues.values() if phase_of(i, cfg.phases) is phase]
+            issues = milestone_work(s, phase, cfg.phases)
             c, n = count(issues)
             total_c, total_n = total_c + c, total_n + n
             row.append(cell(c, n, milestone_url(s, issues)))
@@ -322,7 +331,7 @@ def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str,
     # Themes per phase.
     placed: set[tuple[str, int]] = set()
     for phase in cfg.phases:
-        phase_issues = [i for s in shown for i in s.issues.values() if phase_of(i, cfg.phases) is phase]
+        phase_issues = [i for s in shown for i in milestone_work(s, phase, cfg.phases)]
         c, n = count(phase_issues)
         lines.append(f"## {phase.title}")
         lines.append("")
@@ -358,11 +367,16 @@ def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str,
             tc, tn = count(found)
             lines.append(f"### {md_text(theme.title)}")
             lines.append("")
-            lines.append(f'<p class="af-rm-count">{tc} of {tn} closed</p>')
-            lines.append("")
-            lines.extend(items or ["- No issues yet."])
-            if private_refs:
-                lines.append(f"- <small>Also in private repositories: {', '.join(private_refs)}</small>")
+            if found or not private_refs:
+                lines.append(f'<p class="af-rm-count">{tc} of {tn} closed</p>')
+                lines.append("")
+                lines.extend(items or ["- No issues yet."])
+                if private_refs:
+                    lines.append(f"- <small>Also in private repositories: {', '.join(private_refs)}</small>")
+            else:  # only private issues: say so rather than "0 of 0 closed / No issues yet"
+                lines.append(f'<p class="af-rm-count">{plural(len(private_refs), "issue")} in private repositories</p>')
+                lines.append("")
+                lines.append(f"- <small>In private repositories: {', '.join(private_refs)}</small>")
             lines.append("")
 
     # Unsorted: open issues no theme lists, epics excepted.
