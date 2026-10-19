@@ -6,26 +6,25 @@
 
 One decision point for risky actions: rules, human approvals, signed receipts.
 
-Tower is the team's governance plane for the coding agents hangar runs and the vendor agents the team uses. It was called the governed workspace until the owner named it Tower (Tower ADR 0017). Hangar runs the agents; Tower clears risky actions.
+<figure class="af-figure af-figure--lead">
+<a href="../assets/captures/tower-desk.png"><img src="../assets/captures/tower-desk-approval.png" alt="Tower's Desk for an approver: a Needs you approval card for an agent creating a client ticket, with what will run and what signing does" width="680" height="472"></a>
+<figcaption>Needs you on the Desk: an agent wants to create a client ticket, and signing is explained before the button.</figcaption>
+</figure>
+
+Tower is the team's governance plane for the coding agents hangar runs and the vendor agents the team uses. hangar runs the agents; Tower clears risky actions. It was the governed workspace until its owner named it Tower (Tower ADR 0017).
 
 | | |
 | --- | --- |
-| Owns | Cedar rules, approvals where the approver is never the requester, RFC 8693 passports, hash-chained receipts and their attestation, reconciliation of tool calls against receipts, an approvals inbox. |
+| Owns | Cedar rules, approvals (approver never the requester), passports, hash-chained receipts, reconciliation, an inbox. |
 | Does not own | Enforcement inside sandboxes or landing mechanics. Tower decides; hangar enforces. |
-| Entry points | The REST decision API `POST /v1/decisions` (on main), an MCP gateway, a Claude Code hook (`/hooks/claude-code`), a web inbox. |
+| Entry points | The REST decision API `POST /v1/decisions`, an MCP gateway, a Claude Code hook (`/hooks/claude-code`), a web inbox. |
 | Used by | Approvers and leads, hangar's decision client, auditors. |
-| Status | **Shipped:** the decision API (Tower#13), signed approval events with an outbox (Tower#17), attestation receipts (Tower#18), approver ≠ requester with a low-risk self-approval rule (Tower#19), passports for `/mcp`. **Next:** passports on `/hooks` (Tower#14), the inbox feed for hangar's Slack digest (Tower#21), and a deployment next to hangar's control plane (Tower#28, #52). hangar's side of the wiring is [hangar#172](https://github.com/Sean-Koval/hangar/issues/172), [#173](https://github.com/Sean-Koval/hangar/issues/173) and [#190](https://github.com/Sean-Koval/hangar/issues/190). |
+| Status | The decision API, signed events, attestation receipts and passports for `/mcp` are shipped; hangar's wiring and a deployment beside it are next. See the [roadmap](../roadmap.md). |
 | Docs site | Private repository (Sean-Koval/tower); docs site once public. |
-
-<figure class="af-figure">
-<a href="../assets/captures/tower-desk.png"><img src="../assets/captures/tower-desk.png" alt="Tower's Desk for an approver: Start work with the composer, a Needs you approval card for an agent creating a client ticket, and the agents the person signs for" width="1440" height="900" loading="lazy"></a>
-<figcaption>The Desk, captured from Tower's offline demo by scripts/captures.py</figcaption>
-</figure>
-
 
 ## How hangar uses Tower
 
-Hangar enforces; Tower decides. Each of hangar's enforcement points asks Tower one question and keeps doing the rest itself. An allow lets hangar go on with its own checks, never skip them, and anything that fails on the way is a wait or a deny.
+Hangar enforces; Tower decides. Each of hangar's enforcement points asks Tower one question and keeps doing the rest itself. An allow lets hangar go on with its own checks, never skip them. Anything that fails on the way is a wait or a deny.
 
 | Hangar enforcement point | What it asks Tower | What stays in hangar |
 | --- | --- | --- |

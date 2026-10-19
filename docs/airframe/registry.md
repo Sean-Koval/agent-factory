@@ -2,7 +2,9 @@
 
 # Registry
 
-Airframe is also a [shadcn-compatible registry](https://ui.shadcn.com/docs/registry), so one command puts its files into any project: a Python console, a Vite app, a Tailwind project or a bare folder a coding agent is working in. The items are *universal*: every file has an explicit target, and nothing needs React, Tailwind or a `components.json`. The tool repos keep using `scripts/sync-airframe.sh theme-vN`, which does the same job with a fixed destination list; the registry is for everything else.
+Airframe is also a [shadcn-compatible registry](https://ui.shadcn.com/docs/registry), so one command puts its files into any project. A Python console, a Vite app, a Tailwind project or a bare folder a coding agent is working in. The items are *universal*: every file has an explicit target, and nothing needs React, Tailwind or a `components.json`.
+
+The tool repos keep using `scripts/sync-airframe.sh theme-vN`, which does the same job with a fixed destination list. The registry is for everything else.
 
 ## Install
 

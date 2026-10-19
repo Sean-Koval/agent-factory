@@ -100,6 +100,7 @@ class Phase:
     when: str
     milestone: str
     themes: list[Theme]
+    done: str = ""  # what finishing the phase means, in one sentence
 
 
 @dataclass
@@ -143,7 +144,7 @@ def load_config(path: Path) -> Config:
                         refs.append(item)
             themes.append(Theme(title=t["title"], refs=refs, label=t.get("label")))
         phases.append(Phase(key=p["key"], title=p.get("title", p["key"]), when=p.get("when", ""),
-                            milestone=p.get("milestone", p["key"]), themes=themes))
+                            milestone=p.get("milestone", p["key"]), themes=themes, done=p.get("done", "")))
     return Config(repos=repos, phases=phases)
 
 
@@ -246,16 +247,37 @@ def phase_of(issue: Issue, phases: list[Phase]) -> Phase | None:
 
 
 def badge(issue: Issue) -> str:
+    """A closed issue gets a check mark, a dropped one a dash; an open one is plain (the state is not a status)."""
     if issue.state == "open":
-        return '<span class="af-rm-state af-rm-open">open</span>'
+        return '<span class="af-rm-state af-rm-open" aria-label="open"></span>'
     if issue.reason == "not_planned":
-        return '<span class="af-rm-state af-rm-dropped">dropped</span>'
-    return '<span class="af-rm-state af-rm-closed">closed</span>'
+        return '<span class="af-rm-state af-rm-dropped" aria-label="dropped">–</span>'
+    return '<span class="af-rm-state af-rm-closed" aria-label="closed">✓</span>'
 
 
 def item_line(repo_key: str, issue: Issue, note: str = "") -> str:
     suffix = f" <small>{note}</small>" if note else ""
-    return f"- {badge(issue)} [{repo_key}#{issue.number}]({issue.url}) {md_text(issue.title)}{suffix}"
+    title = md_text(issue.title)
+    if issue.state != "open" and issue.reason == "not_planned":
+        title = f"<s>{title}</s>"
+    return f"- {badge(issue)} [{repo_key}#{issue.number}]({issue.url}) {title}{suffix}"
+
+
+def theme_row(title: str, closed: int, filed: int, items: list[str]) -> list[str]:
+    """One row per theme: its name, the count in the house style ("18 of 21") and a 4 px greyscale bar.
+    The row is the summary of a <details> holding the issue list, closed by default."""
+    pct = round(100 * closed / filed) if filed else 0
+    row = (f'<span class="af-rm-theme__name">{md_text(title)}</span>'
+           f'<span class="af-rm-count">{closed} of {filed} closed</span>'
+           f'<span class="af-rm-bar" role="img" aria-label="{pct} percent closed" style="--af-rm-pct: {pct}%"></span>')
+    if not items:
+        return [f'<p class="af-rm-theme">{row}</p>', ""]
+    return ['<details class="af-rm-theme" markdown>', f"<summary>{row}</summary>", ""] + items + ["", "</details>", ""]
+
+
+def folded(summary: str, items: list[str]) -> list[str]:
+    """An issue list closed by default; the count above it is what a reader sees first."""
+    return ['<details class="af-rm-issues" markdown>', f"<summary>{summary}</summary>", ""] + items + ["", "</details>"]
 
 
 def count(issues: list[Issue]) -> tuple[int, int]:
@@ -278,18 +300,20 @@ def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str,
     shown = [s for s in states if s.status == "ok"]
     lines: list[str] = []
     stamp = now.strftime("%Y-%m-%d %H:%M UTC")
-    lines.append(f'<p class="af-rm-stamp">Built {stamp} from GitHub issue state. '
-                 "Counts are closed / filed issues per milestone; epics and pull requests are not counted.</p>")
-    lines.append("")
 
     # Progress grid: phases x repositories.
     lines.append("## Progress")
     lines.append("")
-    header = ["Phase"] + [s.repo.name for s in shown] + ["All"]
+    lines.append('<div class="af-rm-progress" markdown>')
+    lines.append("")
+    done = any(p.done for p in cfg.phases)
+    header = ["Phase"] + (["Done when"] if done else []) + [s.repo.name for s in shown] + ["All"]
     lines.append("| " + " | ".join(header) + " |")
-    lines.append("| " + " | ".join(["---"] + ["---:"] * (len(header) - 1)) + " |")
+    lines.append("| " + " | ".join(["---"] * (2 if done else 1) + ["---:"] * (len(header) - (2 if done else 1))) + " |")
     for phase in cfg.phases:
-        row = [f"[{phase.title}](#{anchor(phase.title)})"]
+        row = [f"[{phase.title}](#{anchor(phase.title)})<br><small>{md_text(phase.when)}</small>"]
+        if done:
+            row.append(md_text(phase.done))
         total_c = total_n = 0
         for s in shown:
             issues = milestone_work(s, phase, cfg.phases)
@@ -298,6 +322,8 @@ def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str,
             row.append(cell(c, n, milestone_url(s, issues)))
         row.append(cell(total_c, total_n, None))
         lines.append("| " + " | ".join(row) + " |")
+    lines.append("")
+    lines.append("</div>")
     lines.append("")
     hidden = [s for s in states if s.status != "ok"]
     if hidden:
@@ -323,10 +349,11 @@ def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str,
         for n in s.repo.epics:
             epic_lines.append(f"- {s.repo.key}#{n} <small>(private repository)</small>")
     if epic_lines:
-        lines.append("## Epics")
+        lines.extend(folded(f"The {plural(len(epic_lines), 'epic')} that track this work", epic_lines))
         lines.append("")
-        lines.extend(epic_lines)
-        lines.append("")
+    lines.append(f'<p class="af-rm-stamp">Built {stamp} from GitHub issue state. '
+                 "Counts are closed of filed issues per milestone; epics and pull requests are not counted.</p>")
+    lines.append("")
 
     # Themes per phase.
     placed: set[tuple[str, int]] = set()
@@ -365,19 +392,15 @@ def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str,
                     note = f"({other.key})" if other else "(no milestone)"
                 items.append(item_line(key, issue, note))
             tc, tn = count(found)
-            lines.append(f"### {md_text(theme.title)}")
-            lines.append("")
             if found or not private_refs:
-                lines.append(f'<p class="af-rm-count">{tc} of {tn} closed</p>')
-                lines.append("")
-                lines.extend(items or ["- No issues yet."])
                 if private_refs:
-                    lines.append(f"- <small>Also in private repositories: {', '.join(private_refs)}</small>")
+                    items.append(f"- <small>Also in private repositories: {', '.join(private_refs)}</small>")
+                lines.extend(theme_row(theme.title, tc, tn, items))
             else:  # only private issues: say so rather than "0 of 0 closed / No issues yet"
-                lines.append(f'<p class="af-rm-count">{plural(len(private_refs), "issue")} in private repositories</p>')
+                lines.append(f'<p class="af-rm-theme"><span class="af-rm-theme__name">{md_text(theme.title)}</span>'
+                             f'<span class="af-rm-count">{plural(len(private_refs), "issue")} in private repositories: '
+                             f"{', '.join(private_refs)}</span></p>")
                 lines.append("")
-                lines.append(f"- <small>In private repositories: {', '.join(private_refs)}</small>")
-            lines.append("")
 
     # Unsorted: open issues no theme lists, epics excepted.
     lines.append("## Unsorted")
@@ -395,7 +418,7 @@ def render(cfg: Config, states: list[RepoState], now: dt.datetime) -> tuple[str,
     if unsorted:
         lines.append("Open issues that `roadmap.toml` does not place in a theme yet.")
         lines.append("")
-        lines.extend(unsorted)
+        lines.extend(folded(plural(len(unsorted), "open issue"), unsorted))
     else:
         lines.append("Every open issue is placed in a theme.")
     lines.append("")
@@ -411,7 +434,7 @@ def anchor(title: str) -> str:
 def cell(closed: int, filed: int, url: str | None) -> str:
     if not filed:
         return "–"
-    text = f"{closed} / {filed}"
+    text = f"{closed} of {filed}"
     return f"[{text}]({url})" if url else text
 
 

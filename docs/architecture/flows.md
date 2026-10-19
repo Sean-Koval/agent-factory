@@ -4,8 +4,8 @@ Each flow ends at a pull request or a report, and each step names the tool and w
 
 ## Improving the team harness
 
-1. Change a skill, a hook, the guide or a plugin in the **[team harness repo](../team-harness.md)**. A change to ai-dlc's workflow plugin starts in **ai-dlc**: its build script regenerates the plugin and its content digest, and its publish script writes the plugin into the harness repo for a PR.
-2. Re-pin the harness: `hangar harness freeze <job> --turn 1 --out harnesses/team-default` from a good run (or the repo's `relock.py` for a hand edit) writes the native files and a new `harness.lock` revision with a new `harness_digest`.
+1. Change a skill, a hook, the guide or a plugin in the **[team harness repo](../team-harness.md)**. A change to ai-dlc's workflow plugin starts in **ai-dlc**. Its build script regenerates the plugin and its digest; its publish script writes the plugin into the harness repo for a PR.
+2. Re-pin the harness. `hangar harness freeze <job> --turn 1 --out harnesses/team-default` from a good run, or the repo's `relock.py` for a hand edit, writes the native files and a new `harness.lock` revision.
 3. The PR points the `candidate` channel at the new digest; `stable` doesn't move.
 4. `flightdeck experiment run suite.yaml` submits `hangar.experiment/v1` with the stable harness and the candidate as variants, after a cost gate.
 5. hangar runs pinned trials with sealed graders. Infrastructure failures are retried and left out of the statistics.
@@ -28,7 +28,7 @@ Each flow ends at a pull request or a report, and each step names the tool and w
 2. All day the outbox has written each finished run once, retrying while storage is unreachable. Failures are kept until exported.
 3. A Cloud Run compactor flattens the new objects into `flightdeck.parquet/v1`.
 4. The harness canary proposes CLI lock bumps from contract tests.
-5. `flightdeck check run` judges every behavior spec and accepted ADR check over the day and opens one GitHub issue per new step in violations, naming the `harness_digest` that changed. Scheduling it nightly is [flightdeck#15](https://github.com/Sean-Koval/flightdeck/issues/15).
+5. `flightdeck check run` judges every behavior spec and accepted ADR check over the day. It opens one GitHub issue per new step in violations, naming the `harness_digest` that changed. Scheduling it nightly is [flightdeck#15](https://github.com/Sean-Koval/flightdeck/issues/15).
 6. In the morning, weekly metrics and the standup line go to Slack.
 
 ## Onboarding a repo
