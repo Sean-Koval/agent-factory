@@ -3,6 +3,7 @@ docs/theme/
 docs/deck/
 docs/airframe/gallery/
 docs/r/
+overrides/partials/
 __pycache__/
 deck/fragment.html
 generated/

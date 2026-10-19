@@ -99,9 +99,10 @@ SYSTEM_COLORS = {"Canvas", "CanvasText", "LinkText", "VisitedText", "ActiveText"
 
 def forced_block(css: str) -> str:
     """The body of the stylesheet's @media (forced-colors: active) block, or '' when it has none."""
-    start = css.find("@media (forced-colors: active){")
-    if start < 0:
+    start = re.search(r"@media \(forced-colors: active\)\s*\{", css)
+    if not start:
         return ""
+    start = start.start()
     i, depth = css.index("{", start), 0
     for j in range(i, len(css)):
         depth += {"{": 1, "}": -1}.get(css[j], 0)
@@ -114,8 +115,10 @@ class ForcedColorsTests(unittest.TestCase):
     """Windows Contrast Themes replace colors and drop box-shadows; statuses must keep their shape and edges there."""
 
     def test_every_stylesheet_has_a_forced_colors_block_of_system_colors_only(self):
-        for name in af.STYLES:
-            body = forced_block((af.SRC / "styles" / name).read_text())
+        sheets = [af.SRC / "styles" / name for name in af.STYLES] + [af.DOCS_SITE / "airframe-docs.css"]
+        for path in sheets:
+            name = path.name
+            body = forced_block(path.read_text())
             self.assertTrue(body, f"{name} has no @media (forced-colors: active) block")
             self.assertNotIn("var(", body, f"{name}: tokens are replaced in forced colors; use system colors")
             self.assertNotRegex(body, r"#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(", name)
@@ -255,6 +258,47 @@ class RegistryTests(unittest.TestCase):
             if comp["name"] != "Cover":
                 self.assertIn(f"| {comp['name']} |", skill, comp["name"])
         self.assertLess(skill.count("\n"), 500, "SKILL.md stays under 500 lines (Agent Skills guidance)")
+
+
+class DocsSiteTests(unittest.TestCase):
+    """The shared docs look: the suite strip partial and the CSS that styles it are published together."""
+
+    THEME = af.ROOT / "theme"
+
+    def test_suite_strip_names_the_family_once_and_links_only_public_sites(self):
+        strip = (self.THEME / "airframe-suite.html").read_text()
+        for product in ("hangar", "flightdeck", "tower", "ai-dlc", "airframe"):
+            self.assertEqual(strip.count(f'product == "{product}"'), 1, product)
+        self.assertEqual(strip.count('aria-current="true"'), 6)  # the home and five items can each be current
+        public = {"https://sean-koval.github.io/agent-factory/", "https://sean-koval.github.io/hangar/",
+                  "https://sean-koval.github.io/flightdeck/", "https://sean-koval.github.io/ai-dlc/",
+                  "https://sean-koval.github.io/agent-factory/airframe/"}
+        self.assertEqual(set(re.findall(r'href="(https://[^"]+)"', strip)), public)
+        self.assertNotIn("github.io/tower", strip)  # private for now: a plain word, not a dead link
+        self.assertIn('aria-label="Agent factory suite"', strip)
+
+    def test_docs_css_is_built_from_source_with_the_release_stamp(self):
+        built = (self.THEME / "airframe-docs.css").read_text()
+        self.assertTrue(built.startswith(f"/* Airframe {af.release()} for the docs sites. Generated from airframe/docs-site/"))
+        self.assertTrue(built.endswith((af.DOCS_SITE / "airframe-docs.css").read_text()))
+        self.assertEqual((self.THEME / "airframe-suite.html").read_text(), (af.DOCS_SITE / "airframe-suite.html").read_text())
+        # code blocks scroll sideways and the copy button never sits on the glyphs; no empty hero stage
+        self.assertIn("padding-right: 3em", built)
+        self.assertIn(".md-code__nav, .md-typeset .md-clipboard { background: var(--af-terminal-bg)", built)
+        self.assertNotIn(".af-hero::after", built)
+        self.assertIn(".af-hero--visual::after", built)
+
+    def test_strip_is_styled_vendored_and_released_together(self):
+        docs_css = (self.THEME / "airframe-docs.css").read_text()
+        for cls in (".af-suite", ".af-suite__home", ".af-suite__list", "[aria-current]"):
+            self.assertIn(cls, docs_css)
+        sync = (af.ROOT / "airframe" / "sync-airframe.sh").read_text()
+        self.assertIn("airframe-suite.html     overrides/partials/airframe-suite.html", sync)
+        self.assertIn('{% include "partials/airframe-suite.html" %}', (af.ROOT / "overrides" / "main.html").read_text())
+        self.assertIn("airframe-suite.html", (self.THEME / "CHANGELOG.md").read_text())
+        registry = af.registry()
+        docs_item = next(it for it in registry["items"] if it["name"] == "airframe-docs")
+        self.assertEqual({f["path"] for f in docs_item["files"]}, {"theme/airframe-docs.css", "theme/airframe-suite.html"})
 
 
 class SourceTests(unittest.TestCase):

@@ -6,6 +6,7 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
+  custom_dir: overrides   # overrides/main.html adds the Airframe suite strip (theme/airframe-suite.html)
   font: false
   logo: assets/brand/mark.svg
   favicon: assets/brand/favicon.svg
@@ -67,6 +68,8 @@ nav:
 
 extra:
   generator: false
+  airframe:
+    product: agent-factory   # the current item in the suite strip
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/Sean-Koval/agent-factory

@@ -14,6 +14,8 @@ python3 scripts/roadmap.py ${ROADMAP_ARGS:-}
 # The slides go to deck/slides/: docs/deck.md already renders to site/deck/index.html.
 rm -rf docs/theme docs/deck && mkdir -p docs/theme docs/deck/slides && cp theme/*.css theme/*.json docs/theme/
 cp deck/index.html docs/deck/slides/index.html
+# The suite strip partial that overrides/main.html includes is the published theme file.
+mkdir -p overrides/partials && cp theme/airframe-suite.html overrides/partials/airframe-suite.html
 [ -f deck/agent-factory.pdf ] && cp deck/agent-factory.pdf docs/deck/
 ${ZENSICAL:-zensical} build
 grep -q 'class="slide' site/deck/slides/index.html || {
