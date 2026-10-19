@@ -10,7 +10,7 @@ hide:
 
 # Hand work to cloud coding agents and keep every change reviewable
 
-<p class="af-lede">Tools that let a team of six engineers run about sixty agent sessions at once. A team harness repo defines what the agents run, hangar runs them, flightdeck judges the runs, Tower governs risky decisions, and every change still leaves through a reviewed pull request.</p>
+<p class="af-lede">Tools that let a team of six engineers run about sixty agent sessions at once. Four planes: the team harness defines what the agents run, hangar runs them, flightdeck judges the runs and Tower governs risky decisions. ai-dlc sets up the people and machines around them, and every change still leaves through a reviewed pull request.</p>
 
 [See how it fits](how-it-fits.md){ .md-button .md-button--primary } [Open the deck](deck.md){ .md-button }
 </div>
@@ -21,13 +21,14 @@ hide:
 </div>
 
 <div class="af-tools">
+  <a class="af-tool" href="team-harness/"><small>Define</small><b>Team harness</b><span>The harness as native files and a lock, frozen from a good run and promoted on evidence.</span></a>
   <a class="af-tool" href="tools/hangar/" style="--af-tool: var(--af-product-hangar)"><small>Run</small><b>hangar</b><span>Runs coding agents in isolated cloud sandboxes, from a ticket to a landed PR.</span></a>
   <a class="af-tool" href="tools/flightdeck/" style="--af-tool: var(--af-product-flightdeck)"><small>Judge</small><b>flightdeck</b><span>Judges harness changes with paired statistics and behavior specs over every run.</span></a>
   <a class="af-tool" href="tools/workspace/" style="--af-tool: var(--af-product-tower)"><small>Govern</small><b>Tower</b><span>One decision point for risky actions: rules, human approvals, signed receipts.</span></a>
-  <a class="af-tool" href="team-harness/"><small>Define</small><b>Team harness</b><span>The harness as native files and a lock, frozen from a good run and promoted on evidence.</span></a>
-  <a class="af-tool" href="tools/ai-dlc/" style="--af-tool: var(--af-product-aidlc)"><small>Supports Define</small><b>ai-dlc</b><span>Authors the optional workflow plugin, provisions machines, gates local work on CI.</span></a>
-  <a class="af-tool" href="tools/spaceport/" style="--af-tool: var(--af-product-spaceport)"><small>Capability</small><b>Spaceport</b><span>Reviewed data products that agents query through four MCP tools. Frozen.</span></a>
+  <a class="af-tool" href="tools/ai-dlc/" style="--af-tool: var(--af-product-aidlc)"><small>Setup</small><b>ai-dlc</b><span>Sets up engineers' machines, authors the optional workflow plugin, gates local work on CI.</span></a>
 </div>
+
+Also in the suite: [Spaceport](tools/spaceport.md), reviewed data products that agents query through four MCP tools (frozen), and [Airframe](airframe/index.md), the design system every tool uses.
 
 ## A ticket's journey
 
@@ -55,7 +56,7 @@ The diagram, which tool owns what, every seam and its status: [How it fits](how-
 <figcaption>The four planes, the doors and the gate · <a href="assets/diagrams/planes.svg">full size</a></figcaption>
 </figure>
 
-hangar sits in the middle. Work arrives through the doors, the harness arrives as a lock file, risky decisions go out to Tower, every run goes out to flightdeck, and flightdeck's verdict comes back as the next promoted harness. One number, `harness_digest`, identifies a harness from the lock file to the manifest, the PR and the report.
+Define is the team harness repo, Run is hangar, Judge is flightdeck and Govern is Tower. hangar sits in the middle. Work arrives through the doors, the harness arrives as a lock file, risky decisions go out to Tower, every run goes out to flightdeck, and flightdeck's verdict comes back as the next promoted harness. One number, `harness_digest`, identifies a harness from the lock file to the manifest, the PR and the report. ai-dlc is setup, off the agent's hot path: it prepares machines, authors the optional workflow plugin the harness may pin, and gates local work on CI.
 
 ## Three rules the suite is built around
 

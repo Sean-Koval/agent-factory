@@ -1,6 +1,6 @@
 <style>:root, [data-md-color-scheme] { --af-product: var(--af-product-tower); }</style>
 
-<span class="af-eyebrow">Govern plane</span>
+<span class="af-eyebrow">Agent factory · Govern</span>
 
 # Tower
 
