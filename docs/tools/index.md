@@ -8,7 +8,7 @@ Five tools and the team harness repo. hangar, flightdeck and Tower each own a pl
 | [flightdeck](flightdeck.md) | Judge | Judges harness changes with paired statistics and behavior specs over every run. | v0 shipped; one real decision next | [Live](https://sean-koval.github.io/flightdeck/) |
 | [Tower](workspace.md) | Govern | One decision point for risky actions: rules, human approvals, signed receipts. | Decision API shipped; passports and inbox next | Private |
 | [Team harness](../team-harness.md) | Define | The harness as native files and a lock, frozen from a good run and promoted on evidence. | Example shipped; the team's repo next | [README](https://github.com/Sean-Koval/team-harness) |
-| [ai-dlc](ai-dlc.md) | Supports Define | Authors the optional workflow plugin, provisions machines, gates local work on CI. | Plugin shipped; refocus docs in progress | Not yet published |
+| [ai-dlc](ai-dlc.md) | Supports Define | Authors the optional workflow plugin, provisions machines, gates local work on CI. | Plugin shipped; refocus docs in progress | [Live](https://sean-koval.github.io/ai-dlc/) |
 | [Spaceport](spaceport.md) | Capability | Reviewed data products that agents query through four MCP tools. Frozen. | Frozen | None (README only) |
 
 Each tool page lists what it owns, what it doesn't, and the issues behind its status.
