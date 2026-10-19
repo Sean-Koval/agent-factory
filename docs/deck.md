@@ -4,7 +4,7 @@ Fourteen slides for the team or leadership: the problem at sixty sessions, the f
 
 [Open the slides](deck/slides/){ .md-button .md-button--primary } [Download the PDF](deck/agent-factory.pdf){ .md-button }
 
-<iframe class="af-deck-frame" src="slides/" title="The agent factory deck" loading="lazy"></iframe>
+<iframe class="af-deck-frame" src="deck/slides/" title="The agent factory deck" loading="lazy"></iframe>
 
 Use the arrow keys, the buttons in the corner, or swipe. Printing from the browser gives one slide per page. The source is [`deck/src.html`](https://github.com/Sean-Koval/agent-factory/blob/main/deck/src.html); `python3 scripts/build_deck.py --pdf` rebuilds the page and the PDF with the current Airframe theme. The screens are in `docs/assets/captures/`, made by `python3 scripts/captures.py` from each product's own demo (hangar's `demo.py`, Tower's `ui_tour.py`, flightdeck's fixture report), never by hand; `captures.json` records which commit each came from.
 
