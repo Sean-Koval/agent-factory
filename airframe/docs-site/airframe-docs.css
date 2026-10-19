@@ -102,14 +102,23 @@ body { background: var(--af-canvas); }
 .md-typeset .af-suite .af-suite__list { list-style: none; margin: 0; padding: 0; display: flex; }
 .md-typeset .af-suite .af-suite__list li { margin: 0; padding: 0; display: block; }
 .md-typeset .af-suite__list a, .md-typeset .af-suite__list span { display: inline-flex; align-items: center; gap: .55em; height: 30px; padding: 0 .8em; line-height: 1; color: var(--af-fg-muted); font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: 700; font-size: .6rem; letter-spacing: 0; }
-.md-typeset .af-suite__list small { font-family: var(--af-font-mono); font-weight: 500; font-size: .5rem; line-height: 1; padding-top: 1px; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.md-typeset .af-suite__list small { font-family: var(--af-font-mono); font-weight: 500; font-size: .5rem; line-height: 1; padding-top: 1px; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); opacity: 1; }
 .md-typeset .af-suite__list span { color: var(--af-fg-subtle); }
 .md-typeset .af-suite a:hover, .md-typeset .af-suite a:focus-visible { color: var(--af-fg); }
 .md-typeset .af-suite [aria-current] { color: var(--af-fg); box-shadow: inset 0 -2px 0 var(--af-product); }
 .md-typeset .af-suite__home[aria-current] { box-shadow: none; color: var(--af-fg); }
 .md-typeset .af-suite__home[aria-current]::before { background: var(--af-brand); }
-/* phones: the plane words go, the row scrolls sideways, and the next name is cut mid-word so the scroll shows */
-@media (max-width: 599px) {
+/* narrow screens: the row scrolls sideways and snaps to an item, a fade on the right edge says there is more,
+   and a spacer after the last item lets it scroll clear of the fade; nothing is cut */
+@media (max-width: 959px) {
+  .md-banner__inner.md-typeset { position: relative; }
+  .md-banner__inner.md-typeset::after { content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 2.4rem; pointer-events: none; background: linear-gradient(to right, transparent, var(--af-canvas) 70%); }
+  .md-typeset .af-suite { scroll-snap-type: x proximity; overscroll-behavior-x: contain; }
+  .md-typeset .af-suite .af-suite__list li { scroll-snap-align: start; }
+  .md-typeset .af-suite .af-suite__list::after { content: ""; flex: none; width: 2.4rem; }
+}
+/* phones: product names only (the role words return in the suite's home page and each product's hero) */
+@media (max-width: 480px) {
   .md-typeset .af-suite__home { padding-right: .6em; margin-right: 0; gap: .4em; }
   .md-typeset .af-suite__list small { display: none; }
   .md-typeset .af-suite__list a, .md-typeset .af-suite__list span { padding: 0 .55em; }
@@ -215,7 +224,7 @@ body { background: var(--af-canvas); }
 .af-tool { background: var(--af-raised); padding: var(--af-space-16); display: flex; flex-direction: column; gap: .4em; min-width: 0; text-decoration: none !important; color: var(--af-fg) !important; border-top: 2px solid var(--af-tool, var(--af-line)); }
 .af-tool:hover { background: var(--af-selected); }
 .af-tool b { font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: 700; font-size: .9rem; }
-.af-tool small { font-family: var(--af-font-mono); font-size: .58rem; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.af-tool small { font-family: var(--af-font-mono); font-size: .58rem; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); opacity: 1; }
 .af-tool span { color: var(--af-fg-muted); font-size: .72rem; line-height: 1.5; }
 
 /* footer: on the canvas, separated by a rule */
@@ -238,6 +247,7 @@ body { background: var(--af-canvas); }
   .md-typeset .af-suite [aria-current] { box-shadow: none; border-bottom: 2px solid Highlight; }
   .md-typeset .af-suite__home[aria-current] { border-bottom: 2px solid Highlight; }
   .md-typeset .af-suite__home::before, .af-eyebrow::before { background: CanvasText; }
+  .md-banner__inner.md-typeset::after { display: none; }
   .md-typeset .admonition, .md-typeset details { box-shadow: none; border-left: 2px solid CanvasText; }
   .af-tool { border-top-color: CanvasText; }
   .af-swatch { box-shadow: none; outline: 1px solid CanvasText; }

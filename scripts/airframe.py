@@ -612,10 +612,10 @@ GALLERY_CSS = """<style>
 .afg-item:first-child{border-top:0}
 .afg-item__name{font-family:var(--af-font-mono);font-weight:500;font-size:13px;color:var(--af-fg);text-decoration:none}
 .afg-item__name:hover{color:var(--af-brand-text)}
-.afg-item__sub{font-size:13px;color:var(--af-fg-muted);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.afg-item__sub{font-size:13px;line-height:1.4;color:var(--af-fg-muted);min-width:0;overflow-wrap:anywhere}
 .afg-item__go{display:flex;gap:var(--af-space-4)}
 .afg-item__go .af-btn{text-decoration:none}
-@media (max-width:760px){.afg-page{padding:var(--af-space-32) var(--af-space-16)}.afg-item{grid-template-columns:minmax(0,1fr) auto}.afg-item__sub{grid-column:1/-1;white-space:normal}.afg-item__go{grid-row:1;grid-column:2}}
+@media (max-width:760px){.afg-page{padding:var(--af-space-32) var(--af-space-16)}.afg-item{grid-template-columns:minmax(0,1fr) auto}.afg-item__sub{grid-column:1/-1}.afg-item__go{grid-row:1;grid-column:2}}
 </style>"""
 
 
@@ -779,6 +779,20 @@ def pages(dest: Path) -> list[Path]:
                      f'<figcaption>{html.escape(name)}</figcaption></figure>')
     (dest / "airframe-icons.md").write_text('<div class="af-icons">\n' + "\n".join(cells) + "\n</div>\n")
     written.append(dest / "airframe-icons.md")
+
+    # the registry page's pinned install commands name the newest release, like the header badge
+    tag = release()
+    (dest / "airframe-install.md").write_text(
+        "```sh\n"
+        f"npx shadcn@latest add {REGISTRY_REPO}/airframe#{tag}\n"
+        f"npx shadcn@latest add {REGISTRY_REPO}/skill#{tag}\n"
+        f"npx shadcn@latest list {REGISTRY_REPO}\n"
+        "```\n\n"
+        "!!! note \"A `#ref` pins one item\"\n"
+        f"    The CLI does not carry the ref to that item's dependencies, which it reads from `main`, so `button#{tag}` installs "
+        "that tag's contract but the current `airframe` files. Pin the whole set by naming every item in one command, or "
+        "install from the site, where each release's items are built together.\n")
+    written.append(dest / "airframe-install.md")
     return written
 
 

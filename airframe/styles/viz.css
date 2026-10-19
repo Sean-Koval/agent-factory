@@ -240,11 +240,13 @@ button.af-lanes__label:focus-visible{outline:2px solid var(--af-focus);outline-o
 .af-cap--sm .af-cap__bar{width:72px}
 .af-cap--sm{font-size:11px;color:var(--af-fg-subtle)}
 
-/* ---- stage track: plan, edit, test, PR, labeled ---- */
+/* ---- stage track: plan, edit, test, PR, labeled ----
+   label-s (10px) in fg-subtle for every stage word, so the ones not reached still read (AA on raised in both themes;
+   fg-dim is for separators and disabled marks, never text); the pips carry the position: rule, then fg-subtle, then fg */
 .af-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}
-.af-track__seg{display:flex;flex-direction:column;gap:5px;font-family:var(--af-font-mono);font-weight:500;font-size:9.5px;line-height:1;letter-spacing:.09em;text-transform:uppercase;color:var(--af-fg-dim)}
+.af-track__seg{display:flex;flex-direction:column;gap:5px;font-family:var(--af-font-mono);font-weight:500;font-size:10px;line-height:1;letter-spacing:.09em;text-transform:uppercase;color:var(--af-fg-subtle)}
 .af-track__seg i{display:block;height:2px;background:var(--af-rule)}
-.af-track__seg--done{color:var(--af-fg-subtle)}
+.af-track__seg--done{color:var(--af-fg-muted)}
 .af-track__seg--done i{background:var(--af-fg-subtle)}
 .af-track__seg--now{color:var(--af-fg)}
 .af-track__seg--now i{background:var(--af-fg)}
