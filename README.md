@@ -5,58 +5,74 @@
 
 # Agent factory
 
-The suite-level home for Sean's team tooling for cloud coding agents: the docs site, the introduction deck, the architecture diagrams and **Airframe**, the design system every tool's docs site and console uses.
+**Hand work to cloud coding agents and keep every change reviewable.** A team of six engineers runs about sixty agent sessions at once, and every change still leaves through a pull request a human approves.
 
-- Docs: <https://sean-koval.github.io/agent-factory/>
-- Deck: <https://sean-koval.github.io/agent-factory/deck/slides/> (PDF and diagrams on <https://sean-koval.github.io/agent-factory/deck/>)
-- Roadmap: <https://sean-koval.github.io/agent-factory/roadmap/> (rebuilt daily from issue state)
-- Airframe: <https://sean-koval.github.io/agent-factory/airframe/> (tokens, components, icons, gallery)
+Start with the docs: <https://sean-koval.github.io/agent-factory/> ([How it fits](https://sean-koval.github.io/agent-factory/how-it-fits/) follows one ticket through every tool; the [deck](https://sean-koval.github.io/agent-factory/deck/) tells it in fourteen slides).
 
-Four planes, five tools and the team harness repo. The team harness defines what the agents run, hangar runs them, flightdeck judges the runs and Tower governs risky decisions; ai-dlc sets up the people and machines around them, and Spaceport sits under the suite as a data capability.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/diagrams/slide-planes-dark.png">
+  <img alt="Four planes around hangar: the team harness defines what the agents run, hangar runs them, flightdeck judges the runs and Tower governs risky decisions; work comes in through the doors and leaves through one pull-request gate." src="docs/assets/diagrams/slide-planes-light.png" width="960">
+</picture>
+
+Four planes, five tools and the team harness repo.
 
 | Tool | Plane | In one line | Repo |
 | --- | --- | --- | --- |
-| Team harness | Define | The harness as native files and a lock, frozen from a good run and promoted on evidence. | [Sean-Koval/team-harness](https://github.com/Sean-Koval/team-harness) (the public example) |
-| hangar | Run | Runs coding agents in isolated cloud sandboxes, from a ticket to a landed PR. | [Sean-Koval/hangar](https://github.com/Sean-Koval/hangar) |
-| flightdeck | Judge | Judges harness changes with paired statistics and behavior specs over every run. | [Sean-Koval/flightdeck](https://github.com/Sean-Koval/flightdeck) |
-| Tower | Govern | One decision point for risky actions: rules, human approvals, signed receipts. | Private repository (Sean-Koval/tower); docs site once public |
-| ai-dlc | Setup | Sets up engineers' machines, authors the optional workflow plugin, gates local work on CI. | [Sean-Koval/ai-dlc](https://github.com/Sean-Koval/ai-dlc) |
-| Spaceport | Also in the suite (capability, frozen) | Reviewed data products that agents query through four MCP tools. | Private repository (Sean-Koval/spaceport); README only |
+| Team harness | Define | What the agents run, as native files and a lock frozen from a good run. | [team-harness](https://github.com/Sean-Koval/team-harness) (public example) |
+| hangar | Run | Coding agents in isolated cloud sandboxes, from a ticket to a landed PR. | [hangar](https://github.com/Sean-Koval/hangar) |
+| flightdeck | Judge | Harness changes judged with paired statistics and behavior specs over every run. | [flightdeck](https://github.com/Sean-Koval/flightdeck) |
+| Tower | Govern | One decision point for risky actions: rules, human approvals, signed receipts. | Private (Sean-Koval/tower) |
+| ai-dlc | Setup | Engineers' machines, the optional workflow plugin, local work gated on CI. | [ai-dlc](https://github.com/Sean-Koval/ai-dlc) |
+| Spaceport | Also in the suite | Reviewed data products that agents query through four MCP tools (frozen). | Private (Sean-Koval/spaceport) |
 
-Define is the team harness repo: native files and `harness.lock`, frozen from a good hangar run. ai-dlc is setup, off the agent's hot path; the workflow plugin it authors is one component a harness may pin. [How it fits](https://sean-koval.github.io/agent-factory/how-it-fits/) follows one ticket through all of them.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/captures/hangar-fleet-needs-you.png">
+  <img alt="hangar's Fleet board from its demo: ten sandbox tiles in the checkout-python pool, one marked Needs you and selected, with the agent's question in the detail panel beside it." src="docs/assets/captures/hangar-fleet-needs-you.png" width="960">
+</picture>
+
+*hangar's Fleet, from its own demo: ten agents at work, one needs you. Every capture in the docs and the deck is taken from a product's demo by `scripts/captures.py`, never drawn.*
 
 ## What lives here
 
+This repository is the suite-level home: the docs site, the deck, the diagrams and **Airframe**, the design system every tool's docs site and console uses.
+
 | Path | What it is |
 | --- | --- |
-| `airframe/` | **Airframe's source of truth**: `tokens.json` (every color, font and size), the component CSS, icons, component docs and the brand book. See [`airframe/README.md`](airframe/README.md). |
-| `theme/airframe.css`, `theme/airframe-components.css`, `theme/airframe-icons.svg`, `theme/airframe.js`, `theme/airframe-tokens.json` | Generated from `airframe/` by `scripts/airframe.py build`; never edited by hand. Tokens (`--af-*`), the `af-` component classes, the icon sprite, the optional helpers module, and tokens for scripts. |
-| `theme/airframe-docs.css` | Maps the docs theme onto Airframe tokens. Each tool vendors what it needs with its `scripts/sync-airframe.sh`. |
-| `theme/CHANGELOG.md` | One `theme-vN` entry per theme change, listing each token. Merging an entry tags `theme-vN` and starts the sync to the tool repos. |
-| `brand/` | Each product's README banner (Night and Day), social preview, favicon and header mark, generated from Airframe by `scripts/banners.py`; tool repos vendor theirs with `scripts/sync-brand.sh`. See [`brand/README.md`](brand/README.md). |
-| `docs/` | The suite site: overview, architecture (C4), contracts, flows, decisions, glossary. |
-| `docs/assets/diagrams/` | Theme-aware SVG diagrams and PNGs in both themes, generated by `scripts/diagrams.py`. |
-| `roadmap.toml` | Themes for the roadmap page: which issues, across the tool repos, deliver each outcome. `scripts/roadmap.py` turns it and live issue state into `generated/roadmap.md` (built in CI, never committed). |
-| `examples/company-overlay/` | What a company holds to run the factory on its own cluster, as the four repos of the infra / code / database / trigger-deployment convention: Terraform over hangar's `hangar-workload` module, the image with pinned plugins, kustomize overlays over hangar's base at a pinned tag, External Secrets, and `policy/` for `hangar apply -f`. Placeholders only. See [Run the factory at your company](https://sean-koval.github.io/agent-factory/work/). |
-| `examples/symphony-bot/` | A Symphony bot template that calls hangar's MCP on behalf of the person asking, turns hangar's questions and approvals into Elements forms and its events into room messages. No company values. |
-| `deck/src.html` | The deck source; `scripts/build_deck.py --pdf` builds `deck/index.html` and the PDF. |
-| [Sean-Koval/team-harness](https://github.com/Sean-Koval/team-harness) | The public example team harness (OpenSpec, GitHub + Projects, Jira, Splunk, GKE) with `harness.lock`, channels, the ai-dlc workflow plugin as a candidate, and CI, in its own repo so channels resolve through its history. Fork it to start your own. (`examples/team-harness/` is now a pointer.) |
+| `airframe/` | Airframe's source of truth: tokens, component CSS, icons, component docs and the brand book. See [`airframe/README.md`](airframe/README.md). |
+| `theme/` | Generated from `airframe/` by `scripts/airframe.py build`; never edited by hand. `CHANGELOG.md` has one `theme-vN` entry per release. |
+| `brand/` | Each product's banner, social preview, favicon and mark, generated by `scripts/banners.py`. See [`brand/README.md`](brand/README.md). |
+| `docs/` | The suite site: overview, how it fits, architecture, contracts, flows, decisions, glossary. |
+| `docs/assets/diagrams/`, `docs/assets/captures/` | Diagrams from `scripts/diagrams.py`; product captures and their crops from `scripts/captures.py`. |
+| `deck/src.html` | The deck source; `scripts/build_deck.py --pdf` builds the slides and the PDF. |
+| `roadmap.toml` | Which issues, across the tool repos, deliver each roadmap theme; `scripts/roadmap.py` renders the page daily. |
+| `examples/company-overlay/` | The four repos a company holds to run the factory on its own cluster, placeholders only. See [Run the factory at your company](https://sean-koval.github.io/agent-factory/work/). |
+| `examples/symphony-bot/` | A Symphony bot template that calls hangar's MCP for the person asking. No company values. |
+| [team-harness](https://github.com/Sean-Koval/team-harness) | The public example team harness, in its own repo so channels resolve through its history. Fork it to start yours. |
 
-## Build locally
+hangar, flightdeck and ai-dlc are open source. Tower and Spaceport are private repositories for now.
+
+## For maintainers
+
+### Build locally
 
 ```sh
-pip install zensical==0.0.71 playwright fonttools uharfbuzz
+pip install zensical==0.0.71 playwright fonttools uharfbuzz pillow
 python3 scripts/airframe.py build && python3 scripts/airframe.py check   # Airframe theme/ from airframe/
 python3 scripts/diagrams.py && python3 scripts/render.py   # SVG + PNG diagrams
 python3 scripts/banners.py --png                           # brand/: banners, social previews, favicons, marks
+python3 scripts/captures.py --crops                         # re-cut the named crops from the captures
 python3 scripts/build_deck.py --pdf                         # deck and PDF
 sh scripts/build_site.sh && python3 -m http.server -d site  # the site (fetches roadmap data)
 python3 -m unittest discover -s tests                       # tests
 ```
 
-The site build reads public issue state from GitHub for the roadmap; set `GITHUB_TOKEN` to raise the rate limit, or `ROADMAP_ARGS=--offline` to skip it. The Pages workflow rebuilds and republishes daily.
+The site build reads public issue state from GitHub for the roadmap. Set `GITHUB_TOKEN` to raise the rate limit, or `ROADMAP_ARGS=--offline` to skip it. The Pages workflow rebuilds and republishes daily.
 
-Theme changes: edit `airframe/tokens.json` or `airframe/styles/` and run `python3 scripts/airframe.py build` (or edit `theme/airframe-docs.css`), keep token names (rename only with an alias), and add a `## theme-vN` entry to `theme/CHANGELOG.md` listing each changed token; the `theme` workflow refuses a theme change without one. Merging to `main` tags `theme-vN`, publishes a release and opens a sync PR in hangar, flightdeck, ai-dlc and Tower when the workflow has a cross-repo GitHub App token (variable `THEME_SYNC_APP_ID`, secret `THEME_SYNC_APP_KEY`; tokens last an hour, nothing long-lived is committed). Without one, the run's summary gives the one-command sync, which any maintainer with `gh` logged in can run:
+### Theme changes
+
+Edit `airframe/tokens.json` or `airframe/styles/` and run `python3 scripts/airframe.py build`. Keep token names (rename only with an alias) and add a `## theme-vN` entry to `theme/CHANGELOG.md` listing each changed token; the `theme` workflow refuses a theme change without one.
+
+Merging to `main` tags `theme-vN` and publishes a release. With a cross-repo GitHub App token (variable `THEME_SYNC_APP_ID`, secret `THEME_SYNC_APP_KEY`; tokens last an hour, nothing long-lived is committed) the workflow also opens a sync PR in hangar, flightdeck, ai-dlc and Tower. Without one, any maintainer with `gh` logged in runs the sync:
 
 ```sh
 sh scripts/theme_sync.sh            # newest tag, every tool repo; or: sh scripts/theme_sync.sh theme-v2 hangar

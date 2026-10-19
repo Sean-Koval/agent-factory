@@ -9,6 +9,12 @@ Writes docs/assets/captures/<product>-<screen>.png (a 1440x900 window, Night, at
 one shows, the repository and commit it came from, and when. deck/src.html and the docs pages reference them;
 nothing here is drawn or retouched by hand, so a capture is regenerated, never edited.
 
+A full window shown 600 px wide puts the product's text at 3-4 px, so each screen also has named crops (CROPS): the
+subject of the screen, cut from the full capture by the same script, as <product>-<screen>-<crop>.png. A page or a
+slide shows the crop; the full capture stays behind a link.
+
+    python3 scripts/captures.py --crops              # re-cut the crops from the captures already here (no demos)
+
 Every product is captured from its own demo and fixture data through its real UI, never from a stub:
 
 - hangar: docs/assets/front/demo.py (the real control plane on the fake provider, a scripted agent and a stand-in
@@ -47,6 +53,30 @@ OUT = ROOT / "docs" / "assets" / "captures"
 VIEW = {"width": 1440, "height": 900}
 PRODUCTS = ("hangar", "tower", "flightdeck", "airframe")
 PEOPLE = {"marcus": 102}  # Tower's demo: Marcus Chen, an approver
+SCALE = 2  # device_scale_factor of every capture
+
+# Named crops, in the window's CSS pixels (x, y, width, height), with what the crop shows. The box frames the one
+# thing the page or slide is about, wide enough that a 600 px rendering keeps the product's text at 9 px or more.
+CROPS = {
+    "hangar-fleet": {
+        "needs-you": ((72, 196, 1296, 428), "The checkout-python pool: ten tiles, the one that needs a person selected, and its question beside them"),
+    },
+    "hangar-needs-you": {
+        "question": ((72, 176, 1296, 420), "Needs you: an agent's question with the answer box, and draft PR #43 waiting for review"),
+    },
+    "hangar-review": {
+        "change": ((480, 60, 880, 600), "Job #42: the agent's summary, the reply box, and the change as a greyscale diff"),
+    },
+    "tower-desk": {
+        "approval": ((264, 428, 680, 472), "Needs you on Marcus's Desk: an approval card with what will run and what signing does"),
+    },
+    "tower-object": {
+        "release": ((264, 528, 680, 372), "On PAY-412: hangar's job waiting for a maintainer to release it, with the repo and the issue it names"),
+    },
+    "flightdeck-verdict": {
+        "verdict": ((0, 0, 936, 560), "The report comment on the harness PR: the verdict line and the pins of both variants"),
+    },
+}
 
 # Extra work for hangar's demo, so the Fleet shows a pool rather than three tiles. Each becomes a real job on the
 # scripted agent; most finish in seconds and leave their sandbox up.
@@ -130,6 +160,30 @@ def shoot(page, name: str, clip: dict | None = None) -> None:
     page.wait_for_timeout(400)
     page.screenshot(path=str(OUT / f"{name}.png"), clip=clip)
     print("captures: wrote", OUT / f"{name}.png")
+    cut(name)
+
+
+def cut(name: str) -> list[str]:
+    """Write the named crops of one capture from its full PNG; returns the names written."""
+    from PIL import Image
+
+    written = []
+    src = OUT / f"{name}.png"
+    if name not in CROPS or not src.exists():
+        return written
+    with Image.open(src) as img:
+        for crop, ((x, y, w, h), _) in CROPS[name].items():
+            box = (x * SCALE, y * SCALE, min((x + w) * SCALE, img.width), min((y + h) * SCALE, img.height))
+            out = OUT / f"{name}-{crop}.png"
+            img.crop(box).save(out, optimize=True)
+            print("captures: wrote", out)
+            written.append(out.name)
+    return written
+
+
+def crops_manifest() -> dict:
+    return {f"{name}-{crop}": {"from": name, "box": list(box), "shows": shows}
+            for name, crops in CROPS.items() for crop, (box, shows) in crops.items()}
 
 
 # ------------------------------------------------------------------------------------------------------- hangar
@@ -283,19 +337,24 @@ def main(argv: list[str]) -> int:
     bad = [p for p in products if p not in PRODUCTS]
     if bad:
         sys.exit(f"captures: unknown product {bad}; choose from {', '.join(PRODUCTS)}")
-    from playwright.sync_api import sync_playwright
-
     OUT.mkdir(parents=True, exist_ok=True)
     manifest_file = OUT / "captures.json"
     manifest = json.loads(manifest_file.read_text()) if manifest_file.exists() else {}
-    with sync_playwright() as pw:
-        br = Browser(pw)
-        try:
-            for p in products:
-                globals()[p](br, manifest)
-        finally:
-            br.close()
-    manifest["captured"] = date.today().isoformat()
+    if "--crops" in argv:
+        for name in CROPS:
+            cut(name)
+    else:
+        from playwright.sync_api import sync_playwright
+
+        with sync_playwright() as pw:
+            br = Browser(pw)
+            try:
+                for p in products:
+                    globals()[p](br, manifest)
+            finally:
+                br.close()
+        manifest["captured"] = date.today().isoformat()
+    manifest["crops"] = crops_manifest()
     manifest_file.write_text(json.dumps(dict(sorted(manifest.items())), indent=2) + "\n")
     print("captures: wrote", manifest_file)
     return 0

@@ -1,18 +1,6 @@
 # Flows
 
-Each flow ends at a pull request or a report, and each step names the tool and what it hands on.
-
-## A Jira ticket to a merged PR
-
-1. An engineer moves the ticket to **Ready for agent**. A signed webhook reaches **hangar**.
-2. hangar resolves the person and dedupes the ticket. The ticket text is untrusted, so the job is tainted from its first turn. A sender hangar can't link waits for an approval.
-3. Admission applies budgets and fairness. Intake posture `enforce` requires the git gateway and an egress allowlist.
-4. hangar claims a sandbox with the pinned harness, model and approvals, and records `hangar.manifest/v1` as the turn starts.
-5. The agent works under `deny-risky` or `ask`. Questions go back to Jira and the engineer's inbox. Every step streams into `hangar.trace/v1`.
-6. hangar runs the trusted verify and secret scan, pushes one commit through the gateway as the GitHub App, and opens the PR as a **draft** labelled `hangar:tainted`.
-7. The reviewer gets an inbox item and a review packet.
-8. An approval of the head commit by someone other than the requester, with green checks, arms auto-merge for exactly that commit. Once [hangar#172](https://github.com/Sean-Koval/hangar/issues/172) lands, landing also asks Tower and stores its receipt.
-9. The merge lands in the trace and the outbox writes the run's objects.
+Each flow ends at a pull request or a report, and each step names the tool and what it hands on. The main flow, a ticket to a merged PR, is told once on [How it fits](../how-it-fits.md); these are the flows that start elsewhere.
 
 ## Improving the team harness
 

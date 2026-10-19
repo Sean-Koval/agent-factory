@@ -9,6 +9,68 @@
     }
   },
   "captured": "2026-10-18",
+  "crops": {
+    "hangar-fleet-needs-you": {
+      "from": "hangar-fleet",
+      "box": [
+        72,
+        196,
+        1296,
+        428
+      ],
+      "shows": "The checkout-python pool: ten tiles, the one that needs a person selected, and its question beside them"
+    },
+    "hangar-needs-you-question": {
+      "from": "hangar-needs-you",
+      "box": [
+        72,
+        176,
+        1296,
+        420
+      ],
+      "shows": "Needs you: an agent's question with the answer box, and draft PR #43 waiting for review"
+    },
+    "hangar-review-change": {
+      "from": "hangar-review",
+      "box": [
+        480,
+        60,
+        880,
+        600
+      ],
+      "shows": "Job #42: the agent's summary, the reply box, and the change as a greyscale diff"
+    },
+    "tower-desk-approval": {
+      "from": "tower-desk",
+      "box": [
+        264,
+        428,
+        680,
+        472
+      ],
+      "shows": "Needs you on Marcus's Desk: an approval card with what will run and what signing does"
+    },
+    "tower-object-release": {
+      "from": "tower-object",
+      "box": [
+        264,
+        528,
+        680,
+        372
+      ],
+      "shows": "On PAY-412: hangar's job waiting for a maintainer to release it, with the repo and the issue it names"
+    },
+    "flightdeck-verdict-verdict": {
+      "from": "flightdeck-verdict",
+      "box": [
+        0,
+        0,
+        936,
+        560
+      ],
+      "shows": "The report comment on the harness PR: the verdict line and the pins of both variants"
+    }
+  },
   "flightdeck": {
     "repo": "Sean-Koval/flightdeck",
     "commit": "49d3afa",
