@@ -1,0 +1,12 @@
+[project]
+name = "symphony-bot"
+version = "0.1.0"
+description = "hangar's MCP front door in Symphony rooms (template from agent-factory examples/symphony-bot)"
+requires-python = ">=3.12"
+dependencies = [
+  # pin the versions you qualified; the core modules need none of these
+  "symphony-bdk-python>=2.9",
+  "mcp>=1.13",
+  "uvicorn>=0.30",
+  "pyyaml>=6",
+]

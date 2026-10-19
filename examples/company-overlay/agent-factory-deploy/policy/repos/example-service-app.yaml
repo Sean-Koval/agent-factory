@@ -1,0 +1,12 @@
+schema: hangar.repo-policy/v1
+repo: example-org/example-service-app
+environment: role-code
+verify: "make lint test"
+land: auto_after_approval
+# approvers: unset, so code owners (CODEOWNERS) approve; or list GitHub logins
+self_approval: low_risk_with_ai_review
+ai_review: hangar
+risk_paths: ["**/auth/**", "deploy/**"]
+branch_template: "feature/{ticket_key}-{job}"
+require_ticket: true
+title_template: "{ticket_key}: {title}"

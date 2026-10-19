@@ -1,0 +1,36 @@
+# This company's hangar settings for prod. The Deployment reads this ConfigMap after the base's `hangar`, so these
+# keys win. Every secret is a hangar credential *name* (policy/credentials/), never a value.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hangar-site
+  namespace: hangar
+data:
+  HANGAR_PUBLIC_URL: "https://hangar-prod.example.com"
+  HANGAR_REGISTRY: "registry.example.com/agent-factory/envs"          # where hangar pushes environment images
+  HANGAR_SESSION_STORE: "gs://example-project-hangar-sessions-prod"    # output session_bucket_url
+  HANGAR_EGRESS_DEFAULT: "allowlist"
+  HANGAR_GITHUB_APP_CREDENTIAL: "github-app"
+  HANGAR_GATEWAY_CREDENTIAL: "github-app"
+  # The company's fork of the team harness: locks, channels and the role environments. The image (agent-factory-bots)
+  # carries its environments/ and harnesses/work-default/ at a pinned commit; HANGAR_ENV_DIRS lists them.
+  HANGAR_HARNESS_REPO: "https://github.com/example-org/team-harness#main"
+  HANGAR_DEFAULT_HARNESS: "work-default@stable"
+  HANGAR_ENV_DIRS: '["envs", "/opt/team-harness/environments/roles", "/opt/team-harness/environments", "/opt/team-harness/harnesses/work-default"]'
+  HANGAR_ENV_SERVICE_IMAGES: '["registry.example.com/services/**"]'   # the database role's service images
+  # Jira intake (hangar docs/intake.md): a ticket moved to "Ready for agent" starts a job on the project's repo.
+  HANGAR_JIRA: |
+    {"url": "https://example.atlassian.net", "deployment": "cloud", "email": "hangar-bot@example.com",
+     "token_credential": "jira-api-token", "webhook_secret_credential": "jira-webhook-secret",
+     "projects": {"SVC": {"repo": "example-org/example-service-app"}},
+     "trigger": {"status": "Ready for agent"},
+     "statuses": {"started": "In Progress", "needs_input": "Needs info", "delivered": "In Review"}}
+  # Plugins (hangar.plugin/v1): installed in the image is not enabled. The webhook notifier sends hangar.event/v1
+  # to the Symphony bot (agent-factory-bots), signed with the credential bot-hook-key.
+  HANGAR_PLUGINS: |
+    {"enable": ["hangar-example-bump"],
+     "notifiers": {"webhook": {"url": "https://symphony-bot-prod.example.com/hangar/events",
+                               "secret_credential": "bot-hook-key",
+                               "events": ["job.queued", "job.needs_input", "turn.tool_approval", "pr.opened",
+                                          "pr.landed", "job.failed", "job.finished", "changeset.*"]}},
+     "deliverers": {"hangar-example-bump": {"overlay_dir": "overlays/{environment}"}}}

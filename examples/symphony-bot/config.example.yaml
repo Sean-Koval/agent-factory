@@ -1,0 +1,14 @@
+# Copy to config.yaml in your bot repo. Site values live here, never in agent-factory.
+symphony:
+  bdk_config: /etc/symphony-bot/bdk.yaml       # the BDK's config: pod host, bot username, private key path
+hangar:
+  url: https://hangar.example.com              # hangar's public URL; the bot calls <url>/mcp
+secrets:                                       # files mounted from your secret manager
+  hangar_token: /var/run/secrets/symphony-bot/hangar-token   # a hangar token with the relay scope
+  webhook_key: /var/run/secrets/symphony-bot/bot-hook-key    # the same value as hangar's credential bot-hook-key
+webhook:
+  port: 8080                                   # hangar's webhook notifier posts to /hangar/events
+routing:                                       # where an ask goes, by the Jira project of the key in it
+  projects:
+    SVC: {changeset: example-service}          # a change set across the service's four repos
+  default: {repo: example-org/example-service-app}

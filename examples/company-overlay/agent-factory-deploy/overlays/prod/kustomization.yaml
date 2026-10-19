@@ -1,0 +1,25 @@
+# The prod install of the factory: hangar's portable base at a pinned release, the platform components it needs,
+# and this company's values. Nothing secret is here: secrets come from your secret manager through External Secrets.
+#
+#   kustomize build overlays/prod           # what CD applies (Argo CD, Flux, a pipeline: yours)
+#
+# HANGAR_TAG is the hangar release you run (hangar's release workflow publishes the tag and the image digests). Bump
+# it, and the digest below, in one reviewed PR. Don't set `namespace:` here: hangar's network policies and
+# HANGAR_GATEWAY_URL name the namespaces hangar and hangar-sandboxes.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://github.com/Sean-Koval/hangar//deploy/kustomize/base?ref=HANGAR_TAG
+  - hangar-deploy.yaml
+  - hangar-site.yaml
+components:
+  - https://github.com/Sean-Koval/hangar//deploy/kustomize/components/gke-workload-identity?ref=HANGAR_TAG
+  - https://github.com/Sean-Koval/hangar//deploy/kustomize/components/ingress-gce?ref=HANGAR_TAG
+  - https://github.com/Sean-Koval/hangar//deploy/kustomize/components/external-secrets?ref=HANGAR_TAG
+  - https://github.com/Sean-Koval/hangar//deploy/kustomize/components/outbox?ref=HANGAR_TAG
+  - ../../components/credentials   # after external-secrets: lists this company's credentials by name
+images:
+  # The image agent-factory-bots builds: hangar's release by digest plus this company's pinned plugins.
+  - name: ghcr.io/sean-koval/hangar
+    newName: registry.example.com/agent-factory/hangar
+    digest: sha256:BOTS_IMAGE_DIGEST

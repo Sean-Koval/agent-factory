@@ -1,0 +1,13 @@
+# Repo policies (hangar repopolicy.RepoPolicy), applied by CD with `hangar apply -f policy/`. Each repo of a change
+# set keeps its own verify, approvers and landing rule; the change-set profile only orders them.
+schema: hangar.repo-policy/v1
+repo: example-org/example-service-infra
+environment: role-infra
+verify: "terraform fmt -check -recursive && terraform init -backend=false -input=false && terraform validate"
+land: auto_after_approval
+# approvers: unset, so code owners approve: CODEOWNERS names the SRE team
+self_approval: never
+risk_paths: ["**/*.tf", "**/iam*.tf"]
+branch_template: "feature/{ticket_key}-{job}"   # the company naming check: feature/SVC-412-<job>
+require_ticket: true
+title_template: "{ticket_key}: {title}"

@@ -1,0 +1,7 @@
+schema: hangar.repo-policy/v1
+repo: example-org/agent-factory-deploy
+environment: role-deploy
+verify: "./scripts/check.sh"
+land: manual
+self_approval: never
+require_ticket: true
