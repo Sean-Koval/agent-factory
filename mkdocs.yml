@@ -41,6 +41,7 @@ markdown_extensions:
 
 nav:
   - Overview: index.md
+  - How it fits: how-it-fits.md
   - Architecture:
       - architecture/index.md
       - Contracts: architecture/contracts.md
@@ -52,6 +53,7 @@ nav:
       - ai-dlc: tools/ai-dlc.md
       - Tower: tools/workspace.md
       - Spaceport: tools/spaceport.md
+  - Team harness: team-harness.md
   - Airframe:
       - airframe/index.md
       - Tokens: airframe/tokens.md
