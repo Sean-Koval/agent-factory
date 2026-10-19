@@ -10,7 +10,7 @@ organization, and everything you replace is a placeholder.
 | [`agent-factory-infra/`](agent-factory-infra/) | `<company>/agent-factory-infra` | Terraform calling hangar's `hangar-workload` module on your existing GKE cluster: service account, Workload Identity, buckets, static IP |
 | [`agent-factory-bots/`](agent-factory-bots/) | `<company>/agent-factory-bots` | The image you run (`FROM ghcr.io/sean-koval/hangar@sha256:…` plus pinned plugins), your plugins, the Symphony bot, your team-harness fork as a submodule |
 | [`agent-factory-database/`](agent-factory-database/) | none in v1 | hangar keeps its state in SQLite on a volume |
-| [`agent-factory-deploy/`](agent-factory-deploy/) | `<company>/agent-factory-deploy` | Kustomize overlays over hangar's base at a pinned tag, `hangar-site` settings, External Secrets, and `policy/` (repo policies, change-set profiles, credentials) that CD applies with `hangar apply -f policy/` |
+| [`agent-factory-deploy/`](agent-factory-deploy/) | `<company>/agent-factory-deploy` | Kustomize overlays over hangar's base at a pinned tag, `hangar-site` settings, External Secrets, and `policy/` (repo policies, change-set profiles, credentials) that CD applies with `hangar apply` and `hangar changeset profile-set` |
 
 Your fork of [team-harness](https://github.com/Sean-Koval/team-harness) is the fifth piece: the `work-default`
 harness, the role environments (`role-infra`, `role-code`, `role-database`, `role-deploy`, `work-multirepo`) and

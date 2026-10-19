@@ -1,4 +1,4 @@
-# Repo policies (hangar repopolicy.RepoPolicy), applied by CD with `hangar apply -f policy/`. Each repo of a change
+# Repo policies (hangar repopolicy.RepoPolicy), applied by CD with `hangar apply -f policy/repos`. Each repo of a change
 # set keeps its own verify, approvers and landing rule; the change-set profile only orders them.
 schema: hangar.repo-policy/v1
 repo: example-org/example-service-infra
