@@ -29,8 +29,8 @@ Everything a tool loads is in `theme/`:
 | --- | --- | --- |
 | `airframe.css` | Every token as `--af-<name>`, Night and Day. Generated. | Everything |
 | `airframe-components.css` | The `af-` classes: buttons, statuses, cards, tables, approval and question cards, composer, diff, avatars, object chips, page header, empty state, toast, dialog, drawer, fleet board, lanes, traces, plus the fonts. Generated. | Consoles and web apps |
-| `airframe-docs.css` | Maps the docs theme (Zensical / Material) onto the tokens: header, tabs, type, tables, admonitions, code, figures, the home hero and the suite strip. Hand-written. | Docs sites |
-| `airframe-suite.html` | The suite strip above the docs header: the family's docs sites, with the product marker under the current one. A template partial, rendered by the docs theme. Hand-written. | Docs sites |
+| `airframe-docs.css` | Maps the docs theme (Zensical / Material) onto the tokens: header, tabs, type, tables, admonitions, code, figures, the home hero and the suite strip, with a forced-colors block. Generated from `airframe/docs-site/`. | Docs sites |
+| `airframe-suite.html` | The suite strip above the docs header: the family's docs sites, with the product marker under the current one. A template partial, rendered by the docs theme. Generated from `airframe/docs-site/`. | Docs sites |
 | `airframe-icons.svg` | The icon sprite: `<svg class="af-ic"><use href="airframe-icons.svg#af-agent"/></svg>`. Generated. | Consoles and web apps |
 | `airframe.js` | Optional. One ES module, no dependencies: markup helpers that match the contracts (`status`, `btn`, `meta`, `avatar`, `obj`…) and the toast, confirm and drawer behaviours with alert inhibition. Generated (copied from `airframe/js/`). | Consoles and web apps |
 | `airframe-tokens.json` | Tokens resolved per theme, for scripts that draw (diagrams, decks, charts). Generated. | Build scripts |

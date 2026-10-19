@@ -1,6 +1,6 @@
 # Airframe theme changelog
 
-Every change to a published theme file (the files generated from `airframe/`, or `airframe-docs.css`) gets an entry here, newest first, under a
+Every change to a published theme file (the files generated from `airframe/`, including the docs-site mapping and the suite strip) gets an entry here, newest first, under a
 new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync pull request in
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
@@ -32,6 +32,17 @@ change; no `af-` component class changes.
     the lede.
   - Tables take the full column width (`display: table; width: 100%`) instead of shrinking to their content and
     wrapping every cell; wide tables still scroll inside `.md-typeset__scrollwrap`.
+  - Code blocks scroll sideways (long commands are not wrapped): `pre > code` gets `padding-right: 3em` so the end
+    of the longest line clears the copy button, and `.md-clipboard` sits on the terminal ground (`terminal-bg`,
+    `terminal-dim`, `terminal-fg` on hover) instead of over the glyphs.
+  - The plain `af-hero` no longer draws an empty dot-field stage; the field appears only behind a visual
+    (`af-hero--visual`), as the brand book places it behind hero data.
+  - A `@media (forced-colors: active)` block, the first in the docs mapping: the tab, nav, strip and admonition
+    markers become borders in system colors, the dot field and header marker go, swatches and hero visuals keep an
+    outline.
+- `airframe-docs.css` and `airframe-suite.html` are now built from `airframe/docs-site/` by `scripts/airframe.py
+  build` (the CSS gets the release stamp), so `check` catches drift and the forced-colors test covers them like
+  the other stylesheets.
 
 ## theme-v7 · 2026-10-18
 

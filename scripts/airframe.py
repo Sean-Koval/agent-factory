@@ -17,12 +17,14 @@ Generated (never edit by hand):
     theme/airframe-tailwind.css    a Tailwind CSS v4 @theme that maps every utility onto the --af- tokens
     theme/airframe.tokens.json     the tokens in the W3C Design Tokens (DTCG 2025.10) format, Night
     theme/airframe-day.tokens.json the same for Day (one complete file per theme; tools merge or pick)
+    theme/airframe-docs.css        the docs-site mapping (Material for MkDocs / Zensical), from airframe/docs-site/
+    theme/airframe-suite.html      the suite strip partial above every docs header, from airframe/docs-site/
 
 The registry: registry.json at the repo root lists the items (a GitHub source registry: `npx shadcn@latest
 add Sean-Koval/agent-factory/<item>#theme-vN`); `registry` inlines each item's files into DIR/<item>.json
 so the same items install from the docs site (`npx shadcn@latest add <site>/r/<item>.json`).
 
-Hand-written in theme/: airframe-docs.css (the docs-site mapping), suite.css, CHANGELOG.md.
+Hand-written in theme/: suite.css (this site only) and CHANGELOG.md.
 No dependencies beyond the Python standard library.
 """
 
@@ -42,6 +44,7 @@ THEME = ROOT / "theme"
 TOKENS = SRC / "tokens.json"
 STYLES = ("base.css", "core.css", "agents.css", "patterns.css", "viz.css")
 HELPERS = SRC / "js" / "airframe.js"
+DOCS_SITE = SRC / "docs-site"  # the docs mapping and the suite strip, published as theme/airframe-docs.css and -suite.html
 FONTS_URL = ("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900"
              "&family=DM+Mono:wght@400;500&family=Red+Hat+Text:ital,wght@0,400..700;1,400..700&display=swap")
 PREFIX = "--af-"
@@ -426,7 +429,17 @@ def outputs(tokens: dict | None = None) -> dict[Path, str]:
         THEME / "airframe-tailwind.css": tailwind_css(tokens),
         THEME / "airframe.tokens.json": dump(dtcg(tokens, "dark")),
         THEME / "airframe-day.tokens.json": dump(dtcg(tokens, "light")),
+        THEME / "airframe-docs.css": docs_css(),
+        THEME / "airframe-suite.html": (DOCS_SITE / "airframe-suite.html").read_text(),
     }
+
+
+def docs_css() -> str:
+    """The docs-site mapping, stamped with the release; the source is airframe/docs-site/airframe-docs.css."""
+    src = (DOCS_SITE / "airframe-docs.css").read_text()
+    head = (f"/* Airframe {release()} for the docs sites. Generated from airframe/docs-site/airframe-docs.css by "
+            "scripts/airframe.py; do not edit. Load after airframe.css. */\n")
+    return head + src
 
 
 # ---------------------------------------------------------------- checks
@@ -461,7 +474,8 @@ def problems() -> list[str]:
         if not path.exists() or path.read_text() != text:
             found.append(f"{path.relative_to(ROOT)} is out of date; run python3 scripts/airframe.py build")
 
-    sources = sorted((SRC / "styles").glob("*.css")) + sorted((SRC / "components").glob("*/preview.html"))
+    sources = (sorted((SRC / "styles").glob("*.css")) + sorted((SRC / "components").glob("*/preview.html"))
+               + [DOCS_SITE / "airframe-docs.css", DOCS_SITE / "airframe-suite.html"])
     for path in sources:
         for lit in color_literals(path.read_text()):
             found.append(f"{path.relative_to(ROOT)}: color literal {lit}; use an Airframe token (var(--af-<name>))")

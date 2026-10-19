@@ -1,11 +1,13 @@
+/* Airframe theme-v8 for the docs sites. Generated from airframe/docs-site/airframe-docs.css by scripts/airframe.py; do not edit. Load after airframe.css. */
 @import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=DM+Mono:wght@400;500&family=Red+Hat+Text:ital,wght@0,400..700;1,400..700&display=swap");
 
 /*
-  Airframe for the docs sites (Zensical / Material for MkDocs). Hand-written; lives in
-  Sean-Koval/agent-factory theme/ next to the generated airframe.css. Load after airframe.css. It maps the theme's --md-* variables onto Airframe tokens and adds
-  the few Airframe details a docs page needs: display type for headings, mono uppercase
-  labels, a 2px product marker under the header, tonal blocks instead of boxed cards, and the suite
-  strip (airframe-suite.html, included through overrides/main.html) that links the family's docs sites.
+  Airframe for the docs sites (Zensical / Material for MkDocs). Source: airframe/docs-site/airframe-docs.css
+  in Sean-Koval/agent-factory, published as theme/airframe-docs.css by scripts/airframe.py build. Load after
+  airframe.css. It maps the theme's --md-* variables onto Airframe tokens and adds the few Airframe details a
+  docs page needs: display type for headings, mono uppercase labels, a 2px product marker under the header,
+  tonal blocks instead of boxed cards, and the suite strip (airframe-suite.html, included through
+  overrides/main.html) that links the family's docs sites.
 
   Each site sets its own product hue once, e.g. in docs/stylesheets/product.css:
     :root { --af-product: var(--af-product-hangar); }
@@ -145,8 +147,12 @@ body { background: var(--af-canvas); }
 .md-typeset .md-button:hover { border-color: var(--af-fg); background: transparent; color: var(--af-fg); }
 .md-typeset .md-button--primary:hover { background: var(--af-brand-hover); border-color: var(--af-brand-hover); color: var(--af-on-brand); }
 
-/* code: terminal blocks, mono ids inline */
-.md-typeset pre > code { border-radius: var(--af-radius-card); }
+/* code: terminal blocks that scroll sideways (long commands are not wrapped); the copy button sits on the
+   terminal ground, never on the glyphs, and the end of the longest line clears it */
+.md-typeset pre > code { border-radius: var(--af-radius-card); padding-right: 3em; scrollbar-color: var(--af-terminal-dim) transparent; }
+.md-typeset .md-code__nav, .md-typeset .md-clipboard { background: var(--af-terminal-bg); border-radius: var(--af-radius-control); }
+.md-typeset .md-code__button, .md-typeset .md-clipboard { color: var(--af-terminal-dim); }
+.md-typeset pre:hover .md-code__button, .md-typeset .md-code__button:focus-visible, .md-typeset pre:hover .md-clipboard { color: var(--af-terminal-fg); }
 .md-typeset code { border-radius: var(--af-radius-control); font-size: .82em; }
 .md-typeset :not(pre) > code { background: var(--af-raised); color: var(--af-fg); padding: .1em .35em; }
 
@@ -176,9 +182,9 @@ body { background: var(--af-canvas); }
 .af-figure img { width: 100%; display: block; }
 .af-figure figcaption { font-family: var(--af-font-mono); font-size: .6rem; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); margin-top: .6em; }
 
-/* the home page hero: one strong line, a mono label, a dot field */
+/* the home page hero: one strong line, a mono label, two actions. The dot field appears only behind a
+   product visual (af-hero--visual): the brand book puts it behind hero data, never on an empty stage. */
 .af-hero { position: relative; padding: 2.4rem 0 1.6rem; margin-bottom: 1rem; }
-.af-hero::after { content: ""; position: absolute; inset: 0 0 0 64%; background: radial-gradient(circle, var(--af-dot-field) 1.1px, transparent 1.6px) 0 0 / 8px 8px; pointer-events: none; z-index: 0; }
 .af-hero > * { position: relative; z-index: 1; }
 .af-eyebrow { font-family: var(--af-font-mono); font-size: .62rem; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); display: inline-flex; align-items: center; gap: .6em; }
 .af-eyebrow::before { content: ""; width: 14px; height: 1px; background: var(--af-brand-line); }
@@ -187,20 +193,19 @@ body { background: var(--af-canvas); }
 .md-typeset .af-hero .md-button { margin-top: .4em; }
 @media (max-width: 959px) {
   .af-hero { padding-top: 1.6rem; }
-  .af-hero::after { inset: 0 0 auto 52%; height: 56px; }
   .md-typeset .af-hero h1 { font-size: 2em; }
 }
 /* af-hero--visual: words left, the product working on the right (an image or a video on the dot field);
    below 960px the visual follows the actions. Pair with <figure class="af-hero__visual"> and, on wide
    screens, a capture about 16:10 at 1440x900 cropped to the subject. */
 .af-hero--visual { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; align-items: center; padding-bottom: 1.2rem; }
-.af-hero--visual::after { inset: 0 0 0 50%; }
+.af-hero--visual::after { content: ""; position: absolute; inset: auto 0 0 50%; height: 60%; background: radial-gradient(circle, var(--af-dot-field) 1.1px, transparent 1.6px) 0 0 / 8px 8px; pointer-events: none; z-index: 0; }
 .af-hero__visual { margin: 0; position: relative; z-index: 1; min-width: 0; }
 .af-hero__visual > img, .af-hero__visual > video, .af-hero__visual > a > img { display: block; width: 100%; height: auto; border-radius: var(--af-radius-card); box-shadow: 0 0 0 1px var(--af-line); }
-.af-hero__visual figcaption { font-family: var(--af-font-mono); font-size: .56rem; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); margin-top: .6em; }
+.md-typeset .af-hero__visual figcaption { font-style: normal; max-width: none; font-family: var(--af-font-mono); font-size: .56rem; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); margin-top: .6em; }
 @media (min-width: 960px) {
   .af-hero--visual { grid-template-columns: minmax(0, 7fr) minmax(0, 8fr); gap: 2.4rem; }
-  .af-hero--visual::after { inset: 0 0 0 42%; }
+  .af-hero--visual::after { inset: 0 0 0 46%; height: auto; }
   .md-typeset .af-hero--visual h1 { font-size: 2.3em; }
 }
 
@@ -222,3 +227,20 @@ body { background: var(--af-canvas); }
 .md-typeset figure.af-figure > svg, .md-typeset figure.af-figure > img { width: 100%; height: auto; display: block; }
 .md-typeset figure.af-figure figcaption { font-style: normal; max-width: none; }
 .md-typeset figure.af-figure figcaption a { color: var(--af-fg-muted); }
+
+/* Windows Contrast Themes: colors are replaced and box-shadows dropped, so every marker and edge that was a
+   shadow becomes a border in system colors, and the two textures go. */
+@media (forced-colors: active) {
+  .md-header::after, .af-hero--visual::after { display: none; }
+  .md-tabs__item--active { box-shadow: none; border-bottom: 2px solid Highlight; }
+  .md-nav__item .md-nav__link--active { box-shadow: none; border-left: 2px solid Highlight; }
+  .md-typeset .af-suite [aria-current] { box-shadow: none; border-bottom: 2px solid Highlight; }
+  .md-typeset .af-suite__home[aria-current] { border-bottom: 2px solid Highlight; }
+  .md-typeset .af-suite__home::before, .af-eyebrow::before { background: CanvasText; }
+  .md-typeset .admonition, .md-typeset details { box-shadow: none; border-left: 2px solid CanvasText; }
+  .af-tool { border-top-color: CanvasText; }
+  .af-swatch { box-shadow: none; outline: 1px solid CanvasText; }
+  .af-hero__visual > img, .af-hero__visual > video, .af-hero__visual > a > img { box-shadow: none; outline: 1px solid CanvasText; }
+  .md-typeset table:not([class]) th, .md-typeset table:not([class]) td { border-color: CanvasText; }
+  .md-typeset .md-button { border-color: ButtonText; }
+}
