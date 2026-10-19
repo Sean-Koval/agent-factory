@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-      - run: pip install zensical==0.0.71 playwright==1.55.0 fonttools==4.65.0 uharfbuzz==0.56.3
+      - run: pip install zensical==0.0.71 playwright==1.55.0 fonttools==4.65.0 uharfbuzz==0.56.3 pillow==12.3.0
       - run: python -m playwright install --with-deps chromium
       - name: Unit tests
         run: python3 -m unittest discover -s tests -v
