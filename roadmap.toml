@@ -51,6 +51,7 @@ key = "P1"
 title = "P1 · Safe release"
 when = "weeks 1-2"
 milestone = "P1"
+done = "Security fixes, credential policy and grader isolation are in; CI is green; two engineers use hangar on one repo."
 
 [[phase.theme]]
 title = "Security and credentials"
@@ -77,6 +78,7 @@ key = "P2"
 title = "P2 · Adopt and capture"
 when = "weeks 3-4"
 milestone = "P2"
+done = "All six engineers on three repos through the Jira door and the Slack inbox; every run lands in the outbox and Parquet; weekly metrics; a team harness frozen from a good run."
 
 [[phase.theme]]
 title = "Adoption"
@@ -123,6 +125,7 @@ key = "P3"
 title = "P3 · flightdeck v0"
 when = "weeks 5-6"
 milestone = "P3"
+done = "flightdeck's stats and reports run over real runs and change one real decision."
 
 [[phase.theme]]
 title = "v0 core"
@@ -145,6 +148,7 @@ key = "P4"
 title = "P4 · Frontier"
 when = "week 7 on"
 milestone = "P4"
+done = "Record-mode gateway, replay-as-fork, pin-set trials, shadows, governed tool calls."
 
 [[phase.theme]]
 title = "Governed tool calls"
