@@ -27,10 +27,10 @@ Four planes, five tools and the team harness repo.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/captures/hangar-fleet-needs-you.png">
-  <img alt="hangar's Fleet board from its demo: ten sandbox tiles in the checkout-python pool, one marked Needs you and selected, with the agent's question in the detail panel beside it." src="docs/assets/captures/hangar-fleet-needs-you.png" width="960">
+  <img alt="hangar's Fleet board from its demo: sandbox tiles of the checkout-python pool, ten live, and docked beside them the question the selected agent is asking." src="docs/assets/captures/hangar-fleet-needs-you.png" width="668">
 </picture>
 
-*hangar's Fleet, from its own demo: ten agents at work, one needs you. Every capture in the docs and the deck is taken from a product's demo by `scripts/captures.py`, never drawn.*
+*hangar's Fleet, from its own demo: ten agents at work, one is asking you something. Every capture in the docs and the deck is taken from a product's demo by `scripts/captures.py`, never drawn.*
 
 ## What lives here
 
