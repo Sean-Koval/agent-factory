@@ -196,16 +196,18 @@ body { background: var(--af-canvas); }
   .md-typeset .af-hero h1 { font-size: 2em; }
 }
 /* af-hero--visual: words left, the product working on the right (an image or a video on the dot field);
-   below 960px the visual follows the actions. Pair with <figure class="af-hero__visual"> and, on wide
-   screens, a capture about 16:10 at 1440x900 cropped to the subject. */
+   below 960px the visual follows the actions and the dot field is off, since in one column it would sit
+   behind the words, and the brand book puts it behind hero data only. Pair with <figure class="af-hero__visual">
+   and, on wide screens, a capture about 16:10 at 1440x900 cropped to the subject. The caption is a sentence,
+   so it is body-s in the body face, sentence case, left-aligned, not a label. */
 .af-hero--visual { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; align-items: center; padding-bottom: 1.2rem; }
-.af-hero--visual::after { content: ""; position: absolute; inset: auto 0 0 50%; height: 60%; background: radial-gradient(circle, var(--af-dot-field) 1.1px, transparent 1.6px) 0 0 / 8px 8px; pointer-events: none; z-index: 0; }
+.af-hero--visual::after { content: ""; display: none; position: absolute; inset: 0 0 0 46%; background: radial-gradient(circle, var(--af-dot-field) 1.1px, transparent 1.6px) 0 0 / 8px 8px; pointer-events: none; z-index: 0; }
 .af-hero__visual { margin: 0; position: relative; z-index: 1; min-width: 0; }
 .af-hero__visual > img, .af-hero__visual > video, .af-hero__visual > a > img { display: block; width: 100%; height: auto; border-radius: var(--af-radius-card); box-shadow: 0 0 0 1px var(--af-line); }
-.md-typeset .af-hero__visual figcaption { font-style: normal; max-width: none; font-family: var(--af-font-mono); font-size: .56rem; letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); margin-top: .6em; }
+.md-typeset .af-hero__visual figcaption { font-style: normal; max-width: none; text-align: left; font-family: var(--af-font-sans); font-size: .65rem; line-height: 1.45; letter-spacing: 0; text-transform: none; color: var(--af-fg-subtle); margin-top: .6em; }
 @media (min-width: 960px) {
   .af-hero--visual { grid-template-columns: minmax(0, 7fr) minmax(0, 8fr); gap: 2.4rem; }
-  .af-hero--visual::after { inset: 0 0 0 46%; height: auto; }
+  .af-hero--visual::after { display: block; }
   .md-typeset .af-hero--visual h1 { font-size: 2.3em; }
 }
 

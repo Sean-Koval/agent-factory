@@ -274,7 +274,7 @@ button.af-avatar--agent:hover::after,a.af-avatar--agent:hover::after{background:
 .af-checks .af-ic{width:14px;height:14px;color:var(--af-fg-subtle)}
 .af-receipt{display:flex;align-items:center;gap:8px;min-width:0;font-family:var(--af-font-mono);font-size:11.5px;color:var(--af-fg-subtle)}
 .af-receipt .af-ic{width:14px;height:14px}
-.af-receipt b{font-weight:500;color:var(--af-fg-muted);letter-spacing:.01em}
+.af-receipt b{font-weight:500;color:var(--af-fg-muted);letter-spacing:.01em;white-space:nowrap}  /* a receipt ID never breaks at its hyphens; the words beside it wrap */
 
 /* ---- verdict row: a decided action on one line (denied placard first) ---- */
 .af-verdict{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:4px 14px;padding:10px 14px;background:var(--af-raised);border-radius:var(--af-radius-card);font-size:13px;min-width:0}
@@ -282,6 +282,10 @@ button.af-avatar--agent:hover::after,a.af-avatar--agent:hover::after{background:
 .af-verdict__body{display:flex;flex-direction:column;gap:3px;min-width:0}
 .af-verdict__cmd{font-family:var(--af-font-mono);font-size:12.5px;color:var(--af-fg);overflow-wrap:anywhere}
 .af-verdict__time{font-family:var(--af-font-mono);font-size:11.5px;color:var(--af-fg-subtle);white-space:nowrap;align-self:start;padding-top:1px}
+/* a verdict row narrower than 420px (a docked panel, a phone): the time drops under the words, right-aligned, so the third
+   column collapses and the body keeps its width; the row is its own query container, so a product declares nothing */
+.af-verdict{container-type:inline-size}
+@container (max-width:420px){.af-verdict__time{grid-column:1/-1;justify-self:end;padding-top:0}}
 
 /* ---- terminal: always dark, mono ---- */
 .af-term{background:var(--af-terminal-bg);color:var(--af-terminal-fg);border-radius:var(--af-radius-card);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--af-terminal-fg) 8%,transparent);overflow:hidden;min-width:0}

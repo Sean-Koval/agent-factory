@@ -25,6 +25,20 @@ full width nothing moves.
     carried in `app.css` (`.needs, .job-detail, .fd { container-type }` and `@container (max-width: 420px)`), which it can
     drop on sync.
   - `af-question__act > .af-btn`: `max-width: 100%`.
+  - Long mono values wrap inside their cell instead of past the card's edge: `af-meta__item` gets `max-width: 100%` and
+    `af-meta__val` `min-width: 0; white-space: normal; overflow-wrap: anywhere` (a policy name or receipt in the policy
+    line of a verdict row or an approval card at 320 px); `af-verdict__why` and `af-question__ctx code` get
+    `overflow-wrap: anywhere`. A receipt ID in `af-receipt b` never breaks at its hyphens (`white-space: nowrap`); the
+    words beside it wrap.
+  - `af-verdict` is its own query container (`container-type: inline-size`): under 420 px the time
+    (`af-verdict__time`) drops under the words, right-aligned, so the third column collapses and the body keeps its width.
+- `airframe-docs.css` (the docs sites):
+  - `af-hero--visual`: the dot field is off below 960 px, where the hero is one column and the field sat behind the
+    lower right of the lede on phones; it shows only beside the visual, from 960 px (`display: none` / `block` on the
+    `::after`, same inset as before on wide screens).
+  - The hero figure's caption is a sentence, so it is set as one: `body-s` in the body face (`.65rem`, Red Hat Text),
+    sentence case, left-aligned, `fg-subtle`, instead of tracked mono capitals that wrapped to two centred lines at
+    1440 px. `af-figure` captions are unchanged.
 - ApprovalCard, Question: the previews end with the card at 320 px; the READMEs say what wraps and what gives way. Card and
   Label READMEs note the wrapping head and the ellipsizing sub.
 

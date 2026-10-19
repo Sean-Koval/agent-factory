@@ -87,9 +87,11 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 
 /* ---- inline data: keyed (KEY value) ---- */
 .af-meta{display:inline-flex;flex-wrap:wrap;align-items:baseline;column-gap:18px;row-gap:4px;min-width:0;font-size:12px;line-height:1.5}
-.af-meta__item{display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap}
+/* an item keeps key and value on one line; a value wider than its place (a policy name, a receipt) wraps inside the cell
+   rather than past the card's edge. At full width an item is as wide as its words, so nothing changes there. */
+.af-meta__item{display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap;max-width:100%}
 .af-meta__key{font-family:var(--af-font-mono);font-weight:500;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--af-fg-subtle)}
-.af-meta__val{font-family:var(--af-font-mono);color:var(--af-fg-muted);font-variant-numeric:tabular-nums}
+.af-meta__val{font-family:var(--af-font-mono);color:var(--af-fg-muted);font-variant-numeric:tabular-nums;min-width:0;white-space:normal;overflow-wrap:anywhere}
 .af-meta__item--strong .af-meta__val{color:var(--af-fg)}
 .af-meta__item--approval .af-meta__val{color:var(--af-status-approval)}
 .af-meta__item--failed .af-meta__val{color:var(--af-status-failed)}
@@ -411,7 +413,7 @@ button.af-avatar--agent:hover::after,a.af-avatar--agent:hover::after{background:
 .af-checks .af-ic{width:14px;height:14px;color:var(--af-fg-subtle)}
 .af-receipt{display:flex;align-items:center;gap:8px;min-width:0;font-family:var(--af-font-mono);font-size:11.5px;color:var(--af-fg-subtle)}
 .af-receipt .af-ic{width:14px;height:14px}
-.af-receipt b{font-weight:500;color:var(--af-fg-muted);letter-spacing:.01em}
+.af-receipt b{font-weight:500;color:var(--af-fg-muted);letter-spacing:.01em;white-space:nowrap}  /* a receipt ID never breaks at its hyphens; the words beside it wrap */
 
 /* ---- verdict row: a decided action on one line (denied placard first) ---- */
 .af-verdict{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:4px 14px;padding:10px 14px;background:var(--af-raised);border-radius:var(--af-radius-card);font-size:13px;min-width:0}
@@ -419,6 +421,10 @@ button.af-avatar--agent:hover::after,a.af-avatar--agent:hover::after{background:
 .af-verdict__body{display:flex;flex-direction:column;gap:3px;min-width:0}
 .af-verdict__cmd{font-family:var(--af-font-mono);font-size:12.5px;color:var(--af-fg);overflow-wrap:anywhere}
 .af-verdict__time{font-family:var(--af-font-mono);font-size:11.5px;color:var(--af-fg-subtle);white-space:nowrap;align-self:start;padding-top:1px}
+/* a verdict row narrower than 420px (a docked panel, a phone): the time drops under the words, right-aligned, so the third
+   column collapses and the body keeps its width; the row is its own query container, so a product declares nothing */
+.af-verdict{container-type:inline-size}
+@container (max-width:420px){.af-verdict__time{grid-column:1/-1;justify-self:end;padding-top:0}}
 
 /* ---- terminal: always dark, mono ---- */
 .af-term{background:var(--af-terminal-bg);color:var(--af-terminal-fg);border-radius:var(--af-radius-card);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--af-terminal-fg) 8%,transparent);overflow:hidden;min-width:0}
@@ -522,13 +528,13 @@ button.af-avatar--agent:hover::after,a.af-avatar--agent:hover::after{background:
 /* verdict additions: an allowed decision is a quiet check and a word (allowed is not green); a denial carries its reason */
 .af-verdict__ok{display:inline-flex;align-items:center;gap:7px;justify-self:start;font-size:13px;color:var(--af-fg);white-space:nowrap}
 .af-verdict__ok .af-ic{width:14px;height:14px;color:var(--af-fg-subtle)}
-.af-verdict__why{font-size:12.5px;line-height:1.45;color:var(--af-fg-muted)}
+.af-verdict__why{font-size:12.5px;line-height:1.45;color:var(--af-fg-muted);overflow-wrap:anywhere}
 
 /* ---- question: an agent asks a person. Same approval role (a person is needed), the word "Needs input", one primary action. ---- */
 .af-question{gap:14px}
 .af-question__q{margin:0;font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.005em;color:var(--af-fg);text-wrap:balance}
 .af-question__ctx{margin:0;font-size:13.5px;line-height:1.5;color:var(--af-fg-muted);text-wrap:pretty}
-.af-question__ctx code{font-family:var(--af-font-mono);font-size:12.5px;color:var(--af-fg)}
+.af-question__ctx code{font-family:var(--af-font-mono);font-size:12.5px;color:var(--af-fg);overflow-wrap:anywhere}
 .af-question__opts{display:flex;flex-wrap:wrap;gap:6px}
 .af-question__free{gap:6px}
 /* free text dismisses the options: once the person writes, the chips dim and unpress (no script needed) */

@@ -27,13 +27,13 @@
 /* verdict additions: an allowed decision is a quiet check and a word (allowed is not green); a denial carries its reason */
 .af-verdict__ok{display:inline-flex;align-items:center;gap:7px;justify-self:start;font-size:13px;color:var(--af-fg);white-space:nowrap}
 .af-verdict__ok .af-ic{width:14px;height:14px;color:var(--af-fg-subtle)}
-.af-verdict__why{font-size:12.5px;line-height:1.45;color:var(--af-fg-muted)}
+.af-verdict__why{font-size:12.5px;line-height:1.45;color:var(--af-fg-muted);overflow-wrap:anywhere}
 
 /* ---- question: an agent asks a person. Same approval role (a person is needed), the word "Needs input", one primary action. ---- */
 .af-question{gap:14px}
 .af-question__q{margin:0;font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.005em;color:var(--af-fg);text-wrap:balance}
 .af-question__ctx{margin:0;font-size:13.5px;line-height:1.5;color:var(--af-fg-muted);text-wrap:pretty}
-.af-question__ctx code{font-family:var(--af-font-mono);font-size:12.5px;color:var(--af-fg)}
+.af-question__ctx code{font-family:var(--af-font-mono);font-size:12.5px;color:var(--af-fg);overflow-wrap:anywhere}
 .af-question__opts{display:flex;flex-wrap:wrap;gap:6px}
 .af-question__free{gap:6px}
 /* free text dismisses the options: once the person writes, the chips dim and unpress (no script needed) */

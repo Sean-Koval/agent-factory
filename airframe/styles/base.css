@@ -67,9 +67,11 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 
 /* ---- inline data: keyed (KEY value) ---- */
 .af-meta{display:inline-flex;flex-wrap:wrap;align-items:baseline;column-gap:18px;row-gap:4px;min-width:0;font-size:12px;line-height:1.5}
-.af-meta__item{display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap}
+/* an item keeps key and value on one line; a value wider than its place (a policy name, a receipt) wraps inside the cell
+   rather than past the card's edge. At full width an item is as wide as its words, so nothing changes there. */
+.af-meta__item{display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap;max-width:100%}
 .af-meta__key{font-family:var(--af-font-mono);font-weight:500;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--af-fg-subtle)}
-.af-meta__val{font-family:var(--af-font-mono);color:var(--af-fg-muted);font-variant-numeric:tabular-nums}
+.af-meta__val{font-family:var(--af-font-mono);color:var(--af-fg-muted);font-variant-numeric:tabular-nums;min-width:0;white-space:normal;overflow-wrap:anywhere}
 .af-meta__item--strong .af-meta__val{color:var(--af-fg)}
 .af-meta__item--approval .af-meta__val{color:var(--af-status-approval)}
 .af-meta__item--failed .af-meta__val{color:var(--af-status-failed)}
