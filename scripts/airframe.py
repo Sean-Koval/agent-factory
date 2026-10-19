@@ -602,19 +602,20 @@ GALLERY_CSS = """<style>
 .afg-head p{margin:0;max-width:62ch;color:var(--af-fg-muted)}
 .afg-head p a{color:var(--af-fg);text-decoration-color:var(--af-brand-line);text-underline-offset:.2em}
 .afg-row{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--af-space-16)}
-.afg-group{margin-bottom:var(--af-space-28)}
+.afg-jump{display:flex;flex-wrap:wrap;gap:var(--af-space-4) var(--af-space-16);margin-top:var(--af-space-8)}
+.afg-jump a{color:var(--af-fg-muted);text-decoration:none;padding:var(--af-space-4) 0;border-bottom:2px solid transparent}
+.afg-jump a:hover{color:var(--af-fg);border-bottom-color:var(--af-fg)}
+.afg-group{margin-bottom:var(--af-space-28);scroll-margin-top:var(--af-space-16)}
 .afg-group h2{margin:0 0 var(--af-space-12)}
 .afg-list{list-style:none;margin:0;padding:0;background:var(--af-raised);border-radius:var(--af-radius-card)}
-.afg-item{display:grid;grid-template-columns:minmax(140px,200px) minmax(0,1fr) auto;align-items:center;gap:var(--af-space-16);min-height:var(--af-row-h);padding:var(--af-space-8) var(--af-space-16);border-top:1px solid var(--af-line-subtle)}
+.afg-item{display:grid;grid-template-columns:minmax(140px,200px) minmax(0,1fr) auto;align-items:center;gap:var(--af-space-16);min-height:var(--af-row-h);padding:var(--af-space-4) var(--af-space-16);border-top:1px solid var(--af-line-subtle)}
 .afg-item:first-child{border-top:0}
 .afg-item__name{font-family:var(--af-font-mono);font-weight:500;font-size:13px;color:var(--af-fg);text-decoration:none}
 .afg-item__name:hover{color:var(--af-brand-text)}
-.afg-item__text{display:flex;flex-direction:column;gap:2px;min-width:0}
-.afg-item__sub{font-size:13px;color:var(--af-fg-muted)}
-.afg-item__sum{font-size:12px;color:var(--af-fg-subtle)}
+.afg-item__sub{font-size:13px;color:var(--af-fg-muted);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .afg-item__go{display:flex;gap:var(--af-space-4)}
 .afg-item__go .af-btn{text-decoration:none}
-@media (max-width:760px){.afg-page{padding:var(--af-space-32) var(--af-space-16)}.afg-item{grid-template-columns:minmax(0,1fr) auto}.afg-item__text{grid-column:1/-1}.afg-item__go{grid-row:1;grid-column:2}}
+@media (max-width:760px){.afg-page{padding:var(--af-space-32) var(--af-space-16)}.afg-item{grid-template-columns:minmax(0,1fr) auto}.afg-item__sub{grid-column:1/-1;white-space:normal}.afg-item__go{grid-row:1;grid-column:2}}
 </style>"""
 
 
@@ -655,25 +656,29 @@ def gallery(dest: Path) -> int:
                f'<a href="index.html">All components</a><span title="{html.escape(it["subtitle"])}">{it["name"]}</span>'
                f'{THEME_SWITCH}</nav>')
         (dest / f"{it['name']}.html").write_text(_page(f"{it['name']} · Airframe", p["head"], p["body"] + "\n" + bar, p["attrs"]))
-    sections = []
+    sections, jumps = [], []
+    slug = lambda g: re.sub(r"[^a-z0-9]+", "-", g.lower()).strip("-")  # noqa: E731
     for group in dict.fromkeys(i["group"] for i in items):
+        # one line per component: the name, what it is, and both themes; the long summary is the row's title
         rows = "\n".join(
-            f'<li class="afg-item"><a class="afg-item__name" href="{i["name"]}.html">{i["name"]}</a>'
-            f'<span class="afg-item__text"><span class="afg-item__sub">{html.escape(i["subtitle"])}</span>'
-            f'<span class="afg-item__sum">{html.escape(i["summary"])}</span></span>'
+            f'<li class="afg-item" title="{html.escape(i["summary"])}"><a class="afg-item__name" href="{i["name"]}.html">{i["name"]}</a>'
+            f'<span class="afg-item__sub">{html.escape(i["subtitle"])}</span>'
             f'<span class="afg-item__go"><a class="af-btn af-btn--ghost af-btn--sm" href="{i["name"]}.html?theme=dark">Night</a>'
             f'<a class="af-btn af-btn--ghost af-btn--sm" href="{i["name"]}.html?theme=light">Day</a></span></li>'
             for i in items if i["group"] == group)
         count = sum(1 for i in items if i["group"] == group)
-        sections.append(f'<section class="afg-group"><h2 class="af-lbl">{group}<span class="af-lbl__sub">{count}</span></h2>'
+        sections.append(f'<section class="afg-group" id="{slug(group)}"><h2 class="af-lbl">{group}<span class="af-lbl__sub">{count}</span></h2>'
                         f'<ul class="afg-list">{rows}</ul></section>')
+        jumps.append(f'<a href="#{slug(group)}">{group}<span class="af-lbl__sub">{count}</span></a>')
     n = sum(1 for i in items if i["name"] != "Cover")
+    jump = f'<nav class="afg-jump af-lbl" aria-label="Groups">{"".join(jumps)}</nav>'
     body = f"""<main class="afg-page">
 <header class="afg-head">
 <div class="afg-row"><span class="af-lbl">Airframe<span class="af-lbl__sub">Component gallery</span></span>{THEME_SWITCH}</div>
 <h1 class="af-display">Every part, both themes.</h1>
 <p>{n} components built from <code>theme/airframe-components.css</code> on <code>theme/airframe.css</code>. Each one is rendered from its
 <code>airframe/components/&lt;Name&gt;/preview.html</code>; its README next to it says when to use it. Back to <a href="../">the Airframe docs</a>.</p>
+{jump}
 </header>
 {''.join(sections)}
 </main>"""

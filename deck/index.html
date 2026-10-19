@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -338,6 +338,19 @@ p { margin: 0; }
 .phase.now { box-shadow: inset 0 2px 0 var(--af-brand-line); }
 .phase.now .k { color: var(--af-brand-text); }
 
+/* screen slides: words on the left, a real capture on the right (docs/assets/captures, scripts/captures.py) */
+.screen-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 36px; align-items: center; }
+.screen-grid h2 { font-size: 30px; max-width: none; }
+.screen-grid .lede { font-size: 16px; margin-top: 14px; max-width: none; }
+.facts { margin: 22px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.facts li { color: var(--af-fg-muted); font-size: 14px; padding-left: 18px; position: relative; line-height: 1.4; }
+.facts li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 1px; background: var(--af-fg-subtle); }
+.facts b { color: var(--af-fg); font-weight: 500; font-family: var(--af-font-mono); font-size: 14px; }
+.screen { margin: 0; align-self: center; min-width: 0; }
+.screen img { display: block; width: auto; max-width: 100%; height: auto; max-height: 500px; border: 1px solid var(--af-line); border-radius: var(--af-radius-card); background: var(--af-canvas); }
+.screen figcaption { margin-top: 10px; font: 500 11px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); display: flex; justify-content: space-between; gap: 16px; }
+.screen figcaption i { font-style: normal; color: var(--af-fg-dim); }
+
 /* chrome: counter and controls, outside the scaled stage */
 .hud { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; align-items: center; z-index: 5; }
 .hud button { width: 34px; height: 34px; border: 1px solid var(--af-line-strong); background: var(--af-surface); color: var(--af-fg); border-radius: var(--af-radius-control); cursor: pointer; font: 500 14px var(--af-font-mono); }
@@ -375,7 +388,7 @@ p { margin: 0; }
       <div class="tool" style="--c:var(--af-product-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Capability</small></div>
     </div>
   </div>
-  <div class="foot"><span>sean-koval.github.io/agent-factory</span><b>01 / 07</b></div>
+  <div class="foot"><span>sean-koval.github.io/agent-factory</span><b>01 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="What changes at sixty sessions">
@@ -387,7 +400,7 @@ p { margin: 0; }
     <div class="ro"><span class="k">Harness changes</span><span class="v">0<small>evidence</small></span><p>A new skill or prompt is judged by impressions, not paired runs.</p></div>
     <div class="ro attn"><span class="k">Untrusted input</span><span class="v">Every<small>ticket</small></span><p>Ticket text and web pages can steer an agent toward a push.</p></div>
   </div>
-  <div class="foot"><span>Agent factory</span><b>02 / 07</b></div>
+  <div class="foot"><span>Agent factory</span><b>02 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="Four planes">
@@ -424,7 +437,7 @@ p { margin: 0; }
 </style>
 <rect class="box" x="40" y="20" width="330" height="150" rx="3"/><text class="lbl" x="62" y="52">DOORS</text><text class="name" x="62" y="84">Many doors</text><text class="body" x="62" y="114">Jira, GitHub, Slack, MCP,</text><text class="body" x="62" y="138">schedules</text><rect class="box" x="40" y="230" width="330" height="150" rx="3"/><text class="lbl" x="62" y="262">TEAM HARNESS REPO</text><text class="name" x="62" y="294">Define</text><text class="body" x="62" y="324">Native files, harness.lock,</text><text class="body" x="62" y="348">one digest</text><rect class="box-hub" x="470" y="120" width="340" height="260" rx="3"/><rect x="470" y="120" width="340" height="3" fill="var(--af-product-hangar, #EE8F63)"/><text class="lbl" x="492" y="152">HANGAR</text><text class="name" x="492" y="184">Run</text><text class="body" x="492" y="214">Sandboxes, sessions, jobs</text><text class="body" x="492" y="238">and trials on GKE</text><text class="body" x="492" y="262">Verify, push through the</text><text class="body" x="492" y="286">gateway, land on approval</text><rect class="box" x="910" y="20" width="330" height="150" rx="3"/><rect x="910" y="20" width="330" height="3" fill="var(--af-product-tower, #C5A93B)"/><text class="lbl" x="932" y="52">TOWER</text><text class="name" x="932" y="84">Govern</text><text class="body" x="932" y="114">Rules, human approvals,</text><text class="body" x="932" y="138">signed receipts</text><rect class="box" x="910" y="230" width="330" height="150" rx="3"/><text class="lbl" x="932" y="262">GITHUB</text><text class="name" x="932" y="294">One gate: the PR</text><text class="body" x="932" y="324">A second human approves</text><text class="body" x="932" y="348">the exact commit</text><rect class="box" x="470" y="440" width="340" height="150" rx="3"/><rect x="470" y="440" width="340" height="3" fill="var(--af-product-flightdeck, #D98CD2)"/><text class="lbl" x="492" y="472">FLIGHTDECK</text><text class="name" x="492" y="504">Judge</text><text class="body" x="492" y="534">Paired statistics and</text><text class="body" x="492" y="558">behavior specs on every run</text><path class="edge" d="M370 95H420V180H468" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="380" y="85" text-anchor="start">work</text><path class="edge" d="M370 305H468" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="380" y="295" text-anchor="start">lock</text><path class="edge" d="M810 165H860V95H908" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="820" y="155" text-anchor="start">decide</text><path class="edge" d="M908 130H880V200H812" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="888" y="230" text-anchor="start"></text><path class="edge" d="M810 305H908" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="820" y="295" text-anchor="start">PR</text><path class="edge" d="M560 380V438" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="572" y="418" text-anchor="start">every run</text><path class="edge" d="M720 440V382" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="708" y="418" text-anchor="end">trials</text><path class="edge" d="M470 515H205V382" marker-end="url(#four-planes,-one-loop-arrow)"/><text class="elabel" x="215" y="505" text-anchor="start">promote the next harness</text></svg>
 </div>
-  <div class="foot"><span>Each tool owns one plane and meets the others at versioned contracts</span><b>03 / 07</b></div>
+  <div class="foot"><span>Each tool owns one plane and meets the others at versioned contracts</span><b>03 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="A ticket to a merged PR">
@@ -438,7 +451,46 @@ p { margin: 0; }
     <div class="strip attn"><span class="n">05</span><span class="who"><i style="--c:var(--af-status-approval)"></i>Reviewer</span><span class="what">A draft PR waits for a second human to approve the exact commit</span><span class="st st-appr"><i></i>needs approval</span></div>
     <div class="strip"><span class="n">06</span><span class="who"><i style="--c:var(--af-product-flightdeck)"></i>Outbox</span><span class="what">The merged run is written once, for flightdeck to judge</span><span class="st st-run"><i></i>captured</span></div>
   </div>
-  <div class="foot"><span>Only approvals and failures light up · everything else stays quiet</span><b>04 / 07</b></div>
+  <div class="foot"><span>Only approvals and failures light up · everything else stays quiet</span><b>04 / 14</b></div>
+</section>
+
+<section class="slide slide--screen" aria-label="hangar: Needs you">
+  <span class="eyebrow">What the team sees · hangar</span>
+  <div class="screen-grid">
+    <div>
+      <h2>Ten agents. One needs you.</h2>
+      <p class="lede">Needs you is the console's first tab: held tool calls and agents' questions to decide here, then what failed and what waits for a review on GitHub. Everything running stays grey.</p>
+      <ul class="facts"><li>A question is answered in place; the agent continues with the answer.</li><li>A deny needs a reason. It goes on the receipt and back to the agent.</li><li>The clear state is the hero: <b>Nothing is waiting on you.</b></li></ul>
+    </div>
+    <figure class="screen"><img src="captures/hangar-needs-you.png" alt="hangar's Needs you view: a question card from job 8c4651d8 (Freeze time with a fixture in the test, or make the retry window configurable?) with an answer box, and below it draft PR #43 waiting for review"><figcaption><span>hangar · Needs you</span><i>Night · 1440 × 900</i></figcaption></figure>
+  </div>
+  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>05 / 14</b></div>
+</section>
+
+<section class="slide slide--screen" aria-label="hangar: the review loop">
+  <span class="eyebrow">What the team sees · hangar</span>
+  <div class="screen-grid">
+    <div>
+      <h2>Review the change, reply to the agent</h2>
+      <p class="lede">A job's detail carries the agent's summary, a composer and the change as a greyscale diff. A comment on a line rides with your next message; the PR updates on the agent's next turn.</p>
+      <ul class="facts"><li><b>+5 −1</b> across 2 files, against the base commit, from the sandbox.</li><li>Copy the patch, or open the agent's terminal and work beside it.</li><li>Only a failing test lights a hunk; additions and deletions stay grey.</li></ul>
+    </div>
+    <figure class="screen"><img src="captures/hangar-review.png" alt="Job #42's detail in hangar: the Reply to the agent composer, then Changes: files 2, +5 −1, with the diff of checkout/export.py switching encode(ascii, ignore) to encode(utf-8) and a new test"><figcaption><span>hangar · job #42, the change</span><i>Night · 1440 × 900</i></figcaption></figure>
+  </div>
+  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>06 / 14</b></div>
+</section>
+
+<section class="slide slide--screen" aria-label="hangar: the Fleet">
+  <span class="eyebrow">What the team sees · hangar</span>
+  <div class="screen-grid">
+    <div>
+      <h2>The whole fleet on one board</h2>
+      <p class="lede">Board, Bays, Columns and Owners are four views of the same sandboxes and one selection. <b>10 of 120</b> slots in use; the one tile that needs a person is the only color on the page.</p>
+      <ul class="facts"><li>Arrow keys move across the board; Enter opens the detail beside it.</li><li>Each tile shows its stage: plan, edit, test, PR.</li><li>Allow or deny a held step, or answer a question, without leaving the Fleet.</li></ul>
+    </div>
+    <figure class="screen"><img src="captures/hangar-fleet.png" alt="hangar's Fleet board: the checkout-python pool with ten sandbox tiles, one marked Needs you and selected, and the detail panel beside it showing the agent's question"><figcaption><span>hangar · Fleet, Board view</span><i>Night · 1440 × 900</i></figcaption></figure>
+  </div>
+  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>07 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="Improving the harness">
@@ -475,7 +527,20 @@ p { margin: 0; }
 </style>
 <circle cx="640" cy="300" r="210" fill="none" stroke="var(--af-rule, #424242)" stroke-width="1.25" stroke-dasharray="3 6"/><text class="name" x="640" y="292" text-anchor="middle">harness_digest</text><text class="lbl" x="640" y="322" text-anchor="middle">ONE IDENTITY FROM LOCK TO REPORT</text><circle cx="640" cy="90" r="9" fill="var(--af-fg-subtle, #8A8A8A)"/><text class="name" x="662.0" y="86.0" text-anchor="start">1  Change</text><text class="body" x="662.0" y="112.0" text-anchor="start">a skill, hook or plugin in the harness</text><circle cx="840" cy="235" r="9" fill="var(--af-product-hangar, #EE8F63)"/><text class="name" x="865.7218684219822" y="231.10643118126103" text-anchor="start">2  Freeze</text><text class="body" x="865.7218684219822" y="257.10643118126103" text-anchor="start">a good run into harness.lock</text><circle cx="763" cy="470" r="9" fill="var(--af-product-flightdeck, #D98CD2)"/><text class="name" x="789.4349029814193" y="465.89356881873897" text-anchor="start">3  Experiment</text><text class="body" x="789.4349029814193" y="491.89356881873897" text-anchor="start">stable vs candidate, paired</text><circle cx="517" cy="470" r="9" fill="var(--af-product-flightdeck, #D98CD2)"/><text class="name" x="490.5650970185807" y="465.89356881873897" text-anchor="end">4  Report</text><text class="body" x="490.5650970185807" y="491.89356881873897" text-anchor="end">verdict with intervals on the PR</text><circle cx="440" cy="235" r="9" fill="var(--af-product-hangar, #EE8F63)"/><text class="name" x="414.27813157801774" y="231.1064311812611" text-anchor="end">5  Promote</text><text class="body" x="414.27813157801774" y="257.1064311812611" text-anchor="end">move stable; drift checks guard it</text></svg>
 </div>
-  <div class="foot"><span>Infrastructure failures are retried and left out of every statistic</span><b>05 / 07</b></div>
+  <div class="foot"><span>Infrastructure failures are retried and left out of every statistic</span><b>08 / 14</b></div>
+</section>
+
+<section class="slide slide--screen" aria-label="flightdeck: the verdict">
+  <span class="eyebrow">What the team sees · flightdeck</span>
+  <div class="screen-grid">
+    <div>
+      <h2>The verdict lands on the harness PR</h2>
+      <p class="lede">flightdeck posts one comment on the pull request that changes the harness, and updates it in place: the verdict, the pins of both variants and the outcome with its interval.</p>
+      <ul class="facts"><li><b>treat is better than control</b> on resolved: +21.2 pp, CI +1.5 to +43.9.</li><li>Paired by task; cancelled, drifted and infrastructure failures are excluded and listed.</li><li>The approver is never the author.</li></ul>
+    </div>
+    <figure class="screen"><img src="captures/flightdeck-verdict.png" alt="A GitHub pull request comment from flightdeck: Verdict, treat is better than control on resolved (+21.2 pp, CI +1.5 to +43.9), a Pins table comparing control and treat, and the Outcome table with trials, resolved rates and dollars per resolved task"><figcaption><span>flightdeck · report on PR #48, fixture experiment</span><i>As posted on GitHub</i></figcaption></figure>
+  </div>
+  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>09 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="Safe by default">
@@ -487,7 +552,46 @@ p { margin: 0; }
     <div class="ro attn"><span class="k">Decision point</span><span class="v" style="font-size:34px">Ask first</span><p>Release, landing, egress and secrets go to Tower: allow, deny or wait.</p></div>
     <div class="ro"><span class="k">Approver</span><span class="v" style="font-size:34px">Never you</span><p>The requester never approves their own risky work. Every decision is signed.</p></div>
   </div>
-  <div class="foot"><span>Rollout: off, then shadow, then enforce, one decision kind at a time</span><b>06 / 07</b></div>
+  <div class="foot"><span>Rollout: off, then shadow, then enforce, one decision kind at a time</span><b>10 / 14</b></div>
+</section>
+
+<section class="slide slide--screen" aria-label="Tower: the Desk">
+  <span class="eyebrow">What the team sees · Tower</span>
+  <div class="screen-grid">
+    <div>
+      <h2>The Desk: what needs you, what finished, who you sign for</h2>
+      <p class="lede">Tower's home for a person. Start work from the composer, hand a task to hangar or ask an agent in its room, decide the cards that need your signature, and see the day's receipts.</p>
+      <ul class="facts"><li><b>5 waiting on you</b> · done today 2 · agents 8 of 8 running.</li><li>Each card says what will run, why it asked and what signing does.</li><li>Every decision files a receipt, chained into the record.</li></ul>
+    </div>
+    <figure class="screen"><img src="captures/tower-desk.png" alt="Tower's Desk for Marcus: a greeting, Start work with the composer set to Hand to hangar, a Needs you approval card for Breaks creating a ticket for Globex, and Agents you sign for with calls this hour"><figcaption><span>Tower · the Desk, as an approver</span><i>Night · 1440 × 900</i></figcaption></figure>
+  </div>
+  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>11 / 14</b></div>
+</section>
+
+<section class="slide slide--screen" aria-label="Tower: objects and the composer">
+  <span class="eyebrow">What the team sees · Tower</span>
+  <div class="screen-grid">
+    <div>
+      <h2>Business objects by reference</h2>
+      <p class="lede">A Jira issue, a pull request, a hangar job: each is a chip, and each chip opens a page with what touched it, what is in play and a composer to start work about it.</p>
+      <ul class="facts"><li>Tower keeps a reference, never a copy; the title and state are read from the source.</li><li>The receipt carries the reference, hashed into the chain.</li><li>Ask Breaks in #fx-ops, in your name; the answer comes back here.</li></ul>
+    </div>
+    <figure class="screen"><img src="captures/tower-object.png" alt="Tower's page for Jira issue PAY-412: its chip and source line, Start work about it with the composer set to Ask Breaks in #fx-ops, Agents that touched it, and In play with a hangar release waiting for a signature"><figcaption><span>Tower · object page, jira:issue/PAY-412</span><i>Night · 1440 × 900</i></figcaption></figure>
+  </div>
+  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>12 / 14</b></div>
+</section>
+
+<section class="slide slide--screen" aria-label="Airframe v6">
+  <span class="eyebrow">Built on · Airframe</span>
+  <div class="screen-grid">
+    <div>
+      <h2>One design system, every screen</h2>
+      <p class="lede">Airframe theme-v6 adds the parts a person needs to work with an agent: approval card, question, composer, diff, avatars, object chips, page header, empty state, toast, dialog and drawer. Every screen in this deck is built from it.</p>
+      <ul class="facts"><li>Tokens and <b>af-</b> classes only; a test in each repo fails on a color literal.</li><li>Night and Day, forced colors and reduced motion, in one stylesheet.</li><li>33 components in the gallery; the tool repos vendor a tagged release.</li></ul>
+    </div>
+    <figure class="screen"><img src="captures/airframe-approvalcard.png" alt="The ApprovalCard preview in the Airframe gallery: a held git push with its Cedar policy, checks, expiry, Deny, Approve for this session and Approve push, a quorum of 1 of 2 signed, plus the deny-with-a-reason and edit-then-approve variants"><figcaption><span>Airframe · gallery, ApprovalCard</span><i>Night · 1440 × 900</i></figcaption></figure>
+  </div>
+  <div class="foot"><span>Captured from the product's own demo by scripts/captures.py</span><b>13 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="Where it stands">
@@ -498,14 +602,14 @@ p { margin: 0; }
     <div class="phase"><span class="k">On main</span><h3>Measure everything</h3><ul><li>Harness lock: freeze, check, thaw</li><li>Run outbox and nightly compactor</li><li>Reports, behavior specs, pinned trials</li><li>Slack inbox, Tower's decision API</li></ul></div>
     <div class="phase now"><span class="k">Next</span><h3>Governed and decided</h3><ul><li>Tower decisions in shadow, then enforce</li><li>One real flightdeck decision</li><li>Team harness, frozen from a good run</li><li>Outbox and compactor on in the cluster</li></ul></div>
   </div>
-  <div class="foot"><span>Docs: sean-koval.github.io/agent-factory</span><b>07 / 07</b></div>
+  <div class="foot"><span>Docs: sean-koval.github.io/agent-factory</span><b>14 / 14</b></div>
 </section>
 
 </main>
 
 <nav class="hud" aria-label="Slides">
   <button id="prev" type="button" aria-label="Previous slide">‹</button>
-  <output id="count" aria-live="polite">1 / 7</output>
+  <output id="count" aria-live="polite">1 / 14</output>
   <button id="next" type="button" aria-label="Next slide">›</button>
 </nav>
 
