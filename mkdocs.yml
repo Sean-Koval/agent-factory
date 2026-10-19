@@ -54,6 +54,7 @@ nav:
       - Tower: tools/workspace.md
       - Spaceport: tools/spaceport.md
   - Team harness: team-harness.md
+  - At work: work/index.md
   - Airframe:
       - airframe/index.md
       - Tokens: airframe/tokens.md

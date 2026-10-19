@@ -39,6 +39,7 @@ The diagram, which tool owns what, every seam and its status: [How it fits](how-
 
 - **Engineer:** [hangar](tools/hangar.md). `hangar connect` adds hangar to your agent client ([connecting clients](https://sean-koval.github.io/hangar/clients/)).
 - **Harness owner:** [Team harness](team-harness.md). Copy the example, freeze a good run, and promote on evidence.
+- **Running it at work:** [Run the factory at your company](work/index.md). The four-repo convention, change sets from a ticket to a deploy, and what stays yours.
 - **Building UI:** [Airframe](airframe/index.md). Tokens, components and the rules every tool's UI follows.
 
 ## The four planes
