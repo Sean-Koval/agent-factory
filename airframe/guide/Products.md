@@ -57,7 +57,7 @@ There is no blue in the family. hangar's clay sits near the caution orange and T
 
 A product's README banner, social preview, favicon and docs header mark are generated, never drawn: `scripts/banners.py` builds them from the tokens, `icons/marks.json` and the fonts in `fonts/` into `brand/<product>/`, and each tool repo vendors its own with `scripts/sync-brand.sh`.
 
-- One composition for the family: eyebrow (`Agent factory · Run plane`), the mark beside the name in the display face, the product's line, and the suite strip with the 2px marker under this product's plane. The hue appears in the mark and the marker only; the brand yellow is the eyebrow hairline.
+- One composition for the family: eyebrow (`Agent factory · Run`; the role word alone, never "plane", which collides with flightdeck's data plane), the mark beside the name in the display face, the product's line, and the suite strip with the 2px marker under this product's role. The strip tells the suite story: four planes (Define = the team harness, Run = hangar, Judge = flightdeck, Govern = Tower), then ai-dlc as Setup and Spaceport as the capability. The hue appears in the mark and the marker only; the brand yellow is the eyebrow hairline.
 - Night and Day both ship; a README shows them with `<picture>` and `prefers-color-scheme`. The social preview is Night.
 - Text is outlined, because images served by GitHub load no web fonts. Change copy in the script, not in a file.
 - The repository description, the docs `site_description` and the banner's line say the same thing.

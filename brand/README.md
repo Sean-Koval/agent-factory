@@ -18,9 +18,11 @@ Products: `agent-factory` (the suite home, with the family mark), `airframe`, `h
 
 ## The banner
 
-One composition for the family: the eyebrow names the suite and the plane, the product mark sits beside the
-name in Archivo Expanded, the product's line follows in Red Hat Text, and a strip along the bottom shows the
-five planes with the 2 px nav marker under this product's own. The product hue appears in the mark and that
+One composition for the family: the eyebrow names the suite and the product's role (Run, Judge, Govern, Setup;
+the word "plane" stays out of it), the product mark sits beside the name in Archivo Expanded, the product's
+line follows in Red Hat Text, and a strip along the bottom shows the suite story with the 2 px nav marker under
+this product's own: the four planes (Define = the team harness, Run = hangar, Judge = flightdeck, Govern = Tower),
+then ai-dlc as Setup and Spaceport as the capability. The product hue appears in the mark and that
 marker and nowhere else; the brand yellow is the eyebrow hairline, as on the docs heroes. Night is black,
 Day is paper, with the dot field top right, once. Nothing is clickable and nothing is a status.
 
@@ -34,7 +36,7 @@ deterministic, so `git diff` can check them. The fonts come from `airframe/fonts
 ```html
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/brand/banner-dark.svg">
-  <img alt="hangar: hand a ticket to a coding agent in an isolated cloud sandbox, and get back a verified draft pull request. Part of the agent factory (run plane)." src="docs/assets/brand/banner-light.svg" width="960" height="320">
+  <img alt="hangar: hand a ticket to a coding agent in an isolated cloud sandbox, and get back a verified draft pull request. Part of the agent factory (Run)." src="docs/assets/brand/banner-light.svg" width="960" height="320">
 </picture>
 ```
 

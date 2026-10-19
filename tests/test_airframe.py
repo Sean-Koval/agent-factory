@@ -56,7 +56,13 @@ class BuildTests(unittest.TestCase):
             table = (Path(tmp) / "pages" / "airframe-components.md").read_text()
             self.assertIn("](gallery/Button.html?theme=dark)", table)
             self.assertNotIn("../gallery/", table)
-            self.assertEqual(len(written), 5)
+            self.assertEqual(len(written), 6)
+            # the registry page's install commands pin the newest release, like the header badge
+            install = (Path(tmp) / "pages" / "airframe-install.md").read_text()
+            self.assertIn(f"add Sean-Koval/agent-factory/airframe#{af.release()}", install)
+            self.assertIn(f"add Sean-Koval/agent-factory/skill#{af.release()}", install)
+            self.assertNotIn("#theme-v6", (af.ROOT / "docs" / "airframe" / "registry.md").read_text())
+            self.assertIn('--8<-- "airframe-install.md"', (af.ROOT / "docs" / "airframe" / "registry.md").read_text())
 
 
 class ContrastTests(unittest.TestCase):
@@ -85,6 +91,25 @@ class ContrastTests(unittest.TestCase):
                            ("terminal-fg", "terminal-bg"), ("terminal-dim", "terminal-bg"),
                            ("code-comment", "terminal-bg")):
                 self.assertGreaterEqual(af.contrast(v[fg], v[bg]), 4.5, f"{fg} on {bg} in {theme}")
+
+    def test_status_text_on_the_selected_row(self):
+        """A selected trace row is brand-wash over raised; the failed and waiting durations on it stay AA (KAN-73)."""
+        for theme, v in THEMES.items():
+            m = re.fullmatch(r"rgba\((\d+),(\d+),(\d+),([\d.]+)\)", v["brand-wash"].replace(" ", ""))
+            self.assertIsNotNone(m, "brand-wash is an rgba() tint")
+            r, g, b, a = (float(x) for x in m.groups())
+            raised = [int(v["raised"].lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)]
+            mixed = "#" + "".join(f"{round(c * a + base * (1 - a)):02X}" for c, base in zip((r, g, b), raised))
+            for fg in ("status-failed", "status-approval", "fg-muted"):
+                self.assertGreaterEqual(af.contrast(v[fg], mixed), 4.5, f"{fg} on the selected row in {theme}")
+
+    def test_track_stage_words_are_readable_text(self):
+        """The stage track's words are label-s in fg-subtle; fg-dim is for separators and disabled marks (KAN-113)."""
+        viz = (af.SRC / "styles" / "viz.css").read_text()
+        seg = re.search(r"\.af-track__seg\{([^}]*)\}", viz).group(1)
+        self.assertIn("color:var(--af-fg-subtle)", seg)
+        self.assertIn("font-size:10px", seg)
+        self.assertNotIn("fg-dim", seg)
 
     def test_brand_is_never_a_status(self):
         for theme, v in THEMES.items():
@@ -254,9 +279,8 @@ class RegistryTests(unittest.TestCase):
     def test_skill_lists_every_component(self):
         skill = (af.ROOT / ".claude" / "skills" / "airframe" / "SKILL.md").read_text()
         self.assertTrue(skill.startswith("---\nname: airframe\n"))
-        for comp in af.components():
-            if comp["name"] != "Cover":
-                self.assertIn(f"| {comp['name']} |", skill, comp["name"])
+        for comp in af.components():  # every folder in airframe/components/, the gallery's Cover included
+            self.assertIn(f"| {comp['name']} |", skill, comp["name"])
         self.assertLess(skill.count("\n"), 500, "SKILL.md stays under 500 lines (Agent Skills guidance)")
 
 
@@ -267,15 +291,32 @@ class DocsSiteTests(unittest.TestCase):
 
     def test_suite_strip_names_the_family_once_and_links_only_public_sites(self):
         strip = (self.THEME / "airframe-suite.html").read_text()
-        for product in ("hangar", "flightdeck", "tower", "ai-dlc", "airframe"):
+        for product in ("team-harness", "hangar", "flightdeck", "tower", "ai-dlc", "airframe"):
             self.assertEqual(strip.count(f'product == "{product}"'), 1, product)
-        self.assertEqual(strip.count('aria-current="true"'), 6)  # the home and five items can each be current
-        public = {"https://sean-koval.github.io/agent-factory/", "https://sean-koval.github.io/hangar/",
-                  "https://sean-koval.github.io/flightdeck/", "https://sean-koval.github.io/ai-dlc/",
-                  "https://sean-koval.github.io/agent-factory/airframe/"}
+        self.assertEqual(strip.count('aria-current="true"'), 7)  # the home and six items can each be current
+        public = {"https://sean-koval.github.io/agent-factory/", "https://github.com/Sean-Koval/team-harness",
+                  "https://sean-koval.github.io/hangar/", "https://sean-koval.github.io/flightdeck/",
+                  "https://sean-koval.github.io/ai-dlc/", "https://sean-koval.github.io/agent-factory/airframe/"}
         self.assertEqual(set(re.findall(r'href="(https://[^"]+)"', strip)), public)
         self.assertNotIn("github.io/tower", strip)  # private for now: a plain word, not a dead link
         self.assertIn('aria-label="Agent factory suite"', strip)
+        # the suite story (KAN-65): four planes in order, Define = the team harness, then ai-dlc as Setup, Airframe as Design
+        roles = re.findall(r"<small>([^<]+)</small>([^<]+)<", strip)
+        self.assertEqual(roles, [("Define", "Team harness"), ("Run", "hangar"), ("Judge", "flightdeck"), ("Govern", "Tower"),
+                                 ("Govern", "Tower"), ("Setup", "ai-dlc"), ("Design", "Airframe")])
+        self.assertNotIn("plane", strip.split("-#}")[1].lower())  # the word collides with flightdeck's data plane
+
+    def test_strip_role_words_keep_their_contrast_and_scroll_on_phones(self):
+        css = (self.THEME / "airframe-docs.css").read_text()
+        # Material sets .md-typeset small { opacity: .75 }, which would pull fg-subtle below AA
+        self.assertRegex(css, r"\.af-suite__list small \{[^}]*color: var\(--af-fg-subtle\);[^}]*opacity: 1;")
+        self.assertNotIn("af-suite__plane", css)
+        for rule in ("scroll-snap-type: x proximity", "scroll-snap-align: start", ".md-banner__inner.md-typeset::after",
+                     ".af-suite__list::after { content: \"\"; flex: none;"):
+            self.assertIn(rule, css, rule)
+        phones = css[css.index("@media (max-width: 480px)"):]
+        self.assertIn(".af-suite__list small { display: none; }", phones.split("}\n}")[0])
+        self.assertNotIn("text-overflow", css[css.index(".af-suite"):css.index("/* header and tabs")])
 
     def test_docs_css_is_built_from_source_with_the_release_stamp(self):
         built = (self.THEME / "airframe-docs.css").read_text()
