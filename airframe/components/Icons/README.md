@@ -1,6 +1,6 @@
 # Icons
 
-The Airframe icon set: 55 stroke glyphs on a 20 px grid, drawn with a 1.5 stroke, square caps and miter joins in `currentColor`.
+The Airframe icon set: 57 stroke glyphs on a 20 px grid, drawn with a 1.5 stroke, square caps and miter joins in `currentColor`.
 
 ## What you provide
 
@@ -28,14 +28,14 @@ Sizes: `af-ic` is 16 px (UI default; buttons shrink it to 14 or 13 px), `af-ic--
 | Fleet | agent, fleet, sandbox, session, job, environment, harness, model, gpu, pool, region |
 | Governance | policy, approval, receipt, denied, caution, secret, egress, lock, user |
 | Traces and code | trace, span, tool, terminal, log, duration, cost, database, fork, snapshot, branch, pr, diff, experiment, eval |
-| Actions | play, pause, stop, spindown, retry, search, filter, copy, settings, plus, check, close, more, info, chevron-right, chevron-down, arrow-right |
+| Actions | play, pause, stop, spindown, retry, search, filter, copy, settings, plus, check, close, more, info, chevron-right, chevron-down, arrow-right, sun, moon |
 | Agent candidates | agent-alt-1 (orbit), agent-alt-2 (actor), agent-alt-3 (beacon) |
 
 ## The agent glyph
 
 The aircraft is retired. `agent` is a hexagonal unit drawn as an open loop around a solid core: a worker in the middle of a task. It holds up at 16 px, it isn't a spinner, a robot face or a sparkle, and hex units tile, so `fleet` is three of them. The other three candidates stay in the set as `agent-alt-1` (a core inside a running orbit), `agent-alt-2` (a pointer with a target) and `agent-alt-3` (a core broadcasting), so the choice can be revisited without redrawing.
 
-Changes from the Lab set: `session` is a speech bubble (a session is a conversation you come back to), `job` is a briefcase (it was a play button in a box), `cost` is two coins (the old cylinder is now `database`). New: lock, user, database, experiment, eval, retry, filter, copy, settings, plus, more, info, the two chevrons and arrow-right.
+Changes from the Lab set: `session` is a speech bubble (a session is a conversation you come back to), `job` is a briefcase (it was a play button in a box), `cost` is two coins (the old cylinder is now `database`). New: lock, user, database, experiment, eval, retry, filter, copy, settings, plus, more, info, the two chevrons and arrow-right. `sun` and `moon` are the theme toggle's two states (Day and Night); a docs site or console shows the one the reader can switch to.
 
 ## When to use
 

@@ -5,6 +5,24 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v11 · 2026-10-19
+
+Docs-site admonitions in the greyscale, and two icons for theme toggles (KAN-135). No token value changes; no class is
+added or renamed.
+
+- `airframe-docs.css`: every Material / Zensical admonition type (note, abstract, info, tip, success, question, warning,
+  failure, danger, bug, example, quote and their aliases) maps onto the tokens through one custom property, `--af-adm`
+  (`fg-subtle`): the 2px start mark, the title icon and the details chevron take it, the block is `surface` and the title
+  has no tint. Only two families carry color, because a person must act: warning (caution, attention) is
+  `status-approval`, danger (error) and failure (fail, missing) are `status-failed`. The modern Zensical theme paints
+  each type's hue over the whole block (`.admonition.note { background: #448aff1a }`) and tints the chevron and the focus
+  halo; those are overridden, and `:focus-within` is `focus` (2px) over the mark. Forced colors: the mark is a
+  `CanvasText` border and focus an outline in `Highlight`.
+- `airframe-icons.svg`: `sun` and `moon`, for a theme toggle (show the one the reader can switch to). 57 icons; the
+  contact sheet gains a row.
+- `tests/test_admonitions.py` renders every type in both themes in Chromium and fails when any mark, icon, block,
+  title, chevron or focus ring computes to a hue that is not the type's one allowed token.
+
 ## theme-v10 · 2026-10-19
 
 The suite strip and the stage track read at every size, in both themes, from the suite audit (KAN-48, KAN-113, KAN-73,

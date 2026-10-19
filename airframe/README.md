@@ -8,7 +8,7 @@ The design system for every tool in the suite, and its single source of truth. D
 | `styles/` | The component CSS (`base.css` atoms, `core.css` console parts, `agents.css` the approval decisions, question, composer, diff and object chip, `patterns.css` page header, empty state, toast, dialog and drawer, `viz.css` fleet board, lanes, traces, icons). Tokens only: `var(--af-<name>)`, never a color literal. |
 | `js/airframe.js` | The one optional script: an ES module with no dependencies and no build step. Markup helpers that match the contracts (`status`, `icon`, `meta`, `btn`, `avatar`, `obj`, `tag`) and three behaviours (`toast`, `confirm`, `drawer`), with alert inhibition. Published as `theme/airframe.js`. |
 | `components/<Name>/` | One folder per component: `README.md` (what you provide, markup, when to use, do and don't) and `preview.html` (rendered in the gallery and on the claude.ai Design System page). |
-| `icons/` | 55 icons on a 20 px grid, one file each, the `airframe-icons.svg` sprite and `icons.json`; `marks.json` holds the six product marks. |
+| `icons/` | 57 icons on a 20 px grid, one file each, the `airframe-icons.svg` sprite and `icons.json`; `marks.json` holds the six product marks. |
 | `fonts/` | The three families as small static files, for generating assets whose text must be outlines (banners). Sites load the families from Google Fonts. |
 | `docs-site/` | The docs sites' look: `airframe-docs.css` maps Material for MkDocs / Zensical onto the tokens (with its own forced-colors block), and `airframe-suite.html` is the suite strip above every docs header. |
 | `guide/` | The brand book: [principles, voice, layout and accessibility](guide/brand.md), [Status](guide/Status.md), [Data](guide/Data.md), [Products](guide/Products.md). |
