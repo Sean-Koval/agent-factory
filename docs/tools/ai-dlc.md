@@ -1,12 +1,12 @@
 <style>:root, [data-md-color-scheme] { --af-product: var(--af-product-aidlc); }</style>
 
-<span class="af-eyebrow">Supports the Define plane</span>
+<span class="af-eyebrow">Agent factory · Setup</span>
 
 # ai-dlc
 
-Authors the optional workflow plugin, provisions machines, gates local work on CI.
+Sets up engineers' machines, authors the optional workflow plugin, gates local work on CI.
 
-The [team harness repo](../team-harness.md) defines the harness; ai-dlc contributes one optional component to it, its workflow plugin, and sets up engineers' machines ([ADR 0001](https://github.com/Sean-Koval/ai-dlc/blob/main/docs/decisions/0001-refocus-ai-dlc.md)).
+ai-dlc is the suite's setup, off the agent's hot path. The [team harness repo](../team-harness.md) defines the harness; ai-dlc contributes one optional component to it, its workflow plugin, and prepares engineers' machines ([ADR 0001](https://github.com/Sean-Koval/ai-dlc/blob/main/docs/decisions/0001-refocus-ai-dlc.md)).
 
 | | |
 | --- | --- |

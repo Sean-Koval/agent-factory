@@ -1,4 +1,4 @@
-<span class="af-eyebrow">Define plane</span>
+<span class="af-eyebrow">Agent factory · Define</span>
 
 # Team harness
 

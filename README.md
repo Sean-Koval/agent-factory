@@ -1,6 +1,6 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="brand/agent-factory/banner-dark.svg">
-  <img alt="Agent factory: define, run, judge and govern cloud coding agents for a team. The suite home for hangar, flightdeck, Tower, ai-dlc and Spaceport." src="brand/agent-factory/banner-light.svg" width="960" height="320">
+  <img alt="Agent factory: define, run, judge and govern cloud coding agents for a team. The suite home for the team harness, hangar, flightdeck, Tower, ai-dlc and Spaceport." src="brand/agent-factory/banner-light.svg" width="960" height="320">
 </picture>
 
 # Agent factory
@@ -12,16 +12,18 @@ The suite-level home for Sean's team tooling for cloud coding agents: the docs s
 - Roadmap: <https://sean-koval.github.io/agent-factory/roadmap/> (rebuilt daily from issue state)
 - Airframe: <https://sean-koval.github.io/agent-factory/airframe/> (tokens, components, icons, gallery)
 
+Four planes, five tools and the team harness repo. The team harness defines what the agents run, hangar runs them, flightdeck judges the runs and Tower governs risky decisions; ai-dlc sets up the people and machines around them, and Spaceport sits under the suite as a data capability.
+
 | Tool | Plane | In one line | Repo |
 | --- | --- | --- | --- |
+| Team harness | Define | The harness as native files and a lock, frozen from a good run and promoted on evidence. | [Sean-Koval/team-harness](https://github.com/Sean-Koval/team-harness) (the public example) |
 | hangar | Run | Runs coding agents in isolated cloud sandboxes, from a ticket to a landed PR. | [Sean-Koval/hangar](https://github.com/Sean-Koval/hangar) |
 | flightdeck | Judge | Judges harness changes with paired statistics and behavior specs over every run. | [Sean-Koval/flightdeck](https://github.com/Sean-Koval/flightdeck) |
 | Tower | Govern | One decision point for risky actions: rules, human approvals, signed receipts. | Private repository (Sean-Koval/tower); docs site once public |
-| Team harness | Define | The harness as native files and a lock, frozen from a good run and promoted on evidence. | [Sean-Koval/team-harness](https://github.com/Sean-Koval/team-harness) (the public example) |
-| ai-dlc | Supports Define | Authors the optional workflow plugin, provisions machines, gates local work on CI. | [Sean-Koval/ai-dlc](https://github.com/Sean-Koval/ai-dlc) |
-| Spaceport | Capability (frozen) | Reviewed data products that agents query through four MCP tools. Frozen. | Private repository (Sean-Koval/spaceport); README only |
+| ai-dlc | Setup | Sets up engineers' machines, authors the optional workflow plugin, gates local work on CI. | [Sean-Koval/ai-dlc](https://github.com/Sean-Koval/ai-dlc) |
+| Spaceport | Also in the suite (capability, frozen) | Reviewed data products that agents query through four MCP tools. | Private repository (Sean-Koval/spaceport); README only |
 
-Define is the team harness repo: native files and `harness.lock`, frozen from a good hangar run. ai-dlc contributes the optional workflow plugin and machine setup. [How it fits](https://sean-koval.github.io/agent-factory/how-it-fits/) follows one ticket through all of them.
+Define is the team harness repo: native files and `harness.lock`, frozen from a good hangar run. ai-dlc is setup, off the agent's hot path; the workflow plugin it authors is one component a harness may pin. [How it fits](https://sean-koval.github.io/agent-factory/how-it-fits/) follows one ticket through all of them.
 
 ## What lives here
 

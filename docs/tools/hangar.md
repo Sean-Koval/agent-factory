@@ -1,6 +1,6 @@
 <style>:root, [data-md-color-scheme] { --af-product: var(--af-product-hangar); }</style>
 
-<span class="af-eyebrow">Run plane</span>
+<span class="af-eyebrow">Agent factory · Run</span>
 
 # hangar
 

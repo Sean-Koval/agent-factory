@@ -24,8 +24,9 @@ The suite's terms, defined once. Where a tool's own docs go deeper, the entry li
 | Intake posture | hangar's rule that intake jobs need the git gateway and an egress allowlist. |
 | Job | A piece of work hangar runs to a result: an agent turn in a session, the repo's own check (`verify`), then a branch and a draft pull request. |
 | Manifest | `hangar.manifest/v1`: the effective configuration captured when a turn starts. |
-| Outbox | Cloud Storage objects written once per finished run, the input to flightdeck's data plane. |
+| Outbox | Cloud Storage objects written once per finished run, the input to flightdeck's Parquet store (its data plane). |
 | Passport | A 15-minute token Tower issues under RFC 8693 in exchange for a workload token, with the requester as subject. |
+| Plane | One of the four responsibilities the suite is split into, each owned by one tool: Define (the team harness repo), Run (hangar), Judge (flightdeck) and Govern (Tower). ai-dlc is setup, not a plane, and Spaceport is a capability under the suite. The sense is control plane / data plane, not aircraft; flightdeck's own "data plane" is its Parquet store, a different thing. |
 | Pin set | `hangar.pinset/v1`: what a trial runs with, recorded once and never changed: the harness lock and its digest, the environment's digests, the concrete model, each task's base commit, the grader's and egress policy's digests, and optionally a knowledge snapshot. Its id is a hash of its content ([hangar: trials and pin sets](https://sean-koval.github.io/hangar/api/trials/)). |
 | Promotion | Moving `stable` in `channels.yaml` to a candidate's digest, by a PR whose approver is not its author, after flightdeck's report against the pre-registered `decision.yaml`. |
 | Receipt | A hash-chained record of a Tower decision, attached to the action it allowed; its attestation envelope is `aw.attest/v1`. |
