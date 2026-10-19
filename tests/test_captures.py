@@ -65,6 +65,11 @@ class CropTests(unittest.TestCase):
         name = re.search(r'src="assets/captures/([\w-]+)\.png"', hero).group(1)
         self.assertIn("hero", surfaces(name), f"{name} is not cut for the hero")
 
+    def test_tool_pages_show_crops_cut_for_a_page(self):
+        for page in sorted((ROOT / "docs" / "tools").glob("*.md")):
+            for name in re.findall(r'src="\.\./assets/captures/([\w-]+)\.png"', page.read_text()):
+                self.assertIn("page", surfaces(name), f"{page.name} shows {name}, which is not cut for a tool page")
+
     def test_readme_opens_with_the_problem_and_a_picture(self):
         readme = (ROOT / "README.md").read_text()
         first = readme.split("## ", 1)[0]

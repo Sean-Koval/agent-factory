@@ -7,7 +7,7 @@
 Runs coding agents in isolated cloud sandboxes, from a ticket to a landed PR.
 
 <figure class="af-figure af-figure--lead">
-<a href="../assets/captures/hangar-needs-you.png"><img src="../assets/captures/hangar-needs-you-question.png" alt="hangar's Needs you view: an agent's question with an answer box, and draft PR #43 waiting for review" width="1296" height="420"></a>
+<a href="../assets/captures/hangar-needs-you.png"><img src="../assets/captures/hangar-needs-you-narrow-question.png" alt="hangar's Needs you view: an agent's question with an answer box, and draft PR #43 waiting for review" width="720" height="586"></a>
 <figcaption>Needs you: an agent's question and a PR waiting for review. Everything else keeps running.</figcaption>
 </figure>
 
