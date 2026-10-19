@@ -1,4 +1,16 @@
+---
+hide:
+  - navigation
+  - toc
+---
+
 # Contracts
+
+<style>
+  /* An artifact name, a path or a header is one token: it never breaks inside a cell. The table scrolls sideways instead. */
+  .md-typeset table:not([class]) td code { white-space: nowrap; }
+  .md-typeset table:not([class]) td:first-child { min-width: 11rem; }
+</style>
 
 The tools meet only at versioned files and APIs. Each row links to the repo that defines the contract; this page indexes them and never copies their schemas. Tower and Spaceport are private repositories, so their files and issues are named without links. [How it fits](../how-it-fits.md) shows the same seams along a ticket's journey.
 

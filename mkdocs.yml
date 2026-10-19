@@ -43,11 +43,6 @@ markdown_extensions:
 nav:
   - Overview: index.md
   - How it fits: how-it-fits.md
-  - Architecture:
-      - architecture/index.md
-      - Containers: architecture/containers.md
-      - Contracts: architecture/contracts.md
-      - Flows: architecture/flows.md
   - Tools:
       - tools/index.md
       - hangar: tools/hangar.md
@@ -55,18 +50,24 @@ nav:
       - ai-dlc: tools/ai-dlc.md
       - Tower: tools/workspace.md
       - Spaceport: tools/spaceport.md
-  - Team harness: team-harness.md
-  - At work: work/index.md
+      - Team harness: team-harness.md
+      - At work: work/index.md
   - Airframe:
       - airframe/index.md
       - Tokens: airframe/tokens.md
       - Components: airframe/components.md
       - Icons: airframe/icons.md
       - Registry: airframe/registry.md
-  - Roadmap: roadmap.md
-  - Decisions: decisions.md
-  - Glossary: glossary.md
-  - Deck: deck.md
+  - Reference:
+      - Architecture:
+          - architecture/index.md
+          - Containers: architecture/containers.md
+          - Contracts: architecture/contracts.md
+          - Flows: architecture/flows.md
+      - Roadmap: roadmap.md
+      - Decisions: decisions.md
+      - Glossary: glossary.md
+      - Deck: deck.md
 
 extra:
   generator: false
