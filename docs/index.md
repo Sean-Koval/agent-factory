@@ -15,8 +15,8 @@ hide:
 [See how it fits](how-it-fits.md){ .md-button .md-button--primary } [Open the deck](deck.md){ .md-button }
 </div>
 <figure class="af-hero__visual">
-<a href="assets/captures/hangar-fleet.png"><img src="assets/captures/hangar-fleet-needs-you.png" alt="hangar's Fleet board: ten sandbox tiles in the checkout-python pool, one marked Needs you and selected, with the agent's question in the detail panel beside it" width="1296" height="428"></a>
-<figcaption>hangar's Fleet: ten agents at work, one needs you</figcaption>
+<a href="assets/captures/hangar-fleet.png"><img src="assets/captures/hangar-fleet-needs-you.png" alt="hangar's Fleet board: sandbox tiles of the checkout-python pool, ten live, and docked beside them the question the selected agent is asking, with an answer box" width="668" height="428"></a>
+<figcaption>hangar's Fleet: ten agents at work, one is asking you something</figcaption>
 </figure>
 </div>
 
