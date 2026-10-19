@@ -19,7 +19,7 @@ This repository is its single source of truth. Every color, size and font is a t
   <div class="af-rule"><b>Keyed data</b><span>Metadata reads <code>POLICY require-approval-main-push  MODEL gpt-5.1</code>: a small mono key, then the value. Never "a · b · c".</span></div>
 </div>
 
-Two themes share every component: **Night** (`dark`, the default, true black) and **Day** (`light`, paper grey with white cards). The full [brand book](guide/brand.md), with voice, layout and accessibility rules, is on this site with its chapters on [Status](guide/status.md), [Data](guide/data.md) and [Products](guide/products.md); the source is [`airframe/guide/`](https://github.com/Sean-Koval/agent-factory/tree/main/airframe/guide).
+Two themes share every component: **Night** (`dark`, the default, true black) and **Day** (`light`, paper grey, white cards). The [brand book](guide/brand.md) (voice, layout, accessibility) is here, with [Status](guide/status.md), [Data](guide/data.md) and [Products](guide/products.md); the source is [`airframe/guide/`](https://github.com/Sean-Koval/agent-factory/tree/main/airframe/guide).
 
 ## What a tool loads
 
