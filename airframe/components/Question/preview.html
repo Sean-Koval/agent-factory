@@ -1,4 +1,4 @@
-<!-- @dsCard group="Governance" height=720 subtitle="An agent asks a person: the question, its context, option chips or free text, one primary action; the same diamond, the word Needs input" -->
+<!-- @dsCard group="Governance" height=1120 subtitle="An agent asks a person: the question, its context, option chips or free text, one primary action; the same diamond, the word Needs input" -->
 <!doctype html><html><head><meta charset="utf-8"><title>Question</title></head><body>
 <main class="af-stack af-stack--block" style="padding:24px;max-width:1120px">
   <div class="af-grid af-grid--2" style="gap:28px 24px;align-items:start">
@@ -74,5 +74,33 @@
       </div>
     </section>
   </div>
+  <section class="af-stack">
+    <span class="af-lbl">In a narrow place<span class="af-lbl__sub">a docked panel or a phone, 320 px: Needs input drops under the label, whole</span></span>
+    <div style="width:320px;max-width:100%">
+      <article class="af-card af-card--lit af-question" aria-labelledby="q3">
+        <div class="af-card__top">
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5L3.5 6.25V13.75L10 17.5L16.5 13.75V6.25"/><path d="M9.25 9.25h1.5v1.5h-1.5z"/></svg>Question<span class="af-lbl__sub">HGR-3MX9</span><span class="af-lbl__sub">turn 12</span></span>
+          <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs input</span>
+        </div>
+        <p class="af-question__q" id="q3">Open the PR against main or staging?</p>
+        <p class="af-question__ctx">The ticket says <code>main</code>; the last three PRs from this repo went to <code>staging</code> first.</p>
+        <div class="af-question__opts" role="group" aria-label="Options">
+          <button type="button" class="af-chip af-chip--mono" aria-pressed="false">main</button>
+          <button type="button" class="af-chip af-chip--mono" aria-pressed="true">staging</button>
+        </div>
+        <label class="af-field af-question__free">
+          <span class="af-field__label">Or answer in your own words</span>
+          <span class="af-input af-input--area af-input--sans"><textarea rows="2" placeholder="Free text dismisses the options"></textarea></span>
+        </label>
+        <div class="af-question__act">
+          <span class="af-meta">
+            <span class="af-meta__item"><span class="af-meta__key">asked</span><span class="af-meta__val">2 min ago</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">while</span><span class="af-meta__val">holding the turn</span></span>
+          </span>
+          <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10h12"/><path d="M11.5 5.5 16 10l-4.5 4.5"/></svg>Answer</button>
+        </div>
+      </article>
+    </div>
+  </section>
 </main>
 </body></html>

@@ -47,6 +47,10 @@ A question card is an agent asking a person: the question, the context it has, t
 | Free text | `af-question__free` | An `af-field` with `af-input af-input--area af-input--sans`. |
 | Action | `af-question__act` | Keyed facts left, the one primary right. |
 
+In a narrow place (a docked panel or a phone, 320 px) the head wraps so "Needs input" drops under the label, whole; the
+sub `turn 7` gives way before the tail number, and the action row puts Answer under the keyed facts. The preview's last card
+shows it at 320 px; nothing in product CSS is needed.
+
 ## When to use
 - A session or job where the agent stopped to ask (Devin's `waiting_for_user`, Linear's `elicitation`, LangGraph's `respond`): hangar's sessions page, a Tower run, a chat card.
 - Not for a yes or no on a held action; that is an ApprovalCard. Not for a free-form steer while the agent runs; that is a Composer.

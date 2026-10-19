@@ -4,6 +4,7 @@ Labels are small tracked DM Mono capitals in `fg-muted` that name a card, panel 
 - One or two words in sentence or lower case; the CSS sets capitals and 0.08em tracking.
 - Optionally a sub: a count, region, ID or time window.
 - Optionally a leading icon; inside a label it is 14 px in `fg-muted`.
+- Where the label is narrower than its place, the word stays whole and the sub ellipsizes as a last resort (a later sub before the first, so an ID outlasts `turn 7`); the full text stays in the DOM. In a card head the row wraps first (see Card).
 
 ## Markup
 ```html
