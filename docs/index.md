@@ -4,7 +4,8 @@ hide:
   - toc
 ---
 
-<div class="af-hero" markdown>
+<div class="af-hero af-hero--visual" markdown>
+<div markdown>
 <span class="af-eyebrow">Agent factory · team tooling</span>
 
 # Hand work to cloud coding agents and keep every change reviewable
@@ -12,6 +13,11 @@ hide:
 <p class="af-lede">Tools that let a team of six engineers run about sixty agent sessions at once. A team harness repo defines what the agents run, hangar runs them, flightdeck judges the runs, Tower governs risky decisions, and every change still leaves through a reviewed pull request.</p>
 
 [See how it fits](how-it-fits.md){ .md-button .md-button--primary } [Open the deck](deck.md){ .md-button }
+</div>
+<figure class="af-hero__visual">
+<a href="assets/captures/hangar-fleet.png"><img src="assets/captures/hangar-fleet.png" alt="hangar's Fleet board: ten sandbox tiles in the checkout-python pool, one marked Needs you and selected, with the agent's question in the detail panel beside it" width="1440" height="900"></a>
+<figcaption>hangar's Fleet, from its demo: ten agents, one needs you</figcaption>
+</figure>
 </div>
 
 <div class="af-tools">

@@ -16,3 +16,9 @@ Runs coding agents in isolated cloud sandboxes, from a ticket to a landed PR.
 | Docs site | Live: [sean-koval.github.io/hangar](https://sean-koval.github.io/hangar/) |
 
 [Docs site](https://sean-koval.github.io/hangar/){ .md-button .md-button--primary } [Repository](https://github.com/Sean-Koval/hangar){ .md-button }
+
+<figure class="af-figure">
+<a href="../assets/captures/hangar-needs-you.png"><img src="../assets/captures/hangar-needs-you.png" alt="hangar's Needs you view: a question card from an agent with an answer box, and draft PR #43 waiting for review" width="1440" height="900" loading="lazy"></a>
+<figcaption>Needs you, captured from hangar's demo by scripts/captures.py</figcaption>
+</figure>
+

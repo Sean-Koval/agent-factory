@@ -6,4 +6,5 @@ docs/r/
 overrides/partials/
 __pycache__/
 deck/fragment.html
+deck/captures/
 generated/

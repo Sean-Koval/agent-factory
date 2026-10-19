@@ -1,0 +1,39 @@
+{
+  "airframe": {
+    "repo": "Sean-Koval/agent-factory",
+    "commit": "a48f6da",
+    "demo": "scripts/airframe.py gallery",
+    "screens": {
+      "airframe-approvalcard": "The ApprovalCard preview from the gallery: inspect, deny with a reason, approve, quorum, waiting on others, verdicts",
+      "airframe-diff": "The Diff preview from the gallery: a greyscale diff with one failed hunk and a comment thread"
+    }
+  },
+  "captured": "2026-10-18",
+  "flightdeck": {
+    "repo": "Sean-Koval/flightdeck",
+    "commit": "49d3afa",
+    "demo": "docs/assets/build.py",
+    "screens": {
+      "flightdeck-verdict": "The report on the harness pull request: the verdict, the pins of both variants and the outcome table, from the fixture experiment"
+    }
+  },
+  "hangar": {
+    "repo": "Sean-Koval/hangar",
+    "commit": "f87d40c",
+    "demo": "docs/assets/front/demo.py",
+    "screens": {
+      "hangar-needs-you": "Needs you: a question from an agent (job on the demo's scripted agent) and draft PR #43 waiting for review",
+      "hangar-review": "Job #42's detail: the agent's summary, the composer to reply, and the change as a greyscale diff",
+      "hangar-fleet": "The Fleet board for the checkout-python pool with the sandbox that needs a person selected"
+    }
+  },
+  "tower": {
+    "repo": "Sean-Koval/tower",
+    "commit": "f23a615",
+    "demo": "server/tools/ui_tour.py",
+    "screens": {
+      "tower-desk": "Marcus's Desk: Start work (the composer, handing a task to hangar), Needs you with an approval card, the agents he signs for",
+      "tower-object": "The object page for Jira issue PAY-412: its chip, the composer about it, and the hangar release waiting for a signature"
+    }
+  }
+}

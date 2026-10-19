@@ -17,6 +17,12 @@ Tower is the team's governance plane for the coding agents hangar runs and the v
 | Status | **Shipped:** the decision API (Tower#13), signed approval events with an outbox (Tower#17), attestation receipts (Tower#18), approver ≠ requester with a low-risk self-approval rule (Tower#19), passports for `/mcp`. **Next:** passports on `/hooks` (Tower#14), the inbox feed for hangar's Slack digest (Tower#21), and a deployment next to hangar's control plane (Tower#28, #52). hangar's side of the wiring is [hangar#172](https://github.com/Sean-Koval/hangar/issues/172), [#173](https://github.com/Sean-Koval/hangar/issues/173) and [#190](https://github.com/Sean-Koval/hangar/issues/190). |
 | Docs site | Private repository (Sean-Koval/tower); docs site once public. |
 
+<figure class="af-figure">
+<a href="../assets/captures/tower-desk.png"><img src="../assets/captures/tower-desk.png" alt="Tower's Desk for an approver: Start work with the composer, a Needs you approval card for an agent creating a client ticket, and the agents the person signs for" width="1440" height="900" loading="lazy"></a>
+<figcaption>The Desk, captured from Tower's offline demo by scripts/captures.py</figcaption>
+</figure>
+
+
 ## How hangar uses Tower
 
 Hangar enforces; Tower decides. Each of hangar's enforcement points asks Tower one question and keeps doing the rest itself. An allow lets hangar go on with its own checks, never skip them, and anything that fails on the way is a wait or a deny.

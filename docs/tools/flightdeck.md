@@ -16,3 +16,9 @@ Judges harness changes with paired statistics and behavior specs over every run.
 | Docs site | Live: [sean-koval.github.io/flightdeck](https://sean-koval.github.io/flightdeck/) |
 
 [Docs site](https://sean-koval.github.io/flightdeck/){ .md-button .md-button--primary } [Repository](https://github.com/Sean-Koval/flightdeck){ .md-button }
+
+<figure class="af-figure">
+<a href="../assets/captures/flightdeck-verdict.png"><img src="../assets/captures/flightdeck-verdict.png" alt="flightdeck's report as a GitHub pull-request comment: the verdict, treat is better than control on resolved (+21.2 pp), the pins table and the outcome table" width="1440" height="900" loading="lazy"></a>
+<figcaption>The verdict on the harness PR, rendered by flightdeck's docs/assets/build.py from the fixture experiment</figcaption>
+</figure>
+
