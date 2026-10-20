@@ -43,10 +43,13 @@ import socket
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import urllib.error
 import urllib.request
 from datetime import date
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -358,14 +361,28 @@ THUMBS = ROOT / "docs" / "assets" / "airframe"          # one Night thumbnail pe
 THUMB_VIEW = {"width": 800, "height": 500}
 
 
+class _Quiet(SimpleHTTPRequestHandler):
+    def log_message(self, *args) -> None:  # noqa: D102 - keep the capture log readable
+        pass
+
+
+def _serve(root: Path) -> tuple[ThreadingHTTPServer, str]:
+    """Serve the gallery over http on a free local port: previews that import airframe.js are ES modules, which
+    Chromium will not load from file://."""
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), partial(_Quiet, directory=str(root)))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    return srv, f"http://127.0.0.1:{srv.server_address[1]}"
+
+
 def airframe(br: Browser, manifest: dict) -> None:
     """The two deck captures at 1440x900 and 2x, then a 800x500 Night thumbnail of every component's preview."""
     tmp = Path(tempfile.mkdtemp(prefix="af-gallery-"))
     try:
         subprocess.run([sys.executable, str(ROOT / "scripts" / "airframe.py"), "gallery", str(tmp)], check=True, capture_output=True)
+        srv, base = _serve(tmp)
         for comp in ("ApprovalCard", "Diff"):
             page = br.page()
-            page.goto((tmp / f"{comp}.html").as_uri() + "?theme=dark", wait_until="networkidle")
+            page.goto(f"{base}/{comp}.html?theme=dark", wait_until="networkidle")
             page.wait_for_timeout(600)
             shoot(page, f"airframe-{comp.lower()}")
             page.context.close()
@@ -374,13 +391,14 @@ def airframe(br: Browser, manifest: dict) -> None:
         for comp in names:
             ctx = br.b.new_context(viewport=THUMB_VIEW, device_scale_factor=1, color_scheme="dark")
             page = ctx.new_page()
-            page.goto((tmp / f"{comp}.html").as_uri() + "?theme=dark", wait_until="networkidle")
+            page.goto(f"{base}/{comp}.html?theme=dark", wait_until="networkidle")
             page.evaluate("document.fonts.ready")
             page.wait_for_timeout(400)
             page.add_style_tag(content=".afg-bar,.afg-spacer{display:none !important}")
             page.screenshot(path=str(THUMBS / f"{comp}.png"))
             print("captures: wrote", THUMBS / f"{comp}.png")
             ctx.close()
+        srv.shutdown()
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     manifest["airframe"] = {"repo": "Sean-Koval/agent-factory", "commit": commit(ROOT), "demo": "scripts/airframe.py gallery",
