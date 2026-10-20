@@ -13,6 +13,9 @@ html.af-drawer-open--bottom{--af-drawer-inset:var(--af-drawer-h)}
 .af-page-head__text>.af-lbl{margin-bottom:var(--af-space-4)}
 .af-page-head__title{margin:0;font-family:var(--af-font-display);font-stretch:var(--af-display-stretch);font-weight:700;font-size:36px;line-height:1.05;letter-spacing:-.005em;color:var(--af-fg);text-wrap:balance}
 .af-page-head__title .af-id{font-size:.86em;font-weight:500;letter-spacing:0;color:var(--af-fg)}
+/* the status as the subject of a headline ("Two need you"): an <em> in the title takes the approval color; the only place a
+   status colors running text (Status.md, af-status--lit) */
+.af-page-head__title em{font-style:normal;color:var(--af-status-approval)}
 .af-page-head--s .af-page-head__title{font-size:24px;line-height:1.1;letter-spacing:0}
 .af-page-head__lede{margin:0;max-width:62ch;font-size:14px;line-height:1.5;color:var(--af-fg-muted);text-wrap:pretty}
 .af-page-head--s .af-page-head__lede{font-size:13.5px}
@@ -61,16 +64,18 @@ html.af-drawer-open--bottom{--af-drawer-inset:var(--af-drawer-h)}
 .af-toast__msg b{font-family:var(--af-font-mono);font-weight:500;font-size:12.5px;letter-spacing:.01em}
 .af-toast__act{flex:none;margin-left:auto}
 .af-toast:not(:has(.af-toast__act)){padding-right:14px}
+.af-toast{animation:af-rise var(--af-dur-open) var(--af-ease-open)}
 .af-toast.is-leaving{opacity:0;transition:opacity var(--af-dur) var(--af-ease)}
+@keyframes af-rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 /* in flow, for documentation and previews */
 .af-toasts--inline{position:static;transform:none;width:auto;max-width:none;align-items:flex-start;pointer-events:auto}
 
 /* ---- dialog: a <dialog> with title-m, body, and a footer in inspect / refuse / accept order. A confirm replaces window.confirm():
    the confirming button is primary, or danger when the action destroys something. The scrim is the ::backdrop. ---- */
-.af-dialog{width:min(480px,calc(100vw - 32px));max-width:none;max-height:calc(100vh - 64px);margin:auto;padding:0;border:0;border-radius:var(--af-radius-card);background:var(--af-raised);color:var(--af-fg);overflow:hidden}
+.af-dialog{width:min(480px,calc(100vw - 32px));max-width:none;max-height:calc(100vh - 64px);margin:auto;padding:0;border:0;border-radius:var(--af-radius-sheet);background:var(--af-lifted);color:var(--af-fg);overflow:hidden;box-shadow:inset 0 1px 0 var(--af-edge-hi),var(--af-shadow-2)}
 .af-dialog--wide{width:min(640px,calc(100vw - 32px))}
 /* in flow, for documentation and previews (not modal, so it does not inhibit toasts) */
-.af-dialog--inline{position:static;margin:0;width:auto;max-width:480px}
+.af-dialog--inline{position:static;margin:0;width:auto;max-width:480px;box-shadow:inset 0 1px 0 var(--af-edge-hi),var(--af-shadow-1)}
 .af-dialog::backdrop{background:color-mix(in srgb,var(--af-canvas) 72%,transparent)}
 .af-dialog__form{display:flex;flex-direction:column;max-height:calc(100vh - 64px);min-width:0}
 .af-dialog__head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--af-space-12);padding:var(--af-space-20) var(--af-space-20) 0}
@@ -89,10 +94,12 @@ html.af-drawer-open--bottom{--af-drawer-inset:var(--af-drawer-h)}
    Open with the is-open class (airframe.js adds Escape, focus return and an inert page). ---- */
 .af-scrim{position:fixed;inset:0;z-index:var(--af-z-scrim);background:color-mix(in srgb,var(--af-canvas) 72%,transparent)}
 .af-scrim:not(.is-open){display:none}
-.af-drawer{position:fixed;z-index:var(--af-z-drawer);display:flex;flex-direction:column;min-width:0;background:var(--af-raised);color:var(--af-fg);outline:0}
+.af-drawer{position:fixed;z-index:var(--af-z-drawer);display:flex;flex-direction:column;min-width:0;background:var(--af-lifted);color:var(--af-fg);outline:0;box-shadow:var(--af-shadow-2)}
 .af-drawer:not(.is-open){display:none}
-.af-drawer--right{top:0;right:0;bottom:0;width:min(var(--af-drawer-w),100vw);border-left:1px solid var(--af-line)}
-.af-drawer--bottom{left:0;right:0;bottom:0;height:var(--af-drawer-h);border-top:1px solid var(--af-line)}
+.af-drawer--right{top:0;right:0;bottom:0;width:min(var(--af-drawer-w),100vw);border-left:1px solid var(--af-line);animation:af-slide-right var(--af-dur-open) var(--af-ease-open)}
+.af-drawer--bottom{left:0;right:0;bottom:0;height:var(--af-drawer-h);border-top-left-radius:var(--af-radius-sheet);border-top-right-radius:var(--af-radius-sheet);animation:af-slide-up var(--af-dur-open) var(--af-ease-open)}
+@keyframes af-slide-right{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+@keyframes af-slide-up{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
 .af-drawer__head{display:flex;align-items:center;gap:var(--af-space-12);flex:none;min-height:var(--af-header-h);padding:0 var(--af-space-12) 0 var(--af-space-20);border-bottom:1px solid var(--af-line-subtle);min-width:0}
 .af-drawer--bottom .af-drawer__head{min-height:40px;padding-left:var(--af-space-16)}
 .af-drawer__title{flex:1;min-width:0;margin:0;font-family:var(--af-font-sans);font-weight:600;font-size:16px;line-height:1.35;letter-spacing:-.005em;color:var(--af-fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -102,7 +109,7 @@ html.af-drawer-open--bottom{--af-drawer-inset:var(--af-drawer-h)}
 .af-drawer--bottom .af-drawer__body{padding:0}
 .af-drawer__foot{display:flex;align-items:center;justify-content:flex-end;gap:var(--af-space-8);flex:none;flex-wrap:wrap;padding:var(--af-space-12) var(--af-space-20);border-top:1px solid var(--af-line-subtle)}
 .af-drawer__foot>.af-btn--ghost:first-child{margin-right:auto}
-.af-drawer__grip{position:absolute;left:50%;top:-1px;width:40px;height:3px;margin-left:-20px;background:var(--af-line-strong);cursor:row-resize}
+.af-drawer__grip{position:absolute;left:50%;top:6px;width:36px;height:4px;margin-left:-18px;border-radius:2px;background:var(--af-line-strong);cursor:row-resize}
 @media (max-width:760px){.af-drawer--right{width:100vw;border-left:0}}
 
 /* Forced colors: the floating surfaces keep their edges, the scrim stays a scrim */

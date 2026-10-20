@@ -1,4 +1,4 @@
-Product marks are outline tiles (1 px `line-strong`, 2 px radius) with a stroke glyph in the product hue; the hue appears nowhere else except docs headers and the 2 px marker under the active nav tab.
+Product marks are outline tiles (1 px `line-strong`, `radius-control`) with a stroke glyph in the product hue; the hue appears nowhere else except docs headers and the 2 px marker under the active nav tab.
 
 ## You provide
 - The product: `airframe`, `hangar`, `flightdeck`, `tower`, `aidlc` or `spaceport`, as an `af-hue--<product>` class (`af-hue--workspace` still works for Tower). It sets `--pc`, which the mark and the nav marker read.

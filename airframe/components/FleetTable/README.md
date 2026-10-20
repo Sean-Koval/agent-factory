@@ -1,4 +1,4 @@
-The fleet table lists sandboxes in dense 32 px rows on a tonal panel: tail number, environment, harness and model, status, a CPU micro-bar, age and cost, with an unfilled header, an attention tint for rows that need a person, and a brand edge on the selected row.
+The fleet table lists sandboxes in dense 32 px rows on a tonal panel: tail number, environment, harness and model, status, a CPU micro-bar, age and cost, with an unfilled header, a 3px status edge on rows that need a person, and a neutral `fg` edge on the selected row.
 
 ## You provide
 - Rows of sandboxes: tail number, environment, harness, model, status, CPU (or — when not running), age as `hh:mm:ss`, cost.
@@ -36,14 +36,14 @@ The fleet table lists sandboxes in dense 32 px rows on a tonal panel: tail numbe
 | Secondary text after a value | `af-table__sub` (`fg-subtle`, 8 px gap) |
 | Numeric column | `af-num` on `th` and `td` |
 | CPU micro-bar | `af-cpu` › `af-cpu__bar` › `<b style="width:N%">` + `af-cpu__val` |
-| Attention row | `tr.is-attention` (7% `status-approval` tint) |
-| Selected row | `tr.is-selected` or `tr[aria-selected="true"]` (`selected` ground, 2 px `brand-text` edge) |
+| Attention row | `tr.is-attention` (3px `status-approval` edge on the first cell; the row stays untinted) |
+| Selected row | `tr.is-selected` or `tr[aria-selected="true"]` (`selected` ground, 2 px `fg` edge; an attention row keeps its orange edge) |
 | Compact (28 px) | `af-table--compact` |
 
 ## Do
 - Right-align every number and set it in mono with tabular figures.
-- Keep the header unfilled: `fg-subtle` mono capitals on a `line` rule.
-- Tint only the rows that need a person. Failed and denied rows carry their status mark, not a tint.
+- Keep the header unfilled: `fg-subtle` sentence-case `label-s` on a `line` rule.
+- Edge only the rows that need a person; never tint a row. Failed and denied rows carry their status mark.
 
 ## Don't
 - Don't zebra-stripe, fill the header, or draw vertical rules.

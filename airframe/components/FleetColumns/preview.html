@@ -44,7 +44,7 @@
     var w = r[9] || WORD[r[2]];
     var act = r[8] ? '<p class="af-bay__note">' + r[8] + '</p><div><button type="button" class="af-btn af-btn--' + r[11] + ' af-btn--sm">' + r[10] + '</button></div>' : '';
     return '<article class="af-mini af-mini--' + r[2] + '" aria-label="HGR-' + r[0] + ', ' + w + '">'
-      + '<div class="af-mini__top"><b>HGR-' + r[0] + '</b><span>' + ENVS[r[1]] + '</span></div>'
+      + '<div class="af-mini__top"><b>' + (r[2] === 'approval' || r[2] === 'failed' || r[2] === 'denied' ? '<span class="af-status af-status--' + r[2] + '" title="' + w + '"><i class="af-status__mark"></i>' + (r[2] === 'denied' ? '' : '') + '</span> ' : '') + 'HGR-' + r[0] + '</b><span>' + ENVS[r[1]] + '</span></div>'
       + '<p class="af-mini__title">' + r[4] + '</p>'
       + '<span class="af-stand__pips" aria-hidden="true">' + pips(r[3]) + '</span>'
       + '<div class="af-mini__top"><span>' + r[5] + ' · ' + r[6] + '</span><span>' + age(r[7]) + '</span></div>' + act + '</article>';

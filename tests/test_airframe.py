@@ -131,8 +131,22 @@ class ContrastTests(unittest.TestCase):
         viz = (af.SRC / "styles" / "viz.css").read_text()
         seg = re.search(r"\.af-track__seg\{([^}]*)\}", viz).group(1)
         self.assertIn("color:var(--af-fg-subtle)", seg)
-        self.assertIn("font-size:10px", seg)
+        self.assertIn("font-size:11px", seg)  # label-s is 11 px sentence-case sans since theme-v12
         self.assertNotIn("fg-dim", seg)
+
+    def test_lifted_surface_and_status_edges(self):
+        """theme-v12: text keeps 4.5:1 on the lifted sheet; every status edge keeps 3:1 (a UI part) on raised and lifted."""
+        for fg in ("fg", "fg-muted", "fg-subtle", "status-approval", "status-failed"):
+            self.assertContrast(fg, 4.5, grounds=("lifted",))
+        for edge in ("status-approval", "status-failed", "status-denied"):
+            self.assertContrast(edge, 3, grounds=("raised", "lifted"))
+        self.assertContrast("rail-done", 3, grounds=("rail", "raised", "lifted"))
+
+    def test_no_status_wash_and_selection_is_neutral(self):
+        """Attention is edge, mark, word: no status color is mixed into a surface, and brand-wash is not used."""
+        css = "\n".join(af.strip_css((af.SRC / "styles" / n).read_text()) for n in af.STYLES)
+        self.assertNotRegex(css, r"color-mix\([^)]*status-", "a status is never mixed into a surface")
+        self.assertNotIn("brand-wash", css, "brand-wash is deprecated; selection is neutral")
 
     def test_brand_is_never_a_status(self):
         for theme, v in THEMES.items():
@@ -178,7 +192,7 @@ class ForcedColorsTests(unittest.TestCase):
         base = forced_block((af.SRC / "styles" / "base.css").read_text())
         viz = forced_block((af.SRC / "styles" / "viz.css").read_text())
         self.assertIn(".af-status__mark{background:CanvasText}", base)
-        self.assertRegex(base, r"\.af-card--lit\{outline")
+        self.assertRegex(base, r"\.af-card--lit[^{]*\{border-left:3px solid CanvasText", "the status edge survives as a border")
         for cls in (".af-stand__mark", ".af-lane-mark--fail", ".af-lane-mark--deny"):
             self.assertIn(cls, viz)
         core = forced_block((af.SRC / "styles" / "core.css").read_text())
@@ -201,7 +215,7 @@ class ForcedColorsTests(unittest.TestCase):
         for cls in ("af-chip", "af-obj", "af-tag"):
             rule = re.search(rf"^\.{cls}\{{([^}}]*)\}}", css, re.M)
             self.assertIsNotNone(rule, cls)
-            self.assertIn("radius-control", rule.group(1), f".{cls} keeps the 2px radius; there are no pills")
+            self.assertIn("radius-control", rule.group(1), f".{cls} keeps the control radius; there are no pills")
 
 
 class ExportTests(unittest.TestCase):

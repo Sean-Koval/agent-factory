@@ -2,6 +2,8 @@
 
 The fleet by person: people down the side, environments across, each person's sandboxes as stand tiles in the cells, with their share of the per-person cap and what they spent today.
 
+> **Default pair (theme-v12).** hangar's Fleet keeps two views over one data model: **List** (AgentRow) and **Board** (AgentCard), with the DecisionDeck above them and Owners as a filter rather than a view. FleetOwners stays in Airframe for other consoles and inherits the same neutral tile and 3px status edge; reach for List/Board first.
+
 ## What you provide
 
 - **Columns**: environments, each with its icon (`environment`, or `gpu`) and sandbox count. Set `--af-owners-cols` on `.af-owners__row` when there are not four.

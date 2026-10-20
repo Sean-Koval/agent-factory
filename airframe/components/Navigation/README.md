@@ -1,4 +1,4 @@
-The app header is 56 px on the canvas with a hairline below: a product switcher (mark, name, chevrons), mono capital tabs with icons and a 2 px product-hue marker under the active one, a ⌘K search and an avatar; a breadcrumb row sits under it on detail pages.
+The app header is 56 px on the canvas with a hairline below: a product switcher (mark, name, chevrons), sentence-case tabs with icons, a mono count (the Needs-you count is the orange `af-nav__badge` while above zero) and a 2 px product-hue marker under the active one, a ⌘K search and an avatar; a breadcrumb row sits under it on detail pages.
 
 ## You provide
 - The product, as `af-hue--<product>` on the header. It colors the active-tab marker.

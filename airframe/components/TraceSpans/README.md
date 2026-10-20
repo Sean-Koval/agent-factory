@@ -51,7 +51,7 @@ One agent turn as a span tree on a timeline: kinds told apart by fill and outlin
 | Waiting on a human | `af-span--wait af-span--open` | orange hatching, open arrow at the right edge; duration in orange |
 | Failed | `af-span--failed` + `af-trace__row--failed` | red outline with a triangle after it; duration in red |
 | Critical path | `af-trace__path` | continuous 1.5 px `brand-text` line |
-| Selected | `aria-pressed="true"` on the row | `brand-wash` row, icon in `brand-text` |
+| Selected | `aria-pressed="true"` on the row | `selected` row with a 2px `fg` edge, icon in `fg` |
 
 Depth: `af-trace__row--d1..d3` indents 16 px a level and draws the tree elbow. Add `af-span--key` to draw a legend swatch from the same class.
 
