@@ -1,5 +1,5 @@
 /*
-  Airframe theme-v9 tokens. Generated from airframe/tokens.json by scripts/airframe.py; do not edit.
+  Airframe theme-v10 tokens. Generated from airframe/tokens.json by scripts/airframe.py; do not edit.
   Change a value in airframe/tokens.json, run `python3 scripts/airframe.py build`, and add a
   theme/CHANGELOG.md entry. Tool repos vendor this file unmodified (scripts/sync-airframe.sh).
 
@@ -27,7 +27,7 @@
   --af-selected: #1F1F1F;
   --af-brand: #FFC400;
   --af-brand-hover: #FFD23F;
-  --af-brand-wash: rgba(255,196,0,0.12);
+  --af-brand-wash: rgba(255,196,0,0.10);
   --af-on-brand: #111213;
   --af-brand-text: #FFC400;
   --af-brand-line: #FFC400;

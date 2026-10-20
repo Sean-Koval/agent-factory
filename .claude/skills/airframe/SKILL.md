@@ -81,6 +81,7 @@ component contracts in `airframe/components/*.md` before writing markup.
 | FleetView | Fleet | Pools of `af-stand` tiles, switchable to session lanes; the whole fleet at a glance. |
 | SessionLanes | Fleet | One row per agent session over the last 60 minutes: stages, waits, outcomes. |
 | Hero | Marketing | Display headline, lede, two actions and a display-window panel over the dot field. |
+| Cover | Gallery | The gallery's 960×320 cover art, tokens only (tiles in brand, fg and the stage greys); not a part for product UI. |
 
 ## Helpers (airframe.js, optional)
 

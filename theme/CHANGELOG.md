@@ -5,6 +5,37 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v10 · 2026-10-19
+
+The suite strip and the stage track read at every size, in both themes, from the suite audit (KAN-48, KAN-113, KAN-73,
+KAN-34). One token value changes: `brand-wash` (Night). No class is added or renamed.
+
+- `brand-wash` (Night): `rgba(255,196,0,0.12)` → `rgba(255,196,0,0.10)`. The selected trace row sits on `raised`, and
+  `status-failed` on the old tint measured 4.42:1 at 11.5 px; on the new one it is 4.67:1, so the duration a person reads on
+  the critical path is AA. Day is unchanged (5.14:1). Selection in lanes and traces is a touch quieter in Night.
+- `airframe-suite.html` (the strip's list): it now tells the suite story the deck tells. The four planes in order, Define =
+  **Team harness** (links the team-harness repository), Run = hangar, Judge = flightdeck, Govern = Tower, then ai-dlc as
+  **Setup** (it was labelled Define) and Airframe as Design. `extra.airframe.product` gains the value `team-harness`.
+- `airframe-docs.css`:
+  - `.af-suite__list small` and `.af-tool small`: `opacity: 1`. Material sets `.md-typeset small { opacity: .75 }`, which
+    pulled the role words from `fg-subtle` (6.1:1 Night, 5.2:1 Day) down to 3.7:1 and 3.2:1; they are `fg-subtle` again.
+  - Under 960 px the strip scrolls with `scroll-snap-type: x proximity` (each item snaps to the start), a right-edge fade
+    on `.md-banner__inner::after` says there is more, and a spacer after the last item lets it scroll clear of the fade.
+    Nothing is cut mid-word any more. Under 480 px the role words go and the strip shows product names only.
+  - Forced colors: the fade is off.
+- `airframe-components.css`:
+  - `af-track__seg`: every stage word is `label-s` (10 px) in `fg-subtle`; a reached stage is `fg-muted`, the current one
+    `fg`. The words not yet reached were 9.5 px `fg-dim` (3.1:1 Night, 2.5:1 Day); the brand book keeps `fg-dim` for
+    separators and disabled marks. The pips are unchanged: `rule`, then `fg-subtle`, then `fg`.
+- Gallery (`scripts/airframe.py gallery`): rows wrap their one-line description instead of ellipsizing it, and the five
+  longest descriptions (ApprovalCard, Diff, Drawer, EmptyState, ObjectChip) are at most twelve words.
+- Brand (`scripts/banners.py`, `brand/`): the eyebrows say `Agent factory · Run | Judge | Govern | Setup | Capability`,
+  without the word "plane", which collided with flightdeck's data plane; the banner strip is the four planes with the team
+  harness under Define, then Setup (ai-dlc) and Capability (Spaceport); the role words in the strip are `fg-subtle`, not
+  `fg-dim`.
+- Registry docs: the pinned install commands are generated from the newest `theme-vN`, like the header badge; the Airframe
+  skill lists Cover and the test no longer exempts it.
+
 ## theme-v9 · 2026-10-19
 
 Card heads and decisions that fit a narrow place, from hangar's quality pass (hangar #312): in the docked Fleet panel the

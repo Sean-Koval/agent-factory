@@ -1,10 +1,10 @@
 {
-  "$description": "Airframe theme-v9, Night theme, in the Design Tokens Format Module 2025.10. Generated from airframe/tokens.json by scripts/airframe.py; do not edit. Each token's 'css' extension names its CSS custom property or class.",
+  "$description": "Airframe theme-v10, Night theme, in the Design Tokens Format Module 2025.10. Generated from airframe/tokens.json by scripts/airframe.py; do not edit. Each token's 'css' extension names its CSS custom property or class.",
   "$extensions": {
     "io.github.sean-koval.airframe": {
       "theme": "dark",
       "themeName": "Night",
-      "release": "theme-v9",
+      "release": "theme-v10",
       "defaultTheme": "dark",
       "prefix": "--af-",
       "format": "https://www.designtokens.org/tr/drafts/format/"
@@ -276,9 +276,9 @@
           0.0
         ],
         "hex": "#FFC400",
-        "alpha": 0.12
+        "alpha": 0.1
       },
-      "$description": "Selected span or row tint behind brand-marked content.",
+      "$description": "Selected span or row tint behind brand-marked content. Light enough on raised that status-failed text on the selected row keeps 4.5:1.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-brand-wash"
