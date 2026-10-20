@@ -1,5 +1,5 @@
 /*
-  Airframe theme-v11 for Tailwind CSS v4. Generated from airframe/tokens.json by scripts/airframe.py; do not edit.
+  Airframe theme-v12 for Tailwind CSS v4. Generated from airframe/tokens.json by scripts/airframe.py; do not edit.
   Load after Tailwind and the tokens (airframe.css: the --af- tokens, Night and Day):
     @import "tailwindcss";
     @import "./airframe/airframe.css";
@@ -19,6 +19,8 @@
   --color-surface: var(--af-surface);
   --color-raised: var(--af-raised);
   --color-overlay: var(--af-overlay);
+  --color-lifted: var(--af-lifted);
+  --color-edge-hi: var(--af-edge-hi);
   --color-line-subtle: var(--af-line-subtle);
   --color-line: var(--af-line);
   --color-line-strong: var(--af-line-strong);
@@ -61,6 +63,9 @@
   --color-stage-plan: var(--af-stage-plan);
   --color-stage-edit: var(--af-stage-edit);
   --color-stage-test: var(--af-stage-test);
+  --color-rail: var(--af-rail);
+  --color-rail-done: var(--af-rail-done);
+  --color-rail-glow: var(--af-rail-glow);
   --color-readout-cell: var(--af-readout-cell);
   --color-display-window: var(--af-display-window);
   --color-dot-field: var(--af-dot-field);
@@ -112,14 +117,14 @@
   --text-body-s: 13px;
   --text-body-s--line-height: 1.45;
   --text-body-s--font-weight: 400;
-  --text-label: 11px;
-  --text-label--line-height: 1;
+  --text-label: 12px;
+  --text-label--line-height: 1.2;
   --text-label--font-weight: 500;
-  --text-label--letter-spacing: 0.08em;
-  --text-label-s: 10px;
-  --text-label-s--line-height: 1;
+  --text-label--letter-spacing: 0;
+  --text-label-s: 11px;
+  --text-label-s--line-height: 1.2;
   --text-label-s--font-weight: 500;
-  --text-label-s--letter-spacing: 0.09em;
+  --text-label-s--letter-spacing: 0;
   --text-mono: 13px;
   --text-mono--line-height: 1.5;
   --text-mono--font-weight: 400;
@@ -136,8 +141,15 @@
   --radius-none: var(--af-radius-none);
   --radius-control: var(--af-radius-control);
   --radius-card: var(--af-radius-card);
+  --radius-sheet: var(--af-radius-sheet);
   --radius-round: var(--af-radius-round);
+  --shadow-1: var(--af-shadow-1);
+  --shadow-2: var(--af-shadow-2);
   --shadow-overlay: var(--af-shadow-overlay);
+
+  /* motion: ease-airframe, ease-open; durations are the --af-dur* tokens (duration-[var(--af-dur-open)]) */
+  --ease-airframe: var(--af-ease);
+  --ease-open: var(--af-ease-open);
 
   /* layout: max-w-page, h-header, h-row, h-row-compact, h-lane, h-span */
   --container-page: var(--af-container-max);

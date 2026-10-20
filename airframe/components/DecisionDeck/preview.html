@@ -1,0 +1,134 @@
+<!-- @dsCard group="Governance" height=1180 subtitle="One decision at a time: the soonest to expire on top, the next two peeking, n of N, previous and next, an up-next list; approve, deny with a reason, answer, retry, acknowledge, inline" -->
+<!doctype html>
+<html><head><meta charset="utf-8"><title>DecisionDeck</title></head>
+<body>
+<main class="af-stack af-stack--block" style="padding:24px">
+  <section class="af-stack"><span class="af-lbl">Needs you<span class="af-lbl__sub">4 decisions</span></span>
+  <section class="af-deck" aria-label="Needs you" id="deck-a"></section></section>
+  <section class="af-stack"><span class="af-lbl">Deny needs a reason</span>
+  <section class="af-deck" aria-label="Needs you, denying" id="deck-b"></section></section>
+  <section class="af-stack"><span class="af-lbl">The other decisions<span class="af-lbl__sub">laid out as a column: answer, retry or start over, acknowledge, a verdict</span></span>
+  <div class="af-grid af-grid--2" id="deck-col" style="align-items:start"></div></section>
+  <section class="af-stack"><span class="af-lbl">Empty: nothing waits</span>
+  <section class="af-deck" aria-label="Needs you, empty"><div class="af-deck__stack"><div class="af-empty af-empty--compact af-deck__empty"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><div class="af-empty__body"><h3 class="af-empty__title">Nothing waits on you.</h3><p class="af-empty__text">17 agents running, 3 queued. You will hear when one needs you.</p></div></div></div>
+    <aside class="af-deck__side"><h2 class="af-deck__title">Needs you</h2><p>Decisions stack here, soonest to expire on top.</p></aside></section></section>
+</main>
+<script type="module">
+import { expand, deck, roving } from "./airframe.js";
+
+const IC = {
+  chev: '<path d="M8 5l5 5-5 5"/>', back: '<path d="M12 5l-5 5 5 5"/>', check: '<path d="M4 10.5l4 4 8-9"/>', close: '<path d="M5 5l10 10M15 5 5 15"/>',
+  fork: '<circle cx="6" cy="4.5" r="1.75"/><circle cx="14" cy="4.5" r="1.75"/><circle cx="10" cy="15.5" r="1.75"/><path d="M6 6.25V7.5c0 1.5 1 2.5 2.5 2.5h3c1.5 0 2.5-1 2.5-2.5V6.25M10 10v3.75"/>',
+  snapshot: '<path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/><circle cx="10" cy="10" r="2.5"/>', pause: '<path d="M7 4v12M13 4v12"/>',
+  terminal: '<rect x="2.5" y="3.5" width="15" height="13"/><path d="M6 8l2.5 2L6 12M10.5 12.5H14"/>', agent: '<path d="M10 2.5L3.5 6.25V13.75L10 17.5L16.5 13.75V6.25"/><path d="M9.25 9.25h1.5v1.5h-1.5z"/>',
+  log: '<path d="M3 4.5h14M3 8.5h14M3 12.5h9M3 16.5h11"/>', duration: '<circle cx="10" cy="11" r="6.5"/><path d="M10 11V7.5M8 2.5h4M15.2 5.8l1.3-1.3"/>',
+  environment: '<path d="M10 3l7 3.5-7 3.5-7-3.5z"/><path d="M3 10l7 3.5 7-3.5"/><path d="M3 13.5 10 17l7-3.5"/>', retry: '<path d="M16.5 10A6.5 6.5 0 1 1 14.6 5.4"/><path d="M15.5 2.5v3.5H12"/>',
+};
+const ic = (n, cls = "") => `<svg class="af-ic ${cls}" viewBox="0 0 20 20" aria-hidden="true">${IC[n]}</svg>`;
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+const STAGES = ["Plan", "Edit", "Test", "PR"];
+const PEOPLE = { sean: ["SK", "Sean", "Sean Koval"], priya: ["PN", "Priya", "Priya Nair"], marco: ["MO", "Marco", "Marco Oduya"], lena: ["LF", "Lena", "Lena Fischer"], dana: ["DW", "Dana", "Dana Whitfield"] };
+const WORD = { running: "Running", queued: "Queued", approval: "Needs approval", input: "Needs input", failed: "Failed", denied: "Denied", off: "Spun down" };
+const roleOf = (a) => (a.role === "input" ? "approval" : a.role);
+const mod = (a) => (a.role === "approval" || a.role === "input" ? "approval" : a.role === "failed" ? "failed" : a.role === "denied" ? "denied" : "");
+const mark = (a) => `<span class="af-status af-status--${roleOf(a)}" aria-hidden="true"><i class="af-status__mark"></i></span>`;
+const stWord = (a) => `<span class="af-status af-status--${roleOf(a)}"><i class="af-status__mark"></i>${WORD[a.role]}</span>`;
+const per = (id, size = 22) => `<span class="af-avatar af-avatar--person af-avatar--${size}" title="${PEOPLE[id][2]}" aria-hidden="true"><span>${PEOPLE[id][0]}</span></span>`;
+const hex = (h, size = 22) => `<span class="af-avatar af-avatar--agent af-avatar--${size}" title="${h}" aria-hidden="true"><span>${h === "codex" ? "cx" : "cc"}</span></span>`;
+const money = (n) => `$${n.toFixed(2)}`;
+const dur = (s) => (s < 60 ? `${Math.round(s)} s` : s < 3600 ? `${Math.round(s / 60)} min` : `${Math.floor(s / 3600)} h ${Math.round((s % 3600) / 60)} min`);
+const ago = (s) => (s < 5 ? "now" : s < 60 ? `${Math.round(s)} s` : s < 3600 ? `${Math.round(s / 60)} min` : `${(s / 3600).toFixed(1)} h`);
+const wall = (t) => { const s = 14 * 3600 + 32 * 60 - t, h = Math.floor(((s % 86400) + 86400) % 86400 / 3600), m = Math.floor((s % 3600) / 60); return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`; };
+function rail(a, labels = false, w = 0) {
+  const m = mod(a) ? ` af-rail--${mod(a)}` : "", ws = w ? `width:${w}px;` : "";
+  if (a.stage == null) return `<span class="af-rail af-rail--none" aria-hidden="true"${w ? ` style="${ws}"` : ""}><i class="af-rail__track"></i>${"<b class=\"af-rail__stop\"></b>".repeat(4)}</span>`;
+  const p = Math.min(100, (a.stage + a.pct) * 33.333);
+  return `<span class="af-rail${m}${labels ? " af-rail--labeled" : ""}" role="img" aria-label="${STAGES[a.stage]} stage, ${Math.round(a.pct * 100)}%" style="${ws}--p:${p.toFixed(1)}%"><i class="af-rail__track"></i><i class="af-rail__done"></i>${[0, 1, 2, 3].map((i) => `<b class="af-rail__stop${i * 33.333 <= p ? " is-on" : ""}"></b>`).join("")}${labels ? STAGES.map((s) => `<span class="af-rail__lab">${s}</span>`).join("") : ""}<i class="af-rail__head"></i></span>`;
+}
+function ring(a) {
+  const r = 12, C = 2 * Math.PI * r, seg = C / 4, gap = 3.2, len = seg - gap, m = mod(a) ? ` af-ring--${mod(a)}` : "";
+  if (a.stage == null) return `<svg class="af-ring af-ring--none" viewBox="0 0 30 30" aria-hidden="true"><circle class="af-ring__track" cx="15" cy="15" r="${r}"/></svg>`;
+  const arcs = STAGES.map((s, i) => { const off = -i * seg + gap / 2, fill = i < a.stage ? len : i === a.stage ? len * a.pct : 0;
+    return `<circle class="af-ring__track" cx="15" cy="15" r="${r}" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${off}" transform="rotate(-90 15 15)"/>${fill ? `<circle class="af-ring__fill" cx="15" cy="15" r="${r}" stroke-dasharray="${fill} ${C - fill}" stroke-dashoffset="${off}" transform="rotate(-90 15 15)"/>` : ""}`; }).join("");
+  return `<svg class="af-ring${m}" viewBox="0 0 30 30" role="img" aria-label="${STAGES[a.stage]} stage">${arcs}<text x="15" y="18">${STAGES[a.stage] === "PR" ? "PR" : STAGES[a.stage][0]}</text></svg>`;
+}
+function capsule(a, w = 0) {
+  const ws = w ? ` style="width:${w}px"` : "";
+  if (a.stage == null) return `<span class="af-capsule af-capsule--none" aria-hidden="true"${ws}>${"<i class=\"af-capsule__seg\"></i>".repeat(4)}</span>`;
+  return `<span class="af-capsule${mod(a) ? ` af-capsule--${mod(a)}` : ""}" role="img" aria-label="Stage ${STAGES[a.stage]}"${ws}>${STAGES.map((s, i) => `<i class="af-capsule__seg${i < a.stage ? " is-done" : i === a.stage ? " is-now" : ""}" style="--p:${i === a.stage ? Math.round(a.pct * 100) : 0}%"></i>`).join("")}</span>`;
+}
+function spark(a, w = 84, h = 20) {
+  const m = Math.max(1, ...a.spark), pts = a.spark.map((v, i) => `${(i / 11 * (w - 2) + 1).toFixed(1)},${(h - 1 - (v / m) * (h - 3)).toFixed(1)}`).join(" ");
+  return `<svg class="af-spark af-spark--mini" viewBox="0 0 ${w} ${h}" role="img" aria-label="Tokens per 5 minutes, last hour" style="width:${w}px;height:${h}px"><polyline class="af-spark__line" points="${pts}"/><circle class="af-spark__end" cx="${w - 1}" cy="${(h - 1 - (a.spark[11] / m) * (h - 3)).toFixed(1)}" r="1.8"/></svg>`;
+}
+const hb = (a) => `<span class="af-hb${a.role === "running" ? " af-hb--live" : ""}${mod(a) === "approval" ? " af-hb--wait" : ""}" title="Last activity ${ago(a.hb)} ago"><i class="af-hb__dot"></i>${ago(a.hb)}</span>`;
+function stages(a) {
+  if (a.stage == null) return `<span class="af-stages af-stages--none">${a.role === "off" ? "ran 2 h" : "not started"}</span>`;
+  const b = a.bounds;
+  return `<span class="af-stages">${STAGES.slice(0, a.stage + 1).map((s, i) => `<span class="${i === a.stage ? "is-now" : ""}">${s}<b>${i === a.stage ? ago(a.age - b[i]) : dur(b[i + 1] - b[i])}</b></span>`).join("")}</span>`;
+}
+const btn = (label, kind = "ghost", extra = "", icon = "") => `<button type="button" class="af-btn af-btn--${kind} af-btn--sm" ${extra}>${icon ? ic(icon) : ""}${label}</button>`;
+const SPK = [[12, 20, 15, 30, 25, 40, 30, 45, 35, 50, 40, 55], [40, 22, 35, 48, 20, 30, 44, 18, 26, 38, 30, 12], [30, 30, 28, 36, 40, 22, 18, 34, 2, 2, 2, 2]];
+const mk = (id, role, stage, pct, work, owner, harness, model, age, cost, hbv, x = {}) => ({ id, tail: id.slice(4), role, stage, pct, work, owner, harness, model, age, cost, hb: hbv, spark: SPK[x.spk ?? 0], bounds: stage == null ? [] : [0, .12, .5, .82, 1].slice(0, stage + 2).map((f) => Math.round(age * f)), ...x });
+const Q = [
+  mk("HGR-3MX9", "approval", 3, .95, "Push the refunds migration to main", "sean", "codex", "gpt-5.1", 3427, .62, 2460, { exp: 54 }),
+  mk("HGR-7Q2K", "input", 1, .7, "Backfill order totals for Q3", "priya", "claude-code", "claude-opus-4-1", 1560, .31, 360, { exp: 114, sel: 0 }),
+  mk("HGR-0PZ4", "failed", 2, .4, "Round refunds to the cent", "lena", "claude-code", "claude-opus-4-1", 2700, .51, 900, {}),
+  mk("HGR-9KD4", "denied", 1, .8, "Reconcile Stripe payouts", "marco", "codex", "gpt-5.1", 2160, .44, 900, {}),
+];
+const clockMin = (m) => (m < 60 ? `${m} min` : `${Math.floor(m / 60)} h${m % 60 ? ` ${m % 60} min` : ""}`);
+function body(a, deny) {
+  if (a.role === "approval") return `<p class="af-lead">codex wants to push to main. Policy <code>require-approval-main-push</code> holds it.</p><pre class="af-cmd">git push origin main</pre>
+    <div class="af-pairs"><span><small>Diff</small>+184 −27, 6 files</span><span><small>Checks</small>3 of 3 green</span><span><small>From</small><span class="af-mono">codex/refunds-migration</span></span><span><small>Receipt</small><span class="af-mono">TWR-RCPT-88A1</span></span></div>
+    ${deny ? `<div class="af-reason"><label for="deny-r">Reason for denying (required, goes on the receipt and back to HGR-3MX9)</label><div class="af-input af-input--area af-input--sans is-invalid"><textarea id="deny-r" rows="2" placeholder="What the agent should change" aria-invalid="true"></textarea></div><span class="af-field__error"><span class="af-status af-status--failed"><i class="af-status__mark"></i>Give a reason.</span></span>
+      <div class="af-acts"><div class="af-acts__end">${btn("Cancel", "ghost", 'data-act="cancel"')}${btn("Deny push", "danger af-btn--secondary", 'data-act="deny-confirm"')}</div></div></div>`
+    : `<div class="af-acts">${btn("View diff")}<div class="af-acts__end">${btn("Deny", "danger", 'data-act="deny"')}${btn("Approve push", "primary", 'data-act="approve"')}</div></div>`}`;
+  if (a.role === "input") return `<p class="af-lead">Which table should the backfill target?</p><p class="af-ctx"><code>orders_legacy</code> still receives writes from the batch importer; <code>orders</code> is the read model the API serves.</p>
+    <div class="af-chips" role="group" aria-label="Options">${["orders_legacy", "orders", "Both, legacy first", "Ask Marco"].map((o, i) => `<button type="button" class="af-chip${i < 2 ? " af-chip--mono" : ""}" aria-pressed="${i === 0}">${o}</button>`).join("")}</div>
+    <div class="af-input af-input--area af-input--sans" style="min-height:40px"><textarea rows="1" aria-label="Or answer in your own words" placeholder="Or type an answer"></textarea></div>
+    <div class="af-acts"><span class="af-note">Holding turn 7</span><div class="af-acts__end">${btn("Answer", "primary", 'data-act="answer"')}</div></div>`;
+  if (a.role === "failed") return `<p class="af-lead">pytest exited 1: test_refunds.py::test_round_half_even failed (expected 10.02, got 10.03).</p><p class="af-ctx">The sandbox is up and the branch has the failing commit. Retry runs the check again from the last edit; start over discards the branch and plans again.</p>
+    <div class="af-acts">${btn("Open logs", "ghost", "", "log")}<div class="af-acts__end">${btn("Start over", "ghost", 'data-act="restart"')}${btn("Retry the check", "secondary", 'data-act="retry"', "retry")}</div></div>`;
+  return `<p class="af-lead">Denied by deny-secrets-egress: the agent tried to read STRIPE_SECRET from the CI vault.</p><p class="af-ctx">Policy <code>deny-secrets-egress</code> is a hard stop. The agent was told and is choosing another route; nothing to decide.</p>
+    <div class="af-acts">${btn("Open policy")}<div class="af-acts__end">${btn("Acknowledge", "secondary", 'data-act="ack"')}</div></div>`;
+}
+const card = (a, k, deny) => `<article class="af-decision af-decision--${roleOf(a)}" data-k="${k}" data-id="${a.id}" aria-label="${a.id}, ${WORD[a.role]}"${k ? " inert" : ""}>
+  <div class="af-decision__hd">${stWord(a)}<span class="af-decision__exp" title="Expires">${a.exp ? `${clockMin(a.exp)} left` : ago(a.hb) + " ago"}</span></div>
+  <div class="af-decision__who"><button type="button" class="af-decision__link"><span class="af-id">${a.id}</span>${esc(a.work)}</button><span class="af-decision__by">${hex(a.harness)}${a.harness} for ${PEOPLE[a.owner][1]}</span></div>
+  <div class="af-decision__bd">${body(a, deny)}</div></article>`;
+function side(stack, n, total) {
+  const rest = [...stack.querySelectorAll(".af-decision")].slice(1).map((c) => Q.find((a) => a.id === c.dataset.id));
+  return `<h2 class="af-deck__title">Needs you<span class="af-deck__count">${n} of ${total}</span></h2><p>One decision at a time, soonest to expire on top. Decide and the next one rises; the agent continues the moment you do.</p>
+  <div class="af-deck__nav"><button type="button" class="af-btn af-btn--secondary af-btn--sm af-btn--icon" data-deck="prev" aria-label="Previous">${ic("back")}</button><button type="button" class="af-btn af-btn--secondary af-btn--sm af-btn--icon" data-deck="next" aria-label="Next">${ic("chev")}</button><span class="af-note">Skip for now</span></div>
+  <ul class="af-deck__upnext">${rest.map((a, i) => `<li><button type="button" data-deck-to="${i + 1}">${mark(a)}<span class="af-id">${a.id}</span><span class="af-deck__what">${esc(a.work)}</span><span class="af-deck__when">${a.exp ? clockMin(a.exp) + " left" : WORD[a.role]}</span></button></li>`).join("")}</ul>`;
+}
+function mount(root, deny) {
+  root.innerHTML = `<div class="af-deck__stack">${Q.map((a, i) => card(a, i, deny && i === 0)).join("")}</div><aside class="af-deck__side"></aside>`;
+  const stack = root.querySelector(".af-deck__stack"), aside = root.querySelector(".af-deck__side");
+  let n = 1; const total = Q.length;
+  const paint = () => { aside.innerHTML = side(stack, n, total); };
+  stack.addEventListener("af:deck", paint); paint();
+  root.addEventListener("click", (e) => {
+    const d = e.target.closest("[data-deck]"); if (d) { d.dataset.deck === "next" ? deck.next(stack) : deck.prev(stack); n = ((n - 1 + (d.dataset.deck === "next" ? 1 : -1) + total) % total) + 1; paint(); return; }
+    const g = e.target.closest("[data-deck-to]"); if (g) { deck.go(stack, +g.dataset.deckTo); n = ((n - 1 + +g.dataset.deckTo) % total) + 1; paint(); return; }
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    const c = b.closest(".af-decision"), a = Q.find((x) => x.id === c.dataset.id);
+    if (b.dataset.act === "deny") { c.querySelector(".af-decision__bd").innerHTML = body(a, true); c.querySelector("textarea").focus(); return; }
+    if (b.dataset.act === "cancel") { c.querySelector(".af-decision__bd").innerHTML = body(a, false); return; }
+    if (b.dataset.act === "deny-confirm" && !c.querySelector("textarea").value.trim()) { c.querySelector("textarea").focus(); return; }
+    const text = { approve: "Approved by Sean. Receipt TWR-RCPT-88A1 filed; codex is pushing.", "deny-confirm": "Denied by Sean. Receipt TWR-RCPT-88A1 filed; codex is revising.", answer: 'Answered "orders_legacy". claude-code continues with turn 8.', retry: "Retrying the check on HGR-0PZ4.", restart: "Starting HGR-0PZ4 over from plan on a fresh branch.", ack: "Acknowledged." }[b.dataset.act];
+    c.classList.add("af-decision--done");
+    c.querySelector(".af-decision__bd").innerHTML = `<div class="af-verdict-line">${ic(b.dataset.act === "deny-confirm" ? "close" : "check")}<span>${text}</span>${btn("Dismiss", "ghost", 'data-act="dismiss"')}</div>`;
+    if (b.dataset.act === "dismiss" || b.dataset.act === "ack") deck.leave(c);
+    else setTimeout(() => { if (c.isConnected) deck.leave(c); }, 4000);
+  });
+}
+mount(document.getElementById("deck-a"), false);
+mount(document.getElementById("deck-b"), true);
+// the same cards in a column (an inbox on a second screen): no stack, every one live
+const col = document.getElementById("deck-col");
+col.innerHTML = Q.slice(1).map((a) => card(a, 0, false)).join("") + card(Q[0], 0, false);
+const done = col.lastElementChild; done.classList.add("af-decision--done");
+done.querySelector(".af-decision__bd").innerHTML = `<div class="af-verdict-line">${ic("check")}<span>Approved by Sean. Receipt TWR-RCPT-88A1 filed; codex is pushing.</span>${btn("Dismiss", "ghost")}</div>`;
+</script>
+</body></html>
