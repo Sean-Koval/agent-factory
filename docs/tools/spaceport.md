@@ -1,6 +1,6 @@
 <style>:root, [data-md-color-scheme] { --af-product: var(--af-product-spaceport); }</style>
 
-<span class="af-eyebrow">Capability</span>
+<span class="af-eyebrow">Agent factory · Capability</span>
 
 # Spaceport
 

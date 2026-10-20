@@ -1,6 +1,6 @@
 <style>:root, [data-md-color-scheme] { --af-product: var(--af-product-flightdeck); }</style>
 
-<span class="af-eyebrow">Judge plane</span>
+<span class="af-eyebrow">Agent factory · Judge</span>
 
 # flightdeck
 
