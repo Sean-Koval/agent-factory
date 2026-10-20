@@ -5,6 +5,59 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v12 · 2026-10-19
+
+The new Fleet look and the decision deck (KAN-140, KAN-139): soft geometry, one step of lift, sentence-case sans labels,
+motion tokens, and attention as **edge, mark, word** instead of a status-tinted box with an orange ring. From the hangar
+Fleet direction "6, Decision deck". No token is renamed or removed; every class from theme-v11 still resolves.
+
+Changed token values:
+
+- `radius-control` 2px → 8px; `radius-card` 4px → 12px. Buttons, inputs, chips, tags, segments and tiles soften; cards,
+  rows and panels take 12px. The denied placard keeps a 4px corner.
+
+New tokens:
+
+- Surface: `lifted` (Night `#1C1C1C`, Day `#FFFFFF`), the one step above `raised` for what is open or on top; `edge-hi`
+  (Night `rgba(255,255,255,0.045)`, Day `#FFFFFF`), its 1px top highlight.
+- Shadow: `shadow-1` (resting lift; Night `0 1px 2px rgba(0,0,0,0.5)`, Day `0 1px 2px rgba(0,0,0,0.06)`) and `shadow-2`
+  (an open sheet or the top card of a deck; Night `0 20px 60px rgba(0,0,0,0.6)`, Day `0 16px 48px rgba(0,0,0,0.14)`).
+  `shadow-overlay` is unchanged and now also covers toasts.
+- Radius: `radius-sheet` 18px.
+- Rail: `rail` (Night `#2A2A2A`, Day `#E3E3E0`), `rail-done` (Night `#D6D6D6`, Day `#2A2A2A`), `rail-glow` (Night
+  `rgba(255,255,255,0.25)`, Day `rgba(0,0,0,0.12)`), `rail-h` 2px.
+- Motion (new family; DTCG `duration` and `cubicBezier`): `dur-fast` 120ms, `dur` 200ms (was a 160ms constant in base.css),
+  `dur-open` 300ms, `ease` `cubic-bezier(.2,0,0,1)`, `ease-open` `cubic-bezier(.32,.72,0,1)`. Under
+  `prefers-reduced-motion` the three durations read as 0ms and every transition and animation is off. Tailwind gains
+  `ease-airframe` and `ease-open`.
+- `brand-wash` is **deprecated**: no Airframe rule uses it any more. It still resolves, unchanged, for older product CSS.
+
+Type: `label` and `label-s` are sentence-case Red Hat Text (12/1.2 and 11/1.2, 500, no tracking); the mono capitals are
+retired. `af-lbl`, `af-btn`, tabs, keys, table headers, stage words and the trace/iconset headings follow. Mono stays for
+IDs, numbers, commands, the denied placard, the lamp legend and the terminal bar. `af-btn--text` is now a no-op.
+
+Attention (`airframe-components.css`): every status `color-mix()` wash and inset outline is gone. `af-card--lit`,
+`--failed`, `--denied`, `af-stand`, `af-bay`, `af-mini`, table and list rows (`is-attention`) keep a neutral ground and
+take a 3px status edge on the leading side; selection is neutral (`selected`, a 1px `fg` ring on tiles, a 2px `fg` edge
+on rows and trace and lane rows) where it was `brand-wash` and a yellow ring. The failed trace span loses its tint.
+Danger buttons are red words with no red border (`af-btn--danger af-btn--secondary` for a hairline). Forced colors: the
+edge is a 3px `CanvasText` border.
+
+New components and classes (`runway.css`, a new stylesheet with its own forced-colors block):
+
+- **DecisionDeck** (`af-deck`, `af-decision`, `af-reason`, `af-verdict-line`): one decision at a time, ordered by expiry.
+- **AgentRow** and **AgentCard** (`af-runway`, `af-board`, `af-agent`, `af-console`): the List and Board views, opening in
+  place. **ActivityTimeline** (`af-timeline`), **StageRail** (`af-rail`, `af-ring`, `af-capsule`, with `--est` for an
+  estimate), **Heartbeat** (`af-hb`), and **FleetConsole**, the composed Fleet page.
+- `af-nav__badge`: the orange Needs-you count. FleetView, FleetBays, FleetColumns and FleetOwners keep their classes and
+  fold onto the neutral tile and the edge; hangar's default pair is List + Board.
+
+`airframe.js`: `duration(name)`, `expand.open/close` (open in place, Escape, focus return), `deck.next/prev/go/leave`
+(the deck, firing `af:deck`) and `roving(root)` (arrow keys by visual row).
+
+Accepted bends, documented in `guide/Status.md`: the orange count badge, the heartbeat pulse (recency, not status; still
+under reduced motion) and the rail-head glow.
+
 ## theme-v11 · 2026-10-19
 
 Docs-site admonitions in the greyscale, and two icons for theme toggles (KAN-135). No token value changes; no class is

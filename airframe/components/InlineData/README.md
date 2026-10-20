@@ -1,7 +1,7 @@
 Inline data is keyed metadata on one line: a small mono capital key in `fg-subtle`, then a mono value in `fg-muted`, items 18 px apart and wrapping whole.
 
 ## You provide
-- Pairs of key and value. Keys are one lower-case word or two (`policy`, `harness`, `last approval`); the CSS sets the capitals.
+- Pairs of key and value. Keys are one sentence-case word or two (`Policy`, `Harness`, `Last approval`) in small sans; values stay mono.
 - Optionally a modifier per item: `--strong` for the subject (value in `fg`), `--approval` or `--failed` when the value is what needs a person.
 
 ## Markup

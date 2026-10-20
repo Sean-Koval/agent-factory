@@ -26,7 +26,7 @@ A drawer is a sheet over the page: on the right at 480 px for the detail of one 
 <aside class="af-drawer af-drawer--bottom" id="terminal" aria-labelledby="dr2">
   <span class="af-drawer__grip" aria-hidden="true"></span>
   <header class="af-drawer__head">
-    <span class="af-lbl"><svg class="af-ic" …>terminal</svg>Terminal<span class="af-lbl__sub">HGR-3MX9</span></span>
+    <span class="af-lbl"><svg class="af-ic" …>terminal</svg>Terminal<span class="af-lbl__sub af-mono">HGR-3MX9</span></span>
     <h2 class="af-drawer__title" id="dr2">Agent has control</h2>
     <button type="button" class="af-btn af-btn--secondary af-btn--sm">Take over</button>
     <button type="button" class="af-btn af-btn--ghost af-btn--sm af-btn--icon" aria-label="Close">…</button>

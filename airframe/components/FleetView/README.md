@@ -2,6 +2,8 @@
 
 The fleet at a glance: every sandbox as a quiet stand tile grouped by pool, switchable to session lanes, with an inspector row for the selected agent.
 
+> **Default pair (theme-v12).** hangar's Fleet keeps two views over one data model: **List** (AgentRow) and **Board** (AgentCard), with the DecisionDeck above them and Owners as a filter rather than a view. FleetView stays in Airframe for other consoles and inherits the same neutral tile and 3px status edge; reach for List/Board first.
+
 ## What you provide
 
 - **Header**: region (label sub), keyed totals (running, waiting, failed, denied, queued, off) and the pool schedule ("pools up 10:00 · down 01:00").
@@ -14,7 +16,7 @@ The fleet at a glance: every sandbox as a quiet stand tile grouped by pool, swit
 ```html
 <div class="af-fleet">                                   <!-- add af-fleet--lanes for the Lanes view -->
   <div class="af-fleet__head">
-    <span class="af-fleet__title"><svg class="af-ic">…fleet…</svg><span class="af-lbl">Fleet<span class="af-lbl__sub">us-east4</span></span></span>
+    <span class="af-fleet__title"><svg class="af-ic">…fleet…</svg><span class="af-lbl">Fleet<span class="af-lbl__sub af-mono">us-east4</span></span></span>
     <span class="af-meta">…running 31, waiting 1 (af-meta__item--approval), failed 1 (--failed)…</span>
     <span class="af-fleet__sched"><svg class="af-ic">…spindown…</svg>pools up <b>10:00</b> · down <b>01:00</b></span>
     <span class="af-seg" role="group" aria-label="View">
@@ -59,14 +61,14 @@ The fleet at a glance: every sandbox as a quiet stand tile grouped by pool, swit
 |---|---|---|---|
 | Running | `af-stand--running` | tonal fill, no border | grey dot |
 | Queued | `af-stand--queued` | tonal fill | ring |
-| Needs approval | `af-stand--approval` | 1px orange inset ring, faint orange tint | diamond; current pip orange |
-| Failed | `af-stand--failed` | 1px red inset ring, faint tint | triangle; current pip red |
-| Denied | `af-stand--denied` | 1px red inset ring, faint tint | small placard; current pip red |
+| Needs approval | `af-stand--approval` | neutral tile, 3px orange edge on the leading side | diamond; current pip orange |
+| Failed | `af-stand--failed` | neutral tile, 3px red edge | triangle; current pip red |
+| Denied | `af-stand--denied` | neutral tile, 3px red edge | small placard; current pip red |
 | Spun down | `af-stand--off` | hollow, hairline, dim tail | small dot |
 | Free slot | `af-stand--free` (a `span`, `aria-hidden`) | dashed outline, empty | none |
-| Selected | `aria-pressed="true"` | 1px brand ring outside the tile | unchanged |
+| Selected | `aria-pressed="true"` | 1px `fg` ring outside the tile (neutral: never yellow around orange) | unchanged |
 
-Stage pips are four 2 px bars (plan, edit, test, PR): `--done` for finished stages, `--now` for the current one, none for queued and spun-down agents.
+Stage pips are four `rail-h` bars in the `rail` tokens (plan, edit, test, PR): `--done` for finished stages, `--now` for the current one, none for queued and spun-down agents.
 
 ## Board and Lanes
 

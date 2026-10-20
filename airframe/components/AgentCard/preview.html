@@ -1,0 +1,110 @@
+<!-- @dsCard group="Fleet" height=760 subtitle="The board card: hex avatar, tail, stage ring, work, now-line, capsule, owner, and the status word or the heartbeat" -->
+<!doctype html>
+<html><head><meta charset="utf-8"><title>AgentCard</title></head>
+<body>
+<main class="af-stack af-stack--block" style="padding:24px">
+  <section class="af-board__group" aria-label="base-codex pool">
+    <div class="af-runway__head"><h3><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3l7 3.5-7 3.5-7-3.5z"/><path d="M3 10l7 3.5 7-3.5"/><path d="M3 13.5 10 17l7-3.5"/></svg>base-codex</h3><span class="af-note">7 of 24 slots</span><span class="af-cap af-cap--sm"><span class="af-cap__bar" aria-hidden="true"><i style="width:29%"></i></span></span></div>
+    <div class="af-board" id="bd" role="group"></div>
+  </section>
+  <section class="af-stack"><span class="af-lbl">Anatomy</span>
+    <dl class="af-kv"><dt>Card</dt><dd><span class="af-mono af-muted">af-agent af-agent--card</span> in an <span class="af-mono af-muted">af-board</span> grid; the same article as AgentRow with a <span class="af-mono af-muted">__face</span> instead of a <span class="af-mono af-muted">__line</span></dd>
+    <dt>Head</dt><dd><span class="af-mono af-muted">__hd</span>: the harness as a hexagonal avatar, the tail, the stage ring at the end</dd>
+    <dt>Body</dt><dd><span class="af-mono af-muted">__work</span> (two lines at most), <span class="af-mono af-muted">__now</span>, the capsule</dd>
+    <dt>Foot</dt><dd><span class="af-mono af-muted">__ft</span>: the owner, then the status word when a person is needed or the agent stopped, else the heartbeat</dd>
+    <dt>Open</dt><dd><span class="af-mono af-muted">is-open</span>: the card spans the grid, lifts, and its console opens beneath the face</dd></dl></section>
+</main>
+<script type="module">
+import { expand, deck, roving } from "./airframe.js";
+
+const IC = {
+  chev: '<path d="M8 5l5 5-5 5"/>', back: '<path d="M12 5l-5 5 5 5"/>', check: '<path d="M4 10.5l4 4 8-9"/>', close: '<path d="M5 5l10 10M15 5 5 15"/>',
+  fork: '<circle cx="6" cy="4.5" r="1.75"/><circle cx="14" cy="4.5" r="1.75"/><circle cx="10" cy="15.5" r="1.75"/><path d="M6 6.25V7.5c0 1.5 1 2.5 2.5 2.5h3c1.5 0 2.5-1 2.5-2.5V6.25M10 10v3.75"/>',
+  snapshot: '<path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/><circle cx="10" cy="10" r="2.5"/>', pause: '<path d="M7 4v12M13 4v12"/>',
+  terminal: '<rect x="2.5" y="3.5" width="15" height="13"/><path d="M6 8l2.5 2L6 12M10.5 12.5H14"/>', agent: '<path d="M10 2.5L3.5 6.25V13.75L10 17.5L16.5 13.75V6.25"/><path d="M9.25 9.25h1.5v1.5h-1.5z"/>',
+  log: '<path d="M3 4.5h14M3 8.5h14M3 12.5h9M3 16.5h11"/>', duration: '<circle cx="10" cy="11" r="6.5"/><path d="M10 11V7.5M8 2.5h4M15.2 5.8l1.3-1.3"/>',
+  environment: '<path d="M10 3l7 3.5-7 3.5-7-3.5z"/><path d="M3 10l7 3.5 7-3.5"/><path d="M3 13.5 10 17l7-3.5"/>', retry: '<path d="M16.5 10A6.5 6.5 0 1 1 14.6 5.4"/><path d="M15.5 2.5v3.5H12"/>',
+};
+const ic = (n, cls = "") => `<svg class="af-ic ${cls}" viewBox="0 0 20 20" aria-hidden="true">${IC[n]}</svg>`;
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+const STAGES = ["Plan", "Edit", "Test", "PR"];
+const PEOPLE = { sean: ["SK", "Sean", "Sean Koval"], priya: ["PN", "Priya", "Priya Nair"], marco: ["MO", "Marco", "Marco Oduya"], lena: ["LF", "Lena", "Lena Fischer"], dana: ["DW", "Dana", "Dana Whitfield"] };
+const WORD = { running: "Running", queued: "Queued", approval: "Needs approval", input: "Needs input", failed: "Failed", denied: "Denied", off: "Spun down" };
+const roleOf = (a) => (a.role === "input" ? "approval" : a.role);
+const mod = (a) => (a.role === "approval" || a.role === "input" ? "approval" : a.role === "failed" ? "failed" : a.role === "denied" ? "denied" : "");
+const mark = (a) => `<span class="af-status af-status--${roleOf(a)}" aria-hidden="true"><i class="af-status__mark"></i></span>`;
+const stWord = (a) => `<span class="af-status af-status--${roleOf(a)}"><i class="af-status__mark"></i>${WORD[a.role]}</span>`;
+const per = (id, size = 22) => `<span class="af-avatar af-avatar--person af-avatar--${size}" title="${PEOPLE[id][2]}" aria-hidden="true"><span>${PEOPLE[id][0]}</span></span>`;
+const hex = (h, size = 22) => `<span class="af-avatar af-avatar--agent af-avatar--${size}" title="${h}" aria-hidden="true"><span>${h === "codex" ? "cx" : "cc"}</span></span>`;
+const money = (n) => `$${n.toFixed(2)}`;
+const dur = (s) => (s < 60 ? `${Math.round(s)} s` : s < 3600 ? `${Math.round(s / 60)} min` : `${Math.floor(s / 3600)} h ${Math.round((s % 3600) / 60)} min`);
+const ago = (s) => (s < 5 ? "now" : s < 60 ? `${Math.round(s)} s` : s < 3600 ? `${Math.round(s / 60)} min` : `${(s / 3600).toFixed(1)} h`);
+const wall = (t) => { const s = 14 * 3600 + 32 * 60 - t, h = Math.floor(((s % 86400) + 86400) % 86400 / 3600), m = Math.floor((s % 3600) / 60); return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`; };
+function rail(a, labels = false, w = 0) {
+  const m = mod(a) ? ` af-rail--${mod(a)}` : "", ws = w ? `width:${w}px;` : "";
+  if (a.stage == null) return `<span class="af-rail af-rail--none" aria-hidden="true"${w ? ` style="${ws}"` : ""}><i class="af-rail__track"></i>${"<b class=\"af-rail__stop\"></b>".repeat(4)}</span>`;
+  const p = Math.min(100, (a.stage + a.pct) * 33.333);
+  return `<span class="af-rail${m}${labels ? " af-rail--labeled" : ""}" role="img" aria-label="${STAGES[a.stage]} stage, ${Math.round(a.pct * 100)}%" style="${ws}--p:${p.toFixed(1)}%"><i class="af-rail__track"></i><i class="af-rail__done"></i>${[0, 1, 2, 3].map((i) => `<b class="af-rail__stop${i * 33.333 <= p ? " is-on" : ""}"></b>`).join("")}${labels ? STAGES.map((s) => `<span class="af-rail__lab">${s}</span>`).join("") : ""}<i class="af-rail__head"></i></span>`;
+}
+function ring(a) {
+  const r = 12, C = 2 * Math.PI * r, seg = C / 4, gap = 3.2, len = seg - gap, m = mod(a) ? ` af-ring--${mod(a)}` : "";
+  if (a.stage == null) return `<svg class="af-ring af-ring--none" viewBox="0 0 30 30" aria-hidden="true"><circle class="af-ring__track" cx="15" cy="15" r="${r}"/></svg>`;
+  const arcs = STAGES.map((s, i) => { const off = -i * seg + gap / 2, fill = i < a.stage ? len : i === a.stage ? len * a.pct : 0;
+    return `<circle class="af-ring__track" cx="15" cy="15" r="${r}" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${off}" transform="rotate(-90 15 15)"/>${fill ? `<circle class="af-ring__fill" cx="15" cy="15" r="${r}" stroke-dasharray="${fill} ${C - fill}" stroke-dashoffset="${off}" transform="rotate(-90 15 15)"/>` : ""}`; }).join("");
+  return `<svg class="af-ring${m}" viewBox="0 0 30 30" role="img" aria-label="${STAGES[a.stage]} stage">${arcs}<text x="15" y="18">${STAGES[a.stage] === "PR" ? "PR" : STAGES[a.stage][0]}</text></svg>`;
+}
+function capsule(a, w = 0) {
+  const ws = w ? ` style="width:${w}px"` : "";
+  if (a.stage == null) return `<span class="af-capsule af-capsule--none" aria-hidden="true"${ws}>${"<i class=\"af-capsule__seg\"></i>".repeat(4)}</span>`;
+  return `<span class="af-capsule${mod(a) ? ` af-capsule--${mod(a)}` : ""}" role="img" aria-label="Stage ${STAGES[a.stage]}"${ws}>${STAGES.map((s, i) => `<i class="af-capsule__seg${i < a.stage ? " is-done" : i === a.stage ? " is-now" : ""}" style="--p:${i === a.stage ? Math.round(a.pct * 100) : 0}%"></i>`).join("")}</span>`;
+}
+function spark(a, w = 84, h = 20) {
+  const m = Math.max(1, ...a.spark), pts = a.spark.map((v, i) => `${(i / 11 * (w - 2) + 1).toFixed(1)},${(h - 1 - (v / m) * (h - 3)).toFixed(1)}`).join(" ");
+  return `<svg class="af-spark af-spark--mini" viewBox="0 0 ${w} ${h}" role="img" aria-label="Tokens per 5 minutes, last hour" style="width:${w}px;height:${h}px"><polyline class="af-spark__line" points="${pts}"/><circle class="af-spark__end" cx="${w - 1}" cy="${(h - 1 - (a.spark[11] / m) * (h - 3)).toFixed(1)}" r="1.8"/></svg>`;
+}
+const hb = (a) => `<span class="af-hb${a.role === "running" ? " af-hb--live" : ""}${mod(a) === "approval" ? " af-hb--wait" : ""}" title="Last activity ${ago(a.hb)} ago"><i class="af-hb__dot"></i>${ago(a.hb)}</span>`;
+function stages(a) {
+  if (a.stage == null) return `<span class="af-stages af-stages--none">${a.role === "off" ? "ran 2 h" : "not started"}</span>`;
+  const b = a.bounds;
+  return `<span class="af-stages">${STAGES.slice(0, a.stage + 1).map((s, i) => `<span class="${i === a.stage ? "is-now" : ""}">${s}<b>${i === a.stage ? ago(a.age - b[i]) : dur(b[i + 1] - b[i])}</b></span>`).join("")}</span>`;
+}
+const btn = (label, kind = "ghost", extra = "", icon = "") => `<button type="button" class="af-btn af-btn--${kind} af-btn--sm" ${extra}>${icon ? ic(icon) : ""}${label}</button>`;
+const SPK = [[12, 20, 15, 30, 25, 40, 30, 45, 35, 50, 40, 55], [40, 22, 35, 48, 20, 30, 44, 18, 26, 38, 30, 12], [30, 30, 28, 36, 40, 22, 18, 34, 2, 2, 2, 2]];
+const mk = (id, role, stage, pct, work, owner, harness, model, age, cost, hbv, x = {}) => ({ id, tail: id.slice(4), role, stage, pct, work, owner, harness, model, age, cost, hb: hbv, spark: SPK[x.spk ?? 0], bounds: stage == null ? [] : [0, .12, .5, .82, 1].slice(0, stage + 2).map((f) => Math.round(age * f)), ...x });
+const A = [
+  mk("HGR-3MX9", "approval", 3, .95, "Push the refunds migration to main", "sean", "codex", "gpt-5.1", 3427, .62, 2460, { spk: 2 }),
+  mk("HGR-7Q2K", "input", 1, .7, "Backfill order totals for Q3", "priya", "claude-code", "claude-opus-4-1", 1560, .31, 360, { spk: 2 }),
+  mk("HGR-9KD4", "denied", 1, .8, "Reconcile Stripe payouts", "marco", "codex", "gpt-5.1", 2160, .44, 900, { spk: 2 }),
+  mk("HGR-0PZ4", "failed", 2, .4, "Round refunds to the cent", "lena", "claude-code", "claude-opus-4-1", 2700, .51, 900, { spk: 2 }),
+  mk("HGR-VEXZ", "running", 3, .6, "Index the orders table by region", "lena", "claude-code", "claude-opus-4-1", 3480, 1.18, 14),
+  mk("HGR-AW0Q", "running", 2, .5, "Upgrade to pydantic 2.9", "priya", "codex", "claude-sonnet-4-5", 4740, .95, 12, { spk: 1 }),
+  mk("HGR-QLJG", "running", 1, .4, "Fix flaky checkout retry test", "sean", "claude-code", "claude-opus-4-1", 1080, .22, 3),
+  mk("HGR-C5KJ", "running", 1, .2, "Trace slow cart loads", "marco", "claude-code", "claude-sonnet-4-5", 600, .09, 1, { spk: 1 }),
+  mk("HGR-KQ0D", "queued", null, 0, "Rate-limit the webhook receiver", "dana", "codex", "gpt-5.1", 60, 0, 60),
+  mk("HGR-1WQ8", "off", null, 0, "refunds-spike", "sean", "codex", "gpt-5.1", 9000, 1.9, 9000),
+];
+const NOW = { approval: "waiting on you: push to main", input: "waiting on you: a question", denied: "blocked by policy, choosing another route", failed: "stopped: pytest exited 1", queued: "waiting for a slot in base-codex", off: "spun down, snapshot kept" };
+const nowText = (a) => NOW[a.role] || ["reading the repo", "editing refunds/models.py", "running pytest, 191 passed", "waiting for CI, 3 of 5 checks green"][a.stage];
+const consoleHtml = (a) => `<section class="af-console__panel af-console__panel--now" aria-label="Now"><div class="af-console__now">${hb(a)}<span class="af-console__big">${esc(nowText(a))}</span></div>${rail(a, true)}
+    <div class="af-pairs af-pairs--wide"><span><small>Owner</small>${PEOPLE[a.owner][2]}</span><span><small>Harness</small><span class="af-mono">${a.harness}</span></span><span><small>Model</small><span class="af-mono">${a.model}</span></span><span><small>Repo</small><span class="af-mono">acme/checkout-api</span></span><span><small>Age</small><span class="af-mono">00:58:00</span></span><span><small>Spent</small><span class="af-mono">${money(a.cost)}</span></span><span><small>Lease</small>2.1 h left</span><span><small>CPU</small><span class="af-mono">31%</span></span></div>
+    <div class="af-acts">${btn("Terminal", "secondary", "", "terminal")}${btn("Run agent", "secondary", "", "agent")}${btn("Fork", "ghost", "", "fork")}${btn("Snapshot", "ghost", "", "snapshot")}${btn("Pause", "ghost", "", "pause")}<div class="af-acts__end">${btn("Destroy", "danger")}</div></div></section>
+    <section class="af-console__panel af-console__panel--hist" aria-label="Activity"><div class="af-timeline__head"><h4>Activity</h4><span class="af-facts"><span>8 files</span><span>4 commits</span><span>191 tests</span><span>71.2k tok</span><span>${money(a.cost)}</span></span>${spark(a, 120, 22)}<span class="af-note">tokens, last hour</span></div>
+    <ol class="af-timeline">${[[a.age, "start", "Sandbox started in base-codex"], [a.age * .8, "stage", "Plan done in 7 min"], [a.age * .5, "stage", "Edit done in 6 min"], [a.age * .3, "test", "pytest: 191 passed"], [a.age * .28, "stage", "Test done in 2 min"], [a.hb, "pr", "Waiting for CI, 3 of 5 checks green"]].map(([t, k, txt], i, l) => `<li class="af-timeline__ev af-timeline__ev--${k}${i === l.length - 1 ? " is-last" : ""}"><i class="af-timeline__dot"></i><time class="af-timeline__time">${wall(t)}<small>${ago(t)} ago</small></time><span class="af-timeline__text">${txt}</span></li>`).join("")}</ol></section>`;
+const OPEN = new URLSearchParams(location.search).get("open");
+function card(a) {
+  const open = a.id === OPEN, m = mod(a);
+  return `<article class="af-agent af-agent--card${m === "approval" ? " af-agent--lit" : m ? ` af-agent--${m}` : ""}${a.role === "off" ? " af-agent--off" : ""}${open ? " is-open" : ""}" data-id="${a.id}">
+    <button type="button" class="af-agent__face" tabindex="-1" aria-expanded="${open}" aria-label="${a.id}, ${WORD[a.role]}, ${esc(a.work)}">
+      <span class="af-agent__hd">${hex(a.harness)}<span class="af-agent__tail">${a.tail}</span>${ring(a)}</span>
+      <span class="af-agent__work">${esc(a.work)}</span><span class="af-agent__now">${esc(nowText(a))}</span>${capsule(a)}
+      <span class="af-agent__ft">${per(a.owner)}<span>${PEOPLE[a.owner][1]}</span>${m ? stWord(a) : hb(a)}</span>
+    </button>
+    <div class="af-agent__body"><div>${a.stage != null && a.role === "running" ? `<div class="af-console">${consoleHtml(a)}</div>` : ""}</div></div>
+  </article>`;
+}
+const root = document.getElementById("bd");
+root.innerHTML = A.map(card).join("");
+expand.wire(root);
+roving(root);
+</script>
+</body></html>

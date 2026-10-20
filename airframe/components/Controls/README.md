@@ -1,7 +1,7 @@
-Controls are square-cornered and recessed: switches, segmented controls, text inputs and select fields sit on `surface` with a `line-strong` hairline, and every one shows the 2 px `focus` ring.
+Controls are soft-cornered (8 px) and recessed: switches, segmented controls, text inputs and select fields sit on `surface` with a `line-strong` hairline, and every one shows the 2 px `focus` ring.
 
 ## You provide
-- A visible label for every field (`af-field__label`, mono capitals), linked with `for` / `aria-labelledby`.
+- A visible label for every field (`af-field__label`, sentence-case sans), linked with `for` / `aria-labelledby`.
 - Real elements: `<button role="switch" aria-checked>`, `<button aria-pressed>` inside a `role="group"`, `<input>`, and a `<button aria-haspopup="listbox">` for a select.
 - Optionally a hint under a field (`af-field__hint`), a leading icon, or a key hint (`<kbd class="af-kbd">⌘E</kbd>`) inside an input.
 

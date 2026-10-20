@@ -2,6 +2,8 @@
 
 The fleet as bays: one box per sandbox, grouped by environment, showing what it is doing, for whom, how far it has got and the one action it needs.
 
+> **Default pair (theme-v12).** hangar's Fleet keeps two views over one data model: **List** (AgentRow) and **Board** (AgentCard), with the DecisionDeck above them and Owners as a filter rather than a view. FleetBays stays in Airframe for other consoles and inherits the same neutral tile and 3px status edge; reach for List/Board first.
+
 ## What you provide
 
 - **Groups**: environment name and icon (`environment`, or `gpu`), keyed counts, the repo.
@@ -34,10 +36,10 @@ The fleet as bays: one box per sandbox, grouped by environment, showing what it 
 |---|---|---|---|
 | Running | (none) | tonal | `fg` |
 | Starting | `af-bay--queued` | tonal, no stage | none |
-| Needs approval | `af-bay--approval` | 1px orange inset ring, faint tint | orange |
-| Failed / Denied | `af-bay--failed` / `--denied` | 1px red inset ring, faint tint | red |
+| Needs approval | `af-bay--approval` | neutral, 3px orange edge on the leading side | orange |
+| Failed / Denied | `af-bay--failed` / `--denied` | neutral, 3px red edge | red |
 | Paused / spun down | `af-bay--off` | hollow hairline, muted text | none |
-| Selected | `is-selected` | 1px brand ring outside | unchanged |
+| Selected | `is-selected` | 1px `fg` ring outside | unchanged |
 
 The `af-track` stage track's words are `label-s` in `fg-subtle` (a reached stage `fg-muted`, the current one `fg`), so the stages ahead still read; the pips carry the position. The track and the `af-bay__left` lease bar are shared with other views; `af-cap` (capacity) and `af-person` sit beside them in `viz.css`.
 

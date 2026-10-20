@@ -1,0 +1,289 @@
+/* ===== Airframe · runway — the live fleet: Heartbeat, StageRail (rail, ring, capsule), AgentRow and AgentCard (one
+   af-agent, two layouts, opening in place into a console), ActivityTimeline, DecisionDeck. Tokens only, on top of base.css
+   and core.css. Attention is edge, mark, word on a neutral ground; selection and the open state are neutral (lifted, a
+   fg ring); the one yellow is the primary action. The rail head and the latest timeline dot carry the one glow (rail-glow):
+   it says "moving", never a status. ===== */
+
+/* ---- heartbeat: recency, not status. The dot breathes only on a live agent; a waiting agent's shows the wait in orange;
+   under reduced motion (base.css) it is static. ---- */
+.af-hb{display:inline-flex;align-items:center;gap:5px;font-family:var(--af-font-mono);font-weight:500;font-size:11px;line-height:1;color:var(--af-fg-subtle);white-space:nowrap;font-variant-numeric:tabular-nums}
+.af-hb__dot{display:inline-block;flex:none;width:6px;height:6px;border-radius:var(--af-radius-round);background:var(--af-fg-dim)}
+.af-hb--live .af-hb__dot{background:var(--af-status-running);animation:af-beat 2.4s ease-in-out infinite}
+.af-hb--wait{color:var(--af-status-approval)}
+.af-hb--wait .af-hb__dot{background:var(--af-status-approval)}
+@keyframes af-beat{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ---- stage rail: plan, edit, test, PR as four stops (<b>) on a 2px line, a head at --p (0–100%), an optional label row
+   (<span>); the track, the done part and the head are <i>. Grey while running (rail-done head with the rail-glow); a lit
+   agent's head takes its status color. --ground is the surface the rail sits on (the ring between head and line). ---- */
+.af-rail,.af-ring,.af-capsule{--c:var(--af-rail-done);--glow:var(--af-rail-glow)}
+.af-rail--approval,.af-ring--approval,.af-capsule--approval{--c:var(--af-status-approval);--glow:var(--af-status-approval)}
+.af-rail--failed,.af-ring--failed,.af-capsule--failed{--c:var(--af-status-failed);--glow:var(--af-status-failed)}
+.af-rail--denied,.af-ring--denied,.af-capsule--denied{--c:var(--af-status-denied);--glow:var(--af-status-denied)}
+.af-rail{--p:0%;--ground:var(--af-raised);position:relative;display:flex;align-items:center;height:16px;min-width:80px}
+.af-rail__track,.af-rail__done{position:absolute;left:0;top:50%;height:var(--af-rail-h);margin-top:-1px;border-radius:1px;background:var(--af-rail)}
+.af-rail__track{right:0}
+.af-rail__done{width:var(--p);background:var(--af-rail-done);transition:width 900ms var(--af-ease)}
+.af-rail__stop{position:absolute;top:50%;width:4px;height:4px;border-radius:var(--af-radius-round);background:var(--af-rail);transform:translate(-50%,-50%)}
+.af-rail__stop:nth-of-type(1){left:0}.af-rail__stop:nth-of-type(2){left:33.333%}.af-rail__stop:nth-of-type(3){left:66.667%}.af-rail__stop:nth-of-type(4){left:100%}
+.af-rail__stop.is-on{background:var(--af-rail-done)}
+.af-rail__head{position:absolute;top:50%;left:var(--p);width:8px;height:8px;border-radius:var(--af-radius-round);background:var(--c);transform:translate(-50%,-50%);
+  box-shadow:0 0 0 2px var(--ground),0 0 12px var(--glow);transition:left 900ms var(--af-ease)}
+.af-rail__lab{position:absolute;top:16px;font-size:10.5px;line-height:1.2;color:var(--af-fg-subtle);transform:translateX(-50%);white-space:nowrap}
+.af-rail__lab:nth-of-type(1){left:0;transform:none}.af-rail__lab:nth-of-type(2){left:33.333%}.af-rail__lab:nth-of-type(3){left:66.667%}.af-rail__lab:nth-of-type(4){left:100%;transform:translateX(-100%)}
+.af-rail--labeled{margin-bottom:16px}
+.af-rail--none .af-rail__track{background:repeating-linear-gradient(90deg,var(--af-rail) 0 3px,transparent 3px 7px)}
+.af-rail--none .af-rail__head,.af-rail--none .af-rail__done{display:none}
+/* estimate: the fill is solid only for what the agent reported. Inside the current stage without a reported pct, the part
+   from the stage start (--s) to the estimate (--p) is dotted and the head is hollow, with no glow: a guess never glows */
+.af-rail--est .af-rail__done{width:var(--s,0%)}
+.af-rail--est .af-rail__track::after{content:"";position:absolute;top:0;bottom:0;left:var(--s,0%);width:calc(var(--p) - var(--s,0%));
+  background:repeating-linear-gradient(90deg,var(--c) 0 2px,transparent 2px 5px)}
+.af-rail--est .af-rail__head{background:var(--ground);box-shadow:inset 0 0 0 1.5px var(--c),0 0 0 2px var(--ground)}
+/* ring: four arcs of a 30px circle (an SVG; the preview shows the markup), the stage letter inside */
+.af-ring{width:30px;height:30px;flex:none;overflow:visible}
+.af-ring circle{fill:none;stroke-width:3;stroke-linecap:round}
+.af-ring__track{stroke:var(--af-rail)}
+.af-ring__fill{stroke:var(--c)}
+.af-ring text{font-family:var(--af-font-sans);font-weight:600;font-size:8px;fill:var(--af-fg-muted);text-anchor:middle}
+.af-ring--none .af-ring__track{stroke-dasharray:2 4}
+/* capsule: four segments, 5px tall; the current one fills to --p */
+.af-capsule{display:flex;gap:3px;height:5px}
+.af-capsule__seg{position:relative;flex:1;overflow:hidden;border-radius:3px;background:var(--af-rail)}
+.af-capsule__seg::after{content:"";position:absolute;inset:0;width:var(--p,0%);border-radius:3px;background:var(--af-rail-done);transition:width 900ms var(--af-ease)}
+.af-capsule__seg.is-done::after{width:100%}
+.af-capsule__seg.is-now::after{background:var(--c)}
+.af-capsule--est .af-capsule__seg.is-now::after{background:repeating-linear-gradient(90deg,var(--c) 0 2px,transparent 2px 4px)}
+.af-ring--est .af-ring__est{stroke:var(--c);stroke-width:2}
+.af-capsule--none{visibility:hidden}
+
+/* ---- the stage times beside a rail ("Test 2 min, PR 43 min"): the last two stages, the current one brighter ---- */
+.af-stages{display:inline-flex;gap:10px;font-size:11.5px;line-height:1.2;color:var(--af-fg-subtle);white-space:nowrap}
+.af-stages span{display:inline-flex;flex-direction:column}
+.af-stages b{font-family:var(--af-font-mono);font-weight:500;font-size:11px;color:var(--af-fg-muted);font-variant-numeric:tabular-nums}
+.af-stages .is-now{color:var(--af-fg-muted)}
+.af-stages .is-now b{color:var(--af-fg)}
+.af-stages span:nth-last-child(n+3){display:none}
+.af-stages--none{color:var(--af-fg-dim)}
+/* a few facts in a row: "8 files  4 commits  202 tests  48.6k tok  $0.62" */
+.af-facts{display:inline-flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--af-fg-muted);font-variant-numeric:tabular-nums}
+/* the mini sparkline in a row ends in fg, not brand: sixty yellow points would say sixty things are yours */
+.af-spark--mini{display:inline-block;width:84px;height:20px;aspect-ratio:auto;flex:none}
+.af-spark--mini .af-spark__line{stroke:var(--af-fg-subtle);stroke-width:1.25}
+.af-spark--mini .af-spark__end{fill:var(--af-fg);stroke:var(--af-fg)}
+
+/* ---- agent: one article, two layouts (row in af-runway, card in af-board). Neutral ground, the status edge on a lit or
+   stopped one, lifted with shadow-2 when open. ---- */
+.af-runway{display:flex;flex-direction:column;gap:6px;min-width:0}
+.af-board{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:10px;min-width:0}
+.af-agent{--c:var(--af-status-running);position:relative;min-width:0;border-radius:var(--af-radius-card);background:var(--af-raised);box-shadow:inset 0 1px 0 var(--af-edge-hi);
+  transition:background var(--af-dur) var(--af-ease),box-shadow var(--af-dur) var(--af-ease),transform var(--af-dur) var(--af-ease)}
+.af-agent:hover{background:color-mix(in srgb,var(--af-fg) 4%,var(--af-raised))}
+.af-agent.is-open{background:var(--af-lifted);box-shadow:inset 0 1px 0 var(--af-edge-hi),var(--af-shadow-2);z-index:2}
+.af-agent--lit{--c:var(--af-status-approval)}
+.af-agent--failed{--c:var(--af-status-failed)}
+.af-agent--denied{--c:var(--af-status-denied)}
+.af-agent--lit::before,.af-agent--failed::before,.af-agent--denied::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--c);pointer-events:none;z-index:1}
+.af-agent--off{background:transparent;box-shadow:inset 0 0 0 1px var(--af-line)}
+.af-agent--off:hover{background:color-mix(in srgb,var(--af-fg) 3%,transparent)}
+.af-agent--off .af-agent__work,.af-agent--off .af-agent__tail{color:var(--af-fg-subtle)}
+.af-agent .af-rail,.af-agent .af-timeline{--ground:var(--af-raised)}
+.af-agent.is-open .af-rail,.af-agent.is-open .af-timeline{--ground:var(--af-lifted)}
+/* the row's line: mark, tail, work + now, owner, harness, rail, stage times, spark, cost, chevron */
+.af-agent__line,.af-agent__face{display:grid;width:100%;min-width:0;margin:0;border:0;border-radius:var(--af-radius-card);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.af-agent__line{grid-template-columns:18px 54px minmax(180px,1.6fr) 104px 150px 170px 150px 84px 56px 20px;align-items:center;gap:14px;min-height:58px;padding:9px 14px 9px 18px}
+.af-agent__line:focus-visible,.af-agent__face:focus-visible{outline-offset:-2px}
+.af-agent.is-open .af-agent__line:focus-visible,.af-agent.is-open .af-agent__face:focus-visible{outline-color:var(--af-fg)}
+.af-agent__line>.af-status{gap:0}
+.af-agent__tail{font-family:var(--af-font-mono);font-weight:500;font-size:12.5px;letter-spacing:.01em;color:var(--af-fg);white-space:nowrap}
+.af-agent__ttl{display:flex;flex-direction:column;gap:2px;min-width:0}
+.af-agent__work{font-size:14px;font-weight:500;line-height:1.3;color:var(--af-fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.af-agent__sub{display:flex;align-items:center;gap:10px;min-width:0}
+.af-agent__now{color:var(--af-fg-muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.af-agent__who,.af-agent__rig{display:flex;align-items:center;gap:8px;min-width:0;overflow:hidden;color:var(--af-fg-muted);font-size:13px;white-space:nowrap}
+.af-agent__rig .af-mono{font-size:12px;overflow:hidden;text-overflow:ellipsis}
+.af-agent__cost{font-family:var(--af-font-mono);font-size:12.5px;color:var(--af-fg-muted);text-align:right;font-variant-numeric:tabular-nums}
+.af-agent__chev{color:var(--af-fg-dim);transition:transform var(--af-dur-open) var(--af-ease-open),color var(--af-dur) var(--af-ease)}
+.af-agent.is-open .af-agent__chev{transform:rotate(90deg);color:var(--af-fg-muted)}
+/* the body opens in place: a grid-rows accordion, no measured heights */
+.af-agent__body{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--af-dur-open) var(--af-ease-open)}
+.af-agent.is-open .af-agent__body{grid-template-rows:1fr}
+.af-agent__body>div{overflow:hidden;min-height:0}
+/* the card layout */
+.af-agent--card:hover{transform:translateY(-1px)}
+.af-agent--card.is-open{grid-column:1/-1;transform:none}
+.af-agent__face{grid-template-columns:minmax(0,1fr);align-content:start;gap:9px;padding:14px 14px 12px;min-height:138px}
+.af-agent--lit .af-agent__face,.af-agent--failed .af-agent__face,.af-agent--denied .af-agent__face{padding-left:17px}
+.af-agent__hd{display:flex;align-items:center;gap:8px;min-width:0}
+.af-agent__hd>.af-ring{margin-left:auto}
+.af-agent__face .af-agent__work{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.af-agent__ft{display:flex;align-items:center;gap:7px;margin-top:auto;color:var(--af-fg-muted);font-size:12.5px;min-width:0}
+.af-agent__ft>:last-child{margin-left:auto}
+.af-agent__ft .af-status{font-size:12px}
+.af-agent__ft .af-status:not(.af-status--denied){color:var(--c)}
+.af-agent--card.is-open .af-agent__face{grid-template-columns:auto minmax(200px,1fr) 160px auto;align-items:center;gap:14px;padding:14px 18px;min-height:0}
+.af-agent--card.is-open .af-agent__face .af-agent__work{-webkit-line-clamp:1}
+.af-agent--card.is-open .af-agent__face .af-agent__now{display:none}
+.af-agent--card.is-open .af-agent__ft{margin:0}
+
+/* ---- console: what opens under a row or inside a card. Decision (when one waits), now (heartbeat, now-line, labeled
+   rail, facts, actions), history (the timeline) ---- */
+.af-console{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:16px 20px;padding:4px 18px 18px;opacity:0;transform:translateY(-4px);
+  transition:opacity var(--af-dur-open) var(--af-ease-open) 80ms,transform var(--af-dur-open) var(--af-ease-open) 80ms}
+.af-agent.is-open .af-console{opacity:1;transform:none}
+.af-console::before{content:"";grid-column:1/-1;height:1px;background:var(--af-line-subtle)}
+.af-agent--card .af-console::before{display:none}
+.af-console__panel{display:flex;flex-direction:column;gap:12px;min-width:0}
+.af-console__panel--hist{grid-column:1;grid-row:2/4}
+.af-console__panel--decide{grid-column:2;grid-row:2}
+.af-console__panel--now{grid-column:2;grid-row:3}
+.af-console:not(:has(.af-console__panel--decide)) .af-console__panel--now{grid-row:2}
+.af-console__now{display:flex;align-items:center;gap:12px;min-width:0}
+.af-console__big{font-size:16px;font-weight:500;letter-spacing:-.01em;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--af-fg)}
+.af-console__panel--now .af-rail{margin:4px 0 14px}
+
+/* ---- activity timeline: wall-clock time, how long ago, the event; stage boundaries in fg, the latest dot lit ---- */
+.af-timeline__head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-width:0}
+.af-timeline__head h4{margin:0;font-size:12.5px;font-weight:500;color:var(--af-fg-subtle)}
+.af-timeline__head>.af-spark--mini{width:120px;height:22px;margin-left:auto}
+.af-timeline__head>.af-note{flex:none}
+.af-timeline{--ground:var(--af-raised);position:relative;display:flex;flex-direction:column;margin:0;padding:0 6px 0 2px;list-style:none;max-height:420px;overflow:auto}
+.af-timeline::before{content:"";position:absolute;left:5px;top:10px;bottom:10px;width:1px;background:var(--af-line-subtle)}
+.af-timeline__ev{display:grid;grid-template-columns:12px 92px minmax(0,1fr);gap:10px;align-items:center;padding:5px 0;font-size:13px;color:var(--af-fg-muted)}
+.af-timeline__dot{position:relative;width:7px;height:7px;margin-left:1px;border-radius:var(--af-radius-round);background:var(--af-fg-dim);box-shadow:0 0 0 3px var(--ground)}
+.af-timeline__ev--stage .af-timeline__dot{background:var(--af-fg-muted)}
+.af-timeline__ev--hold .af-timeline__dot,.af-timeline__ev--ask .af-timeline__dot{background:var(--af-status-approval)}
+.af-timeline__ev--fail .af-timeline__dot,.af-timeline__ev--deny .af-timeline__dot{background:var(--af-status-failed)}
+.af-timeline__ev.is-last:not(.af-timeline__ev--hold,.af-timeline__ev--ask,.af-timeline__ev--fail,.af-timeline__ev--deny) .af-timeline__dot{background:var(--af-fg);box-shadow:0 0 0 3px var(--ground),0 0 10px var(--af-rail-glow)}
+/* a latest event that is a hold, a question or a stop keeps its status color and does not glow: a glow says moving */
+.af-timeline__time{display:flex;flex-direction:column;line-height:1.2;font-family:var(--af-font-mono);font-size:11.5px;color:var(--af-fg);font-variant-numeric:tabular-nums;white-space:nowrap}
+.af-timeline__time small{font-size:10.5px;color:var(--af-fg-subtle)}
+.af-timeline__text{min-width:0;overflow-wrap:anywhere}
+.af-timeline__ev--stage .af-timeline__text{color:var(--af-fg);font-weight:500}
+.af-timeline__ev--hold .af-timeline__text,.af-timeline__ev--ask .af-timeline__text{color:var(--af-fg)}
+
+/* ---- decisions: the body of a deck card and of a console's decide panel ---- */
+.af-lead{margin:0;font-size:15px;line-height:1.4;font-weight:500;color:var(--af-fg)}
+.af-lead code,.af-ctx code{font-family:var(--af-font-mono);font-size:12.5px;padding:1px 6px;border-radius:5px;background:var(--af-surface);color:var(--af-fg)}
+.af-ctx{margin:0;font-size:13px;line-height:1.5;color:var(--af-fg-muted)}
+.af-cmd{margin:0;padding:10px 12px;border-radius:var(--af-radius-control);background:var(--af-surface);color:var(--af-fg);font-family:var(--af-font-mono);font-weight:500;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.af-pairs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;margin:0;font-size:13px;color:var(--af-fg)}
+.af-pairs--wide{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+.af-pairs>span{display:flex;flex-direction:column;gap:1px;min-width:0;overflow-wrap:anywhere}
+.af-pairs small{font-size:11.5px;color:var(--af-fg-subtle)}
+.af-pairs .af-mono{font-size:12.5px}
+.af-acts{display:flex;flex-wrap:wrap;align-items:center;gap:4px;min-width:0}
+.af-acts__end{display:flex;flex-wrap:wrap;gap:4px;margin-left:auto}
+.af-note{font-size:12px;color:var(--af-fg-subtle)}
+.af-reason{display:flex;flex-direction:column;gap:6px;animation:af-fade var(--af-dur-open) var(--af-ease-open)}
+.af-reason>label{font-size:12.5px;color:var(--af-fg-muted)}
+.af-verdict-line{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;color:var(--af-fg-muted);animation:af-fade var(--af-dur-open) var(--af-ease-open)}
+.af-verdict-line>.af-ic{color:var(--af-fg)}
+.af-verdict-line>.af-btn{margin-left:auto}
+@keyframes af-fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ---- decision deck: one decision on top, the next two peeking behind it, "n of N", previous / next, an up-next list.
+   data-k is the card's place in the stack (0 on top); deciding adds is-leaving, then the next card rises. ---- */
+.af-deck{display:grid;grid-template-columns:minmax(0,640px) minmax(0,1fr);gap:28px;align-items:start;min-width:0}
+.af-deck__stack{position:relative;min-height:120px;padding-bottom:24px;min-width:0}
+.af-decision{--c:var(--af-status-approval);position:relative;display:flex;flex-direction:column;gap:10px;min-width:0;padding:18px 20px 18px 22px;border-radius:var(--af-radius-sheet);background:var(--af-lifted);
+  box-shadow:inset 0 1px 0 var(--af-edge-hi),var(--af-shadow-2);animation:af-fade var(--af-dur-open) var(--af-ease-open) both}
+.af-decision::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:0 3px 3px 0;background:var(--c);pointer-events:none}
+/* outside a stack (a column inbox) a decision rests: shadow-1, not the deep shadow of the deck's top card */
+:not(.af-deck__stack)>.af-decision{box-shadow:inset 0 1px 0 var(--af-edge-hi),var(--af-shadow-1)}
+.af-decision--failed{--c:var(--af-status-failed)}
+.af-decision--denied{--c:var(--af-status-denied)}
+.af-decision--done{opacity:.75}
+.af-deck__stack>.af-decision{position:absolute;left:0;right:0;top:0;--k:0;transform:translateY(calc(var(--k) * 12px)) scale(calc(1 - var(--k) * .035));transform-origin:50% 0;opacity:calc(1 - var(--k) * .3);z-index:calc(10 - var(--k));
+  transition:transform 420ms var(--af-ease-open),opacity 420ms var(--af-ease-open);animation:none}
+.af-deck__stack>.af-decision[data-k="0"]{position:relative}
+.af-deck__stack>.af-decision[data-k="1"]{--k:1}
+.af-deck__stack>.af-decision[data-k="2"]{--k:2}
+.af-deck__stack>.af-decision:not([data-k="0"]){height:100%;overflow:hidden;pointer-events:none}
+.af-deck__stack>.af-decision:not([data-k="0"])>:not(.af-decision__hd){visibility:hidden}
+.af-deck__stack>.af-decision:not([data-k="0"]):not([data-k="1"]):not([data-k="2"]){display:none}
+.af-decision.is-leaving{transform:translateX(40px) scale(.98);opacity:0;pointer-events:none}
+.af-decision__hd{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;min-width:0}
+.af-decision__hd>.af-status{font-size:12.5px}
+.af-decision__hd>.af-status:not(.af-status--denied){color:var(--c)}
+.af-decision__exp{margin-left:auto;font-family:var(--af-font-mono);font-size:11.5px;color:var(--af-fg-subtle);white-space:nowrap;font-variant-numeric:tabular-nums}
+.af-decision__who{display:flex;flex-direction:column;gap:3px;min-width:0}
+.af-decision__link{margin:0;padding:0;border:0;background:none;color:var(--af-fg);font:inherit;font-size:16px;font-weight:500;line-height:1.3;text-align:left;cursor:pointer;text-wrap:balance}
+.af-decision__link .af-id{font-size:12px;color:var(--af-fg-muted);margin-right:6px}
+.af-decision__link:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--af-line-strong)}
+.af-decision__by{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--af-fg-subtle)}
+.af-decision__bd{display:flex;flex-direction:column;gap:10px;min-width:0}
+.af-deck__side{display:flex;flex-direction:column;gap:14px;padding-top:4px;min-width:0}
+.af-deck__title{display:flex;align-items:baseline;gap:8px;margin:0;font-size:15px;font-weight:600;color:var(--af-fg)}
+.af-deck__count{font-family:var(--af-font-mono);font-weight:400;font-size:12px;color:var(--af-fg-subtle);font-variant-numeric:tabular-nums}
+.af-deck__side>p{margin:0;max-width:40ch;font-size:13px;line-height:1.5;color:var(--af-fg-muted)}
+.af-deck__nav{display:flex;align-items:center;gap:6px}
+.af-deck__nav>.af-note{margin-left:4px}
+.af-deck__upnext{display:flex;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
+.af-deck__upnext button{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;border-radius:var(--af-radius-control);background:none;color:var(--af-fg-muted);font:inherit;font-size:13px;text-align:left;cursor:pointer;min-width:0}
+.af-deck__upnext button:hover{background:var(--af-raised)}
+.af-deck__upnext button>.af-status{gap:0}
+.af-deck__upnext .af-id{font-size:12px;color:var(--af-fg-subtle)}
+.af-deck__upnext .af-deck__what{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.af-deck__upnext .af-deck__when{margin-left:auto;font-size:12px;color:var(--af-fg-muted);white-space:nowrap}
+.af-deck__empty{min-height:120px;border-radius:var(--af-radius-sheet);box-shadow:inset 0 0 0 1px var(--af-line)}
+
+/* ---- runway groups: a pool or environment header above its rows or cards ---- */
+.af-runway__group,.af-board__group{display:flex;flex-direction:column;gap:10px;min-width:0}
+.af-runway__head{display:flex;align-items:center;gap:12px;padding:0 4px;min-width:0}
+.af-runway__head h3{display:flex;align-items:center;gap:8px;margin:0;font-size:14px;font-weight:600;color:var(--af-fg)}
+.af-runway__head h3 .af-ic{color:var(--af-fg-subtle)}
+.af-runway__head>.af-cap{margin-left:auto}
+
+/* ---- the key under a runway: marks, a rail, a spark, the keys ---- */
+.af-runway__key{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding-top:18px;border-top:1px solid var(--af-line-subtle);font-size:12.5px;color:var(--af-fg-subtle)}
+.af-runway__key .af-status{font-size:12.5px}
+.af-runway__key .af-status:not(.af-status--denied){color:var(--af-fg-subtle)}
+.af-runway__key .af-rail{width:72px;min-width:0}
+.af-runway__key>.af-note:last-child{margin-left:auto}
+
+@media (max-width:1200px){
+  .af-agent__line{grid-template-columns:18px 54px minmax(160px,1.6fr) 104px 170px 150px 20px}
+  .af-agent__line>.af-agent__rig,.af-agent__line>.af-spark--mini,.af-agent__line>.af-agent__cost{display:none}
+}
+@media (max-width:1000px){
+  .af-deck{grid-template-columns:minmax(0,1fr)}
+  .af-deck__side{padding-top:0}
+  .af-deck__upnext{display:none}
+}
+@media (max-width:760px){
+  .af-agent__line{grid-template-columns:18px minmax(0,1fr) auto;grid-template-rows:auto auto auto auto;min-height:0;padding:12px 14px 12px 16px;gap:3px 10px}
+  .af-agent__line>.af-agent__tail{grid-column:2;font-size:11.5px;color:var(--af-fg-subtle)}
+  .af-agent__line>.af-agent__ttl{grid-column:2;grid-row:2}
+  .af-agent__line .af-agent__work{white-space:normal}
+  .af-agent__line>.af-agent__who{grid-column:2;grid-row:3;margin-top:4px}
+  .af-agent__line>.af-rail{grid-column:2;grid-row:4;margin:10px 0 4px}
+  .af-agent__line>.af-stages{grid-column:3;grid-row:4;justify-self:end}
+  .af-agent__line .af-stages span:not(.is-now){display:none}
+  .af-agent__line>.af-agent__chev{grid-column:3;grid-row:2}
+  .af-console{grid-template-columns:minmax(0,1fr);padding:4px 14px 14px}
+  .af-console__panel--hist,.af-console__panel--decide,.af-console__panel--now{grid-column:1;grid-row:auto}
+  .af-board{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .af-agent__face{padding:12px;min-height:126px}
+  .af-agent--card.is-open .af-agent__face{grid-template-columns:minmax(0,1fr)}
+  .af-timeline__ev{grid-template-columns:12px 64px minmax(0,1fr)}
+  .af-runway__key>.af-note:last-child{display:none}
+  .af-runway__head>.af-cap{display:none}
+}
+
+/* Forced colors: the status edge becomes a CanvasText border; dots, heads and fills paint in CanvasText; the glow goes */
+@media (forced-colors: active){
+  .af-agent,.af-decision{outline:1px solid CanvasText;outline-offset:-1px}
+  .af-agent--lit,.af-agent--failed,.af-agent--denied,.af-decision{border-left:3px solid CanvasText}
+  .af-agent--lit::before,.af-agent--failed::before,.af-agent--denied::before,.af-decision::before{background:CanvasText}
+  .af-agent.is-open{outline:2px solid Highlight;outline-offset:-2px}
+  .af-hb__dot,.af-rail__head,.af-rail__done,.af-rail__stop.is-on,.af-timeline__dot,.af-capsule__seg::after{background:CanvasText;box-shadow:none}
+  .af-rail__track,.af-rail__stop,.af-capsule__seg{background:GrayText}
+  .af-rail--est .af-rail__track::after{background:none;border-top:2px dashed CanvasText}
+  .af-rail--est .af-rail__head{background:Canvas;outline:1.5px solid CanvasText}
+  .af-capsule--est .af-capsule__seg.is-now::after{background:transparent;border:1px dashed CanvasText}
+  .af-ring__track{stroke:GrayText}
+  .af-ring__fill,.af-ring__est{stroke:CanvasText}
+  .af-cmd,.af-deck__empty{outline:1px solid CanvasText;outline-offset:-1px}
+  .af-timeline::before{background:CanvasText}
+}
