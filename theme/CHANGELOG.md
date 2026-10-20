@@ -8,7 +8,7 @@ workflow has no cross-repo token. Keep token names stable; list each token whose
 ## theme-v13 · 2026-10-20
 
 The docs-site mapping catches up with theme-v12's type rule: labels are sentence-case sans, not mono capitals
-(KAN-150 found them still in mono on the flightdeck site). Only `airframe-docs.css` changes; no token changes value,
+(KAN-150 found them still in mono on the flightdeck site). `airframe-docs.css` and the DecisionDeck rules change; no token changes value,
 none is added, renamed or removed.
 
 - Tabs, nav titles, table headers, admonition and details titles, buttons, the eyebrow, figure captions, the tool-card
@@ -18,6 +18,10 @@ none is added, renamed or removed.
 - Code, IDs and numbers stay in DM Mono.
 - The deprecated `brand-wash` is gone from the docs mapping: the accent wash, `<mark>` and highlighted code lines
   use `selected` (neutral), so Day no longer shows a yellow tint.
+- DecisionDeck (`airframe-components.css`): the cards peeking behind the top one no longer show the 3px status edge (only
+  the top card carries it). New `af-deck__subtitle` and `af-deck__stopped`: what stopped (failed, denied) is listed
+  under up-next as "Stopped", visible at every width, and is no longer stacked with the decisions, so "1 of N" counts
+  decisions only and agrees with the nav badge (found in hangar #343). The README and preview follow.
 
 ## theme-v12 · 2026-10-19
 

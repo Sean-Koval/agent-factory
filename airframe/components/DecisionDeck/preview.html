@@ -3,7 +3,7 @@
 <html><head><meta charset="utf-8"><title>DecisionDeck</title></head>
 <body>
 <main class="af-stack af-stack--block" style="padding:24px">
-  <section class="af-stack"><span class="af-lbl">Needs you<span class="af-lbl__sub">4 decisions</span></span>
+  <section class="af-stack"><span class="af-lbl">Needs you<span class="af-lbl__sub">2 decisions, 2 stopped</span></span>
   <section class="af-deck" aria-label="Needs you" id="deck-a"></section></section>
   <section class="af-stack"><span class="af-lbl">Deny needs a reason</span>
   <section class="af-deck" aria-label="Needs you, denying" id="deck-b"></section></section>
@@ -96,16 +96,20 @@ const card = (a, k, deny) => `<article class="af-decision af-decision--${roleOf(
   <div class="af-decision__hd">${stWord(a)}<span class="af-decision__exp" title="Expires">${a.exp ? `${clockMin(a.exp)} left` : ago(a.hb) + " ago"}</span></div>
   <div class="af-decision__who"><button type="button" class="af-decision__link"><span class="af-id">${a.id}</span>${esc(a.work)}</button><span class="af-decision__by">${hex(a.harness)}${a.harness} for ${PEOPLE[a.owner][1]}</span></div>
   <div class="af-decision__bd">${body(a, deny)}</div></article>`;
+const DECIDE = Q.filter((a) => a.role === "approval" || a.role === "input"), STOP = Q.filter((a) => !DECIDE.includes(a));
 function side(stack, n, total) {
   const rest = [...stack.querySelectorAll(".af-decision")].slice(1).map((c) => Q.find((a) => a.id === c.dataset.id));
   return `<h2 class="af-deck__title">Needs you<span class="af-deck__count">${n} of ${total}</span></h2><p>One decision at a time, soonest to expire on top. Decide and the next one rises; the agent continues the moment you do.</p>
   <div class="af-deck__nav"><button type="button" class="af-btn af-btn--secondary af-btn--sm af-btn--icon" data-deck="prev" aria-label="Previous">${ic("back")}</button><button type="button" class="af-btn af-btn--secondary af-btn--sm af-btn--icon" data-deck="next" aria-label="Next">${ic("chev")}</button><span class="af-note">Skip for now</span></div>
-  <ul class="af-deck__upnext">${rest.map((a, i) => `<li><button type="button" data-deck-to="${i + 1}">${mark(a)}<span class="af-id">${a.id}</span><span class="af-deck__what">${esc(a.work)}</span><span class="af-deck__when">${a.exp ? clockMin(a.exp) + " left" : WORD[a.role]}</span></button></li>`).join("")}</ul>`;
+  <ul class="af-deck__upnext">${rest.map((a, i) => `<li><button type="button" data-deck-to="${i + 1}">${mark(a)}<span class="af-id">${a.id}</span><span class="af-deck__what">${esc(a.work)}</span><span class="af-deck__when">${a.exp ? clockMin(a.exp) + " left" : WORD[a.role]}</span></button></li>`).join("")}</ul>${STOP.length ? `
+  <h3 class="af-deck__subtitle">Stopped</h3>
+  <ul class="af-deck__stopped">${STOP.map((a) => `<li><button type="button">${mark(a)}<span class="af-id">${a.id}</span><span class="af-deck__what">${esc(a.work)}</span><span class="af-deck__when">${WORD[a.role]}</span></button></li>`).join("")}</ul>` : ""}`;
 }
 function mount(root, deny) {
-  root.innerHTML = `<div class="af-deck__stack">${Q.map((a, i) => card(a, i, deny && i === 0)).join("")}</div><aside class="af-deck__side"></aside>`;
+  // the deck stacks the decisions only (approval, question); what stopped (failed, denied) is listed under them
+  root.innerHTML = `<div class="af-deck__stack">${DECIDE.map((a, i) => card(a, i, deny && i === 0)).join("")}</div><aside class="af-deck__side"></aside>`;
   const stack = root.querySelector(".af-deck__stack"), aside = root.querySelector(".af-deck__side");
-  let n = 1; const total = Q.length;
+  let n = 1; const total = DECIDE.length;
   const paint = () => { aside.innerHTML = side(stack, n, total); };
   stack.addEventListener("af:deck", paint); paint();
   root.addEventListener("click", (e) => {

@@ -80,7 +80,7 @@ component contracts in `airframe/components/*.md` before writing markup.
 | FleetTable | Data | Dense 32px rows on a tonal panel: tail number, environment, harness and model, status, CPU, age, cost. |
 | Terminal | Data | Always dark in both themes; quiet ✓ lines, red ✗ lines, prompt and cursor in brand. |
 | TraceSpans | Data | One agent turn as a span tree on a timeline; the critical path in brand. |
-| DecisionDeck | Fleet | `af-deck` > `af-deck__stack` of `af-decision` sheets (`data-k` 0 on top, 1–2 peek) + `af-deck__side` (n of N, prev/next, skip, up-next); inline approve, deny with a required reason (`af-reason`), answer with chips, retry, acknowledge; `af-verdict-line`; calm empty. `deck` in airframe.js. |
+| DecisionDeck | Fleet | `af-deck` > `af-deck__stack` of `af-decision` sheets (`data-k` 0 on top, 1–2 peek) + `af-deck__side` (n of N over the decisions only, prev/next, skip, up-next, then `af-deck__subtitle` "Stopped" and `af-deck__stopped` for failed and denied); peek cards carry no status edge; inline approve, deny with a required reason (`af-reason`), answer with chips, retry, acknowledge; `af-verdict-line`; calm empty. `deck` in airframe.js. |
 | AgentRow | Fleet | `af-runway` > `af-agent` > `af-agent__line` (mark, tail, work + now-line + Heartbeat, owner, harness, StageRail, stage times, sparkline, cost, chevron) and `af-agent__body` > `af-console`; opens in place (`expand`). The **List** view. |
 | AgentCard | Fleet | `af-board` > `af-agent af-agent--card` > `af-agent__face` (avatar, tail, ring, work, now-line, capsule, owner); opens in place full width. The **Board** view. |
 | ActivityTimeline | Fleet | `af-timeline` > `af-timeline__ev` (`--stage`, `--hold`, `--fail`, `is-last` lit): wall-clock and relative time, the event. |
