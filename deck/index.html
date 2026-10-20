@@ -486,11 +486,11 @@ p { margin: 0; }
   <span class="eyebrow">What the team sees · hangar</span>
   <div class="screen-grid">
     <div>
-      <h2>Ten agents. One needs you.</h2>
-      <p class="lede">Needs you is the console's first tab: questions and held tool calls to decide here, then what waits for a review on GitHub.</p>
-      <ul class="facts"><li>A question is answered in place; the agent continues with the answer.</li><li>A deny needs a reason. It goes on the receipt and back to the agent.</li></ul>
+      <h2>Nineteen agents. Five need you.</h2>
+      <p class="lede">Needs you is the console's first tab: held tool calls and questions, one decision at a time, soonest to expire on top.</p>
+      <ul class="facts"><li>Decide and the next one rises; the agent continues the moment you do.</li><li>A deny needs a reason. It goes on the receipt and back to the agent.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/hangar-needs-you-narrow-question.png" alt="hangar's Needs you view: a question card from an agent (Freeze time with a fixture in the test, or make the retry window configurable?) with an answer box, and below it draft PR #43 waiting for review"><figcaption><span>hangar · Needs you</span></figcaption></figure>
+    <figure class="screen"><img src="captures/hangar-needs-you-narrow-decision.png" alt="hangar's Needs you: the decision deck with a held git push to main on top, its changes, branch and expiry, Deny, Allow for this turn and Approve push"><figcaption><span>hangar · Needs you</span></figcaption></figure>
   </div>
   <div class="foot"><span>Everything running stays grey; the one card that needs you is the only color</span><b>05 / 14</b></div>
 </section>
@@ -512,13 +512,13 @@ p { margin: 0; }
   <span class="eyebrow">What the team sees · hangar</span>
   <div class="screen-grid">
     <div>
-      <h2>The whole fleet on one board</h2>
-      <p class="lede">Board, Bays, Columns and Owners are four views of the same sandboxes and one selection. <b>10 of 120</b> slots in use.</p>
-      <ul class="facts"><li>Each tile shows its stage: plan, edit, test, PR.</li><li>Answer a question or decide a held step without leaving the Fleet.</li></ul>
+      <h2>The whole fleet, one row per agent</h2>
+      <p class="lede">List and Board are two views of the same agents. <b>25 of 120</b> slots in use.</p>
+      <ul class="facts"><li>Each row shows what the agent is doing now, its owner and its stage: plan, edit, test, PR.</li><li>Open an agent in place to decide what it holds without leaving the Fleet.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/hangar-fleet-board.png" alt="hangar's Fleet board: the checkout-python pool with ten sandbox tiles, one marked Needs you and selected, and the legend"><figcaption><span>hangar · Fleet, Board view</span></figcaption></figure>
+    <figure class="screen"><img src="captures/hangar-fleet-rows-list.png" alt="hangar's Fleet as a list: eight agents of base-codex, four waiting on a person with an orange diamond, one denied, the rest grey, each with its owner, stage rail and stage times"><figcaption><span>hangar · Fleet, List view</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Ten agents at work; the one that needs a person is the only color on the board</span><b>07 / 14</b></div>
+  <div class="foot"><span>Agents at work stay grey; only the ones that need a person carry color</span><b>07 / 14</b></div>
 </section>
 
 <section class="slide" aria-label="Improving the harness">
@@ -564,9 +564,9 @@ p { margin: 0; }
     <div>
       <h2>The verdict lands on the harness PR</h2>
       <p class="lede">flightdeck posts one comment on the pull request that changes the harness and updates it in place: the verdict, both variants' pins, the outcome and its interval.</p>
-      <ul class="facts"><li><b>treat is better than control</b> on resolved: +21.2 pp, CI +1.5 to +43.9.</li><li>Paired by task; infrastructure failures are excluded and listed.</li></ul>
+      <ul class="facts"><li><b>candidate is better than control</b> on resolved: +21.2 pp, CI +1.5 to +43.9.</li><li>Paired by task; infrastructure failures are excluded and listed.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/flightdeck-verdict-verdict.png" alt="A GitHub pull request comment from flightdeck: Verdict, treat is better than control on resolved (+21.2 pp, CI +1.5 to +43.9), and the Pins table comparing control and treat"><figcaption><span>flightdeck · report on PR #48, as posted on GitHub</span></figcaption></figure>
+    <figure class="screen"><img src="captures/flightdeck-verdict-verdict.png" alt="A GitHub pull request comment from flightdeck: candidate is better than control on resolved (+21.2 pp, 95% CI +1.5 to +43.9), the pre-registered rule and the Outcome table for control and candidate"><figcaption><span>flightdeck · report on PR #48, as posted on GitHub</span></figcaption></figure>
   </div>
   <div class="foot"><span>A harness change is promoted on paired evidence, by someone other than its author</span><b>09 / 14</b></div>
 </section>
@@ -591,7 +591,7 @@ p { margin: 0; }
       <p class="lede">Tower's home for a person: start work, decide the cards that need your signature, and see the day's receipts.</p>
       <ul class="facts"><li>Each card says what will run, why it asked and what signing does.</li><li>Every decision files a receipt, chained into the record.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/tower-desk-approval.png" alt="Needs you on Tower's Desk: an approval card for the agent Breaks creating a ticket for Globex, with what will run, the risk and expiry, and what signing does"><figcaption><span>Tower · the Desk, as an approver</span></figcaption></figure>
+    <figure class="screen"><img src="captures/tower-desk-approval.png" alt="Needs you on Tower's Desk: the decision deck with Breaks asking to create a ticket for Globex, what will run, the risk, the credential and what signing does, Decline and Sign"><figcaption><span>Tower · the Desk, as an approver</span></figcaption></figure>
   </div>
   <div class="foot"><span>What will run, why it asked and what signing does, before the button</span><b>11 / 14</b></div>
 </section>
