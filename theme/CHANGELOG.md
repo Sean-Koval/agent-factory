@@ -16,6 +16,8 @@ none is added, renamed or removed.
   The strip's plane words go from .5rem to .55rem and its home link from .56rem to .6rem.
 - `h4`–`h6` are sans 600 at .75rem in `fg-muted` instead of small mono capitals in `fg-subtle`.
 - Code, IDs and numbers stay in DM Mono.
+- The deprecated `brand-wash` is gone from the docs mapping: the accent wash, `<mark>` and highlighted code lines
+  use `selected` (neutral), so Day no longer shows a yellow tint.
 
 ## theme-v12 · 2026-10-19
 

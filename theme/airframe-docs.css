@@ -34,13 +34,13 @@
   --md-primary-bg-color--light: var(--af-fg-muted);
 
   --md-accent-fg-color: var(--af-brand-text);
-  --md-accent-fg-color--transparent: var(--af-brand-wash);
+  --md-accent-fg-color--transparent: var(--af-selected);
   --md-accent-bg-color: var(--af-on-brand);
   --md-accent-bg-color--light: var(--af-on-brand);
 
   --md-typeset-color: var(--af-fg);
   --md-typeset-a-color: var(--af-fg);
-  --md-typeset-mark-color: var(--af-brand-wash);
+  --md-typeset-mark-color: var(--af-selected);
   --md-typeset-table-color: var(--af-line);
   --md-typeset-table-color--light: var(--af-surface);
   --md-typeset-kbd-color: var(--af-raised);
@@ -48,8 +48,8 @@
 
   --md-code-fg-color: var(--af-terminal-fg);
   --md-code-bg-color: var(--af-terminal-bg);
-  --md-code-hl-color: var(--af-brand-wash);
-  --md-code-hl-color--light: var(--af-brand-wash);
+  --md-code-hl-color: var(--af-selected);
+  --md-code-hl-color--light: var(--af-selected);
   --md-code-hl-keyword-color: var(--af-code-keyword);
   --md-code-hl-function-color: var(--af-code-function);
   --md-code-hl-string-color: var(--af-code-string);
