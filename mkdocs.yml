@@ -45,6 +45,7 @@ nav:
   - How it fits: how-it-fits.md
   - Architecture:
       - architecture/index.md
+      - Containers: architecture/containers.md
       - Contracts: architecture/contracts.md
       - Flows: architecture/flows.md
   - Tools:

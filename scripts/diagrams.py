@@ -17,31 +17,37 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "assets" / "diagrams"
 # The dark fallbacks come from the Airframe build, so a stand-alone SVG matches the current Night theme.
 NIGHT = json.loads((ROOT / "theme" / "airframe-tokens.json").read_text())["themes"]["dark"]
+# The docs show a 1200-wide drawing in a 1188px column at best and a 938px one beside a sidebar, so the
+# smallest source size is 12px: nothing drops below about 9.4px on screen. `check_floor` enforces it.
+FLOOR = 12
 
 
 def with_fallbacks(svg_text: str) -> str:
     """Rewrite every var(--af-<token>, <fallback>) so the fallback is that token's Night value."""
     return re.sub(r"var\(--af-([a-z0-9-]+), [^)]+\)", lambda m: f"var(--af-{m.group(1)}, {NIGHT[m.group(1)]})", svg_text)
 
+# Every box carries the same 2px product rule along its top; the centre of a drawing (box-hub) is marked
+# by size, position and a 1px line-strong edge, never by the brand yellow or a product hue around it: a
+# colored outline reads as a status (see airframe/guide/Status.md).
 STYLE = """
 <style>
   .af-d .bg { fill: var(--af-canvas, #000); }
   .af-d .box { fill: var(--af-raised, #141414); }
-  .af-d .box-hub { fill: var(--af-raised, #141414); stroke: var(--af-brand-line, #FFC400); stroke-width: 1.5; }
+  .af-d .box-hub { fill: var(--af-raised, #141414); stroke: var(--af-line-strong, #6B6B6B); stroke-width: 1; }
   .af-d .box-plan { fill: none; stroke: var(--af-line-strong, #6B6B6B); stroke-width: 1; stroke-dasharray: 4 4; }
   .af-d .box-ext { fill: var(--af-surface, #0A0A0A); stroke: var(--af-line-strong, #6B6B6B); stroke-width: 1; }
   .af-d .person { fill: var(--af-surface, #0A0A0A); stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1; }
   .af-d .bound { fill: none; stroke: var(--af-rule, #3A3A3A); stroke-width: 1; stroke-dasharray: 2 5; }
   .af-d .bound-fill { fill: var(--af-surface, #0A0A0A); }
-  .af-d .name { font: 700 15px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
-  .af-d .name-s { font: 700 13px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
+  .af-d .name { font: 700 16px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
+  .af-d .name-s { font: 700 14px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
   .af-d .title { font: 700 20px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
-  .af-d .body { font: 400 12.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-muted, #A6A6A6); }
-  .af-d .lbl { font: 500 10.5px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-fg-subtle, #8A8A8A); }
-  .af-d .lbl-hi { font: 500 10.5px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-brand-text, #FFC400); }
+  .af-d .body { font: 400 13px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-muted, #A6A6A6); }
+  .af-d .lbl { font: 500 12px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-fg-subtle, #8A8A8A); }
+  .af-d .lbl-hi { font: 500 12px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-brand-text, #FFC400); }
   .af-d .edge { fill: none; stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1.25; }
   .af-d .edge-plan { fill: none; stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1.25; stroke-dasharray: 5 4; }
-  .af-d .elabel { font: 400 11.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-subtle, #8A8A8A); }
+  .af-d .elabel { font: 400 12.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-subtle, #8A8A8A); }
   .af-d .arrowhead { fill: var(--af-fg-subtle, #8A8A8A); }
   .af-d .dot { fill: var(--af-dot-field, #262626); }
 </style>
@@ -207,19 +213,19 @@ def context() -> str:
 
 
 def containers() -> str:
+    """Twelve containers: the three on an engineer's machine, the cluster, one storage box, the externals."""
     E = dict(kind="box-ext", name_cls="name-s", eyebrow="EXTERNAL")
     b = [
         text(40, 48, "Containers and where they run", "title"),
         text(40, 72, "C4 LEVEL 2  ·  SOLID: ON MAIN  ·  DASHED: PLANNED OR NOT YET WIRED", "lbl"),
         # engineer machine
-        '<rect class="bound" x="30" y="100" width="240" height="600" rx="4"/>',
+        '<rect class="bound" x="30" y="100" width="240" height="460" rx="4"/>',
         text(46, 124, "ENGINEER MACHINE AND CI", "lbl"),
         box(46, 150, 208, 104, "Agent client", ["Claude Code or Codex", "with the hangar MCP"], eyebrow="CLI · MCP", name_cls="name-s"),
         box(46, 290, 208, 104, "ai-dlc", ["Machine setup, local work", "lifecycle, workflow plugin"], eyebrow="PYTHON CLI", product="aidlc", name_cls="name-s"),
         box(46, 430, 208, 104, "flightdeck", ["Ingest, statistics, specs,", "reports, experiments"], eyebrow="PYTHON CLI · DUCKDB", product="flightdeck", name_cls="name-s"),
-        box(46, 570, 208, 104, "Nightly checks", ["GitHub Actions: canary", "and flightdeck checks"], eyebrow="CI", kind="box-plan", name_cls="name-s"),
         # google cloud
-        '<rect class="bound" x="330" y="100" width="560" height="846" rx="4"/>',
+        '<rect class="bound" x="330" y="100" width="560" height="850" rx="4"/>',
         text(346, 124, "GOOGLE CLOUD PROJECT", "lbl"),
         '<rect class="bound" x="346" y="140" width="528" height="500" rx="4"/>',
         text(362, 164, "GKE CLUSTER", "lbl"),
@@ -230,16 +236,16 @@ def containers() -> str:
         box(650, 180, 208, 124, "Tower", ["Decision point, approvals,", "receipts, passports"],
             eyebrow="ON MAIN · NOT DEPLOYED", product="tower", name_cls="name-s"),
         box(650, 340, 208, 104, "Gateway and egress", ["Git gateway :8788", "Egress proxy :3128"],
-            eyebrow="IN THE CONTROL PLANE POD", product="hangar", name_cls="name-s"),
+            eyebrow="CONTROL PLANE POD", product="hangar", name_cls="name-s"),
         box(362, 500, 496, 112, "Agent sandboxes", ["Claude Code, Codex, pi, Antigravity · gVisor on Spot nodes, 0 to N",
                                                     "Pools off 01:00–10:00 ET · optional Kata heavy tier for Docker"],
             eyebrow="AGENT SANDBOX ADD-ON", product="hangar", name_cls="name-s"),
-        box(346, 670, 168, 108, "Checkpoints", ["Session state that", "outlives the disk"], eyebrow="GCS", name_cls="name-s"),
-        box(530, 670, 168, 108, "Run outbox", ["hangar.run/v1,", "written once"], eyebrow="GCS · OFF IN DEPLOY", name_cls="name-s"),
-        box(714, 670, 160, 108, "Data plane", ["Parquet tables,", "one folder a day"], eyebrow="GCS", name_cls="name-s"),
-        box(346, 806, 168, 116, "Images", ["Environment images", "and harness packs"], eyebrow="ARTIFACT REGISTRY", name_cls="name-s"),
-        box(530, 806, 344, 116, "Compactor", ["Flattens new runs into Parquet each", "night, while the sandbox pools are off"],
-            eyebrow="CLOUD RUN JOB · NOT DEPLOYED", product="flightdeck", name_cls="name-s"),
+        box(346, 670, 528, 124, "Storage", ["Checkpoints: session state that outlives the disk",
+                                             "Run outbox: hangar.run/v1, written once · off in the deploy",
+                                             "Data plane: Parquet tables, one folder a day"],
+            eyebrow="CLOUD STORAGE · ARTIFACT REGISTRY FOR IMAGES", name_cls="name-s"),
+        box(346, 826, 528, 104, "Compactor", ["Flattens new runs into Parquet each night, while the sandbox pools are off"],
+            eyebrow="CLOUD RUN JOB · NIGHTLY · NOT DEPLOYED", product="flightdeck", name_cls="name-s"),
         # externals
         box(940, 150, 230, 104, "Jira and Slack", ["Doors in; questions and", "approvals out"], **E),
         box(940, 340, 230, 104, "GitHub", ["Team repos, PRs, the App,", "the team harness repo"], **E),
@@ -248,16 +254,14 @@ def containers() -> str:
         # engineer -> control plane
         edge("M254 222H360"), text(262, 214, "MCP / REST"),
         edge("M254 470H300V300H360"), text(306, 292, "trials"),
-        edge("M254 510H316V962H882V724H876"), text(600, 980, "flightdeck reads Parquet", anchor="middle"),
+        edge("M254 510H316V980H1190V732H876"), text(750, 1000, "flightdeck reads Parquet", anchor="middle"),
         # inside the cluster
         edge("M582 240H648", plan=True), text(616, 232, "decide", anchor="middle"),
         edge("M472 444V498"), text(480, 476, "creates"),
         edge("M754 500V446"), text(762, 478, "git, egress"),
-        # to storage
-        # the outbox and the compactor are on main but off in the GKE deploy until hangar#273
-        edge("M362 420H354V652H430V668"),
-        edge("M430 652H614V668", plan=True),
-        edge("M614 778V804", plan=True), edge("M794 806V780", plan=True),
+        # to storage: checkpoints always; the outbox and the compactor are on main but off in the GKE deploy (hangar#273)
+        edge("M362 420H354V652H430V668"), text(438, 652, "checkpoints, runs"),
+        edge("M520 794V824", plan=True), edge("M700 826V796", plan=True),
         # to externals
         edge("M858 380H938"), text(866, 372, "push"),
         edge("M858 420H916V522H938"),
@@ -266,7 +270,7 @@ def containers() -> str:
         edge("M1170 392H1184V88H472V178"), '<path class="edge" d="M1170 202H1184"/>',
         text(1176, 80, "webhooks from GitHub, Jira and Slack", anchor="end"),
     ]
-    return svg(1200, 996, "Containers and where they run", b)
+    return svg(1200, 1020, "Containers and where they run", b)
 
 
 # ---------------------------------------------------------------------------------------------
@@ -275,8 +279,8 @@ def containers() -> str:
 JOURNEY_STYLE = """
 <style>
   .af-d .step { fill: var(--af-canvas, #000); stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1; }
-  .af-d .stepn { font: 500 11px "DM Mono", ui-monospace, Menlo, monospace; fill: var(--af-fg, #fff); }
-  .af-d .hub-lbl { font: 500 10.5px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-fg-subtle, #8A8A8A); }
+  .af-d .stepn { font: 500 12px "DM Mono", ui-monospace, Menlo, monospace; fill: var(--af-fg, #fff); }
+  .af-d .hub-lbl { font: 500 12px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-fg-subtle, #8A8A8A); }
 </style>
 """
 
@@ -387,12 +391,28 @@ def journey_stacked() -> str:
     return svg(420, end + 72, "A ticket's journey, stacked", b, pid="journey-stacked")
 
 
+FONT_SIZE = re.compile(r"font(?:-size)?:[^;}]*?(\d+(?:\.\d+)?)px")
+
+
+def check_floor(svg_text: str, name: str) -> None:
+    """Every font size a drawing declares is at least FLOOR px at source size."""
+    small = sorted({float(m) for m in FONT_SIZE.findall(svg_text) if float(m) < FLOOR})
+    if small:
+        raise SystemExit(f"diagrams: {name} declares {small} px type; the floor is {FLOOR}px")
+
+
+def write(name: str, fn) -> None:
+    text_ = with_fallbacks(fn())
+    check_floor(text_, name)
+    (OUT / f"{name}.svg").write_text(text_)
+    print("wrote", OUT / f"{name}.svg")
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for name, fn in (("planes", planes), ("c4-context", context), ("c4-containers", containers),
                      ("journey", journey), ("journey-stacked", journey_stacked)):
-        (OUT / f"{name}.svg").write_text(with_fallbacks(fn()))
-        print("wrote", OUT / f"{name}.svg")
+        write(name, fn)
 
 
 # ---------------------------------------------------------------------------------------------
@@ -467,8 +487,7 @@ def slide_loop() -> str:
 
 def main_slides() -> None:
     for name, fn in (("slide-planes", slide_planes), ("slide-loop", slide_loop)):
-        (OUT / f"{name}.svg").write_text(with_fallbacks(fn()))
-        print("wrote", OUT / f"{name}.svg")
+        write(name, fn)
 
 
 if __name__ == "__main__":

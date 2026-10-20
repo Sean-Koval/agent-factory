@@ -1,5 +1,6 @@
 ---
 hide:
+  - navigation
   - toc
 ---
 
@@ -27,8 +28,8 @@ Agent factory is how a team of six runs about sixty coding-agent sessions withou
 7. When someone changes the harness, flightdeck runs stable against candidate on pinned trials and posts the verdict on the harness PR. A different person moves `stable`, and the next claim in step 3 uses it.
 
 <figure class="af-figure af-journey--wide">
---8<-- "journey.svg"
-<figcaption>The seven steps, numbered as above · <a href="assets/diagrams/journey.svg">full size</a></figcaption>
+--8<-- "slide-planes.svg"
+<figcaption>Four planes, one loop, one gate · <a href="assets/diagrams/journey.svg">the seven steps, numbered, full size</a></figcaption>
 </figure>
 
 <figure class="af-figure af-journey--stacked">
