@@ -1,10 +1,11 @@
 # DecisionDeck
 
-What needs you, one decision at a time: the soonest to expire on top as a lifted sheet, the next two peeking behind it, "1 of 4", previous and next, and an up-next list to skip around. Deciding (approve, deny with a required reason, answer with chips or free text, retry or start over, acknowledge) happens inline; the card slides away and the next one rises. When nothing waits, a calm empty state says so and counts what is running.
+What needs you, one decision at a time: the soonest to expire on top as a lifted sheet, the next two peeking behind it, "1 of 5", previous and next, and an up-next list to skip around. Deciding (approve, deny with a required reason, answer with chips or free text, retry or start over, acknowledge) happens inline; the card slides away and the next one rises. When nothing waits, a calm empty state says so and counts what is running.
 
 ## What you provide
 
-- The decisions, ordered: the ones that need a person (approval, question) by time left to expiry, then the stopped ones (failed, denied). Each has its agent's tail number and work, who runs it for whom, the expiry or age, and its body: the approval's lead, command, facts and buttons; the question's words, context, options and free text; the failure's message, retry and start over; the denial's reason and acknowledge.
+- The decisions (approval, question), ordered by time left to expiry; they are the stack and the count ("1 of 5" matches the nav badge and "Five waiting on you").
+- What stopped (failed, denied), newest first. It is listed under the up-next list as **Stopped**, never mixed into the stack; with no decision left, the stopped ones become the stack. Every item, decision or stopped, has its agent's tail number and work, who runs it for whom, the expiry or age, and its body: the approval's lead, command, facts and buttons; the question's words, context, options and free text; the failure's message, retry and start over; the denial's reason and acknowledge.
 - The verdict sentence after a decision ("Approved by Sean. Receipt TWR-RCPT-88A1 filed; codex is pushing.") and when the card may leave.
 - The counts for the empty state.
 
@@ -24,13 +25,15 @@ What needs you, one decision at a time: the soonest to expire on top as a lifted
       </div>
     </article>
     <article class="af-decision af-decision--approval" data-k="1" inert>…</article>
-    <article class="af-decision af-decision--failed" data-k="2" inert>…</article>
+    <article class="af-decision af-decision--approval" data-k="2" inert>…</article>
   </div>
   <aside class="af-deck__side">
-    <h2 class="af-deck__title">Needs you<span class="af-deck__count">1 of 4</span></h2>
+    <h2 class="af-deck__title">Needs you<span class="af-deck__count">1 of 5</span></h2>
     <p>One decision at a time, soonest to expire on top. Decide and the next one rises; the agent continues the moment you do.</p>
     <div class="af-deck__nav"><button class="af-btn af-btn--secondary af-btn--sm af-btn--icon" aria-label="Previous">…</button><button class="af-btn af-btn--secondary af-btn--sm af-btn--icon" aria-label="Next">…</button><span class="af-note">Skip for now</span></div>
     <ul class="af-deck__upnext"><li><button type="button"><span class="af-status af-status--approval"><i class="af-status__mark"></i></span><span class="af-id">HGR-7Q2K</span><span class="af-deck__what">Backfill order totals for Q3</span><span class="af-deck__when">1 h 54 min left</span></button></li>…</ul>
+    <h3 class="af-deck__subtitle">Stopped</h3>
+    <ul class="af-deck__stopped"><li><button type="button"><span class="af-status af-status--failed"><i class="af-status__mark"></i></span><span class="af-id">HGR-0PZ4</span><span class="af-deck__what">Round refunds to the cent</span><span class="af-deck__when">Failed</span></button></li>…</ul>
   </aside>
 </section>
 
@@ -50,7 +53,7 @@ What needs you, one decision at a time: the soonest to expire on top as a lifted
 | Part | Class | Notes |
 |---|---|---|
 | Deck | `af-deck` | Two columns (the stack up to 640 px, the side); one below 1000 px, where the up-next list goes. |
-| Stack | `af-deck__stack` | Cards carry `data-k`: 0 is on top (in flow), 1 and 2 peek behind it (12 px down and 3.5% smaller each, inert), the rest are hidden. 24 px of bottom padding leaves room for the peek. |
+| Stack | `af-deck__stack` | Cards carry `data-k`: 0 is on top (in flow), 1 and 2 peek behind it (12 px down and 3.5% smaller each, inert, with no status edge: only the top card carries it), the rest are hidden. 24 px of bottom padding leaves room for the peek. |
 | Decision | `af-decision` | A lifted sheet (`lifted`, `radius-sheet`, `shadow-2`, the `edge-hi` highlight) with the 3 px status edge; `--approval` (also questions), `--failed`, `--denied`; `--done` dims it after the verdict; `is-leaving` slides it out. |
 | Head, who, body | `__hd` (status word in its color, `__exp` right), `__who` (`__link` to the agent, `__by`), `__bd` | The body is the decision's own words and controls: `af-lead`, `af-ctx`, `af-cmd`, `af-pairs`, `af-chips`, `af-reason`, `af-acts` with `af-acts__end`. |
 | Side | `af-deck__side` | `__title` with `__count`, a sentence, `__nav` (previous, next, "Skip for now"), `__upnext` (mark, id, what, when). |
@@ -66,7 +69,8 @@ hangar's Needs you, and the top of its Fleet; Tower's Desk for a person who clea
 
 ## Do
 
-- Order by what expires first; lit decisions before stopped ones.
+- Order by what expires first. Count only the decisions, so the deck, the nav badge and the page header agree.
+- List what stopped under **Stopped** (`af-deck__subtitle`, `af-deck__stopped`); it stays visible at every width, unlike up-next.
 - Mutate the fleet when a decision lands: the agent's row flips to running with a new now-line, the nav count follows.
 - Keep the agent's words in the lead: "codex wants to push to main. Policy require-approval-main-push holds it."
 

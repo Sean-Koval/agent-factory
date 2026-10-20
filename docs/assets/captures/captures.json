@@ -1,7 +1,7 @@
 {
   "airframe": {
     "repo": "Sean-Koval/agent-factory",
-    "commit": "6756d36",
+    "commit": "19fe815",
     "demo": "scripts/airframe.py gallery",
     "screens": {
       "airframe-approvalcard": "The ApprovalCard preview from the gallery: inspect, deny with a reason, approve, quorum, waiting on others, verdicts",
@@ -9,7 +9,7 @@
     },
     "thumbnails": "docs/assets/airframe/<Name>.png: the top 800x500 of every component's Night preview (40 components), shown on the Components page"
   },
-  "captured": "2026-10-19",
+  "captured": "2026-10-20",
   "crops": {
     "hangar-fleet-needs-you": {
       "from": "hangar-fleet",

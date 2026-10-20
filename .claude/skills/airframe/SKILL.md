@@ -64,7 +64,7 @@ component contracts in `airframe/components/*.md` before writing markup.
 | Status | Foundations | `af-status af-status--running\|queued\|approval\|failed\|denied\|off` + `<i class="af-status__mark">` + word; `af-status--lit` colors the word. |
 | Card | Cards | `af-card` with `af-card__top`, `__body`, `__title`, `__desc`, `__foot`; `af-card--lit` (3px orange edge) only while a person is needed, `--failed`/`--denied` (red edge); `af-grid af-grid--2\|3\|4`. |
 | EnvironmentCard | Cards | An image a sandbox boots from: name, purpose, digest, harness; one failed build. |
-| SummaryCards | Cards | The four numbers at the top of a console: running, waiting on you, spend today, turn to PR. |
+| SummaryCards | Cards | The four numbers at the top of a console: running, waiting on you, spend today, turn to PR. `af-gauge` has a brand limit bug; `af-gauge--mini` (in a list) keeps it neutral. |
 | Composer | Controls | `af-composer` > `af-composer__queued` (Queued · applies after this tool call, with a take-back), `af-composer__box` (textarea, `af-chip` suggestions, one primary Send), `af-composer__why`; `is-disabled` says why. |
 | Controls | Controls | Switch, segmented control (`af-seg`), text input with key hint, select, `af-input--area` textarea, `af-chip` options; square and recessed. |
 | Navigation | Navigation | 56px app header with product switcher, sentence-case tabs with the 2px product marker, `af-nav__badge` (the orange Needs-you count, never at zero), search, avatar; breadcrumb row. |
@@ -80,7 +80,7 @@ component contracts in `airframe/components/*.md` before writing markup.
 | FleetTable | Data | Dense 32px rows on a tonal panel: tail number, environment, harness and model, status, CPU, age, cost. |
 | Terminal | Data | Always dark in both themes; quiet ✓ lines, red ✗ lines, prompt and cursor in brand. |
 | TraceSpans | Data | One agent turn as a span tree on a timeline; the critical path in brand. |
-| DecisionDeck | Fleet | `af-deck` > `af-deck__stack` of `af-decision` sheets (`data-k` 0 on top, 1–2 peek) + `af-deck__side` (n of N, prev/next, skip, up-next); inline approve, deny with a required reason (`af-reason`), answer with chips, retry, acknowledge; `af-verdict-line`; calm empty. `deck` in airframe.js. |
+| DecisionDeck | Fleet | `af-deck` > `af-deck__stack` of `af-decision` sheets (`data-k` 0 on top, 1–2 peek) + `af-deck__side` (n of N over the decisions only, prev/next, skip, up-next, then `af-deck__subtitle` "Stopped" and `af-deck__stopped` for failed and denied); peek cards carry no status edge; inline approve, deny with a required reason (`af-reason`), answer with chips, retry, acknowledge; `af-verdict-line`; calm empty. `deck` in airframe.js. |
 | AgentRow | Fleet | `af-runway` > `af-agent` > `af-agent__line` (mark, tail, work + now-line + Heartbeat, owner, harness, StageRail, stage times, sparkline, cost, chevron) and `af-agent__body` > `af-console`; opens in place (`expand`). The **List** view. |
 | AgentCard | Fleet | `af-board` > `af-agent af-agent--card` > `af-agent__face` (avatar, tail, ring, work, now-line, capsule, owner); opens in place full width. The **Board** view. |
 | ActivityTimeline | Fleet | `af-timeline` > `af-timeline__ev` (`--stage`, `--hold`, `--fail`, `is-last` lit): wall-clock and relative time, the event. |

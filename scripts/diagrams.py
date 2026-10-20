@@ -43,8 +43,8 @@ STYLE = """
   .af-d .name-s { font: 700 14px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
   .af-d .title { font: 700 20px "Archivo", "Helvetica Neue", Arial, sans-serif; font-stretch: 125%; fill: var(--af-fg, #fff); }
   .af-d .body { font: 400 13px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-muted, #A6A6A6); }
-  .af-d .lbl { font: 500 12px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-fg-subtle, #8A8A8A); }
-  .af-d .lbl-hi { font: 500 12px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-brand-text, #FFC400); }
+  .af-d .lbl { font: 500 12.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-subtle, #8A8A8A); }
+  .af-d .lbl-hi { font: 500 12.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-brand-text, #FFC400); }
   .af-d .edge { fill: none; stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1.25; }
   .af-d .edge-plan { fill: none; stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1.25; stroke-dasharray: 5 4; }
   .af-d .elabel { font: 400 12.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-subtle, #8A8A8A); }
@@ -85,10 +85,17 @@ def svg(w: int, h: int, label: str, body: list[str], dots: tuple[int, int, int, 
             + "".join(body).replace("ARROW", f"url(#{pid}-arrow)") + "</svg>\n")
 
 
+def product_edge(x, y, w, h, hue, t):
+    """The product hue as the card's top edge, following its 12px corners (a clipped band, not a square bar)."""
+    cid = f"pe{x}-{y}-{w}-{h}"
+    return (f'<clipPath id="{cid}"><rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12"/></clipPath>'
+            f'<rect x="{x}" y="{y}" width="{w}" height="{t}" fill="{hue}" clip-path="url(#{cid})"/>')
+
+
 def box(x, y, w, h, name, lines=(), eyebrow=None, kind="box", product=None, name_cls="name"):
-    out = [f'<rect class="{kind}" x="{x}" y="{y}" width="{w}" height="{h}" rx="3"/>']
+    out = [f'<rect class="{kind}" x="{x}" y="{y}" width="{w}" height="{h}" rx="12"/>']
     if product:
-        out.append(f'<rect x="{x}" y="{y}" width="{w}" height="2" fill="{PRODUCT[product]}"/>')
+        out.append(product_edge(x, y, w, h, PRODUCT[product], 3))
     ty = y + 26
     if eyebrow:
         cls = "lbl"
@@ -119,31 +126,31 @@ def planes() -> str:
     L, LW, R, RW = 110, 520, 770, 380
     b = [
         text(40, 48, "The agent factory at a glance", "title"),
-        text(40, 72, "DEFINE  ·  RUN  ·  JUDGE  ·  GOVERN", "lbl"),
+        text(40, 72, "Define  ·  Run  ·  Judge  ·  Govern", "lbl"),
         # left column
         box(L, 110, LW, 128, "Define", ["Native files and harness.lock, frozen from a good hangar run",
                                          "One identity everywhere: harness_digest",
                                          "ai-dlc contributes the optional workflow plugin and machine setup"],
-            eyebrow="THE TEAM HARNESS REPO"),
+            eyebrow="The team harness repo"),
         box(L, 300, LW, 146, "Run", ["Doors in, admission, intake posture, taint tracking",
                                       "Sandboxes, sessions, jobs and experiment trials on GKE",
                                       "Sealed graders; infrastructure errors retried and excluded",
                                       "Trusted verify, gateway push, landing on approval"],
-            eyebrow="HANGAR", kind="box-hub", product="hangar"),
+            eyebrow="hangar", kind="box-hub", product="hangar"),
         box(L, 508, LW, 128, "Judge", ["Reads runs from a Parquet data plane, never from live hangar",
                                         "Paired statistics, behavior specs, nightly ADR checks",
                                         "Reports and promotion evidence posted on PRs"],
-            eyebrow="FLIGHTDECK", product="flightdeck"),
+            eyebrow="flightdeck", product="flightdeck"),
         # right column
         box(R, 110, RW, 128, "Doors", ["Jira “Ready for agent”", "GitHub label or Projects column",
-                                        "Slack @hangar · MCP from laptops · schedules"], eyebrow="MANY DOORS"),
+                                        "Slack @hangar · MCP from laptops · schedules"], eyebrow="Many doors"),
         box(R, 300, RW, 146, "Govern", ["Cedar rules and human approvals", "The approver is never the requester",
                                          "Passports and signed receipts", "Fails closed: off, shadow, enforce"],
-            eyebrow="TOWER", product="tower"),
+            eyebrow="Tower", product="tower"),
         box(R, 508, RW, 128, "One gate: the PR", ["Tainted work opens as a draft",
                                                   "A second human approves the exact SHA",
                                                   "Questions and reviews reach people in Slack"],
-            eyebrow="GITHUB"),
+            eyebrow="GitHub"),
         # capabilities band
         box(L, 690, R + RW - L, 72, "Capabilities", ["MCP servers bound into sandboxes when they are claimed: Spaceport data products, internal tools, docs search"],
             eyebrow=None, kind="box-ext", product="spaceport", name_cls="name-s"),
@@ -156,7 +163,7 @@ def planes() -> str:
         edge(f"M{L} 572H{L - 40}V174H{L - 2}"), text(L - 50, 373, "report, then promote the stable channel", rotate=-90, anchor="middle"),
         edge(f"M{R} 174H{R - 64}V330H{L + LW + 2}"), text(R - 74, 250, "work items", anchor="middle", rotate=-90),
         edge(f"M{L + LW} 372H{R - 2}"), text((L + LW + R) // 2, 364, "decide", anchor="middle"),
-        edge(f"M{R} 412H{L + LW + 2}"), text((L + LW + R) // 2, 432, "receipt", anchor="middle"),
+        edge(f"M{R} 412H{L + LW + 2}"), text((L + LW + R) // 2, 402, "receipt", anchor="middle"),
         edge(f"M{L + LW} 432H{R - 70}V572H{R - 2}"), text(R - 62, 524, "push,"), text(R - 62, 542, "open PR"),
         edge(f"M{L + LW} 442H{L + LW + 20}V688"),
         text(L + LW + 12, 672, "tools over MCP", anchor="end"),
@@ -169,11 +176,11 @@ def planes() -> str:
 
 
 def context() -> str:
-    P = dict(kind="person", name_cls="name-s", eyebrow="PERSON")
-    X = dict(kind="box-ext", name_cls="name-s", eyebrow="EXTERNAL SYSTEM")
+    P = dict(kind="person", name_cls="name-s", eyebrow="Person")
+    X = dict(kind="box-ext", name_cls="name-s", eyebrow="External system")
     b = [
         text(40, 48, "System context", "title"),
-        text(40, 72, "C4 LEVEL 1  ·  WHO USES THE SUITE AND WHAT IT DEPENDS ON", "lbl"),
+        text(40, 72, "C4 level 1  ·  who uses the suite and what it depends on", "lbl"),
         box(40, 110, 210, 104, "Reviewer", ["Reviews agent PRs and", "approves the exact commit"], **P),
         box(380, 110, 210, 104, "Engineer", ["Hands work to agents and", "steers ~10 sessions"], **P),
         box(610, 110, 210, 104, "Harness owner", ["Runs experiments and", "promotes the harness"], **P),
@@ -181,7 +188,7 @@ def context() -> str:
         box(380, 300, 440, 170, "Agent factory", ["Defines, runs, judges and governs cloud coding agents",
                                                     "hangar · flightdeck · Tower · ai-dlc",
                                                     "Every change leaves through a reviewed pull request"],
-            eyebrow="SOFTWARE SYSTEM", kind="box-hub"),
+            eyebrow="Software system", kind="box-hub"),
         box(40, 300, 210, 104, "GitHub", ["Repos, PRs, checks, App,", "labels, Projects columns"], **X),
         box(40, 454, 210, 104, "Jira", ["Tickets moved to", "“Ready for agent”"], **X),
         box(950, 300, 210, 104, "Slack", ["Requests and questions,", "approval cards, digests"], **X),
@@ -214,43 +221,43 @@ def context() -> str:
 
 def containers() -> str:
     """Twelve containers: the three on an engineer's machine, the cluster, one storage box, the externals."""
-    E = dict(kind="box-ext", name_cls="name-s", eyebrow="EXTERNAL")
+    E = dict(kind="box-ext", name_cls="name-s", eyebrow="External")
     b = [
         text(40, 48, "Containers and where they run", "title"),
-        text(40, 72, "C4 LEVEL 2  ·  SOLID: ON MAIN  ·  DASHED: PLANNED OR NOT YET WIRED", "lbl"),
+        text(40, 72, "C4 level 2  ·  Solid: on main  ·  dashed: planned or not yet wired", "lbl"),
         # engineer machine
-        '<rect class="bound" x="30" y="100" width="240" height="460" rx="4"/>',
-        text(46, 124, "ENGINEER MACHINE AND CI", "lbl"),
+        '<rect class="bound" x="30" y="100" width="240" height="460" rx="18"/>',
+        text(46, 124, "Engineer machine and CI", "lbl"),
         box(46, 150, 208, 104, "Agent client", ["Claude Code or Codex", "with the hangar MCP"], eyebrow="CLI · MCP", name_cls="name-s"),
-        box(46, 290, 208, 104, "ai-dlc", ["Machine setup, local work", "lifecycle, workflow plugin"], eyebrow="PYTHON CLI", product="aidlc", name_cls="name-s"),
-        box(46, 430, 208, 104, "flightdeck", ["Ingest, statistics, specs,", "reports, experiments"], eyebrow="PYTHON CLI · DUCKDB", product="flightdeck", name_cls="name-s"),
+        box(46, 290, 208, 104, "ai-dlc", ["Machine setup, local work", "lifecycle, workflow plugin"], eyebrow="Python CLI", product="aidlc", name_cls="name-s"),
+        box(46, 430, 208, 104, "flightdeck", ["Ingest, statistics, specs,", "reports, experiments"], eyebrow="Python CLI · DuckDB", product="flightdeck", name_cls="name-s"),
         # google cloud
-        '<rect class="bound" x="330" y="100" width="560" height="850" rx="4"/>',
-        text(346, 124, "GOOGLE CLOUD PROJECT", "lbl"),
-        '<rect class="bound" x="346" y="140" width="528" height="500" rx="4"/>',
-        text(362, 164, "GKE CLUSTER", "lbl"),
+        '<rect class="bound" x="330" y="100" width="560" height="850" rx="18"/>',
+        text(346, 124, "Google Cloud project", "lbl"),
+        '<rect class="bound" x="346" y="140" width="528" height="500" rx="18"/>',
+        text(362, 164, "GKE cluster", "lbl"),
         box(362, 180, 220, 264, "hangar control plane", ["REST, MCP and web UI :8787", "Jobs, sessions, intake",
                                                           "Landing and the inbox", "SQLite on a persistent disk",
                                                           "Writes the run outbox"],
-            eyebrow="PYTHON · ALWAYS ON", kind="box-hub", product="hangar", name_cls="name-s"),
+            eyebrow="Python · always on", kind="box-hub", product="hangar", name_cls="name-s"),
         box(650, 180, 208, 124, "Tower", ["Decision point, approvals,", "receipts, passports"],
-            eyebrow="ON MAIN · NOT DEPLOYED", product="tower", name_cls="name-s"),
+            eyebrow="On main · not deployed", product="tower", name_cls="name-s"),
         box(650, 340, 208, 104, "Gateway and egress", ["Git gateway :8788", "Egress proxy :3128"],
-            eyebrow="CONTROL PLANE POD", product="hangar", name_cls="name-s"),
+            eyebrow="Control plane pod", product="hangar", name_cls="name-s"),
         box(362, 500, 496, 112, "Agent sandboxes", ["Claude Code, Codex, pi, Antigravity · gVisor on Spot nodes, 0 to N",
                                                     "Pools off 01:00–10:00 ET · optional Kata heavy tier for Docker"],
-            eyebrow="AGENT SANDBOX ADD-ON", product="hangar", name_cls="name-s"),
+            eyebrow="Agent sandbox add-on", product="hangar", name_cls="name-s"),
         box(346, 670, 528, 124, "Storage", ["Checkpoints: session state that outlives the disk",
                                              "Run outbox: hangar.run/v1, written once · off in the deploy",
                                              "Data plane: Parquet tables, one folder a day"],
-            eyebrow="CLOUD STORAGE · ARTIFACT REGISTRY FOR IMAGES", name_cls="name-s"),
+            eyebrow="Cloud Storage · Artifact Registry for images", name_cls="name-s"),
         box(346, 826, 528, 104, "Compactor", ["Flattens new runs into Parquet each night, while the sandbox pools are off"],
-            eyebrow="CLOUD RUN JOB · NIGHTLY · NOT DEPLOYED", product="flightdeck", name_cls="name-s"),
+            eyebrow="Cloud Run job · nightly · not deployed", product="flightdeck", name_cls="name-s"),
         # externals
         box(940, 150, 230, 104, "Jira and Slack", ["Doors in; questions and", "approvals out"], **E),
         box(940, 340, 230, 104, "GitHub", ["Team repos, PRs, the App,", "the team harness repo"], **E),
         box(940, 470, 230, 104, "Model providers", ["Reached only through", "the egress allowlist"], **E),
-        box(940, 600, 230, 104, "MCP servers", ["Spaceport, internal tools,", "bound at claim time"], kind="box-ext", name_cls="name-s", eyebrow="EXTERNAL", product="spaceport"),
+        box(940, 600, 230, 104, "MCP servers", ["Spaceport, internal tools,", "bound at claim time"], kind="box-ext", name_cls="name-s", eyebrow="External", product="spaceport"),
         # engineer -> control plane
         edge("M254 222H360"), text(262, 214, "MCP / REST"),
         edge("M254 470H300V300H360"), text(306, 292, "trials"),
@@ -280,7 +287,7 @@ JOURNEY_STYLE = """
 <style>
   .af-d .step { fill: var(--af-canvas, #000); stroke: var(--af-fg-subtle, #8A8A8A); stroke-width: 1; }
   .af-d .stepn { font: 500 12px "DM Mono", ui-monospace, Menlo, monospace; fill: var(--af-fg, #fff); }
-  .af-d .hub-lbl { font: 500 12px "DM Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--af-fg-subtle, #8A8A8A); }
+  .af-d .hub-lbl { font: 500 12.5px "Red Hat Text", "Helvetica Neue", Arial, sans-serif; fill: var(--af-fg-subtle, #8A8A8A); }
 </style>
 """
 
@@ -301,32 +308,32 @@ def journey() -> str:
     I = dict(kind="box-ext", name_cls="name-s")
     b = [JOURNEY_STYLE,
          text(40, 48, "A ticket's journey", "title"),
-         text(40, 72, "SEVEN STEPS  ·  SOLID: ON MAIN  ·  DASHED: TOWER BUILT, HANGAR WIRING OPEN", "lbl"),
+         text(40, 72, "Seven steps  ·  solid: on main  ·  dashed: Tower built, hangar wiring open", "lbl"),
          # Tower above hangar
          box(hub_x, 96, hub_w, 104, "Decision point", ["Answers allow, deny or wait, and signs a receipt",
                                                        "A wait goes to an approver who is not the requester"],
-             eyebrow="TOWER · GOVERN", product="tower", name_cls="name-s"),
+             eyebrow="Tower · Govern", product="tower", name_cls="name-s"),
          # main row: doors, hangar, the gate
-         box(40, row, 170, row_h, "Doors", ["Jira, GitHub, Slack,", "MCP, schedules"], eyebrow="MANY DOORS",
+         box(40, row, 170, row_h, "Doors", ["Jira, GitHub, Slack,", "MCP, schedules"], eyebrow="Many doors",
              name_cls="name-s"),
-         f'<rect class="box-hub" x="{hub_x}" y="{row}" width="{hub_w}" height="{row_h}" rx="3"/>',
+         f'<rect class="box-hub" x="{hub_x}" y="{row}" width="{hub_w}" height="{row_h}" rx="12"/>',
          f'<rect x="{hub_x}" y="{row}" width="{hub_w}" height="2" fill="{PRODUCT["hangar"]}"/>',
-         text(hub_x + 16, row + row_h - 12, "HANGAR · RUN", "hub-lbl"),
+         text(hub_x + 16, row + row_h - 12, "hangar · Run", "hub-lbl"),
          box(ix[0], inner_y, inner_w, inner_h, "Admit", ["Signed webhook; tainted", "Budget and review cap"],
-             eyebrow="INTAKE", **I),
+             eyebrow="Intake", **I),
          box(ix[1], inner_y, inner_w, inner_h, "Claim", ["team-default@stable", "harness_digest, trace"],
-             eyebrow="SANDBOX", **I),
+             eyebrow="Sandbox", **I),
          box(ix[2], inner_y, inner_w, inner_h, "Deliver", ["The repo's own checks", "One commit, a draft PR"],
-             eyebrow="VERIFY · GATEWAY", **I),
+             eyebrow="Verify · gateway", **I),
          box(910, row, 250, row_h, "One gate: the PR", ["Review packet, Harness-Digest", "A second human approves",
-                                                         "the exact commit"], eyebrow="GITHUB", name_cls="name-s"),
+                                                         "the exact commit"], eyebrow="GitHub", name_cls="name-s"),
          # bottom row: outbox -> compactor -> flightdeck -> the team harness repo
          box(40, low_y, 170, low_h, "Harness repo", ["harness.lock", "channels.yaml", "promotion by PR"],
-             eyebrow="DEFINE", name_cls="name-s"),
+             eyebrow="Define", name_cls="name-s"),
          box(lx[0], low_y, low_w, low_h, "Judge", ["Parquet and DuckDB", "stable vs candidate", "on pinned trials"],
-             eyebrow="FLIGHTDECK · JUDGE", product="flightdeck", name_cls="name-s"),
+             eyebrow="flightdeck · Judge", product="flightdeck", name_cls="name-s"),
          box(lx[1], low_y, low_w, low_h, "Compactor", ["Outbox to Parquet", "flightdeck.parquet/v1"],
-             eyebrow="CLOUD RUN · NIGHTLY", product="flightdeck", name_cls="name-s"),
+             eyebrow="Cloud Run · nightly", product="flightdeck", name_cls="name-s"),
          box(lx[2], low_y, low_w, low_h, "Run outbox", ["Each run written once", "run.json last"], eyebrow="GCS",
              name_cls="name-s"),
          # 1, 2, 3, 5: along the top row
@@ -347,7 +354,7 @@ def journey() -> str:
          edge(f"M190 {low_y}V460H{cx[1]}V{inner_y + inner_h + 2}"),
          text(222, 452, "the next claim uses the new stable"),
          # legend
-         text(910, 530, "NUMBERS MATCH THE STEPS", "lbl"), text(910, 548, "IN THE TEXT", "lbl"),
+         text(910, 530, "Numbers match the steps", "lbl"), text(910, 548, "In the text", "lbl"),
          text(910, 578, "Tower's side is built; hangar's"), text(910, 596, "wiring is hangar#172 and #173"),
          ]
     return svg(1200, 660, "A ticket's journey", b, dots=(900, 20, 300, 70), pid="journey")
@@ -357,22 +364,22 @@ def journey_stacked() -> str:
     """The same seven steps, one above the other, for phone-width pages."""
     x, w, h, gap, y0 = 20, 350, 104, 34, 100
     steps_ = [
-        ("DOORS", "Ready for agent", ["A ticket moves; a signed webhook", "reaches hangar"], None, "box"),
-        ("HANGAR · INTAKE", "Admit", ["Tainted: ticket text is untrusted", "Within budget and reviewer capacity"],
+        ("Doors", "Ready for agent", ["A ticket moves; a signed webhook", "reaches hangar"], None, "box"),
+        ("hangar · intake", "Admit", ["Tainted: ticket text is untrusted", "Within budget and reviewer capacity"],
          "hangar", "box"),
-        ("HANGAR · SANDBOX", "Claim team-default@stable", ["The manifest records harness_digest",
+        ("hangar · sandbox", "Claim team-default@stable", ["The manifest records harness_digest",
                                                              "Every step streams into a trace"], "hangar", "box"),
-        ("TOWER · GOVERN", "Ask before a risky step", ["Allow, deny or wait, with a receipt",
+        ("Tower · Govern", "Ask before a risky step", ["Allow, deny or wait, with a receipt",
                                                        "A wait goes to someone else"], "tower", "box-plan"),
-        ("HANGAR · GATEWAY", "Verify and open the PR", ["Repo checks, one commit, a draft PR",
+        ("hangar · gateway", "Verify and open the PR", ["Repo checks, one commit, a draft PR",
                                                         "A second human approves the commit"], "hangar", "box"),
-        ("OUTBOX · COMPACTOR", "Captured once", ["The run lands in the GCS outbox",
+        ("Outbox · compactor", "Captured once", ["The run lands in the GCS outbox",
                                                  "and in Parquet overnight"], None, "box"),
-        ("FLIGHTDECK · HARNESS REPO", "Judge, then promote", ["Stable vs candidate on pinned trials",
+        ("flightdeck · harness repo", "Judge, then promote", ["Stable vs candidate on pinned trials",
                                                               "A different person moves stable"], "flightdeck", "box"),
     ]
     b = [JOURNEY_STYLE, text(20, 44, "A ticket's journey", "title"),
-         text(20, 68, "SOLID: ON MAIN  ·  DASHED: HANGAR WIRING OPEN", "lbl")]
+         text(20, 68, "Solid: on main  ·  dashed: hangar wiring open", "lbl")]
     ys = []
     for i, (eyebrow, name, lines, product, kind) in enumerate(steps_):
         y = y0 + i * (h + gap)
@@ -430,9 +437,9 @@ SLIDE_STYLE = """
 
 
 def sbox(x, y, w, h, eyebrow, name, lines=(), kind="box", product=None):
-    out = [f'<rect class="{kind}" x="{x}" y="{y}" width="{w}" height="{h}" rx="3"/>']
+    out = [f'<rect class="{kind}" x="{x}" y="{y}" width="{w}" height="{h}" rx="12"/>']
     if product:
-        out.append(f'<rect x="{x}" y="{y}" width="{w}" height="3" fill="{PRODUCT[product]}"/>')
+        out.append(product_edge(x, y, w, h, PRODUCT[product], 3))
     out.append(f'<text class="lbl" x="{x + 22}" y="{y + 32}">{esc(eyebrow)}</text>')
     out.append(f'<text class="name" x="{x + 22}" y="{y + 64}">{esc(name)}</text>')
     for i, line in enumerate(lines):
@@ -442,12 +449,12 @@ def sbox(x, y, w, h, eyebrow, name, lines=(), kind="box", product=None):
 
 def slide_planes() -> str:
     b = [SLIDE_STYLE,
-         sbox(40, 20, 330, 150, "DOORS", "Many doors", ["Jira, GitHub, Slack, MCP,", "schedules"]),
-         sbox(40, 230, 330, 150, "TEAM HARNESS REPO", "Define", ["Native files, harness.lock,", "one digest"]),
-         sbox(470, 120, 340, 260, "HANGAR", "Run", ["Sandboxes, sessions, jobs", "and trials on GKE", "Verify, push through the", "gateway, land on approval"], kind="box-hub", product="hangar"),
-         sbox(910, 20, 330, 150, "TOWER", "Govern", ["Rules, human approvals,", "signed receipts"], product="tower"),
-         sbox(910, 230, 330, 150, "GITHUB", "One gate: the PR", ["A second human approves", "the exact commit"]),
-         sbox(470, 440, 340, 150, "FLIGHTDECK", "Judge", ["Paired statistics and", "behavior specs on every run"], product="flightdeck"),
+         sbox(40, 20, 330, 150, "Doors", "Many doors", ["Jira, GitHub, Slack, MCP,", "schedules"]),
+         sbox(40, 230, 330, 150, "Team harness repo", "Define", ["Native files, harness.lock,", "one digest"]),
+         sbox(470, 120, 340, 260, "hangar", "Run", ["Sandboxes, sessions, jobs", "and trials on GKE", "Verify, push through the", "gateway, land on approval"], kind="box-hub", product="hangar"),
+         sbox(910, 20, 330, 150, "Tower", "Govern", ["Rules, human approvals,", "signed receipts"], product="tower"),
+         sbox(910, 230, 330, 150, "GitHub", "One gate: the PR", ["A second human approves", "the exact commit"]),
+         sbox(470, 440, 340, 150, "flightdeck", "Judge", ["Paired statistics and", "behavior specs on every run"], product="flightdeck"),
          edge("M370 95H420V180H468"), text(380, 85, "work"),
          edge("M370 305H468"), text(380, 295, "lock"),
          edge("M810 165H860V95H908"), text(820, 155, "decide"),
@@ -470,7 +477,7 @@ def slide_loop() -> str:
              ("5", "Promote", "move stable; drift checks guard it", "hangar")]
     b = [SLIDE_STYLE, f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="var(--af-rule, #3A3A3A)" stroke-width="1.25" stroke-dasharray="3 6"/>',
          text(cx, cy - 8, "harness_digest", "name", anchor="middle"),
-         text(cx, cy + 22, "ONE IDENTITY FROM LOCK TO REPORT", "lbl", anchor="middle")]
+         text(cx, cy + 22, "One identity from lock to report", "lbl", anchor="middle")]
     for i, (n, name, line, prod) in enumerate(steps):
         a = -math.pi / 2 + i * 2 * math.pi / len(steps)
         x, y = cx + r * math.cos(a), cy + r * math.sin(a)

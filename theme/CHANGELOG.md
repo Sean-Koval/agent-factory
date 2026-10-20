@@ -5,6 +5,26 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v13 · 2026-10-20
+
+The docs-site mapping catches up with theme-v12's type rule: labels are sentence-case sans, not mono capitals
+(KAN-150 found them still in mono on the flightdeck site). `airframe-docs.css` and the DecisionDeck rules change; no token changes value,
+none is added, renamed or removed.
+
+- Tabs, nav titles, table headers, admonition and details titles, buttons, the eyebrow, figure captions, the tool-card
+  kicker and the suite strip's home link and plane words are Red Hat Text 500, sentence case, no tracking.
+  The strip's plane words go from .5rem to .55rem and its home link from .56rem to .6rem.
+- `h4`–`h6` are sans 600 at .75rem in `fg-muted` instead of small mono capitals in `fg-subtle`.
+- Code, IDs and numbers stay in DM Mono.
+- The deprecated `brand-wash` is gone from the docs mapping: the accent wash, `<mark>` and highlighted code lines
+  use `selected` (neutral), so Day no longer shows a yellow tint.
+- DecisionDeck (`airframe-components.css`): the cards peeking behind the top one no longer show the 3px status edge (only
+  the top card carries it). New `af-deck__subtitle` and `af-deck__stopped`: what stopped (failed, denied) is listed
+  under up-next as "Stopped", visible at every width, and is no longer stacked with the decisions, so "1 of N" counts
+  decisions only and agrees with the nav badge (found in hangar #343). The README and preview follow.
+- New `af-gauge--mini` (`airframe-components.css`): a gauge in a list keeps a neutral `fg-muted` limit bug; a lone gauge
+  keeps the `brand-text` bug. `Data.md` states the rule (found in Tower #86).
+
 ## theme-v12 · 2026-10-19
 
 The new Fleet look and the decision deck (KAN-140, KAN-139): soft geometry, one step of lift, sentence-case sans labels,
