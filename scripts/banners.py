@@ -42,8 +42,11 @@ DOCS_BRAND = ROOT / "docs" / "assets" / "brand"
 BANNER = (960, 320)
 SOCIAL = (1280, 640)
 
-# Copy per product: the eyebrow names the suite and the plane, the line says what the product does.
-# Names and casing follow airframe/guide/brand.md; the lines are each product's own lede, shortened.
+# Copy per product: the eyebrow names the suite and the product's role in it, the line says what the product does.
+# Names and casing follow airframe/guide/brand.md; the lines are each product's own lede, shortened. The roles follow
+# the suite story (deck slide 1): four planes, Define = the team harness, Run = hangar, Judge = flightdeck,
+# Govern = Tower; ai-dlc is Setup and Spaceport a capability. The word "plane" stays out of the eyebrows, where it
+# would collide with flightdeck's data plane.
 PRODUCTS = {
     "agent-factory": {
         "mark": "airframe", "name": "Agent factory", "plane": "Suite home",
@@ -55,29 +58,31 @@ PRODUCTS = {
         "line": "Agent infrastructure, quiet until a human is needed.",
     },
     "hangar": {
-        "mark": "hangar", "name": "hangar", "plane": "Run plane",
+        "mark": "hangar", "name": "hangar", "plane": "Run",
         "line": "Hand a ticket to a coding agent in an isolated cloud sandbox, and get back a verified draft pull request.",
     },
     "flightdeck": {
-        "mark": "flightdeck", "name": "flightdeck", "plane": "Judge plane",
+        "mark": "flightdeck", "name": "flightdeck", "plane": "Judge",
         "line": "Did that harness change help? Paired statistics and behavior specs over the runs hangar records, and a verdict on the PR.",
     },
     "tower": {
-        "mark": "tower", "name": "Tower", "plane": "Govern plane",
+        "mark": "tower", "name": "Tower", "plane": "Govern",
         "line": "One decision point for risky agent actions: rules, human approvals and signed receipts.",
     },
     "ai-dlc": {
-        "mark": "aidlc", "name": "ai-dlc", "plane": "Define plane",
+        "mark": "aidlc", "name": "ai-dlc", "plane": "Setup",
         "line": "One pinned machine profile, one workflow for people and agents, and a finish that needs merged evidence.",
     },
     "spaceport": {
-        "mark": "spaceport", "name": "Spaceport", "plane": "Capability plane",
+        "mark": "spaceport", "name": "Spaceport", "plane": "Capability",
         "line": "Reviewed data products that people and agents discover and query through one governed API.",
     },
 }
 
-# The suite strip along the bottom of a banner: the four planes and the capability, in the docs' order.
-SUITE = (("Define", "ai-dlc"), ("Run", "hangar"), ("Judge", "flightdeck"), ("Govern", "tower"), ("Capability", "spaceport"))
+# The suite strip along the bottom of a banner: the four planes, then Setup and the capability, in the docs' order.
+# (role, key, shown name); the team harness is a repo, not a product in PRODUCTS, so it carries its own name.
+SUITE = (("Define", "team-harness", "Team harness"), ("Run", "hangar", "hangar"), ("Judge", "flightdeck", "flightdeck"),
+         ("Govern", "tower", "Tower"), ("Setup", "ai-dlc", "ai-dlc"), ("Capability", "spaceport", "Spaceport"))
 
 FONT_FILES = {"display": "Archivo-ExpandedBold.ttf", "sans": "RedHatText-Regular.ttf", "mono": "DMMono-Medium.ttf"}
 
@@ -255,7 +260,7 @@ def dots(cv: Canvas, pid: str, color: str, x: float, y: float, w: float, h: floa
 def banner(product: str, theme: str, size: tuple[int, int], faces: dict[str, Face], marks: dict, themes: dict,
            strip: bool = True) -> str:
     """The lockup banner: eyebrow, mark + name in the display face, the product's line, and the suite strip
-    with a 2px marker in the product hue under its own plane. Hue appears nowhere else."""
+    with a 2px marker in the product hue under its own role. Hue appears nowhere else."""
     p, v = PRODUCTS[product], themes[theme]
     m = marks[p["mark"]]
     W, H = size
@@ -267,7 +272,7 @@ def banner(product: str, theme: str, size: tuple[int, int], faces: dict[str, Fac
     # dot field: the hero texture, top right, from the top edge down to just above the suite rule
     dots(cv, "dots", v["dot-field"], DOTS_X * s, 0, 320 * s, oy + (STRIP - 12) * s)
     cv.add(f'<g transform="translate(0 {num(oy)}) scale({num(s)})">')
-    # eyebrow: brand hairline and the suite · plane label in mono capitals
+    # eyebrow: brand hairline and the suite · role label in mono capitals
     cv.add(f'<rect x="{L}" y="55.5" width="18" height="1" fill="{v["brand-line"]}"/>')
     cv.text("mono", p.get("eyebrow", f"Agent factory · {p['plane']}"), L + 28, 60, 12, v["fg-subtle"], tracking_em=0.08, upper=True)
     # lockup: the mark at 72px beside the name (84px, smaller only when a long name would reach the dot field)
@@ -288,14 +293,15 @@ def banner(product: str, theme: str, size: tuple[int, int], faces: dict[str, Fac
         cv.text("sans", line, L, y, 19, v["fg-muted"])
         y += 27
     if strip:
-        # suite strip: rule, five columns, the current plane in fg with the nav marker in the product hue
+        # suite strip: rule, one column per role, the current one in fg with the nav marker in the product hue;
+        # the other role words are fg-subtle, never fg-dim, so they read at 9.5px
         cv.add(f'<rect x="{L}" y="{STRIP}" width="{BANNER[0] - 2 * L}" height="1" fill="{v["rule"]}"/>')
         col = (BANNER[0] - 2 * L) / len(SUITE)
-        for i, (plane, prod) in enumerate(SUITE):
+        for i, (plane, prod, shown) in enumerate(SUITE):
             x = L + i * col
             here = prod == product
-            cv.text("mono", plane, x, STRIP + 19, 9.5, v["fg-subtle"] if here else v["fg-dim"], tracking_em=0.09, upper=True)
-            w = cv.text("display", PRODUCTS[prod]["name"], x, STRIP + 34, 12, v["fg"] if here else v["fg-subtle"])
+            cv.text("mono", plane, x, STRIP + 19, 9.5, v["fg-muted"] if here else v["fg-subtle"], tracking_em=0.09, upper=True)
+            w = cv.text("display", shown, x, STRIP + 34, 12, v["fg"] if here else v["fg-subtle"])
             if here:
                 cv.add(f'<rect x="{num(x)}" y="{STRIP - 1}" width="{num(w)}" height="2" fill="{v[m["hue"]]}"/>')
     cv.add("</g>")

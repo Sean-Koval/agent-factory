@@ -4,7 +4,9 @@
 
 From a ticket to a deployed change across a service's infra, code, database and deploy repos, on your own cluster, with your own approvers.
 
-A company runs the same suite: hangar on its GKE cluster, its own fork of the team harness, and its own bot in the chat it already uses. What it adds is values, never code in the suite: which repos make up a service, who approves each one, the order they land in, where secrets come from and which release it runs. Those live in four private repositories of its own, laid out by the same convention as the services the agents work on.
+A company runs the same suite. hangar on its GKE cluster, its own fork of the team harness, and its own bot in the chat it already uses. What it adds is values, never code in the suite. Which repos make up a service, who approves each one, where secrets come from and which release runs.
+
+Those values live in four private repositories of its own, laid out by the same convention as the services the agents work on.
 
 | | |
 | --- | --- |
@@ -50,18 +52,20 @@ deploy:
 1. **Ask.** SVC-412 is in "Ready for agent". Someone says `@hangar do SVC-412` in a Symphony room. The bot calls hangar's MCP `submit_job` with the ticket and the profile, on behalf of that person, so the job is theirs. A person can make the same call from Claude Code or Antigravity.
 2. **Admit.** hangar's limits apply; it resolves the profile and each repo's policy (verify, environment, approvers, naming). The Jira tracker moves the ticket to In Progress, and the room hears that the job is queued.
 3. **Work.** One sandbox of `work-multirepo` from the harness `work-default@stable` clones the four repos to `/workspace/<role>`. The agent reads the ticket, plans across the roles with the `change-set` skill and edits `database/`, `infra/` and `code/`. A question goes to the room as a form, and the answer continues the turn.
-4. **Deliver.** hangar runs each changed repo's own verify in its own checkout, then opens one PR per changed repo as the GitHub App, the ticket key in each title and a table of the sibling PRs in each body. Each repo's push grant names only that repo.
+4. **Deliver.** hangar runs each changed repo's own verify in its own checkout, then opens one PR per changed repo as the GitHub App. Each title carries the ticket key and each body a table of the sibling PRs. Each repo's push grant names only that repo.
 5. **Land.** The database owners, SRE and a teammate approve their PRs; each repo's CI runs. hangar merges database, then infra, then code. A code PR approved first waits for the database PR. The room hears each landing, and the tracker comments on the ticket.
-6. **Deploy.** Your CI builds the service image. Once `example-service/app:<merge sha>` exists, hangar runs the profile's deploy step in a fresh sandbox with no agent: `bump.sh dev <sha>` on a branch of the deploy repo, then a PR under that repo's own policy. Its approvers merge it, your CD rolls dev, and the ticket moves to Done. Prod promotion stays your CD's and your approvers'.
-7. **Capture.** The run lands in the outbox as `hangar.run/v1`, with the plugins and the profile's digest, so flightdeck can judge the harness on it like any other run.
+6. **Deploy.** Your CI builds the service image. Once `example-service/app:<merge sha>` exists, hangar runs the profile's deploy step in a fresh sandbox with no agent. It runs `bump.sh dev <sha>` on a branch of the deploy repo, then opens a PR under that repo's own policy. Its approvers merge it, your CD rolls dev, and the ticket moves to Done. Prod promotion stays yours.
+7. **Capture.** The run lands in the outbox as `hangar.run/v1`, with the plugins and the profile's digest. flightdeck judges the harness on it like any other run.
 
-If a PR in the set is closed unmerged, the set is broken: later PRs stop, the deploy step never runs, and the room hears why. There is no automatic revert, and nothing merges across repos atomically.
+If a PR in the set is closed unmerged, the set is broken. Later PRs stop, the deploy step never runs, and the room hears why. There is no automatic revert, and nothing merges across repos atomically.
 
 ## Installing it
 
 1. **Infra.** `agent-factory-infra` calls hangar's `hangar-workload` module on the cluster you already run; it never creates one. Its outputs feed the deploy overlay.
 2. **Image.** `agent-factory-bots` builds `FROM ghcr.io/sean-koval/hangar@sha256:…` with your pinned plugins and your harness fork's environments, and tags it with the merge commit. Mirror hangar's images by digest into your registry.
-3. **Deploy.** `agent-factory-deploy` holds `overlays/{dev,prod}` over hangar's base at `HANGAR_TAG`, the `hangar-site` settings (doors, plugins, harness repo, egress), External Secrets for every credential, and `policy/`. CD applies the overlay, then `hangar apply -f policy/credentials -f policy/repos` and `hangar changeset profile-set` for each profile (hangar's `apply` doesn't take change-set profiles yet). Set `HANGAR_JOB_CALLBACK_HOSTS` to the bot's host when it sits at an internal or private address: hangar's webhook guard refuses those otherwise.
+3. **Deploy.** `agent-factory-deploy` holds `overlays/{dev,prod}` over hangar's base at `HANGAR_TAG`, the `hangar-site` settings (doors, plugins, harness repo, egress), External Secrets for every credential, and `policy/`.
+
+   CD applies the overlay, then `hangar apply -f policy/credentials -f policy/repos` and `hangar changeset profile-set` for each profile (hangar's `apply` doesn't take change-set profiles yet). Set `HANGAR_JOB_CALLBACK_HOSTS` to the bot's host when it sits at an internal or private address: hangar's webhook guard refuses those otherwise.
 4. **Harness.** Fork team-harness, set the credential names in `bindings/work-default.yaml`, and freeze `work-default` from a good run. `HANGAR_DEFAULT_HARNESS` points at its `stable` channel.
 5. **A service.** Onboarding is one reviewed PR to the deploy repo: four repo policies, one profile, one Jira project entry.
 

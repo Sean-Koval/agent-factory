@@ -155,6 +155,14 @@ class RenderTests(unittest.TestCase):
         self.text, self.warnings = roadmap.render(self.cfg, self.states, NOW)
 
     def section(self, heading):
+        """A phase ("## P1") or a theme ("### Core", found by its row's name span)."""
+        if heading.startswith("### "):
+            start = self.text.index(f'af-rm-theme__name">{heading[4:]}<')
+            start = self.text.rfind("\n", 0, self.text.rfind("\n", 0, start)) + 1  # the <details> or <p> line
+            nxt = [i for i in (self.text.find("\n<details class=\"af-rm-theme\"", start + 1),
+                                self.text.find("\n<p class=\"af-rm-theme\"", start + 1),
+                                self.text.find("\n## ", start + 1)) if i > 0]
+            return self.text[start: min(nxt) if nxt else None]
         start = self.text.index(heading)
         end = self.text.find("\n## ", start + 1)
         return self.text[start: end if end > 0 else None]
@@ -162,10 +170,30 @@ class RenderTests(unittest.TestCase):
     def test_counts_match_milestones(self):
         # P1 milestone: issues 2, 3, 7, 8 (epic 1 excluded) -> 2 closed of 4. Backlog: 4 and 6 -> 1 of 2.
         row = next(line for line in self.text.splitlines() if line.startswith("| [P1"))
-        self.assertIn("2 / 4", row)
+        self.assertIn("2 of 4", row)
+        self.assertNotIn(" / ", row)
+        self.assertIn("<small>weeks 1-2</small>", row, "the phase's weeks sit under its name")
+
+    def test_done_when_is_a_column_when_a_phase_says_it(self):
+        cfg = load(CONFIG.replace('milestone = "P1"\n', 'milestone = "P1"\ndone = "Two engineers use it."\n'))
+        text, _ = roadmap.render(cfg, self.states, NOW)
+        head = next(line for line in text.splitlines() if line.startswith("| Phase"))
+        self.assertEqual(head.split(" | ")[1], "Done when")
+        self.assertIn("| Two engineers use it. |", text)
+        self.assertNotIn("Done when", self.text, "no column when no phase has a sentence")
         self.assertIn("2 of 4 closed", self.section("## P1"))
         self.assertIn("1 of 2 closed", self.section("## Backlog"))
-        self.assertIn("alpha#1]", self.section("## Epics"))  # still listed, just not counted
+        self.assertIn("alpha#1]", self.section("## Progress"))  # still listed, folded under the table, not counted
+
+    def test_theme_rows_carry_a_bar_and_fold_their_issues(self):
+        core = self.section("### Core")
+        self.assertIn('class="af-rm-bar"', core)
+        self.assertIn("--af-rm-pct: 67%", core)  # 2 of 3 closed
+        self.assertIn('<details class="af-rm-theme" markdown>', core)
+        self.assertLess(core.index("af-rm-bar"), core.index("</summary>"), "the name, count and bar are the row that opens the list")
+        self.assertIn('aria-label="closed">✓<', core)
+        self.assertNotIn(">open<", core)  # an open issue is plain, not a placard
+        self.assertNotIn(" / ", self.text)
 
     def test_unsorted_lists_every_unplaced_open_issue(self):
         unsorted = self.section("## Unsorted")
@@ -192,9 +220,9 @@ class RenderTests(unittest.TestCase):
                                   'title = "Spikes"\nlabel = "type:spike"\n\n[[phase.theme]]\n'
                                   'title = "Hidden"\nissues = ["secret#5-6"]'))
         text, _ = roadmap.render(cfg, self.states, NOW)
-        hidden = text[text.index("### Hidden"):text.index("## Unsorted")]
+        hidden = text[text.index('af-rm-theme__name">Hidden<'):text.index("## Unsorted")]
         self.assertIn("2 issues in private repositories", hidden)
-        self.assertIn("In private repositories: secret#5, secret#6", hidden)
+        self.assertIn("in private repositories: secret#5, secret#6", hidden)
         self.assertNotIn("0 of 0 closed", hidden)
         self.assertNotIn("No issues yet", hidden)
         core = self.section("### Core")  # a mixed theme keeps its count and its private note

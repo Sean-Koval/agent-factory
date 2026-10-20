@@ -39,7 +39,7 @@ The fleet as bays: one box per sandbox, grouped by environment, showing what it 
 | Paused / spun down | `af-bay--off` | hollow hairline, muted text | none |
 | Selected | `is-selected` | 1px brand ring outside | unchanged |
 
-The `af-track` stage track and the `af-bay__left` lease bar are shared with other views; `af-cap` (capacity) and `af-person` sit beside them in `viz.css`.
+The `af-track` stage track's words are `label-s` in `fg-subtle` (a reached stage `fg-muted`, the current one `fg`), so the stages ahead still read; the pips carry the position. The track and the `af-bay__left` lease bar are shared with other views; `af-cap` (capacity) and `af-person` sit beside them in `viz.css`.
 
 ## When to use
 

@@ -44,7 +44,8 @@ THEME = ROOT / "theme"
 TOKENS = SRC / "tokens.json"
 STYLES = ("base.css", "core.css", "agents.css", "patterns.css", "viz.css")
 HELPERS = SRC / "js" / "airframe.js"
-DOCS_SITE = SRC / "docs-site"  # the docs mapping and the suite strip, published as theme/airframe-docs.css and -suite.html
+DOCS_SITE = SRC / "docs-site"
+THUMBS = ROOT / "docs" / "assets" / "airframe"  # one Night thumbnail per component, from scripts/captures.py airframe  # the docs mapping and the suite strip, published as theme/airframe-docs.css and -suite.html
 FONTS_URL = ("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900"
              "&family=DM+Mono:wght@400;500&family=Red+Hat+Text:ital,wght@0,400..700;1,400..700&display=swap")
 PREFIX = "--af-"
@@ -612,10 +613,10 @@ GALLERY_CSS = """<style>
 .afg-item:first-child{border-top:0}
 .afg-item__name{font-family:var(--af-font-mono);font-weight:500;font-size:13px;color:var(--af-fg);text-decoration:none}
 .afg-item__name:hover{color:var(--af-brand-text)}
-.afg-item__sub{font-size:13px;color:var(--af-fg-muted);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.afg-item__sub{font-size:13px;line-height:1.4;color:var(--af-fg-muted);min-width:0;overflow-wrap:anywhere}
 .afg-item__go{display:flex;gap:var(--af-space-4)}
 .afg-item__go .af-btn{text-decoration:none}
-@media (max-width:760px){.afg-page{padding:var(--af-space-32) var(--af-space-16)}.afg-item{grid-template-columns:minmax(0,1fr) auto}.afg-item__sub{grid-column:1/-1;white-space:normal}.afg-item__go{grid-row:1;grid-column:2}}
+@media (max-width:760px){.afg-page{padding:var(--af-space-32) var(--af-space-16)}.afg-item{grid-template-columns:minmax(0,1fr) auto}.afg-item__sub{grid-column:1/-1}.afg-item__go{grid-row:1;grid-column:2}}
 </style>"""
 
 
@@ -713,7 +714,8 @@ def _cell(text: str) -> str:
     return text.replace("|", "\\|").replace("\n", " ")
 
 
-def pages(dest: Path) -> list[Path]:
+def pages(dest: Path, site: Path | None = None) -> list[Path]:
+    """The snippets the docs include (dest) and, with `site` (docs/airframe), a page per component README and per guide chapter."""
     tokens = load_tokens()
     ids = themes(tokens)
     dest.mkdir(parents=True, exist_ok=True)
@@ -762,15 +764,30 @@ def pages(dest: Path) -> list[Path]:
     (dest / "airframe-shape.md").write_text("\n".join(out) + "\n")
     written.append(dest / "airframe-shape.md")
 
-    out = ["| Component | Group | What it is | Preview |", "| --- | --- | --- | --- |"]
-    for it in components():
-        if it["name"] == "Cover":
-            continue
-        src = f"https://github.com/Sean-Koval/agent-factory/tree/main/airframe/components/{it['name']}"
-        out.append(f"| [{it['name']}]({src}) | {it['group']} | {_cell(it['summary'])} | "
-                   f"[Night](gallery/{it['name']}.html?theme=dark) · [Day](gallery/{it['name']}.html?theme=light) |")
-    (dest / "airframe-components.md").write_text("\n".join(out) + "\n")
+    # The Components page: a card per component, grouped, each with its Night thumbnail (docs/assets/airframe/<Name>.png,
+    # made by scripts/captures.py airframe), the group, the preview's one-line subtitle, and the two theme links.
+    # Paths are relative to docs/airframe/, where components.md sits; the docs build rewrites them per page.
+    out = []
+    items = [it for it in components() if it["name"] != "Cover"]
+    for group in dict.fromkeys(i["group"] for i in items):
+        out += [f"### {group}", "", '<div class="af-comps">']
+        for it in (i for i in items if i["group"] == group):
+            n = it["name"]
+            thumb = THUMBS / f"{n}.png"
+            pic = (f'<img src="../assets/airframe/{n}.png" alt="{html.escape(n)} preview, Night" loading="lazy" width="800" height="500">'
+                   if thumb.exists() else '<span class="af-comp__blank">No thumbnail yet</span>')
+            out.append(f'<a class="af-comp" href="components/{n}/" title="{html.escape(it["summary"])}">'
+                       f'<span class="af-comp__pic">{pic}</span>'
+                       f'<span class="af-comp__head"><b>{n}</b><span class="af-comp__group">{html.escape(group)}</span></span>'
+                       f'<span class="af-comp__sub">{html.escape(it["subtitle"])}</span>'
+                       f'<span class="af-comp__go"><span>Night</span><span>Day</span></span></a>')
+        out += ["</div>", ""]
+    (dest / "airframe-components.md").write_text("\n".join(out))
     written.append(dest / "airframe-components.md")
+
+    if site is not None:
+        written += component_pages(site / "components")
+        written += guide_pages(site / "guide")
 
     index = json.loads((SRC / "icons" / "icons.json").read_text())
     cells = []
@@ -779,6 +796,105 @@ def pages(dest: Path) -> list[Path]:
                      f'<figcaption>{html.escape(name)}</figcaption></figure>')
     (dest / "airframe-icons.md").write_text('<div class="af-icons">\n' + "\n".join(cells) + "\n</div>\n")
     written.append(dest / "airframe-icons.md")
+
+    # the registry page's pinned install commands name the newest release, like the header badge
+    tag = release()
+    (dest / "airframe-install.md").write_text(
+        "```sh\n"
+        f"npx shadcn@latest add {REGISTRY_REPO}/airframe#{tag}\n"
+        f"npx shadcn@latest add {REGISTRY_REPO}/skill#{tag}\n"
+        f"npx shadcn@latest list {REGISTRY_REPO}\n"
+        "```\n\n"
+        "!!! note \"A `#ref` pins one item\"\n"
+        f"    The CLI does not carry the ref to that item's dependencies, which it reads from `main`, so `button#{tag}` installs "
+        "that tag's contract but the current `airframe` files. Pin the whole set by naming every item in one command, or "
+        "install from the site, where each release's items are built together.\n")
+    written.append(dest / "airframe-install.md")
+    return written
+
+
+# ---------------------------------------------------------------- component and guide pages
+
+GENERATED = "<!-- Generated by scripts/airframe.py pages from {src}; edit that file, not this one. -->"
+# The order a reader wants: what it is, when to use it, do, don't, anything else, then what you provide and the markup last.
+SECTION_ORDER = ("When to use", "Do", "Don't", "*", "You provide", "Markup")
+GUIDE_TITLES = {"brand": "Brand book", "Status": "Status", "Data": "Data", "Products": "Products"}
+
+
+def _sections(md: str) -> tuple[str, list[tuple[str, str]]]:
+    """Split a README into (lead text before the first ##, [(heading, body)…]); the top-level # title is dropped."""
+    md = re.sub(r"\A#\s[^\n]*\n", "", md.strip() + "\n", count=1)
+    parts = re.split(r"(?m)^##\s+(.+)$", md)
+    lead = parts[0].strip()
+    return lead, [(parts[i].strip(), parts[i + 1].strip()) for i in range(1, len(parts), 2)]
+
+
+def _ordered(sections: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    named = [n for n in SECTION_ORDER if n != "*"]
+    out = []
+    for key in SECTION_ORDER:
+        if key == "*":
+            out += [s for s in sections if s[0] not in named]
+        else:
+            out += [s for s in sections if s[0] == key]
+    return out
+
+
+def _indent(text: str, n: int = 4) -> str:
+    return "\n".join((" " * n + line) if line.strip() else "" for line in text.splitlines())
+
+
+def component_page(it: dict, height: int) -> str:
+    n = it["name"]
+    readme = SRC / "components" / n / "README.md"
+    lead, sections = _sections(readme.read_text()) if readme.exists() else ("", [])
+    rel = f"airframe/components/{n}/README.md"
+    out = ["---", f"title: {n}", "---", "", GENERATED.format(src=rel), "",
+           f'<span class="af-eyebrow">{html.escape(it["group"])}</span>', "", f"# {n}", ""]
+    if lead:
+        out += [lead, ""]
+    out += [f'<iframe class="af-preview" src="../gallery/{n}.html?theme=dark" title="{html.escape(n)} preview" loading="lazy" '
+            f'style="height: {min(max(height, 240), 720)}px"></iframe>', "",
+            f'[Night](../gallery/{n}.html?theme=dark){{ .md-button .md-button--primary }} [Day](../gallery/{n}.html?theme=light){{ .md-button }} '
+            f'[Source](https://github.com/Sean-Koval/agent-factory/tree/main/airframe/components/{n}){{ .md-button }}', ""]
+    for heading, body in _ordered(sections):
+        if heading == "Markup":
+            out += ['??? note "Markup"', "", _indent(body), ""]
+        else:
+            out += [f"## {heading}", "", body, ""]
+    return "\n".join(out).rstrip() + "\n"
+
+
+def component_pages(dest: Path) -> list[Path]:
+    """One docs page per component, from its README, with the Night preview framed at the top and the markup last."""
+    dest.mkdir(parents=True, exist_ok=True)
+    written = []
+    for it in components():
+        if it["name"] == "Cover":
+            continue
+        h = it["parts"]["marker"].get("height", 480)
+        try:
+            h = int(h)
+        except (TypeError, ValueError):
+            h = 480
+        path = dest / f"{it['name']}.md"
+        path.write_text(component_page(it, h))
+        written.append(path)
+    return written
+
+
+def guide_pages(dest: Path) -> list[Path]:
+    """The brand book and its chapters (airframe/guide/*.md) as docs pages, unchanged but for a provenance line."""
+    dest.mkdir(parents=True, exist_ok=True)
+    written = []
+    for src in sorted((SRC / "guide").glob("*.md")):
+        text = src.read_text()
+        title = GUIDE_TITLES.get(src.stem, src.stem)
+        if src.stem == "brand":
+            text = re.sub(r"\A#\s[^\n]*\n", "# Brand book\n", text, count=1)
+        path = dest / f"{src.stem.lower()}.md"
+        path.write_text(f"---\ntitle: {title}\n---\n\n{GENERATED.format(src=f'airframe/guide/{src.name}')}\n\n{text}")
+        written.append(path)
     return written
 
 
@@ -900,6 +1016,7 @@ def main(argv: list[str] | None = None) -> int:
     g.add_argument("dest", type=Path)
     p = sub.add_parser("pages")
     p.add_argument("dest", type=Path)
+    p.add_argument("--site", type=Path, help="docs/airframe: also write components/<Name>.md and guide/*.md there")
     r = sub.add_parser("registry")
     r.add_argument("dest", type=Path)
     r.add_argument("--base-url", default=REGISTRY_URL, help="where DIR will be served (for registryDependencies)")
@@ -923,7 +1040,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"airframe: {n} previews + index.html in {args.dest}")
         return 0
     if args.cmd == "pages":
-        for path in pages(args.dest):
+        for path in pages(args.dest, args.site):
             print(f"airframe: wrote {path}")
         return 0
     if args.cmd == "registry":

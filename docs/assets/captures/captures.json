@@ -1,14 +1,124 @@
 {
   "airframe": {
     "repo": "Sean-Koval/agent-factory",
-    "commit": "a48f6da",
+    "commit": "0d9dc9b",
     "demo": "scripts/airframe.py gallery",
     "screens": {
       "airframe-approvalcard": "The ApprovalCard preview from the gallery: inspect, deny with a reason, approve, quorum, waiting on others, verdicts",
       "airframe-diff": "The Diff preview from the gallery: a greyscale diff with one failed hunk and a comment thread"
+    },
+    "thumbnails": "docs/assets/airframe/<Name>.png: the top 800x500 of every component's Night preview (33 components), shown on the Components page"
+  },
+  "captured": "2026-10-19",
+  "crops": {
+    "hangar-fleet-needs-you": {
+      "from": "hangar-fleet",
+      "box": [
+        700,
+        196,
+        668,
+        428
+      ],
+      "shows": "Three tiles of the checkout-python pool and, docked beside them, the question the selected agent is asking",
+      "shown": [
+        "hero"
+      ]
+    },
+    "hangar-fleet-board": {
+      "from": "hangar-fleet",
+      "box": [
+        72,
+        196,
+        904,
+        180
+      ],
+      "shows": "The checkout-python pool: ten tiles, the one that needs a person selected, and the legend",
+      "shown": [
+        "deck"
+      ]
+    },
+    "hangar-needs-you-narrow-question": {
+      "from": "hangar-needs-you-narrow",
+      "box": [
+        0,
+        56,
+        720,
+        586
+      ],
+      "shows": "Needs you in a 720 px window: an agent's question with the answer box, and draft PR #43 waiting for review",
+      "shown": [
+        "page",
+        "deck"
+      ]
+    },
+    "hangar-review-narrow-change": {
+      "from": "hangar-review-narrow",
+      "box": [
+        0,
+        56,
+        720,
+        584
+      ],
+      "shows": "Job #42 in a 720 px window: the agent's summary, the reply box, and the change as a greyscale diff",
+      "shown": [
+        "deck"
+      ]
+    },
+    "tower-desk-approval": {
+      "from": "tower-desk",
+      "box": [
+        264,
+        428,
+        680,
+        472
+      ],
+      "shows": "Needs you on Marcus's Desk: an approval card with what will run and what signing does",
+      "shown": [
+        "page",
+        "deck"
+      ]
+    },
+    "tower-object-release": {
+      "from": "tower-object",
+      "box": [
+        264,
+        528,
+        680,
+        372
+      ],
+      "shows": "On PAY-412: hangar's job waiting for a maintainer to release it, with the repo and the issue it names",
+      "shown": [
+        "deck"
+      ]
+    },
+    "flightdeck-verdict-verdict": {
+      "from": "flightdeck-verdict",
+      "box": [
+        0,
+        0,
+        790,
+        560
+      ],
+      "shows": "The report comment on the harness PR: the verdict line and the pins of both variants",
+      "shown": [
+        "page",
+        "deck"
+      ]
+    },
+    "airframe-approvalcard-card": {
+      "from": "airframe-approvalcard",
+      "box": [
+        16,
+        12,
+        780,
+        584
+      ],
+      "shows": "One ApprovalCard: a held push to main with its policy, checks, expiry, deny and approve, and the quorum",
+      "shown": [
+        "deck"
+      ]
     }
   },
-  "captured": "2026-10-18",
   "flightdeck": {
     "repo": "Sean-Koval/flightdeck",
     "commit": "49d3afa",
@@ -19,12 +129,15 @@
   },
   "hangar": {
     "repo": "Sean-Koval/hangar",
-    "commit": "f87d40c",
+    "commit": "97ea728",
     "demo": "docs/assets/front/demo.py",
     "screens": {
       "hangar-needs-you": "Needs you: a question from an agent (job on the demo's scripted agent) and draft PR #43 waiting for review",
       "hangar-review": "Job #42's detail: the agent's summary, the composer to reply, and the change as a greyscale diff",
-      "hangar-fleet": "The Fleet board for the checkout-python pool with the sandbox that needs a person selected"
+      "hangar-fleet": "The Fleet board for the checkout-python pool with the sandbox that needs a person selected",
+      "hangar-needs-you-narrow": "Needs you in a 720 px window: the question and the PR waiting for review",
+      "hangar-review-narrow": "Job #42's detail in a 720 px window: summary, composer and the diff",
+      "hangar-fleet-narrow": "The Fleet in a 720 px window: the pool's tiles with the one that needs a person selected, its detail below"
     }
   },
   "tower": {

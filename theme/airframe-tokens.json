@@ -1,6 +1,6 @@
 {
   "name": "Airframe",
-  "release": "theme-v9",
+  "release": "theme-v11",
   "generated": "from airframe/tokens.json by scripts/airframe.py; do not edit",
   "defaultTheme": "dark",
   "themeNames": {
@@ -25,7 +25,7 @@
       "selected": "#1F1F1F",
       "brand": "#FFC400",
       "brand-hover": "#FFD23F",
-      "brand-wash": "rgba(255,196,0,0.12)",
+      "brand-wash": "rgba(255,196,0,0.10)",
       "on-brand": "#111213",
       "brand-text": "#FFC400",
       "brand-line": "#FFC400",

@@ -9,6 +9,12 @@ Writes docs/assets/captures/<product>-<screen>.png (a 1440x900 window, Night, at
 one shows, the repository and commit it came from, and when. deck/src.html and the docs pages reference them;
 nothing here is drawn or retouched by hand, so a capture is regenerated, never edited.
 
+A full window shown 600 px wide puts the product's text at 3-4 px, so each screen also has named crops (CROPS): the
+subject of the screen, cut from the full capture by the same script, as <product>-<screen>-<crop>.png. A page or a
+slide shows the crop; the full capture stays behind a link.
+
+    python3 scripts/captures.py --crops              # re-cut the crops from the captures already here (no demos)
+
 Every product is captured from its own demo and fixture data through its real UI, never from a stub:
 
 - hangar: docs/assets/front/demo.py (the real control plane on the fake provider, a scripted agent and a stand-in
@@ -18,7 +24,8 @@ Every product is captured from its own demo and fixture data through its real UI
   Screens: the Desk; an object page with its chips, composer and card.
 - flightdeck: docs/assets/report-comment.html, rendered by docs/assets/build.py from the fixture experiment: the
   verdict as the pull-request comment.
-- Airframe: this repository's gallery previews (ApprovalCard, Diff), built by scripts/airframe.py gallery.
+- Airframe: this repository's gallery previews (ApprovalCard, Diff), built by scripts/airframe.py gallery, plus a
+  Night thumbnail of every component's preview in docs/assets/airframe/ for the Components page.
 
 Needs Playwright with Chromium here (pip install playwright; python -m playwright install chromium) and each
 product's own environment: HANGAR_PYTHON (default `uv run --project <dir> python`) and TOWER_PYTHON (default
@@ -45,8 +52,45 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "assets" / "captures"
 VIEW = {"width": 1440, "height": 900}
+# The narrow window: a second capture of each hangar screen at 720 CSS px, the width a docs column or a slide shows it
+# at, so the product's own responsive layout puts the subject in frame and its text renders at or near 1:1.
+NARROW = {"width": 720, "height": 900}
 PRODUCTS = ("hangar", "tower", "flightdeck", "airframe")
 PEOPLE = {"marcus": 102}  # Tower's demo: Marcus Chen, an approver
+SCALE = 2  # device_scale_factor of every capture
+
+# Where a crop is shown, and the CSS width (and height) it gets there: the docs home hero at 1440, a tool page's content
+# column, a deck screen slide (max-height 500). A crop is cut no wider than shown / LEGIBLE, so the product's 13 px
+# labels render at 11 px or more where the page shows them; the test enforces it.
+SHOWN = {"hero": (610, 900), "page": (690, 2000), "deck": (800, 500)}
+LEGIBLE = 0.85
+
+# Named crops, in the window's CSS pixels (x, y, width, height), what the crop shows, and the surfaces that show it.
+# The box frames the one thing the page or slide is about, at a width that keeps its text legible there.
+CROPS = {
+    "hangar-fleet": {
+        "needs-you": ((700, 196, 668, 428), "Three tiles of the checkout-python pool and, docked beside them, the question the selected agent is asking", ("hero",)),
+        "board": ((72, 196, 904, 180), "The checkout-python pool: ten tiles, the one that needs a person selected, and the legend", ("deck",)),
+    },
+    "hangar-needs-you-narrow": {
+        "question": ((0, 56, 720, 586), "Needs you in a 720 px window: an agent's question with the answer box, and draft PR #43 waiting for review", ("page", "deck")),
+    },
+    "hangar-review-narrow": {
+        "change": ((0, 56, 720, 584), "Job #42 in a 720 px window: the agent's summary, the reply box, and the change as a greyscale diff", ("deck",)),
+    },
+    "tower-desk": {
+        "approval": ((264, 428, 680, 472), "Needs you on Marcus's Desk: an approval card with what will run and what signing does", ("page", "deck")),
+    },
+    "tower-object": {
+        "release": ((264, 528, 680, 372), "On PAY-412: hangar's job waiting for a maintainer to release it, with the repo and the issue it names", ("deck",)),
+    },
+    "flightdeck-verdict": {
+        "verdict": ((0, 0, 790, 560), "The report comment on the harness PR: the verdict line and the pins of both variants", ("page", "deck")),
+    },
+    "airframe-approvalcard": {
+        "card": ((16, 12, 780, 584), "One ApprovalCard: a held push to main with its policy, checks, expiry, deny and approve, and the quorum", ("deck",)),
+    },
+}
 
 # Extra work for hangar's demo, so the Fleet shows a pool rather than three tiles. Each becomes a real job on the
 # scripted agent; most finish in seconds and leave their sandbox up.
@@ -130,6 +174,30 @@ def shoot(page, name: str, clip: dict | None = None) -> None:
     page.wait_for_timeout(400)
     page.screenshot(path=str(OUT / f"{name}.png"), clip=clip)
     print("captures: wrote", OUT / f"{name}.png")
+    cut(name)
+
+
+def cut(name: str) -> list[str]:
+    """Write the named crops of one capture from its full PNG; returns the names written."""
+    from PIL import Image
+
+    written = []
+    src = OUT / f"{name}.png"
+    if name not in CROPS or not src.exists():
+        return written
+    with Image.open(src) as img:
+        for crop, ((x, y, w, h), _, _) in CROPS[name].items():
+            box = (x * SCALE, y * SCALE, min((x + w) * SCALE, img.width), min((y + h) * SCALE, img.height))
+            out = OUT / f"{name}-{crop}.png"
+            img.crop(box).save(out, optimize=True)
+            print("captures: wrote", out)
+            written.append(out.name)
+    return written
+
+
+def crops_manifest() -> dict:
+    return {f"{name}-{crop}": {"from": name, "box": list(box), "shows": shows, "shown": list(where)}
+            for name, crops in CROPS.items() for crop, (box, shows, where) in crops.items()}
 
 
 # ------------------------------------------------------------------------------------------------------- hangar
@@ -189,10 +257,35 @@ def hangar(br: Browser, manifest: dict) -> None:
         page.wait_for_timeout(900)
         shoot(page, "hangar-fleet")
         page.context.close()
+        # the same three screens in the narrow window: what a docs column or a slide shows
+        page = br.page(f"localStorage.setItem('hangar.token', '{token}')", viewport=NARROW)
+        page.goto(f"{url}/#needs", wait_until="networkidle")
+        page.wait_for_selector("#needs-list .af-question, #needs-list .af-approval, #needs-list li", timeout=15000)
+        page.wait_for_timeout(800)
+        bottom = page.evaluate("document.querySelector('#needs-list').getBoundingClientRect().bottom")
+        shoot(page, "hangar-needs-you-narrow", clip={"x": 0, "y": 0, "width": NARROW["width"], "height": min(NARROW["height"], int(bottom) + 48)})
+        page.goto(f"{url}/#jobs", wait_until="networkidle")
+        page.locator("#job-list li", has_text="#42").first.click()
+        page.wait_for_selector("#job-detail .af-composer", timeout=15000)
+        page.locator("#job-detail summary, #job-detail button", has_text="Show the change").first.click()
+        page.wait_for_selector("#job-detail .af-diff__hunk", timeout=15000)
+        page.evaluate("""() => { const head = [...document.querySelectorAll('#job-detail h4')].find(e => /agent.s summary/i.test(e.textContent));
+            (head || document.querySelector('#job-detail .af-composer')).scrollIntoView({block: 'start'}); window.scrollBy(0, -72); }""")
+        page.wait_for_timeout(500)
+        shoot(page, "hangar-review-narrow")
+        page.goto(f"{url}/#fleet", wait_until="networkidle")
+        page.wait_for_selector("[data-tile]", timeout=15000)
+        page.locator("[data-tile]").first.click()
+        page.wait_for_timeout(900)
+        shoot(page, "hangar-fleet-narrow")
+        page.context.close()
         manifest["hangar"] = {"repo": "Sean-Koval/hangar", "commit": commit(d), "demo": "docs/assets/front/demo.py",
                               "screens": {"hangar-needs-you": "Needs you: a question from an agent (job on the demo's scripted agent) and draft PR #43 waiting for review",
                                           "hangar-review": "Job #42's detail: the agent's summary, the composer to reply, and the change as a greyscale diff",
-                                          "hangar-fleet": "The Fleet board for the checkout-python pool with the sandbox that needs a person selected"}}
+                                          "hangar-fleet": "The Fleet board for the checkout-python pool with the sandbox that needs a person selected",
+                                          "hangar-needs-you-narrow": "Needs you in a 720 px window: the question and the PR waiting for review",
+                                          "hangar-review-narrow": "Job #42's detail in a 720 px window: summary, composer and the diff",
+                                          "hangar-fleet-narrow": "The Fleet in a 720 px window: the pool's tiles with the one that needs a person selected, its detail below"}}
     finally:
         proc.terminate()
         try:
@@ -261,7 +354,12 @@ def flightdeck(br: Browser, manifest: dict) -> None:
 
 
 # ----------------------------------------------------------------------------------------------------- airframe
+THUMBS = ROOT / "docs" / "assets" / "airframe"          # one Night thumbnail per component, for the Components page
+THUMB_VIEW = {"width": 800, "height": 500}
+
+
 def airframe(br: Browser, manifest: dict) -> None:
+    """The two deck captures at 1440x900 and 2x, then a 800x500 Night thumbnail of every component's preview."""
     tmp = Path(tempfile.mkdtemp(prefix="af-gallery-"))
     try:
         subprocess.run([sys.executable, str(ROOT / "scripts" / "airframe.py"), "gallery", str(tmp)], check=True, capture_output=True)
@@ -271,11 +369,25 @@ def airframe(br: Browser, manifest: dict) -> None:
             page.wait_for_timeout(600)
             shoot(page, f"airframe-{comp.lower()}")
             page.context.close()
+        THUMBS.mkdir(parents=True, exist_ok=True)
+        names = sorted(p.stem for p in tmp.glob("*.html") if p.stem not in ("index", "Cover"))
+        for comp in names:
+            ctx = br.b.new_context(viewport=THUMB_VIEW, device_scale_factor=1, color_scheme="dark")
+            page = ctx.new_page()
+            page.goto((tmp / f"{comp}.html").as_uri() + "?theme=dark", wait_until="networkidle")
+            page.evaluate("document.fonts.ready")
+            page.wait_for_timeout(400)
+            page.add_style_tag(content=".afg-bar,.afg-spacer{display:none !important}")
+            page.screenshot(path=str(THUMBS / f"{comp}.png"))
+            print("captures: wrote", THUMBS / f"{comp}.png")
+            ctx.close()
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     manifest["airframe"] = {"repo": "Sean-Koval/agent-factory", "commit": commit(ROOT), "demo": "scripts/airframe.py gallery",
                             "screens": {"airframe-approvalcard": "The ApprovalCard preview from the gallery: inspect, deny with a reason, approve, quorum, waiting on others, verdicts",
-                                        "airframe-diff": "The Diff preview from the gallery: a greyscale diff with one failed hunk and a comment thread"}}
+                                        "airframe-diff": "The Diff preview from the gallery: a greyscale diff with one failed hunk and a comment thread"},
+                            "thumbnails": f"docs/assets/airframe/<Name>.png: the top {THUMB_VIEW['width']}x{THUMB_VIEW['height']} of every "
+                                          f"component's Night preview ({len(names)} components), shown on the Components page"}
 
 
 def main(argv: list[str]) -> int:
@@ -283,19 +395,24 @@ def main(argv: list[str]) -> int:
     bad = [p for p in products if p not in PRODUCTS]
     if bad:
         sys.exit(f"captures: unknown product {bad}; choose from {', '.join(PRODUCTS)}")
-    from playwright.sync_api import sync_playwright
-
     OUT.mkdir(parents=True, exist_ok=True)
     manifest_file = OUT / "captures.json"
     manifest = json.loads(manifest_file.read_text()) if manifest_file.exists() else {}
-    with sync_playwright() as pw:
-        br = Browser(pw)
-        try:
-            for p in products:
-                globals()[p](br, manifest)
-        finally:
-            br.close()
-    manifest["captured"] = date.today().isoformat()
+    if "--crops" in argv:
+        for name in CROPS:
+            cut(name)
+    else:
+        from playwright.sync_api import sync_playwright
+
+        with sync_playwright() as pw:
+            br = Browser(pw)
+            try:
+                for p in products:
+                    globals()[p](br, manifest)
+            finally:
+                br.close()
+        manifest["captured"] = date.today().isoformat()
+    manifest["crops"] = crops_manifest()
     manifest_file.write_text(json.dumps(dict(sorted(manifest.items())), indent=2) + "\n")
     print("captures: wrote", manifest_file)
     return 0

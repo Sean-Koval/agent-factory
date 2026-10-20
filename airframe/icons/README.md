@@ -1,6 +1,6 @@
 # Icons
 
-Airframe's 55 icons (published to tool repos as `theme/airframe-icons.svg`) as standalone SVG files, one symbol sprite and a JSON map for code.
+Airframe's 57 icons (published to tool repos as `theme/airframe-icons.svg`) as standalone SVG files, one symbol sprite and a JSON map for code.
 
 - **Ink**: every file strokes in `currentColor`. Inline, or through the sprite, an icon takes the text color around it (use text tokens: `fg-subtle` beside a label, `fg` when active, `brand-text` when selected). Through `<img>` it renders black; to recolor an `<img>`, inline the markup instead or use the file as a CSS `mask-image` over a token color.
 - **Grid**: `viewBox="0 0 20 20"`, live area 2.5–17.5, `fill="none"`, `stroke-width="1.5"`, `stroke-linecap="square"`, `stroke-linejoin="miter"`. Show at 16 px in UI, 20 px in nav and headers, 14 px in dense rows, 24 px in empty states.
@@ -9,7 +9,7 @@ Airframe's 55 icons (published to tool repos as `theme/airframe-icons.svg`) as s
 
 | File | What |
 |---|---|
-| `<name>.svg` | One icon, `currentColor`, 20 × 20. 55 files. |
+| `<name>.svg` | One icon, `currentColor`, 20 × 20. 57 files. |
 | `airframe-icons.svg` | Sprite: a `<symbol id="af-<name>">` per icon in `currentColor`. It also lays the symbols out as a contact sheet, so the file previews as an image. |
 | `icons.json` | `{ "<name>": "<inner SVG markup>" }` for code. |
 

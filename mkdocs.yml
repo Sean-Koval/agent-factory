@@ -43,11 +43,6 @@ markdown_extensions:
 nav:
   - Overview: index.md
   - How it fits: how-it-fits.md
-  - Architecture:
-      - architecture/index.md
-      - Containers: architecture/containers.md
-      - Contracts: architecture/contracts.md
-      - Flows: architecture/flows.md
   - Tools:
       - tools/index.md
       - hangar: tools/hangar.md
@@ -55,18 +50,63 @@ nav:
       - ai-dlc: tools/ai-dlc.md
       - Tower: tools/workspace.md
       - Spaceport: tools/spaceport.md
-  - Team harness: team-harness.md
-  - At work: work/index.md
+      - Team harness: team-harness.md
+      - At work: work/index.md
   - Airframe:
       - airframe/index.md
       - Tokens: airframe/tokens.md
-      - Components: airframe/components.md
+      - Components:
+          - airframe/components.md
+          - Avatar: airframe/components/Avatar.md
+          - Button: airframe/components/Button.md
+          - Icons: airframe/components/Icons.md
+          - InlineData: airframe/components/InlineData.md
+          - Label: airframe/components/Label.md
+          - ObjectChip: airframe/components/ObjectChip.md
+          - ProductMarks: airframe/components/ProductMarks.md
+          - Readout: airframe/components/Readout.md
+          - Status: airframe/components/Status.md
+          - Card: airframe/components/Card.md
+          - EnvironmentCard: airframe/components/EnvironmentCard.md
+          - SummaryCards: airframe/components/SummaryCards.md
+          - Composer: airframe/components/Composer.md
+          - Controls: airframe/components/Controls.md
+          - Navigation: airframe/components/Navigation.md
+          - Dialog: airframe/components/Dialog.md
+          - Drawer: airframe/components/Drawer.md
+          - EmptyState: airframe/components/EmptyState.md
+          - PageHeader: airframe/components/PageHeader.md
+          - Toast: airframe/components/Toast.md
+          - MasterCaution: airframe/components/MasterCaution.md
+          - ApprovalCard: airframe/components/ApprovalCard.md
+          - Question: airframe/components/Question.md
+          - Diff: airframe/components/Diff.md
+          - FleetTable: airframe/components/FleetTable.md
+          - Terminal: airframe/components/Terminal.md
+          - TraceSpans: airframe/components/TraceSpans.md
+          - FleetBays: airframe/components/FleetBays.md
+          - FleetColumns: airframe/components/FleetColumns.md
+          - FleetOwners: airframe/components/FleetOwners.md
+          - FleetView: airframe/components/FleetView.md
+          - SessionLanes: airframe/components/SessionLanes.md
+          - Hero: airframe/components/Hero.md
       - Icons: airframe/icons.md
       - Registry: airframe/registry.md
-  - Roadmap: roadmap.md
-  - Decisions: decisions.md
-  - Glossary: glossary.md
-  - Deck: deck.md
+      - Guide:
+          - Brand book: airframe/guide/brand.md
+          - Status: airframe/guide/status.md
+          - Data: airframe/guide/data.md
+          - Products: airframe/guide/products.md
+  - Reference:
+      - Architecture:
+          - architecture/index.md
+          - Containers: architecture/containers.md
+          - Contracts: architecture/contracts.md
+          - Flows: architecture/flows.md
+      - Roadmap: roadmap.md
+      - Decisions: decisions.md
+      - Glossary: glossary.md
+      - Deck: deck.md
 
 extra:
   generator: false

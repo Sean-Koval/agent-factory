@@ -2,7 +2,9 @@
 
 # Registry
 
-Airframe is also a [shadcn-compatible registry](https://ui.shadcn.com/docs/registry), so one command puts its files into any project: a Python console, a Vite app, a Tailwind project or a bare folder a coding agent is working in. The items are *universal*: every file has an explicit target, and nothing needs React, Tailwind or a `components.json`. The tool repos keep using `scripts/sync-airframe.sh theme-vN`, which does the same job with a fixed destination list; the registry is for everything else.
+Airframe is also a [shadcn-compatible registry](https://ui.shadcn.com/docs/registry), so one command puts its files into any project. A Python console, a Vite app, a Tailwind project or a bare folder a coding agent is working in. The items are *universal*: every file has an explicit target, and nothing needs React, Tailwind or a `components.json`.
+
+The tool repos keep using `scripts/sync-airframe.sh theme-vN`, which does the same job with a fixed destination list. The registry is for everything else.
 
 ## Install
 
@@ -12,15 +14,9 @@ From this site (built JSON, always the current release):
 npx shadcn@latest add https://sean-koval.github.io/agent-factory/r/airframe.json
 ```
 
-From the repository, pinned to a release tag (a [GitHub source registry](https://ui.shadcn.com/docs/registry/github); the CLI reads `registry.json` at the repo root):
+From the repository, pinned to the current release (a [GitHub source registry](https://ui.shadcn.com/docs/registry/github); the CLI reads `registry.json` at the repo root):
 
-```sh
-npx shadcn@latest add Sean-Koval/agent-factory/airframe#theme-v6
-npx shadcn@latest add Sean-Koval/agent-factory/skill#theme-v6
-npx shadcn@latest list Sean-Koval/agent-factory
-```
-
-A `#ref` pins the item you name; the CLI does not carry it to that item's dependencies, which it reads from `main`. So `button#theme-v6` installs that tag's contract but the current `airframe` files. Pin the whole set by naming every item in one command, or install from the site, where each release's items are built together.
+--8<-- "airframe-install.md"
 
 As a named registry, for the `shadcn` MCP server and `@airframe/<item>` addresses (needs a full `components.json`):
 

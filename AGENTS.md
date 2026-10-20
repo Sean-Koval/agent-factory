@@ -2,6 +2,13 @@
 
 agent-factory is the suite-level home for hangar, flightdeck, ai-dlc, Tower and Spaceport: the docs site, the deck, the architecture diagrams, a pointer to the example team harness ([Sean-Koval/team-harness](https://github.com/Sean-Koval/team-harness)), and **Airframe**, the design system every tool uses.
 
+## Writing for the site
+
+- A page answers one question for one reader. Paragraphs are at most 60 words, sentences at most 25 words (a semicolon ends one), and a page is at most 700 words of prose, or it is split. `tests/test_editorial.py` measures `docs/` and `README.md` and holds the short allowlist (glossary, the company runbook), each entry with its reason.
+- Status lives on the roadmap. A tool page or an overview says what is shipped and what is next in one sentence and links the roadmap phase; it does not list issue numbers.
+- Show the product before describing it: a tool page leads with a named crop from `scripts/captures.py` (`CROPS`), with a caption that says what is on the screen, never where it came from. The full capture sits behind the link.
+- Ratios read "18 of 21", never "18 / 21"; an open issue is plain, a closed one has a check mark, and no list is a wall: issue lists are `<details>` closed by default.
+
 ## Airframe is the design source of truth
 
 - Values live in `airframe/tokens.json`; component CSS in `airframe/styles/`; per-component docs and previews in `airframe/components/<Name>/`; icons in `airframe/icons/`; the brand book in `airframe/guide/`. Read `airframe/README.md` and `airframe/guide/brand.md` before any visual work, here or in a tool repo.
