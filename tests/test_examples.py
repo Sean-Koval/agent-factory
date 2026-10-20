@@ -47,7 +47,7 @@ class PlaceholdersTest(unittest.TestCase):
             for m in re.finditer(r"https?://([\w.-]+)", text):
                 host = m.group(1).lower()
                 if not (host.endswith(("example.com", "example.net", "github.com", "github.io", "atlassian.net"))
-                        or host in ("localhost",)):
+                        or host in ("localhost", "127.0.0.1")):
                     bad.append(f"{rel}: URL host {host}")
         self.assertEqual(bad, [])
 
@@ -97,7 +97,7 @@ class TemplateTestsTest(unittest.TestCase):
                            capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stderr[-3000:])
 
-    @unittest.skipIf(importlib.util.find_spec("pydantic") is None, "pydantic not installed")
+    @unittest.skipIf(importlib.util.find_spec("hangar") is None, "hangar not installed: the plugin runs on its types")
     def test_bump_plugin_tests(self) -> None:
         plugin = EXAMPLES / "company-overlay" / "agent-factory-bots" / "plugins" / "hangar-example-bump"
         r = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests"], cwd=plugin,

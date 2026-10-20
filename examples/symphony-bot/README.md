@@ -21,7 +21,7 @@ bot/
   listener.py       the Symphony BDK datafeed: messages and form submits
   config.py         config.yaml
 config.example.yaml
-tests/              stdlib only: python -m unittest discover -s tests -t .
+tests/              python -m unittest discover -s tests -t . (stdlib; the client test runs once mcp is installed)
 ```
 
 ## How it talks to hangar
@@ -41,7 +41,7 @@ link` tells a person what to ask their admin.
 ## Run it
 
 ```sh
-pip install -e .                      # symphony-bdk-python, mcp, uvicorn, pyyaml: pin what you qualified
+pip install -e .                      # symphony-bdk-python, mcp 1.x (2.x changed the client API), uvicorn, pyyaml
 python -m bot config.yaml             # the datafeed and the webhook endpoint (port 8080) in one process
 python -m unittest discover -s tests -t .
 ```

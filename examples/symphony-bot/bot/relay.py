@@ -87,10 +87,17 @@ class Relay:
             await self.room.post(who.stream_id, _ml(commands.HELP))
 
     async def ask(self, who: Who, cmd: commands.Command) -> dict[str, Any]:
+        """submit_job for the person; the job, or {} when hangar refused (the room is told why)."""
         args: dict[str, Any] = {"instructions": cmd.text, **self.routing.target(cmd)}
         if cmd.ticket:
             args["ticket"] = f"jira:{cmd.ticket}"
-        job = await self.hangar.call("submit_job", args, who)
+        try:
+            job = await self.hangar.call("submit_job", args, who)
+        except Exception as e:  # noqa: BLE001 - hangar refused (unlinked, no ticket, over a cap): say so in the room
+            await self.room.post(who.stream_id, _ml(
+                f"hangar didn't start it: {escape(str(e)[:400])}. If your account isn't linked yet, "
+                "<b>/hangar link</b> says how."))
+            return {}
         await self.room.post(who.stream_id, _ml(
             f"Started {_link(job.get('url'), job.get('id', 'a job'))} for you: {escape(job.get('state', 'queued'))}. "
             "I'll post its questions, approvals and PRs here."))
