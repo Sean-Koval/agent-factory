@@ -5,6 +5,18 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v13 · 2026-10-20
+
+The docs-site mapping catches up with theme-v12's type rule: labels are sentence-case sans, not mono capitals
+(KAN-150 found them still in mono on the flightdeck site). Only `airframe-docs.css` changes; no token changes value,
+none is added, renamed or removed.
+
+- Tabs, nav titles, table headers, admonition and details titles, buttons, the eyebrow, figure captions, the tool-card
+  kicker and the suite strip's home link and plane words are Red Hat Text 500, sentence case, no tracking.
+  The strip's plane words go from .5rem to .55rem and its home link from .56rem to .6rem.
+- `h4`–`h6` are sans 600 at .75rem in `fg-muted` instead of small mono capitals in `fg-subtle`.
+- Code, IDs and numbers stay in DM Mono.
+
 ## theme-v12 · 2026-10-19
 
 The new Fleet look and the decision deck (KAN-140, KAN-139): soft geometry, one step of lift, sentence-case sans labels,
