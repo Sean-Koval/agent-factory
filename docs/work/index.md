@@ -63,7 +63,7 @@ If a PR in the set is closed unmerged, the set is broken. Later PRs stop, the de
 
 1. **Infra.** `agent-factory-infra` calls hangar's `hangar-workload` module on the cluster you already run; it never creates one. Its outputs feed the deploy overlay.
 2. **Image.** `agent-factory-bots` builds `FROM ghcr.io/sean-koval/hangar@sha256:…` with your pinned plugins and your harness fork's environments, and tags it with the merge commit. Mirror hangar's images by digest into your registry.
-3. **Deploy.** `agent-factory-deploy` holds `overlays/{dev,prod}` over hangar's base at `HANGAR_TAG`, the `hangar-site` settings (doors, plugins, harness repo, egress), External Secrets for every credential, and `policy/`. CD applies the overlay, then `hangar apply -f policy/`.
+3. **Deploy.** `agent-factory-deploy` holds `overlays/{dev,prod}` over hangar's base at `HANGAR_TAG`, the `hangar-site` settings (doors, plugins, harness repo, egress), External Secrets for every credential, and `policy/`. CD applies the overlay, then `hangar apply -f policy/credentials -f policy/repos` and `hangar changeset profile-set` for each profile (hangar's `apply` doesn't take change-set profiles yet). Set `HANGAR_JOB_CALLBACK_HOSTS` to the bot's host when it sits at an internal or private address: hangar's webhook guard refuses those otherwise.
 4. **Harness.** Fork team-harness, set the credential names in `bindings/work-default.yaml`, and freeze `work-default` from a good run. `HANGAR_DEFAULT_HARNESS` points at its `stable` channel.
 5. **A service.** Onboarding is one reviewed PR to the deploy repo: four repo policies, one profile, one Jira project entry.
 

@@ -3,7 +3,7 @@ name = "hangar-example-bump"
 version = "0.1.0"
 description = "A company deliverer for hangar change sets: points a kustomize overlay at the image a change set built"
 requires-python = ">=3.12"
-dependencies = []   # runs inside hangar, which provides pydantic
+dependencies = []   # runs inside hangar (hangar.ext.deliverers, pydantic); install it into hangar's image
 
 [project.entry-points."hangar.plugins"]
 hangar-example-bump = "hangar_example_bump:plugin"

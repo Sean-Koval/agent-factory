@@ -22,7 +22,7 @@ CI builds the image on every merge to `main` and tags it with the merge commit
 
 ## Plugins
 
-A plugin is a Python package with a `hangar.plugins` entry point whose object has `name`, `api =
+A plugin is a Python package, built against hangar's `hangar.ext` types, with a `hangar.plugins` entry point whose object has `name`, `api =
 "hangar.plugin/v1"`, a `Settings` model and `register(host, settings)`; `register` calls `host.add_door`,
 `add_notifier`, `add_tracker` or `add_deliverer`. Installing one does nothing until `HANGAR_PLUGINS.enable` names it in
 the deploy repo, and a bad setting stops hangar from starting rather than running half-configured. Secrets in
@@ -32,5 +32,5 @@ settings are credential names only. A sign-in plugin (`hangar-<company>-auth`, f
 
 Copy `examples/symphony-bot/` from agent-factory into `symphony-bot/`, fill in `config.yaml` (pod, bot account,
 hangar URL, credential names) and deploy it as its own Deployment next to hangar. It needs a hangar token with the
-relay scope and the webhook key `bot-hook-key` (both from your secret manager). Its tests run with the stdlib only:
-`python -m unittest discover -s symphony-bot/tests`.
+relay scope and the webhook key `bot-hook-key` (both from your secret manager). Its core tests need only the stdlib, and its MCP client test runs once its pinned `mcp` 1.x is installed:
+`cd symphony-bot && python -m unittest discover -s tests -t .`. The plugin's tests run with hangar installed.

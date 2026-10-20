@@ -51,6 +51,15 @@ class RelayTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(obo, {"source": "symphony", "id": "111", "reply_to": "symphony:stream-a:msg-1"})
         self.assertIn("job-9", self.room.posts[0][1])
 
+    async def test_a_refused_ask_tells_the_room_and_returns_nothing(self) -> None:
+        async def refuse(tool: str, args: dict, who: Who, elicit: Any = None) -> dict:
+            raise RuntimeError("hangar submit_job: HTTP 403: symphony user 111 isn't linked")
+
+        self.hangar.call = refuse
+        self.assertEqual(await self.relay.ask(ALICE, parse("hangar do SVC-1 x")), {})
+        self.assertIn("isn't linked", self.room.posts[-1][1])
+        self.assertIn("/hangar link", self.room.posts[-1][1])
+
     async def test_ask_without_a_known_project_uses_the_default_repo(self) -> None:
         await self.relay.ask(ALICE, parse("hangar fix the flaky export test"))
         self.assertEqual(self.hangar.calls[0][1], {"instructions": "fix the flaky export test",

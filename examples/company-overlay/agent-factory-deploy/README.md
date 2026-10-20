@@ -14,15 +14,17 @@ policy/
   credentials/             hangar credentials whose value is a mounted file (never a value)
   repos/                   one repo policy per repo: verify, environment, landing, approvers, naming
   changesets/              change-set profiles: which repos a ticket spans and the order they land in
-scripts/check.sh           CI: every overlay builds, and the policy applies cleanly (dry run)
+scripts/check.sh           CI: every overlay builds, the profiles validate, and the policy applies cleanly (dry run)
 ```
 
 ## What CD does on a merge
 
 1. `kustomize build overlays/<env> | kubectl apply -f -` (or Argo CD, Flux: whatever applies your other services).
-2. `hangar apply -f policy/` against that install, with an admin token from your secret manager. It is
+2. `hangar apply -f policy/credentials -f policy/repos` against that install, with an admin token from your secret
+   manager, then `hangar changeset profile-set <file>` for each file in `policy/changesets/` (hangar's `apply` takes
+   credential, environment and repo-policy documents; change-set profiles join it in a later release). Apply is
    declarative and idempotent: each object becomes what its file says, and one that already matches is left alone.
-   A scheduled `hangar apply -f policy/ --check` exits 1 on drift (anything set by hand since, or a repo policy no
+   A scheduled `hangar apply -f policy/credentials -f policy/repos --check` exits 1 on drift (anything set by hand since, or a repo policy no
    file declares); `--prune` removes those policies.
 
 ## Common changes, each one reviewed PR

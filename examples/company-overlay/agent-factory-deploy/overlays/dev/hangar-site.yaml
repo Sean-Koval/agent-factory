@@ -27,6 +27,9 @@ data:
      "statuses": {"started": "In Progress", "needs_input": "Needs info", "delivered": "In Review"}}
   # Plugins (hangar.plugin/v1): installed in the image is not enabled. The webhook notifier sends hangar.event/v1
   # to the Symphony bot (agent-factory-bots), signed with the credential bot-hook-key.
+  # Hosts hangar may post webhooks and job callbacks to although they resolve to private addresses (an in-cluster
+  # or internal bot): hangar's SSRF guard refuses those otherwise, and refuses to start with a notifier aimed at one.
+  HANGAR_JOB_CALLBACK_HOSTS: '["symphony-bot-dev.example.com"]'
   HANGAR_PLUGINS: |
     {"enable": ["hangar-example-bump"],
      "notifiers": {"webhook": {"url": "https://symphony-bot-dev.example.com/hangar/events",
