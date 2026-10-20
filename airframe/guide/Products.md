@@ -39,7 +39,7 @@ There is no blue in the family. hangar's clay sits near the caution orange and T
 ## Nav marker
 
 - In a console nav, the active tab (`af-nav__tab` with `aria-current="page"`) gets a 2px bar along its bottom edge in the current product's hue. Put `af-hue--<product>` on the nav or the tab to set it.
-- Everything else in the nav stays greyscale: tabs in `label` capitals, `fg-muted` at rest, `fg` when active.
+- Everything else in the nav stays greyscale: tabs in `label` (sentence-case sans), `fg-muted` at rest, `fg` when active; counts in mono `fg-subtle`. The one exception is the Needs-you count, an orange badge (`af-nav__badge`) while it is above zero.
 - The marker says where you are; it never means state. Attention in the nav uses the status marks.
 
 ## Glyph meanings

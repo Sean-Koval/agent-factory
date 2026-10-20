@@ -10,7 +10,7 @@
 Generated (never edit by hand):
 
     theme/airframe.css             every token as --af-<name>, both themes, plus the theme-v1 names as aliases
-    theme/airframe-components.css  the af- component classes: fonts, type styles, base, core, agents, patterns, viz
+    theme/airframe-components.css  the af- component classes: fonts, type styles, base, core, agents, patterns, viz, runway
     theme/airframe-icons.svg       the icon sprite (<use href="airframe-icons.svg#af-agent">)
     theme/airframe.js              the optional helpers (markup builders, toast, confirm, drawer), copied from airframe/js/
     theme/airframe-tokens.json     tokens resolved per theme, for scripts (diagrams, decks, tests)
@@ -42,7 +42,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "airframe"
 THEME = ROOT / "theme"
 TOKENS = SRC / "tokens.json"
-STYLES = ("base.css", "core.css", "agents.css", "patterns.css", "viz.css")
+STYLES = ("base.css", "core.css", "agents.css", "patterns.css", "viz.css", "runway.css")
 HELPERS = SRC / "js" / "airframe.js"
 DOCS_SITE = SRC / "docs-site"
 THUMBS = ROOT / "docs" / "assets" / "airframe"  # one Night thumbnail per component, from scripts/captures.py airframe  # the docs mapping and the suite strip, published as theme/airframe-docs.css and -suite.html
@@ -50,7 +50,7 @@ FONTS_URL = ("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125
              "&family=DM+Mono:wght@400;500&family=Red+Hat+Text:ital,wght@0,400..700;1,400..700&display=swap")
 PREFIX = "--af-"
 THEMED = ("color", "shadow")
-PLAIN = ("font", "spacing", "radius", "layout", "icon")
+PLAIN = ("font", "spacing", "radius", "layout", "icon", "motion")
 
 # theme-v1 names (the first tagged release) -> the token that replaced them. Kept as aliases so
 # anything written against theme-v1 keeps working; new code uses the names on the right.
@@ -277,6 +277,10 @@ def tailwind_css(tokens: dict) -> str:
     for t in tokens["shadow"]["tokens"]:
         short = t["name"].removeprefix("shadow-")
         lines.append(f"  --shadow-{short}: var({PREFIX}{t['name']});")
+    lines += ["", "  /* motion: ease-airframe, ease-open; durations are the --af-dur* tokens (duration-[var(--af-dur-open)]) */"]
+    for t in tokens["motion"]["tokens"]:
+        if t["name"].startswith("ease"):
+            lines.append(f"  --ease-{'airframe' if t['name'] == 'ease' else t['name'].removeprefix('ease-')}: var({PREFIX}{t['name']});")
     lines += ["", "  /* layout: max-w-page, h-header, h-row, h-row-compact, h-lane, h-span */"]
     layout = {t["name"] for t in tokens["layout"]["tokens"]}
     for name, tw in (("container-max", "--container-page"), ("header-h", "--spacing-header"), ("row-h", "--spacing-row"),
@@ -329,8 +333,20 @@ def dtcg_dimension(css: str) -> dict | None:
     return {"value": float(m.group(1)) if "." in m.group(1) else int(m.group(1)), "unit": m.group(2)} if m else None
 
 
+_MS = re.compile(r"^(\d+(?:\.\d+)?)(ms|s)$")
+_BEZIER = re.compile(r"^cubic-bezier\(\s*([-\d.]+)\s*,\s*([-\d.]+)\s*,\s*([-\d.]+)\s*,\s*([-\d.]+)\s*\)$")
+
+
 def _dtcg_scalar(css: str, usage: str) -> dict:
-    """px/rem become dimension; em and % become number with the unit kept in $extensions (DTCG has no em)."""
+    """px/rem become dimension; ms/s duration; cubic-bezier() cubicBezier; em and % become number with the unit kept
+    in $extensions (DTCG has no em)."""
+    m = _MS.match(css.strip())
+    if m:
+        n = float(m.group(1)) if "." in m.group(1) else int(m.group(1))
+        return {"$type": "duration", "$value": {"value": n, "unit": m.group(2)}, "$description": usage}
+    m = _BEZIER.match(css.strip())
+    if m:
+        return {"$type": "cubicBezier", "$value": [float(x) for x in m.groups()], "$description": usage}
     d = dtcg_dimension(css)
     if d:
         return {"$type": "dimension", "$value": d, "$description": usage}
@@ -404,7 +420,7 @@ def dtcg(tokens: dict, theme: str) -> dict:
                 if s.get(k):
                     ext[k] = s[k]
             doc["type"][s["name"]] = {"$value": val, "$description": s.get("usage", ""), "$extensions": {DTCG_EXT: ext}}
-    for fam, group in (("spacing", "space"), ("radius", "radius"), ("layout", "layout"), ("icon", "icon")):
+    for fam, group in (("spacing", "space"), ("radius", "radius"), ("layout", "layout"), ("icon", "icon"), ("motion", "motion")):
         doc[group] = {}
         for t in tokens[fam]["tokens"]:
             key = t["name"].removeprefix(f"{group}-") if group in ("space", "radius") else t["name"]
@@ -590,10 +606,10 @@ THEME_SCRIPT = ("<script>(function(){var r=document.documentElement;function syn
                 "'data-afg-theme');r.setAttribute('data-theme',t);try{localStorage.setItem('airframe-theme',t)}catch(x){}"
                 "sync()})})();</script>")
 GALLERY_CSS = """<style>
-.afg-bar{position:fixed;right:var(--af-space-12);bottom:var(--af-space-12);z-index:2147483000;display:flex;align-items:center;gap:var(--af-space-8);padding:var(--af-space-4) var(--af-space-4) var(--af-space-4) var(--af-space-12);background:var(--af-overlay);border:1px solid var(--af-line);border-radius:var(--af-radius-card);box-shadow:var(--af-shadow-overlay);font-family:var(--af-font-mono);font-size:11px;letter-spacing:var(--af-label-track);text-transform:uppercase;color:var(--af-fg-subtle)}
+.afg-bar{position:fixed;right:var(--af-space-12);bottom:var(--af-space-12);z-index:2147483000;display:flex;align-items:center;gap:var(--af-space-8);padding:var(--af-space-4) var(--af-space-4) var(--af-space-4) var(--af-space-12);background:var(--af-overlay);border:1px solid var(--af-line);border-radius:var(--af-radius-card);box-shadow:var(--af-shadow-overlay);font-family:var(--af-font-sans);font-size:12px;color:var(--af-fg-subtle)}
 .afg-bar a{color:var(--af-fg-muted);text-decoration:none}.afg-bar a:hover{color:var(--af-fg)}
 .afg-seg{display:flex;gap:2px}
-.afg-seg button{height:26px;padding:0 var(--af-space-8);border:1px solid transparent;border-radius:var(--af-radius-control);background:transparent;color:var(--af-fg-muted);font-family:var(--af-font-mono);font-weight:500;font-size:11px;letter-spacing:var(--af-label-track);text-transform:uppercase;cursor:pointer}
+.afg-seg button{height:26px;padding:0 var(--af-space-8);border:1px solid transparent;border-radius:var(--af-radius-control);background:transparent;color:var(--af-fg-muted);font-family:var(--af-font-sans);font-weight:500;font-size:12px;cursor:pointer}
 .afg-seg button:hover{color:var(--af-fg)}
 .afg-seg button[aria-pressed="true"]{background:var(--af-selected);border-color:var(--af-line-strong);color:var(--af-fg)}
 .afg-spacer{height:56px}
@@ -690,14 +706,14 @@ def gallery(dest: Path) -> int:
 # ---------------------------------------------------------------- reference pages
 
 COLOR_GROUPS = (
-    ("Ground", ("canvas", "surface", "raised", "overlay", "selected")),
-    ("Lines", ("line-subtle", "line", "line-strong", "rule")),
+    ("Ground", ("canvas", "surface", "raised", "overlay", "lifted", "selected")),
+    ("Lines", ("edge-hi", "line-subtle", "line", "line-strong", "rule")),
     ("Text", ("fg", "fg-muted", "fg-subtle", "fg-dim")),
     ("Brand", ("brand", "brand-hover", "brand-wash", "on-brand", "brand-text", "brand-line", "focus")),
     ("Status", ("status-running", "status-queued", "status-approval", "status-failed", "status-denied",
                 "on-status-denied", "status-off", "lamp-caution", "lamp-warning", "on-lamp")),
     ("Terminal and code", ("terminal-", "code-")),
-    ("Traces, lanes and readouts", ("span-", "stage-", "readout-cell", "display-window", "dot-field")),
+    ("Traces, lanes, rails and readouts", ("span-", "stage-", "rail", "rail-", "readout-cell", "display-window", "dot-field")),
     ("Product hues", ("product-",)),
     ("Charts", ("chart-",)),
 )
@@ -756,7 +772,7 @@ def pages(dest: Path, site: Path | None = None) -> list[Path]:
     written.append(dest / "airframe-type.md")
 
     out = ["| Token | Value | Use |", "| --- | --- | --- |"]
-    for fam in ("spacing", "radius", "layout", "icon"):
+    for fam in ("spacing", "radius", "layout", "icon", "motion"):
         for t in tokens[fam]["tokens"]:
             out.append(f"| `{PREFIX}{t['name']}` | `{t['value']}` | {_cell(t.get('usage', ''))} |")
     for t in tokens["shadow"]["tokens"]:

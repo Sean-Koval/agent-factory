@@ -1,10 +1,10 @@
 {
-  "$description": "Airframe theme-v11, Night theme, in the Design Tokens Format Module 2025.10. Generated from airframe/tokens.json by scripts/airframe.py; do not edit. Each token's 'css' extension names its CSS custom property or class.",
+  "$description": "Airframe theme-v12, Night theme, in the Design Tokens Format Module 2025.10. Generated from airframe/tokens.json by scripts/airframe.py; do not edit. Each token's 'css' extension names its CSS custom property or class.",
   "$extensions": {
     "io.github.sean-koval.airframe": {
       "theme": "dark",
       "themeName": "Night",
-      "release": "theme-v11",
+      "release": "theme-v12",
       "defaultTheme": "dark",
       "prefix": "--af-",
       "format": "https://www.designtokens.org/tr/drafts/format/"
@@ -56,7 +56,7 @@
         ],
         "hex": "#141414"
       },
-      "$description": "Cards and panels (tonal: separated by tone, no border).",
+      "$description": "Cards and panels (tonal: separated by tone, no border). A lit card stays raised; its status is the edge, the mark and the word.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-raised"
@@ -77,6 +77,41 @@
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-overlay"
+        }
+      }
+    },
+    "lifted": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1098,
+          0.1098,
+          0.1098
+        ],
+        "hex": "#1C1C1C"
+      },
+      "$description": "The one step above raised: an opened row or card, the top card of a decision deck, a sheet. Night is a lighter grey; Day has no third white, so lifted carries shadow-1 (and shadow-2 when open) instead.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-lifted"
+        }
+      }
+    },
+    "edge-hi": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hex": "#FFFFFF",
+        "alpha": 0.045
+      },
+      "$description": "The 1px machined highlight along the top edge of a lifted surface (inset 0 1px 0). Decorative; never a divider.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-edge-hi"
         }
       }
     },
@@ -226,7 +261,7 @@
         ],
         "hex": "#1F1F1F"
       },
-      "$description": "Selected row or tab background.",
+      "$description": "Selected row, tile, tab or lane: the fill. Selection is neutral: tiles add a 1px fg ring, rows a 2px fg leading edge; never a brand wash.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-selected"
@@ -278,7 +313,7 @@
         "hex": "#FFC400",
         "alpha": 0.1
       },
-      "$description": "Selected span or row tint behind brand-marked content. Light enough on raised that status-failed text on the selected row keeps 4.5:1.",
+      "$description": "Deprecated since theme-v12: no Airframe rule uses it. Selection is `selected` with a fg ring or edge; never tint a surface with brand. Kept so older product CSS still resolves.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-brand-wash"
@@ -397,7 +432,7 @@
         ],
         "hex": "#FF8A3D"
       },
-      "$description": "Needs a human: diamond. Moved to orange so it never reads as the yellow brand.",
+      "$description": "Needs a human: the diamond, the word, and the 3px edge on the leading side of a lit card, row or tile. Never a fill or a tint. Orange so it never reads as the yellow brand.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-status-approval"
@@ -414,7 +449,7 @@
         ],
         "hex": "#FF4D4D"
       },
-      "$description": "Failed: triangle.",
+      "$description": "Failed: the triangle, the word, and the 3px edge of a stopped row or tile. Never a fill.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-status-failed"
@@ -795,6 +830,58 @@
         }
       }
     },
+    "rail": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1647,
+          0.1647,
+          0.1647
+        ],
+        "hex": "#2A2A2A"
+      },
+      "$description": "Stage rail, ring and capsule track: the part not yet travelled.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-rail"
+        }
+      }
+    },
+    "rail-done": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8392,
+          0.8392,
+          0.8392
+        ],
+        "hex": "#D6D6D6"
+      },
+      "$description": "Stage rail, ring and capsule fill: the part done, and the rail head. A lit agent's head and current segment take its status color instead.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-rail-done"
+        }
+      }
+    },
+    "rail-glow": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hex": "#FFFFFF",
+        "alpha": 0.25
+      },
+      "$description": "The soft glow around a live rail head and the latest timeline dot (0 0 12px). The one glow in the system; it says 'moving', never a status.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-rail-glow"
+        }
+      }
+    },
     "readout-cell": {
       "$value": {
         "colorSpace": "srgb",
@@ -1112,7 +1199,7 @@
     "label-track": {
       "$type": "number",
       "$value": 0.08,
-      "$description": "Tracking for mono capitals: labels, keys, buttons, tabs.",
+      "$description": "Tracking for the mono capitals that remain: the denied placard, the lamp legend and the terminal bar. Labels are sentence-case sans since theme-v12.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-label-track"
@@ -1303,47 +1390,35 @@
     },
     "label": {
       "$value": {
-        "fontFamily": "{font.mono}",
+        "fontFamily": "{font.sans}",
         "fontSize": {
-          "value": 11,
+          "value": 12,
           "unit": "px"
         },
         "fontWeight": 500,
-        "lineHeight": 1.0,
-        "letterSpacing": {
-          "value": 0.88,
-          "unit": "px"
-        }
+        "lineHeight": 1.2
       },
-      "$description": "Labels and buttons, set in capitals (text-transform: uppercase).",
+      "$description": "Labels, keys, buttons and section names, in sentence case. Mono capitals were retired in theme-v12; mono stays for IDs, numbers and commands.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
-          "css": ".af-type-label",
-          "letterSpacing": "0.08em",
-          "textTransform": "uppercase"
+          "css": ".af-type-label"
         }
       }
     },
     "label-s": {
       "$value": {
-        "fontFamily": "{font.mono}",
+        "fontFamily": "{font.sans}",
         "fontSize": {
-          "value": 10,
+          "value": 11,
           "unit": "px"
         },
         "fontWeight": 500,
-        "lineHeight": 1.0,
-        "letterSpacing": {
-          "value": 0.9,
-          "unit": "px"
-        }
+        "lineHeight": 1.2
       },
-      "$description": "Inline data keys and table headers, capitals.",
+      "$description": "Inline data keys, table headers and stage words, in sentence case.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
-          "css": ".af-type-label-s",
-          "letterSpacing": "0.09em",
-          "textTransform": "uppercase"
+          "css": ".af-type-label-s"
         }
       }
     },
@@ -1600,10 +1675,10 @@
     "control": {
       "$type": "dimension",
       "$value": {
-        "value": 2,
+        "value": 8,
         "unit": "px"
       },
-      "$description": "Buttons, inputs, chips, fleet tiles.",
+      "$description": "Buttons, inputs, chips, tags, segments, fleet tiles, the denied placard. Was 2px before theme-v12.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-radius-control"
@@ -1613,20 +1688,33 @@
     "card": {
       "$type": "dimension",
       "$value": {
-        "value": 4,
+        "value": 12,
         "unit": "px"
       },
-      "$description": "Cards and panels.",
+      "$description": "Cards, panels, agent rows and board cards. Was 4px before theme-v12.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-radius-card"
         }
       }
     },
+    "sheet": {
+      "$type": "dimension",
+      "$value": {
+        "value": 18,
+        "unit": "px"
+      },
+      "$description": "The opened sheet: an agent's console, the top card of the decision deck, a dialog.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-radius-sheet"
+        }
+      }
+    },
     "round": {
       "$type": "number",
       "$value": 50,
-      "$description": "Status dots and avatars.",
+      "$description": "Status dots, heartbeat dots and avatars.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-radius-round"
@@ -1712,6 +1800,19 @@
           "css": "--af-span-h"
         }
       }
+    },
+    "rail-h": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Stage rail and capsule thickness.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-rail-h"
+        }
+      }
     }
   },
   "icon": {
@@ -1739,8 +1840,151 @@
       }
     }
   },
+  "motion": {
+    "dur-fast": {
+      "$type": "duration",
+      "$value": {
+        "value": 120,
+        "unit": "ms"
+      },
+      "$description": "A press, a hover tint, a heartbeat tick.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-dur-fast"
+        }
+      }
+    },
+    "dur": {
+      "$type": "duration",
+      "$value": {
+        "value": 200,
+        "unit": "ms"
+      },
+      "$description": "Color, background, border and opacity transitions.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-dur"
+        }
+      }
+    },
+    "dur-open": {
+      "$type": "duration",
+      "$value": {
+        "value": 300,
+        "unit": "ms"
+      },
+      "$description": "Something opening or closing in place: a row's console, a deck card leaving, a drawer.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-dur-open"
+        }
+      }
+    },
+    "ease": {
+      "$type": "cubicBezier",
+      "$value": [
+        0.2,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "$description": "The default deceleration curve.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-ease"
+        }
+      }
+    },
+    "ease-open": {
+      "$type": "cubicBezier",
+      "$value": [
+        0.32,
+        0.72,
+        0.0,
+        1.0
+      ],
+      "$description": "Open and close in place: decelerates, never overshoots. No springs.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-ease-open"
+        }
+      }
+    }
+  },
   "shadow": {
     "$type": "shadow",
+    "1": {
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "hex": "#000000",
+          "alpha": 0.5
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 1,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 2,
+          "unit": "px"
+        },
+        "spread": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "$description": "Resting lift under a lifted surface (with the edge-hi top highlight). Night barely shows it; Day needs it, having no third white.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-shadow-1"
+        }
+      }
+    },
+    "2": {
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "hex": "#000000",
+          "alpha": 0.6
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 20,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 60,
+          "unit": "px"
+        },
+        "spread": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "$description": "An opened sheet or the top card of a deck: the one deep shadow. Never on a resting card.",
+      "$extensions": {
+        "io.github.sean-koval.airframe": {
+          "css": "--af-shadow-2"
+        }
+      }
+    },
     "overlay": {
       "$value": {
         "color": {
@@ -1770,7 +2014,7 @@
           "unit": "px"
         }
       },
-      "$description": "Menus and popovers only. Cards never cast shadows.",
+      "$description": "Menus, popovers and toasts.",
       "$extensions": {
         "io.github.sean-koval.airframe": {
           "css": "--af-shadow-overlay"

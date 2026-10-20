@@ -79,16 +79,23 @@ nav:
           - Toast: airframe/components/Toast.md
           - MasterCaution: airframe/components/MasterCaution.md
           - ApprovalCard: airframe/components/ApprovalCard.md
+          - DecisionDeck: airframe/components/DecisionDeck.md
           - Question: airframe/components/Question.md
           - Diff: airframe/components/Diff.md
           - FleetTable: airframe/components/FleetTable.md
           - Terminal: airframe/components/Terminal.md
           - TraceSpans: airframe/components/TraceSpans.md
+          - ActivityTimeline: airframe/components/ActivityTimeline.md
+          - AgentCard: airframe/components/AgentCard.md
+          - AgentRow: airframe/components/AgentRow.md
           - FleetBays: airframe/components/FleetBays.md
           - FleetColumns: airframe/components/FleetColumns.md
+          - FleetConsole: airframe/components/FleetConsole.md
           - FleetOwners: airframe/components/FleetOwners.md
           - FleetView: airframe/components/FleetView.md
+          - Heartbeat: airframe/components/Heartbeat.md
           - SessionLanes: airframe/components/SessionLanes.md
+          - StageRail: airframe/components/StageRail.md
           - Hero: airframe/components/Hero.md
       - Icons: airframe/icons.md
       - Registry: airframe/registry.md

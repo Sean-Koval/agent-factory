@@ -15,7 +15,7 @@ An approval card shows one held action waiting on a reviewer: the exact command,
 ```html
 <article class="af-card af-card--lit af-approval">
   <div class="af-card__top">
-    <span class="af-lbl"><svg class="af-ic" …>approval</svg>Approval<span class="af-lbl__sub">TWR-APR-0391</span></span>
+    <span class="af-lbl"><svg class="af-ic" …>approval</svg>Approval<span class="af-lbl__sub af-mono">TWR-APR-0391</span></span>
     <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span>
   </div>
   <div class="af-approval__subject">

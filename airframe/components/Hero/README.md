@@ -11,7 +11,7 @@ The hero pairs an Archivo Expanded headline ("Forty agents. One needs you."), a 
 ```html
 <section class="af-hero" aria-labelledby="hero-title">
   <div class="af-hero__copy">
-    <span class="af-row"><span class="af-mark af-hue--hangar">…</span><span class="af-lbl">hangar<span class="af-lbl__sub">v0.9</span></span></span>
+    <span class="af-row"><span class="af-mark af-hue--hangar">…</span><span class="af-lbl">hangar<span class="af-lbl__sub af-mono">v0.9</span></span></span>
     <h1 class="af-hero__title" id="hero-title"><span>Forty agents.</span> <span>One needs you.</span></h1>
     <p class="af-hero__lede">hangar runs coding agents in isolated cloud sandboxes, holds risky steps for a human, and files a receipt for every decision.</p>
     <div class="af-hero__actions">
@@ -23,7 +23,7 @@ The hero pairs an Archivo Expanded headline ("Forty agents. One needs you."), a 
   <div class="af-hero__stage">
     <div class="af-dotfield" aria-hidden="true"></div>
     <div class="af-panel af-hero__panel">
-      <div class="af-hero__panel-head"><span class="af-lbl">Fleet<span class="af-lbl__sub">us-east4</span></span><span class="af-status af-status--running af-status--lit"><i class="af-status__mark"></i>39 running</span></div>
+      <div class="af-hero__panel-head"><span class="af-lbl">Fleet<span class="af-lbl__sub af-mono">us-east4</span></span><span class="af-status af-status--running af-status--lit"><i class="af-status__mark"></i>39 running</span></div>
       <div class="af-readouts">…three af-window…</div>
       <ul class="af-list">
         <li class="af-list__row is-attention"><span class="af-list__main"><span class="af-list__id">HGR-3MX9</span><span class="af-list__sub">gpt-5.1</span></span>

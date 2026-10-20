@@ -12,11 +12,11 @@ This repository is its single source of truth. Every color, size and font is a t
 
 <div class="af-rules">
   <div class="af-rule"><b>Quiet until a human is needed</b><span>Running is a grey dot. Only needs approval (orange diamond), failed (red triangle) and denied (red placard) carry color. A screen with no color on it means nobody is needed.</span></div>
-  <div class="af-rule"><b>Yellow is your action, never a status</b><span>The brand fill marks the primary action, focus, the selected item and the trace's critical path. Caution is orange so it can never be mistaken for it.</span></div>
-  <div class="af-rule"><b>Tonal, not boxed</b><span>Cards are a raised tone on the canvas with no border and no shadow. Dividers inside them are faint. No gloss, glow, blur or gradients.</span></div>
+  <div class="af-rule"><b>Yellow is your action, never a status</b><span>The brand fill marks the primary action, focus and the trace's critical path. Selection is neutral. Caution is orange so it can never be mistaken for it.</span></div>
+  <div class="af-rule"><b>Edge, mark, word</b><span>Cards are a raised tone with soft corners and no border. What needs a person keeps that ground and gains a 3px status edge, the mark and the word. Nothing is tinted.</span></div>
   <div class="af-rule"><b>Color, shape and a word</b><span>Every status has all three, so it reads in grayscale, for color-blind readers and on a projector.</span></div>
-  <div class="af-rule"><b>Three faces</b><span>Archivo Expanded for headlines, Red Hat Text for reading, DM Mono for IDs, data, labels and buttons. Numbers use tabular figures.</span></div>
-  <div class="af-rule"><b>Keyed data</b><span>Metadata reads <code>POLICY require-approval-main-push  MODEL gpt-5.1</code>: a small mono key, then the value. Never "a · b · c".</span></div>
+  <div class="af-rule"><b>Three faces</b><span>Archivo Expanded for headlines, Red Hat Text for reading, labels and buttons, DM Mono for IDs, numbers and commands. Numbers use tabular figures.</span></div>
+  <div class="af-rule"><b>Keyed data</b><span>Metadata reads <code>POLICY require-approval-main-push  MODEL gpt-5.1</code>: a small key, then the value. Never "a · b · c".</span></div>
 </div>
 
 Two themes share every component: **Night** (`dark`, the default, true black) and **Day** (`light`, paper grey, white cards). The [brand book](guide/brand.md) (voice, layout, accessibility) is here, with [Status](guide/status.md), [Data](guide/data.md) and [Products](guide/products.md); the source is [`airframe/guide/`](https://github.com/Sean-Koval/agent-factory/tree/main/airframe/guide).
@@ -32,7 +32,7 @@ Everything a tool loads is in `theme/`:
 | `airframe-docs.css` | Maps the docs theme (Zensical / Material) onto the tokens, from the header to the home hero and the suite strip. Generated from `airframe/docs-site/`. | Docs sites |
 | `airframe-suite.html` | The suite strip above the docs header: the family's docs sites, with the product marker under the current one. A template partial, rendered by the docs theme. Generated from `airframe/docs-site/`. | Docs sites |
 | `airframe-icons.svg` | The icon sprite: `<svg class="af-ic"><use href="airframe-icons.svg#af-agent"/></svg>`. Generated. | Consoles and web apps |
-| `airframe.js` | Optional. One ES module, no dependencies: markup helpers that match the contracts, and the toast, confirm and drawer behaviours. Copied from `airframe/js/`. | Consoles and web apps |
+| `airframe.js` | Optional. One ES module, no dependencies: markup helpers that match the contracts, and the toast, confirm, drawer, open-in-place and decision-deck behaviours. Copied from `airframe/js/`. | Consoles and web apps |
 | `airframe-tokens.json` | Tokens resolved per theme, for scripts that draw (diagrams, decks, charts). Generated. | Build scripts |
 
 A page is themed by `data-theme="dark"` or `data-theme="light"` on `<html>` (or any element, for a nested scope). With neither, Day follows the reader's OS setting and Night is the fallback.

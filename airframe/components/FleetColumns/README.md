@@ -2,6 +2,8 @@
 
 The fleet sorted by state: one column each for Needs you, Failed or denied, Running (two wide), Starting and Paused, so the work that needs a person is always the first thing on the left.
 
+> **Default pair (theme-v12).** hangar's Fleet keeps two views over one data model: **List** (AgentRow) and **Board** (AgentCard), with the DecisionDeck above them and Owners as a filter rather than a view. FleetColumns stays in Airframe for other consoles and inherits the same neutral tile and 3px status edge; reach for List/Board first.
+
 ## What you provide
 
 - **Columns**: name, the status role its head shows (`approval`, `failed`, `running`, `queued`, `off`), count, and the empty text ("Nothing is waiting on you.").
@@ -28,7 +30,7 @@ The fleet sorted by state: one column each for Needs you, Failed or denied, Runn
 </div>
 ```
 
-Card states mirror FleetBays: `af-mini--queued`, `--approval` (orange ring), `--failed` and `--denied` (red ring), `--off` (hollow), `is-selected` (brand ring). Column heads stay sticky while the page scrolls. Below 1100 px the columns fold to two, and to one on a phone.
+Card states mirror FleetBays: `af-mini--queued`, `--approval` (3px orange edge), `--failed` and `--denied` (3px red edge), `--off` (hollow), `is-selected` (1px `fg` ring). Column heads stay sticky while the page scrolls. Below 1100 px the columns fold to two, and to one on a phone.
 
 ## When to use
 

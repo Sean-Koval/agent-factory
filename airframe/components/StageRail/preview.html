@@ -1,0 +1,87 @@
+<!-- @dsCard group="Fleet" height=760 subtitle="Plan, edit, test, PR as a rail, a ring or a capsule; solid only for a reported pct, dotted for an estimate; the head takes the status color when a person is needed" -->
+<!doctype html>
+<html><head><meta charset="utf-8"><title>StageRail</title></head>
+<body>
+<main class="af-stack af-stack--block" style="padding:24px;max-width:1040px">
+  <section class="af-stack"><span class="af-lbl">Rail<span class="af-lbl__sub">in a row</span></span><div class="af-card" id="rail-root" style="gap:18px"></div></section>
+  <section class="af-stack"><span class="af-lbl">Rail with labels<span class="af-lbl__sub">in an opened console</span></span><div class="af-card" id="rail-lab" style="gap:28px;padding-bottom:28px"></div></section>
+  <div class="af-grid af-grid--2">
+    <section class="af-stack"><span class="af-lbl">Ring<span class="af-lbl__sub">on a board card</span></span><div class="af-card" id="ring-root" style="flex-direction:row;flex-wrap:wrap;gap:20px;align-items:center"></div></section>
+    <section class="af-stack"><span class="af-lbl">Capsule<span class="af-lbl__sub">on a board card</span></span><div class="af-card" id="cap-root" style="gap:18px"></div></section>
+  </div>
+  <section class="af-stack"><span class="af-lbl">Anatomy</span>
+    <dl class="af-kv"><dt>Rail</dt><dd><span class="af-mono af-muted">af-rail</span> with <span class="af-mono af-muted">--p</span> 0–100%: <span class="af-mono af-muted">__track</span>, <span class="af-mono af-muted">__done</span>, four <span class="af-mono af-muted">__stop</span>s (<span class="af-mono af-muted">is-on</span> once passed), a <span class="af-mono af-muted">__head</span>; <span class="af-mono af-muted">--labeled</span> adds four <span class="af-mono af-muted">__lab</span>s under it; <span class="af-mono af-muted">--none</span> is a dashed track for an agent not started</dd>
+    <dt>Estimate</dt><dd>Solid fill only for a pct the agent reported. <span class="af-mono af-muted">--est</span> on any of the three dots the current stage from its start (<span class="af-mono af-muted">--s</span>) to the estimate and hollows the head; no glow on a guess</dd>
+    <dt>Ring</dt><dd><span class="af-mono af-muted">af-ring</span>: an SVG of four arcs, <span class="af-mono af-muted">__track</span> and <span class="af-mono af-muted">__fill</span>, the stage letter inside</dd>
+    <dt>Capsule</dt><dd><span class="af-mono af-muted">af-capsule</span>: four <span class="af-mono af-muted">__seg</span>s, <span class="af-mono af-muted">is-done</span> or <span class="af-mono af-muted">is-now</span> with <span class="af-mono af-muted">--p</span></dd>
+    <dt>Status</dt><dd><span class="af-mono af-muted">--approval</span>, <span class="af-mono af-muted">--failed</span>, <span class="af-mono af-muted">--denied</span> on any of the three color the head, the fill or the current segment; everything else stays rail-done</dd></dl></section>
+</main>
+<script type="module">
+import { expand, deck, roving } from "./airframe.js";
+
+const IC = {
+  chev: '<path d="M8 5l5 5-5 5"/>', back: '<path d="M12 5l-5 5 5 5"/>', check: '<path d="M4 10.5l4 4 8-9"/>', close: '<path d="M5 5l10 10M15 5 5 15"/>',
+  fork: '<circle cx="6" cy="4.5" r="1.75"/><circle cx="14" cy="4.5" r="1.75"/><circle cx="10" cy="15.5" r="1.75"/><path d="M6 6.25V7.5c0 1.5 1 2.5 2.5 2.5h3c1.5 0 2.5-1 2.5-2.5V6.25M10 10v3.75"/>',
+  snapshot: '<path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/><circle cx="10" cy="10" r="2.5"/>', pause: '<path d="M7 4v12M13 4v12"/>',
+  terminal: '<rect x="2.5" y="3.5" width="15" height="13"/><path d="M6 8l2.5 2L6 12M10.5 12.5H14"/>', agent: '<path d="M10 2.5L3.5 6.25V13.75L10 17.5L16.5 13.75V6.25"/><path d="M9.25 9.25h1.5v1.5h-1.5z"/>',
+  log: '<path d="M3 4.5h14M3 8.5h14M3 12.5h9M3 16.5h11"/>', duration: '<circle cx="10" cy="11" r="6.5"/><path d="M10 11V7.5M8 2.5h4M15.2 5.8l1.3-1.3"/>',
+  environment: '<path d="M10 3l7 3.5-7 3.5-7-3.5z"/><path d="M3 10l7 3.5 7-3.5"/><path d="M3 13.5 10 17l7-3.5"/>', retry: '<path d="M16.5 10A6.5 6.5 0 1 1 14.6 5.4"/><path d="M15.5 2.5v3.5H12"/>',
+};
+const ic = (n, cls = "") => `<svg class="af-ic ${cls}" viewBox="0 0 20 20" aria-hidden="true">${IC[n]}</svg>`;
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+const STAGES = ["Plan", "Edit", "Test", "PR"];
+const PEOPLE = { sean: ["SK", "Sean", "Sean Koval"], priya: ["PN", "Priya", "Priya Nair"], marco: ["MO", "Marco", "Marco Oduya"], lena: ["LF", "Lena", "Lena Fischer"], dana: ["DW", "Dana", "Dana Whitfield"] };
+const WORD = { running: "Running", queued: "Queued", approval: "Needs approval", input: "Needs input", failed: "Failed", denied: "Denied", off: "Spun down" };
+const roleOf = (a) => (a.role === "input" ? "approval" : a.role);
+const mod = (a) => (a.role === "approval" || a.role === "input" ? "approval" : a.role === "failed" ? "failed" : a.role === "denied" ? "denied" : "");
+const mark = (a) => `<span class="af-status af-status--${roleOf(a)}" aria-hidden="true"><i class="af-status__mark"></i></span>`;
+const stWord = (a) => `<span class="af-status af-status--${roleOf(a)}"><i class="af-status__mark"></i>${WORD[a.role]}</span>`;
+const per = (id, size = 22) => `<span class="af-avatar af-avatar--person af-avatar--${size}" title="${PEOPLE[id][2]}" aria-hidden="true"><span>${PEOPLE[id][0]}</span></span>`;
+const hex = (h, size = 22) => `<span class="af-avatar af-avatar--agent af-avatar--${size}" title="${h}" aria-hidden="true"><span>${h === "codex" ? "cx" : "cc"}</span></span>`;
+const money = (n) => `$${n.toFixed(2)}`;
+const dur = (s) => (s < 60 ? `${Math.round(s)} s` : s < 3600 ? `${Math.round(s / 60)} min` : `${Math.floor(s / 3600)} h ${Math.round((s % 3600) / 60)} min`);
+const ago = (s) => (s < 5 ? "now" : s < 60 ? `${Math.round(s)} s` : s < 3600 ? `${Math.round(s / 60)} min` : `${(s / 3600).toFixed(1)} h`);
+const wall = (t) => { const s = 14 * 3600 + 32 * 60 - t, h = Math.floor(((s % 86400) + 86400) % 86400 / 3600), m = Math.floor((s % 3600) / 60); return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`; };
+function rail(a, labels = false, w = 0) {
+  const m = mod(a) ? ` af-rail--${mod(a)}` : "", ws = w ? `width:${w}px;` : "";
+  if (a.stage == null) return `<span class="af-rail af-rail--none" aria-hidden="true"${w ? ` style="${ws}"` : ""}><i class="af-rail__track"></i>${"<b class=\"af-rail__stop\"></b>".repeat(4)}</span>`;
+  const p = Math.min(100, (a.stage + a.pct) * 33.333), est = a.est ? ` af-rail--est" data-est="1` : "";
+  const lab = `${STAGES[a.stage]} stage, ${a.est ? "about " : ""}${Math.round(a.pct * 100)}%${a.est ? " (estimate)" : ""}`;
+  return `<span class="af-rail${m}${labels ? " af-rail--labeled" : ""}${est}" role="img" aria-label="${lab}" style="${ws}--p:${p.toFixed(1)}%;--s:${(a.stage * 33.333).toFixed(1)}%"><i class="af-rail__track"></i><i class="af-rail__done"></i>${[0, 1, 2, 3].map((i) => `<b class="af-rail__stop${i * 33.333 <= p ? " is-on" : ""}"></b>`).join("")}${labels ? STAGES.map((s) => `<span class="af-rail__lab">${s}</span>`).join("") : ""}<i class="af-rail__head"></i></span>`;
+}
+function ring(a) {
+  const r = 12, C = 2 * Math.PI * r, seg = C / 4, gap = 3.2, len = seg - gap, m = mod(a) ? ` af-ring--${mod(a)}` : "";
+  if (a.stage == null) return `<svg class="af-ring af-ring--none" viewBox="0 0 30 30" aria-hidden="true"><circle class="af-ring__track" cx="15" cy="15" r="${r}"/></svg>`;
+  const arcs = STAGES.map((s, i) => { const off = -i * seg + gap / 2, fill = i < a.stage ? len : i === a.stage ? len * a.pct : 0;
+    const dots = (n) => Array(n).fill("0.01 2.6").join(" ");
+    if (a.est && i === a.stage && fill) { const n = Math.max(1, Math.floor(fill / 2.6));
+      return `<circle class="af-ring__track" cx="15" cy="15" r="${r}" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${off}" transform="rotate(-90 15 15)"/><circle class="af-ring__est" cx="15" cy="15" r="${r}" stroke-dasharray="${dots(n)} ${(C - n * 2.61).toFixed(2)}" stroke-dashoffset="${off}" transform="rotate(-90 15 15)"/>`; }
+    return `<circle class="af-ring__track" cx="15" cy="15" r="${r}" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${off}" transform="rotate(-90 15 15)"/>${fill ? `<circle class="af-ring__fill" cx="15" cy="15" r="${r}" stroke-dasharray="${fill} ${C - fill}" stroke-dashoffset="${off}" transform="rotate(-90 15 15)"/>` : ""}`; }).join("");
+  return `<svg class="af-ring${m}${a.est ? " af-ring--est" : ""}" viewBox="0 0 30 30" role="img" aria-label="${STAGES[a.stage]} stage">${arcs}<text x="15" y="18">${STAGES[a.stage] === "PR" ? "PR" : STAGES[a.stage][0]}</text></svg>`;
+}
+function capsule(a, w = 0) {
+  const ws = w ? ` style="width:${w}px"` : "";
+  if (a.stage == null) return `<span class="af-capsule af-capsule--none" aria-hidden="true"${ws}>${"<i class=\"af-capsule__seg\"></i>".repeat(4)}</span>`;
+  return `<span class="af-capsule${mod(a) ? ` af-capsule--${mod(a)}` : ""}${a.est ? " af-capsule--est" : ""}" role="img" aria-label="Stage ${STAGES[a.stage]}"${ws}>${STAGES.map((s, i) => `<i class="af-capsule__seg${i < a.stage ? " is-done" : i === a.stage ? " is-now" : ""}" style="--p:${i === a.stage ? Math.round(a.pct * 100) : 0}%"></i>`).join("")}</span>`;
+}
+function spark(a, w = 84, h = 20) {
+  const m = Math.max(1, ...a.spark), pts = a.spark.map((v, i) => `${(i / 11 * (w - 2) + 1).toFixed(1)},${(h - 1 - (v / m) * (h - 3)).toFixed(1)}`).join(" ");
+  return `<svg class="af-spark af-spark--mini" viewBox="0 0 ${w} ${h}" role="img" aria-label="Tokens per 5 minutes, last hour" style="width:${w}px;height:${h}px"><polyline class="af-spark__line" points="${pts}"/><circle class="af-spark__end" cx="${w - 1}" cy="${(h - 1 - (a.spark[11] / m) * (h - 3)).toFixed(1)}" r="1.8"/></svg>`;
+}
+const hb = (a) => `<span class="af-hb${a.role === "running" ? " af-hb--live" : ""}${mod(a) === "approval" ? " af-hb--wait" : ""}" title="Last activity ${ago(a.hb)} ago"><i class="af-hb__dot"></i>${ago(a.hb)}</span>`;
+function stages(a) {
+  if (a.stage == null) return `<span class="af-stages af-stages--none">${a.role === "off" ? "ran 2 h" : "not started"}</span>`;
+  const b = a.bounds;
+  return `<span class="af-stages">${STAGES.slice(0, a.stage + 1).map((s, i) => `<span class="${i === a.stage ? "is-now" : ""}">${s}<b>${i === a.stage ? ago(a.age - b[i]) : dur(b[i + 1] - b[i])}</b></span>`).join("")}</span>`;
+}
+const btn = (label, kind = "ghost", extra = "", icon = "") => `<button type="button" class="af-btn af-btn--${kind} af-btn--sm" ${extra}>${icon ? ic(icon) : ""}${label}</button>`;
+const SPK = [[12, 20, 15, 30, 25, 40, 30, 45, 35, 50, 40, 55], [40, 22, 35, 48, 20, 30, 44, 18, 26, 38, 30, 12], [30, 30, 28, 36, 40, 22, 18, 34, 2, 2, 2, 2]];
+const mk = (id, role, stage, pct, work, owner, harness, model, age, cost, hbv, x = {}) => ({ id, tail: id.slice(4), role, stage, pct, work, owner, harness, model, age, cost, hb: hbv, spark: SPK[x.spk ?? 0], bounds: stage == null ? [] : [0, .12, .5, .82, 1].slice(0, stage + 2).map((f) => Math.round(age * f)), ...x });
+const R = [mk("HGR-VEXZ", "running", 3, .6, "", "lena", "claude-code", "", 3480, 1.18, 14), mk("HGR-AW0Q", "running", 1, .3, "", "priya", "codex", "", 1200, .4, 3), mk("HGR-C81T", "running", 2, .45, "", "marco", "codex", "", 1900, .33, 6, { est: true }), mk("HGR-3MX9", "approval", 3, .95, "", "sean", "codex", "", 3427, .62, 2460), mk("HGR-0PZ4", "failed", 2, .4, "", "lena", "claude-code", "", 2700, .51, 900), mk("HGR-KQ0D", "queued", null, 0, "", "dana", "codex", "", 60, 0, 60)];
+const line = (a, r) => `<div class="af-row" style="gap:16px"><span class="af-agent__tail" style="width:48px">${a.tail}</span>${r}<span class="af-note" style="margin-left:auto">${WORD[a.role]}${a.stage != null ? `, ${STAGES[a.stage]} ${a.est ? "about " : ""}${Math.round(a.pct * 100)}%${a.est ? ", estimate" : ""}` : ""}</span></div>`;
+document.getElementById("rail-root").innerHTML = R.map((a) => line(a, rail(a, false, 260))).join("");
+document.getElementById("rail-lab").innerHTML = [R[0], R[2]].map((a) => `<div class="af-stack" style="gap:8px"><span class="af-console__big">${a.role === "approval" ? "waiting on you: push to main" : "waiting for CI, 3 of 5 checks green"}</span>${rail(a, true)}</div>`).join("");
+document.getElementById("ring-root").innerHTML = R.map((a) => `<span class="af-row" style="gap:8px">${ring(a)}<span class="af-note">${a.stage == null ? "not started" : STAGES[a.stage] + (a.est ? ", estimate" : "")}</span></span>`).join("");
+document.getElementById("cap-root").innerHTML = R.map((a) => line(a, capsule(a, 200))).join("");
+</script>
+</body></html>

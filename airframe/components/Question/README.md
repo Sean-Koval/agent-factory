@@ -12,7 +12,7 @@ A question card is an agent asking a person: the question, the context it has, t
 ```html
 <article class="af-card af-card--lit af-question">
   <div class="af-card__top">
-    <span class="af-lbl"><svg class="af-ic" …>agent</svg>Question<span class="af-lbl__sub">HGR-3MX9</span><span class="af-lbl__sub">turn 7</span></span>
+    <span class="af-lbl"><svg class="af-ic" …>agent</svg>Question<span class="af-lbl__sub af-mono">HGR-3MX9</span><span class="af-lbl__sub">turn 7</span></span>
     <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs input</span>
   </div>
   <p class="af-question__q">Which database should the migration target?</p>

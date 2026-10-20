@@ -29,7 +29,8 @@
 .af-verdict__ok .af-ic{width:14px;height:14px;color:var(--af-fg-subtle)}
 .af-verdict__why{font-size:12.5px;line-height:1.45;color:var(--af-fg-muted);overflow-wrap:anywhere}
 
-/* ---- question: an agent asks a person. Same approval role (a person is needed), the word "Needs input", one primary action. ---- */
+/* ---- question: an agent asks a person. Same approval role (a person is needed), the word "Needs input", one primary action.
+   The card is af-card af-card--lit: a neutral ground with the 3px approval edge; the diamond and the word do the rest. ---- */
 .af-question{gap:14px}
 .af-question__q{margin:0;font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.005em;color:var(--af-fg);text-wrap:balance}
 .af-question__ctx{margin:0;font-size:13.5px;line-height:1.5;color:var(--af-fg-muted);text-wrap:pretty}
@@ -113,7 +114,7 @@
 .af-diff__note b{font-weight:500;color:var(--af-fg-muted)}
 
 /* ---- object chip: a business object by reference (ticket, PR, account, trade). Source glyph, mono key, title, state word.
-   A surface tile with a hairline, 2px radius: never a pill, never a status fill. Hover or focus shows the trust line. ---- */
+   A surface tile with a hairline, the control radius: never a pill, never a status fill. Hover or focus shows the trust line. ---- */
 .af-obj{position:relative;display:inline-flex;align-items:center;gap:7px;max-width:100%;height:26px;padding:0 8px 0 7px;border-radius:var(--af-radius-control);background:var(--af-surface);box-shadow:inset 0 0 0 1px var(--af-line);
   color:var(--af-fg);font-family:var(--af-font-sans);font-size:13px;line-height:1;white-space:nowrap;text-decoration:none;vertical-align:middle;cursor:default;
   transition:background var(--af-dur) var(--af-ease)}
@@ -123,7 +124,7 @@ a.af-obj:hover,button.af-obj:hover{background:color-mix(in srgb,var(--af-fg) 6%,
 .af-obj__key{flex:none;font-family:var(--af-font-mono);font-weight:500;font-size:11.5px;letter-spacing:.01em;color:var(--af-fg)}
 .af-obj__title{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--af-fg-muted)}
 a.af-obj:hover .af-obj__title{color:var(--af-fg);text-decoration:underline;text-decoration-color:var(--af-line-strong);text-underline-offset:3px}
-.af-obj__state{flex:none;display:inline-flex;align-items:center;gap:6px;padding-left:8px;border-left:1px solid var(--af-line);font-family:var(--af-font-mono);font-weight:500;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--af-fg-subtle)}
+.af-obj__state{flex:none;display:inline-flex;align-items:center;gap:6px;padding-left:8px;border-left:1px solid var(--af-line);font-family:var(--af-font-sans);font-weight:500;font-size:11.5px;letter-spacing:0;color:var(--af-fg-subtle)}
 .af-obj__state.af-status{color:var(--af-fg)}
 .af-obj--restricted{background:transparent;color:var(--af-fg-subtle)}
 .af-obj--restricted .af-obj__key{color:var(--af-fg-muted)}

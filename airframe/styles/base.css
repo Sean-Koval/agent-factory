@@ -16,41 +16,47 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 .af-row{display:flex;align-items:center;gap:8px;min-width:0}
 .af-stack{display:flex;flex-direction:column;gap:12px;min-width:0}
 .af-display{font-family:var(--af-font-display);font-stretch:var(--af-display-stretch);font-weight:700;letter-spacing:-0.01em;line-height:1;text-wrap:balance;margin:0}
-:root{--af-ease:cubic-bezier(.2,0,0,1);--af-dur:160ms}
-@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+/* motion: the tokens are --af-dur-fast, --af-dur, --af-dur-open, --af-ease, --af-ease-open (airframe.css). Under reduced motion
+   every transition and animation is off and the durations read as 0ms, so a script that times an exit on them skips it too. */
+@media (prefers-reduced-motion: reduce){
+  :root{--af-dur-fast:0ms;--af-dur:0ms;--af-dur-open:0ms}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
 
 /* ---- icon ---- */
 .af-ic{display:inline-block;flex:none;width:16px;height:16px;vertical-align:-0.18em;fill:none;stroke:currentColor;stroke-width:var(--af-icon-stroke,1.5);stroke-linecap:square;stroke-linejoin:miter}
 .af-ic--14{width:14px;height:14px}.af-ic--20{width:20px;height:20px}.af-ic--24{width:24px;height:24px}
 
-/* ---- label: mono capitals ---- */
-.af-lbl{display:inline-flex;align-items:center;gap:7px;font-family:var(--af-font-mono);font-weight:500;font-size:11px;line-height:1;letter-spacing:.08em;text-transform:uppercase;color:var(--af-fg-muted);white-space:nowrap}
+/* ---- label: sentence-case sans (theme-v12). The sub is sans too; add af-mono (or af-id) to a sub that is an ID or a region. ---- */
+.af-lbl{display:inline-flex;align-items:center;gap:7px;font-family:var(--af-font-sans);font-weight:500;font-size:12px;line-height:1.2;letter-spacing:0;color:var(--af-fg-muted);white-space:nowrap}
 /* a label narrower than its place: the word stays whole; the sub (an ID, a region) ellipsizes as a last resort, after the
    row it sits in has wrapped (see af-card__top). The full ID stays in the DOM for copy and screen readers. */
-.af-lbl__sub{color:var(--af-fg-subtle);min-width:0;overflow:hidden;text-overflow:ellipsis}
+.af-lbl__sub{font-weight:400;font-size:12px;color:var(--af-fg-subtle);min-width:0;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.af-lbl__sub.af-mono,.af-lbl__sub.af-id{font-size:11px;font-weight:500}
 .af-lbl__sub~.af-lbl__sub{flex-shrink:1e5}  /* a later sub (turn 7, editing) gives way, whole, before the ID loses a character */
 .af-lbl__sub::before{content:"\00B7";margin-right:7px;color:var(--af-fg-dim)}
 
-/* ---- button ---- */
-.af-btn{height:34px;padding:0 15px;display:inline-flex;align-items:center;gap:8px;border-radius:var(--af-radius-control);border:1px solid transparent;background:transparent;color:var(--af-fg);
-  font-family:var(--af-font-mono);font-weight:500;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;cursor:pointer;
-  transition:background var(--af-dur) var(--af-ease),border-color var(--af-dur) var(--af-ease),transform 90ms var(--af-ease)}
-.af-btn:active{transform:scale(.98)}
-.af-btn .af-ic{width:14px;height:14px;margin-left:-2px}
-.af-btn--primary{background:var(--af-brand);border-color:var(--af-brand);color:var(--af-on-brand)}
+/* ---- button: sentence-case sans, 8px radius; the primary is the one yellow fill and the one 600 weight ---- */
+.af-btn{height:34px;padding:0 14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:var(--af-radius-control);border:1px solid transparent;background:transparent;color:var(--af-fg);
+  font-family:var(--af-font-sans);font-weight:500;font-size:13px;line-height:1;letter-spacing:0;white-space:nowrap;cursor:pointer;
+  transition:background var(--af-dur) var(--af-ease),border-color var(--af-dur) var(--af-ease),color var(--af-dur) var(--af-ease),transform var(--af-dur-fast) var(--af-ease)}
+.af-btn:active{transform:scale(.97)}
+.af-btn .af-ic{width:15px;height:15px;margin-left:-2px}
+.af-btn--primary{background:var(--af-brand);border-color:var(--af-brand);color:var(--af-on-brand);font-weight:600}
 .af-btn--primary:hover{background:var(--af-brand-hover);border-color:var(--af-brand-hover)}
 .af-btn--secondary{border-color:var(--af-line-strong)}
 .af-btn--secondary:hover{background:var(--af-selected)}
 .af-btn--ghost{color:var(--af-fg-muted)}
 .af-btn--ghost:hover{color:var(--af-fg);background:var(--af-selected)}
-.af-btn--danger{border-color:color-mix(in srgb,var(--af-status-failed) 55%,var(--af-line));color:var(--af-status-failed)}
-.af-btn--danger:hover{border-color:var(--af-status-failed)}
-.af-btn--sm{height:28px;padding:0 11px;font-size:10.5px}
-.af-btn--sm .af-ic{width:13px;height:13px}
+/* danger is red words on a quiet ground, never a red fill; the hairline is line-strong like any secondary button */
+.af-btn--danger{border-color:transparent;color:var(--af-status-failed)}
+.af-btn--danger:hover{background:var(--af-selected)}
+.af-btn--danger.af-btn--secondary{border-color:var(--af-line-strong)}
+.af-btn--sm{height:30px;padding:0 11px;font-size:12.5px}
+.af-btn--sm .af-ic{width:14px;height:14px}
 .af-btn:disabled{opacity:.45;cursor:default}
-/* text variant: sentence-case Red Hat Text where people read (Tower's desk, dialogs, questions); mono capitals stay the default where data is */
-.af-btn--text{font-family:var(--af-font-sans);font-weight:500;font-size:13.5px;letter-spacing:0;text-transform:none}
-.af-btn--text.af-btn--sm{font-size:13px}
+/* af-btn--text was the sentence-case variant before theme-v12; every button is sentence case now, so it is a no-op kept for older markup */
+.af-btn--text{font-size:13px}
 
 /* ---- status: color + shape + word ---- */
 .af-status{--c:var(--af-status-off);display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--af-fg);white-space:nowrap}
@@ -60,7 +66,7 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 .af-status--approval{--c:var(--af-status-approval)} .af-status--approval .af-status__mark{width:7px;height:7px;transform:rotate(45deg)}
 .af-status--failed{--c:var(--af-status-failed)} .af-status--failed .af-status__mark{width:10px;height:9px;clip-path:polygon(50% 0,100% 100%,0 100%)}
 .af-status--off{--c:var(--af-status-off)} .af-status--off .af-status__mark{width:5px;height:5px;border-radius:50%}
-.af-status--denied{background:var(--af-status-denied);color:var(--af-on-status-denied);padding:3px 7px;border-radius:var(--af-radius-control);font-family:var(--af-font-mono);font-weight:500;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.af-status--denied{background:var(--af-status-denied);color:var(--af-on-status-denied);padding:3px 7px;border-radius:4px;font-family:var(--af-font-mono);font-weight:500;font-size:10.5px;letter-spacing:var(--af-label-track);text-transform:uppercase}
 .af-status--denied .af-status__mark{display:none}
 .af-status--lit{color:var(--c)}
 .af-status--off.af-status--lit,.af-status--running.af-status--lit,.af-status--queued.af-status--lit{color:var(--af-fg)}
@@ -70,13 +76,14 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 /* an item keeps key and value on one line; a value wider than its place (a policy name, a receipt) wraps inside the cell
    rather than past the card's edge. At full width an item is as wide as its words, so nothing changes there. */
 .af-meta__item{display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap;max-width:100%}
-.af-meta__key{font-family:var(--af-font-mono);font-weight:500;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--af-fg-subtle)}
+.af-meta__key{font-family:var(--af-font-sans);font-weight:500;font-size:11px;letter-spacing:0;color:var(--af-fg-subtle)}
 .af-meta__val{font-family:var(--af-font-mono);color:var(--af-fg-muted);font-variant-numeric:tabular-nums;min-width:0;white-space:normal;overflow-wrap:anywhere}
 .af-meta__item--strong .af-meta__val{color:var(--af-fg)}
 .af-meta__item--approval .af-meta__val{color:var(--af-status-approval)}
 .af-meta__item--failed .af-meta__val{color:var(--af-status-failed)}
 
-/* ---- card & panel: tonal (no border, separated by tone) ---- */
+/* ---- card & panel: tonal (no border, separated by tone); 12px radius. lifted is the one step above raised (an opened row,
+   the top of a deck, a sheet): a lighter grey in Night, white with shadow-1 and a 1px top highlight in Day. ---- */
 .af-card{position:relative;background:var(--af-raised);border-radius:var(--af-radius-card);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
 /* the head wraps before anything is cut: in a narrow place (a docked panel, a phone) the status drops under the label,
    whole and visible; the label's sub ellipsizes only when the label alone is wider than the head */
@@ -87,15 +94,25 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
 .af-card__foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;padding-top:10px;border-top:1px solid var(--af-line-subtle);font-size:12px;color:var(--af-fg-subtle);min-width:0}
 .af-card__foot b{color:var(--af-fg);font-weight:500}
 .af-panel{position:relative;background:var(--af-raised);border-radius:var(--af-radius-card);min-width:0}
-.af-card--lit{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--af-status-approval) 45%,transparent);background:color-mix(in srgb,var(--af-status-approval) 6%,var(--af-raised))}
+.af-card--lifted,.af-panel--lifted,.af-lifted{background:var(--af-lifted);box-shadow:inset 0 1px 0 var(--af-edge-hi),var(--af-shadow-1)}
+.af-sheet{background:var(--af-lifted);border-radius:var(--af-radius-sheet);box-shadow:inset 0 1px 0 var(--af-edge-hi),var(--af-shadow-2)}
+/* attention: edge, mark, word. A card that needs a person keeps its neutral ground and shows a 3px status edge on its leading
+   side (inset from the corners so the radius stays clean), the diamond and the word. No status color is ever mixed into a surface.
+   --lit is the approval role; --failed and --denied light the same edge in red for a stopped card. */
+.af-card--lit,.af-card--failed,.af-card--denied{--af-edge:var(--af-status-approval);padding-left:19px}
+.af-card--failed{--af-edge:var(--af-status-failed)}
+.af-card--denied{--af-edge:var(--af-status-denied)}
+.af-card--lit::before,.af-card--failed::before,.af-card--denied::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--af-edge);pointer-events:none}
+.af-edge{position:relative}
+.af-edge::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:var(--af-edge,var(--af-status-approval));pointer-events:none}
 
-/* ---- small parts ---- */
+/* ---- small parts (keys in sentence-case sans; tags and kbd stay mono, since they are codes) ---- */
 .af-kv{display:grid;grid-template-columns:96px minmax(0,1fr);gap:7px 14px;margin:0;font-size:13px}
-.af-kv dt{font-family:var(--af-font-mono);font-weight:500;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--af-fg-subtle);padding-top:2px}
+.af-kv dt{font-family:var(--af-font-sans);font-weight:500;font-size:11.5px;letter-spacing:0;color:var(--af-fg-subtle);padding-top:2px}
 .af-kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
 .af-kv dd.af-mono{font-size:12.5px}
-.af-tag{display:inline-flex;align-items:center;gap:5px;font-family:var(--af-font-mono);font-weight:500;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--af-fg-muted);border:1px solid var(--af-line);border-radius:var(--af-radius-control);padding:3px 6px;white-space:nowrap}
-.af-kbd{font-family:var(--af-font-mono);font-size:11px;color:var(--af-fg-subtle);border:1px solid var(--af-line);border-radius:var(--af-radius-control);padding:1px 5px}
+.af-tag{display:inline-flex;align-items:center;gap:5px;font-family:var(--af-font-mono);font-weight:500;font-size:11px;letter-spacing:.01em;color:var(--af-fg-muted);border:1px solid var(--af-line);border-radius:calc(var(--af-radius-control) - 2px);padding:2px 6px;white-space:nowrap}
+.af-kbd{font-family:var(--af-font-mono);font-size:11px;color:var(--af-fg-subtle);border:1px solid var(--af-line);border-radius:5px;padding:1px 5px}
 .af-id{font-family:var(--af-font-mono);font-weight:500;letter-spacing:.01em;white-space:nowrap}
 
 /* ---- readout: digits on unlit cells inside a display window ---- */
@@ -112,7 +129,9 @@ body{margin:0;background:var(--af-canvas);color:var(--af-fg);font-family:var(--a
   .af-status__mark{background:CanvasText}
   .af-status--queued .af-status__mark{background:transparent;border-color:CanvasText}
   .af-status--denied{background:Canvas;color:CanvasText;outline:1px solid CanvasText;outline-offset:-1px}
-  .af-card{outline:1px solid CanvasText;outline-offset:-1px}
-  .af-card--lit{outline-width:2px;outline-offset:-2px}
+  .af-card,.af-lifted,.af-sheet{outline:1px solid CanvasText;outline-offset:-1px}
+  .af-card--lit,.af-card--failed,.af-card--denied,.af-edge{border-left:3px solid CanvasText}
+  .af-card--lit::before,.af-card--failed::before,.af-card--denied::before,.af-edge::before{background:CanvasText}
   .af-btn--primary{border:2px solid ButtonText}
+  .af-btn--secondary,.af-btn--danger{border:1px solid ButtonText}
 }

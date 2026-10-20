@@ -66,7 +66,7 @@
       "name": "helpers",
       "type": "registry:item",
       "title": "Airframe helpers (airframe.js)",
-      "description": "One ES module, no dependencies, no build step: markup helpers that match the component contracts (status, icon, meta, btn, avatar, obj, tag; everything escaped) and three behaviours: toast (held while a person is mid-decision), confirm (an af-dialog that replaces window.confirm) and drawer (Escape, focus return, inert page). The CSS comes with the airframe item.",
+      "description": "One ES module, no dependencies, no build step: markup helpers that match the component contracts (status, icon, meta, btn, avatar, obj, tag; everything escaped) and the behaviours: toast (held while a person is mid-decision), confirm (an af-dialog that replaces window.confirm), drawer (Escape, focus return, inert page), expand (a row or card opening in place), deck (the decision deck) and roving (arrow keys over rows and tiles). The CSS comes with the airframe item.",
       "categories": ["helpers", "javascript"],
       "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
       "files": [
@@ -137,6 +137,83 @@
       "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status", "Sean-Koval/agent-factory/button"],
       "files": [
         {"path": "airframe/components/Question/README.md", "type": "registry:file", "target": "~/airframe/components/Question.md"}
+      ]
+    },
+    {
+      "name": "stage-rail",
+      "type": "registry:item",
+      "title": "Stage rail",
+      "description": "Plan, edit, test, PR as a rail, a ring or a capsule: grey while running, the status color on the head when a person is needed, solid only for a reported pct and dotted for an estimate. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "fleet"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
+      "files": [
+        {"path": "airframe/components/StageRail/README.md", "type": "registry:file", "target": "~/airframe/components/StageRail.md"}
+      ]
+    },
+    {
+      "name": "heartbeat",
+      "type": "registry:item",
+      "title": "Heartbeat",
+      "description": "A recency dot and the time since an agent last did something: it breathes only for a live agent, shows a wait in orange, and is still under reduced motion. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "fleet"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
+      "files": [
+        {"path": "airframe/components/Heartbeat/README.md", "type": "registry:file", "target": "~/airframe/components/Heartbeat.md"}
+      ]
+    },
+    {
+      "name": "activity-timeline",
+      "type": "registry:item",
+      "title": "Activity timeline",
+      "description": "An agent's history as a vertical timeline: wall-clock and relative time, the event, stage boundaries in fg, holds and failures marked, the latest dot lit. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "fleet"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe"],
+      "files": [
+        {"path": "airframe/components/ActivityTimeline/README.md", "type": "registry:file", "target": "~/airframe/components/ActivityTimeline.md"}
+      ]
+    },
+    {
+      "name": "agent-row",
+      "type": "registry:item",
+      "title": "Agent row",
+      "description": "The fleet's List view: one agent per row with mark, tail, work and a live now-line with its heartbeat, owner, harness, stage rail, stage times, sparkline and cost, opening in place into a console. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "fleet"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status", "Sean-Koval/agent-factory/avatar", "Sean-Koval/agent-factory/button", "Sean-Koval/agent-factory/stage-rail", "Sean-Koval/agent-factory/heartbeat", "Sean-Koval/agent-factory/activity-timeline"],
+      "files": [
+        {"path": "airframe/components/AgentRow/README.md", "type": "registry:file", "target": "~/airframe/components/AgentRow.md"}
+      ]
+    },
+    {
+      "name": "agent-card",
+      "type": "registry:item",
+      "title": "Agent card",
+      "description": "The fleet's Board view: a card per agent with avatar, tail, stage ring, work, now-line, capsule and owner, opening in place across the board. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "fleet"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status", "Sean-Koval/agent-factory/avatar", "Sean-Koval/agent-factory/stage-rail", "Sean-Koval/agent-factory/heartbeat", "Sean-Koval/agent-factory/agent-row"],
+      "files": [
+        {"path": "airframe/components/AgentCard/README.md", "type": "registry:file", "target": "~/airframe/components/AgentCard.md"}
+      ]
+    },
+    {
+      "name": "decision-deck",
+      "type": "registry:item",
+      "title": "Decision deck",
+      "description": "What needs you, one decision at a time: a stacked deck ordered by expiry with n of N, previous, next, skip and an up-next list; inline approve, deny with a required reason, answer with chips, retry and acknowledge; a calm empty state. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "governance"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/status", "Sean-Koval/agent-factory/avatar", "Sean-Koval/agent-factory/button", "Sean-Koval/agent-factory/approval-card", "Sean-Koval/agent-factory/question"],
+      "files": [
+        {"path": "airframe/components/DecisionDeck/README.md", "type": "registry:file", "target": "~/airframe/components/DecisionDeck.md"}
+      ]
+    },
+    {
+      "name": "fleet-console",
+      "type": "registry:item",
+      "title": "Fleet console",
+      "description": "The composed Fleet page: a headline in words, the decision deck on top, and the fleet as List or Board over one selection. Installs the contract; the CSS comes with the airframe item.",
+      "categories": ["component", "fleet"],
+      "registryDependencies": ["Sean-Koval/agent-factory/airframe", "Sean-Koval/agent-factory/decision-deck", "Sean-Koval/agent-factory/agent-row", "Sean-Koval/agent-factory/agent-card"],
+      "files": [
+        {"path": "airframe/components/FleetConsole/README.md", "type": "registry:file", "target": "~/airframe/components/FleetConsole.md"}
       ]
     },
     {

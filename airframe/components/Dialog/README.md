@@ -5,7 +5,7 @@ A dialog is a native `<dialog>` on the raised tone: a title in the body face, a 
 - A `<form method="dialog" class="af-dialog__form">` inside, so buttons with a `value` close the dialog and set `returnValue` ("ok", "cancel").
 - A title as a question or a verb phrase ("Destroy HGR-3MX9?", "Fork this session"), a body of one or two sentences with the consequence and the IDs, optionally fields (`af-field`) or keyed data (`af-kv`).
 - A footer: an optional ghost inspect button on the left (Open trace), the refusing button as secondary (Keep it, Not now, Cancel), the confirming verb last as primary, or as danger when it destroys something (`af-dialog--danger`).
-- `af-btn--text` on the buttons where people read (Tower's desk, forms), mono capitals where the dialog is about data; `af-dialog--wide` (640 px) for a form with several fields.
+- `af-btn--text` on the buttons where people read (Tower's desk, forms), `af-dialog--wide` (640 px) for a form with several fields.
 
 ## Markup
 ```html
@@ -36,7 +36,7 @@ if (await confirm({ title: "Destroy HGR-3MX9?", body: "The sandbox and its 2 sna
 
 | Part | Class | Notes |
 |---|---|---|
-| Dialog | `af-dialog` | 480 px (`--wide` 640), `raised`, 4 px radius, no border, no shadow: the scrim separates it. `::backdrop` is the canvas at 72%. |
+| Dialog | `af-dialog` | 480 px (`--wide` 640), `lifted`, the 18 px sheet radius, `shadow-2` and the `edge-hi` highlight; no border. `::backdrop` is the canvas at 72%. |
 | Title | `af-dialog__title` | `title-m`: Red Hat Text 20/600. An eyebrow `af-lbl` may sit above it. |
 | Body | `af-dialog__body` | 14 px `fg-muted`; `b`, `af-mono` and `af-id` in `fg`. Scrolls when tall. |
 | Footer | `af-dialog__foot` | Right-aligned; a leading ghost button is pushed to the left. |
