@@ -20,7 +20,8 @@ Three further sections carry the detailed rules: **Status** (the six statuses), 
 2. **One hot color.** Signal yellow (`brand`) marks what is yours: the primary action, the focus ring, the trace critical path, the now line, the selected mark. Use one primary button per view. Yellow never means a state.
 3. **Tonal, not boxed.** Separate by tone and space, not lines. Cards are `raised` on `canvas` with no border; dividers inside them are `line-subtle`.
 4. **Data first.** Show the real ID, the real number, the real policy name. Set data in DM Mono with tabular figures and let chrome recede.
-5. **Sharp, never glossy.** 2px controls, 4px cards, 1px lines. No gloss, glow, blur, gradients or card shadows.
+5. **Soft, never glossy.** 8px controls, 12px cards, an 18px sheet, 1px lines. One step of lift (`lifted`) for what is open or on top, with a shadow; resting cards cast none. No gloss, blur, gradients or noise. The one glow is the rail head and the latest timeline dot, and it means "moving".
+6. **Attention is edge, mark, word.** A thing that needs a person keeps a neutral ground and shows a 3px status edge on its leading side, the status mark and the word. No status color is ever mixed into a surface; selection is neutral, so yellow never sits around orange.
 
 ## Content fundamentals
 
@@ -35,7 +36,7 @@ Three further sections carry the detailed rules: **Status** (the six statuses), 
 ### Casing
 
 - Sentence case for headlines, titles, body, menu items and status words: "Forty agents. One needs you.", "Needs approval".
-- Mono capitals for labels, buttons, keys, tabs and table headers. Write the source text in sentence case and let `af-lbl`, `af-btn`, `af-meta__key` and the `label` / `label-s` styles uppercase it (tracking .06–.09em), so screen readers read words, not letters.
+- Sentence-case sans for labels, buttons, keys, tabs, table headers and stage words too (`af-lbl`, `af-btn`, `af-meta__key`, `label`, `label-s`). Mono capitals were retired in theme-v12: they made every screen read as a terminal printout. Mono stays for what *is* a code: IDs (`af-id`), numbers, commands, model and policy names, the denied placard, the lamp legend and the terminal bar.
 - Product names keep their case everywhere, even at the start of a sentence: hangar, flightdeck, Tower (the governed workspace), ai-dlc, Spaceport, Airframe.
 - Policy, branch, model and command names stay exactly as typed: `require-approval-main-push`, `gpt-5.1`, `claude-code@2.1`.
 
@@ -78,13 +79,13 @@ Three further sections carry the detailed rules: **Status** (the six statuses), 
 
 ### Color roles
 
-- **Ground.** `canvas` for the page; `surface` for recessed wells (inputs, the terminal bar, display windows); `raised` for cards and panels; `overlay` for menus, popovers and hover rows; `selected` for the selected row or tab.
+- **Ground.** `canvas` for the page; `surface` for recessed wells (inputs, the terminal bar, display windows, the command in a decision); `raised` for cards and panels; `lifted` for the one step above them (an opened row, the top card of a deck, a sheet, a dialog), with `edge-hi` as its 1px top highlight and `shadow-1` or `shadow-2` under it; `overlay` for menus and popovers; `selected` for the selected row or tab.
 - **Lines.** `line-subtle` between rows inside cards and tables; `line` for hairlines (table header rule, chips, keys); `line-strong` for control borders (3:1 or better on `surface` and `raised`); `rule` for section rules and chart axes where there is no card.
 - **Text.** `fg` for primary text and values; `fg-muted` for secondary text and inline values; `fg-subtle` for labels, keys and timestamps (the lowest text tone, 4.9:1 or better); `fg-dim` for separators and disabled marks, never text.
-- **Brand.** `brand` fill with `on-brand` text; `brand-hover`; `brand-text` for brand as text or a 1px line; `brand-wash` behind a brand-marked selection; `focus` for the ring.
+- **Brand.** `brand` fill with `on-brand` text; `brand-hover`; `brand-text` for brand as text or a 1px line; `focus` for the ring. `brand-wash` is deprecated: selection is `selected` with a neutral `fg` edge or ring, never a yellow tint.
 - **Status.** `status-running`, `status-queued`, `status-approval`, `status-failed`, `status-denied` with `on-status-denied`, `status-off`. Lamps `lamp-caution` and `lamp-warning` with `on-lamp` text are the only large color fields in the UI, and only in MasterCaution.
 - **Terminal and code.** `terminal-*` and `code-*` stay dark in both themes. Code is greyscale; only `terminal-err` carries color.
-- **Data.** `span-model`, `span-tool`, `span-sandbox`; `stage-plan`, `stage-edit`, `stage-test`; `chart-1` to `chart-6`; `readout-cell`, `display-window`; `dot-field`.
+- **Data.** `span-model`, `span-tool`, `span-sandbox`; `stage-plan`, `stage-edit`, `stage-test`; `rail`, `rail-done`, `rail-glow` for progress (rail, ring, capsule, track); `chart-1` to `chart-6`; `readout-cell`, `display-window`; `dot-field`.
 - **Product.** `product-hangar`, `product-flightdeck`, `product-tower`, `product-aidlc`, `product-spaceport`: marks, docs headers and the 2px nav marker only.
 
 ### Who has the controls
@@ -115,7 +116,7 @@ Use `brand` for the primary action, focus, the active route (trace critical path
 
 ### Type
 
-Three families: `--font-display` Archivo Expanded for headlines (700, sentence case, −0.01em); `--font-sans` Red Hat Text for body and UI; `--font-mono` DM Mono for IDs, data, labels, buttons and keys.
+Three families: `--font-display` Archivo Expanded for headlines (700, sentence case, −0.01em); `--font-sans` Red Hat Text for body, UI, labels, buttons and keys; `--font-mono` DM Mono for IDs, numbers, commands and data values.
 
 | Style | Family | Size / line | Weight | Tracking | Use |
 |---|---|---|---|---|---|
@@ -128,16 +129,16 @@ Three families: `--font-display` Archivo Expanded for headlines (700, sentence c
 | `body-l` | sans | 16 / 1.55 | 400 | 0 | Lead paragraphs |
 | `body` | sans | 14 / 1.5 | 400 | 0 | Default UI text |
 | `body-s` | sans | 13 / 1.45 | 400 | 0 | Dense UI, table cells, captions |
-| `label` | mono | 11 / 1 | 500 | 0.08em | Labels and buttons, capitals |
-| `label-s` | mono | 10 / 1 | 500 | 0.09em | Inline data keys and table headers, capitals |
+| `label` | sans | 12 / 1.2 | 500 | 0 | Labels, buttons, section names, sentence case |
+| `label-s` | sans | 11 / 1.2 | 500 | 0 | Inline data keys, table headers, stage words, sentence case |
 | `mono` | mono | 13 / 1.5 | 400 | 0 | IDs, commands, digests |
 | `mono-s` | mono | 12 / 1.45 | 400 | 0 | Inline data values, durations |
 | `data` | mono | 13 / 1.3 | 500 | 0 | Numbers in tables and readouts, tabular |
 
 - Use the display face for headlines (`title-l` and up) and for product names beside their marks. Never set body, data or labels in it.
-- Set labels, buttons, keys and table headers in `label` or `label-s`, in capitals.
+- Set labels, buttons, keys and table headers in `label` or `label-s`, in sentence case. The middle of the type scale (12–14 px sans) is where a console's words live; the display face and the small mono are its ends.
 - Set every number with tabular figures (`font-variant-numeric: tabular-nums`; built into `af-num`, `af-mono`, `af-meta__val` and `af-readout`).
-- Never set body copy in mono or labels in sans. Emphasize with `fg` against `fg-muted`, not italics.
+- Never set body copy in mono, and never set an ID, a number or a command in sans. Emphasize with `fg` against `fg-muted`, not italics; a status as the subject of a headline may take its color (`<em>` in a page title: "Two need you").
 - Each style compiles to a class of the same name in tokens.css (`.display-l`, `.body-s`, `.label`).
 
 ### Spacing and layout
@@ -150,10 +151,11 @@ Three families: `--font-display` Archivo Expanded for headlines (700, sentence c
 
 ### Radius
 
-- `radius-control` (2px): buttons, inputs, chips, tags, fleet tiles, the denied placard, product mark tiles.
-- `radius-card` (4px): cards and panels.
-- `radius-none`: tables, lanes, trace bars.
-- `radius-round`: status dots and avatars. Nothing else is round; there are no pills.
+- `radius-control` (8px): buttons, inputs, chips, tags, segments, fleet tiles, product mark tiles. The segmented control's well is 11px (control + 3px inset).
+- `radius-card` (12px): cards, panels, agent rows and board cards.
+- `radius-sheet` (18px): what opens or sits on top: an agent's console, the top card of the decision deck, a dialog, a bottom drawer's top corners.
+- `radius-none`: tables, lanes, trace bars. The denied placard is 4px.
+- `radius-round`: status dots, heartbeat dots, avatars and the switch. Chips, tags and counts are not pills; the one pill is the nav's Needs-you badge.
 
 ### Borders and dividers
 
@@ -161,27 +163,28 @@ Three families: `--font-display` Archivo Expanded for headlines (700, sentence c
 - Inside a card, divide rows and the footer (`af-card__foot`) with `line-subtle`. Rule under a table header with `line`.
 - Border controls with 1px `line-strong`: inputs, secondary buttons, switches, product mark tiles.
 - Rule sections that sit on the canvas with `rule`.
-- Mark a card that needs a person with `af-card--lit` (a 1px inset `status-approval` ring and a faint tint). Never use a colored left border.
+- Mark a card that needs a person with `af-card--lit`: the ground stays `raised` and a 3px `status-approval` edge sits on its leading side, inset from the corners, with the diamond and the word. `af-card--failed` and `--denied` light the same edge in red for a stopped card. Never tint a card, never ring it, and never put the edge on anything that does not need a person or has not stopped.
 - Never box a table, list or chart inside a card, and never double a line.
 
 ### Cards are tonal
 
 - Put content on `af-card` (padded, `raised`, `radius-card`) or `af-panel` (unpadded, for tables, lanes and traces).
 - Separate cards by tone and `space-12`, not borders. Never nest `raised` in `raised`; for a well inside a card use `surface` or `display-window`.
-- Cards cast no shadow. `shadow-overlay` is for menus and popovers only.
+- Resting cards cast no shadow. `lifted` surfaces carry `shadow-1` (resting lift) or `shadow-2` (open on top); `shadow-overlay` is for menus, popovers and toasts.
 
 ### Texture
 
 - Use two textures and nothing else.
 - **Dot field.** Small dots on an 8px pitch in `dot-field`, behind hero data only, once per page at most.
 - **Hatching.** 135° stripes in `status-approval` for time spent waiting on a human, in lanes and trace spans.
-- No gradients, noise, grain, glow, blur, gloss or background images.
+- No gradients, noise, grain, blur, gloss or background images. The one glow is `rail-glow` around a live rail head and the latest timeline dot: it means "moving", never a status.
 
 ### Motion
 
-- Transition color, background, border and opacity over `--af-dur` (160 ms) with `--af-ease` (`cubic-bezier(.2,0,0,1)`). Buttons press to `scale(.98)` in 90 ms.
-- No bounce, springs, overshoot, parallax, pulsing or blinking. A status never animates to get attention; its color and shape do that.
-- `prefers-reduced-motion: reduce` switches all transitions and animations off (base.css). Never override it.
+- Transition color, background, border and opacity over `--af-dur` (200 ms) with `--af-ease` (`cubic-bezier(.2,0,0,1)`); a press or a hover tint over `--af-dur-fast` (120 ms). Buttons press to `scale(.97)`.
+- Something opening or closing in place (a row's console, a deck card leaving, a drawer, a toast rising) takes `--af-dur-open` (300 ms) with `--af-ease-open` (`cubic-bezier(.32,.72,0,1)`): it decelerates and never overshoots. A rail head and a capsule fill glide to a new value over 900 ms.
+- No bounce, springs, overshoot or parallax. A status never animates to get attention; its color and shape do that. The one thing that breathes is the heartbeat dot of a live agent (Heartbeat), and it says recency, not state.
+- `prefers-reduced-motion: reduce` switches all transitions and animations off and zeroes the duration tokens (base.css), so scripts that time an exit skip it. Never override it.
 
 ### Focus
 
@@ -216,7 +219,7 @@ Airframe lives in [Sean-Koval/agent-factory](https://github.com/Sean-Koval/agent
 <body>
   <article class="af-card">
     <div class="af-card__top">
-      <span class="af-lbl">Sandbox<span class="af-lbl__sub">us-east4</span></span>
+      <span class="af-lbl">Sandbox<span class="af-lbl__sub af-mono">us-east4</span></span>
       <span class="af-status af-status--approval"><i class="af-status__mark"></i>Needs approval</span>
     </div>
     <span class="af-id">HGR-3MX9</span>
