@@ -22,6 +22,8 @@ none is added, renamed or removed.
   the top card carries it). New `af-deck__subtitle` and `af-deck__stopped`: what stopped (failed, denied) is listed
   under up-next as "Stopped", visible at every width, and is no longer stacked with the decisions, so "1 of N" counts
   decisions only and agrees with the nav badge (found in hangar #343). The README and preview follow.
+- New `af-gauge--mini` (`airframe-components.css`): a gauge in a list keeps a neutral `fg-muted` limit bug; a lone gauge
+  keeps the `brand-text` bug. `Data.md` states the rule (found in Tower #86).
 
 ## theme-v12 · 2026-10-19
 

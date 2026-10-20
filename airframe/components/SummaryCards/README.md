@@ -2,7 +2,7 @@ Summary cards are the four numbers at the top of a console (running, waiting on 
 
 ## You provide
 - For each card: label and icon, a time window as meta (`24 h`, `now`, `limit $200`, `median, 7 d`), the value, a unit, and a foot (change on the left, scope on the right).
-- One graphic per card: a sparkline (`af-spark`), a gauge (`af-gauge`), or for the waiting card the held item itself.
+- One graphic per card: a sparkline (`af-spark`), a gauge (`af-gauge`; in a list of rows use `af-gauge--mini`, whose limit bug is neutral), or for the waiting card the held item itself.
 
 ## Markup
 ```html

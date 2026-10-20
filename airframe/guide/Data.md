@@ -101,6 +101,7 @@ shows source, freshness and provenance on hover. A chip the viewer may not open 
 - Use single-hue greyscale for sequential scales and heatmaps; never red-to-green.
 - Draw axes in `rule`, gridlines in `line-subtle`, tick labels in 10px mono `fg-subtle`. Label series directly where possible instead of a legend.
 - Draw sparklines as a thin `fg-muted` line over a `line` baseline, ending in a `brand` dot on the latest value (the now point). In a list of agents (`af-spark--mini`) the end dot is `fg`: sixty yellow points would say sixty things are yours. Gauges are a `line` track with an `fg-muted` fill and a `brand-text` bug at the limit.
+- One gauge on its own marks its limit with a `brand-text` bug. In a list or in a console opened from a row (`af-gauge--mini`), the bug is `fg-muted`, for the same reason as the list sparkline: one yellow tick per row would say every row is yours.
 
 ## Tabular figures
 

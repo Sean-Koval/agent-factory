@@ -64,7 +64,7 @@ component contracts in `airframe/components/*.md` before writing markup.
 | Status | Foundations | `af-status af-status--running\|queued\|approval\|failed\|denied\|off` + `<i class="af-status__mark">` + word; `af-status--lit` colors the word. |
 | Card | Cards | `af-card` with `af-card__top`, `__body`, `__title`, `__desc`, `__foot`; `af-card--lit` (3px orange edge) only while a person is needed, `--failed`/`--denied` (red edge); `af-grid af-grid--2\|3\|4`. |
 | EnvironmentCard | Cards | An image a sandbox boots from: name, purpose, digest, harness; one failed build. |
-| SummaryCards | Cards | The four numbers at the top of a console: running, waiting on you, spend today, turn to PR. |
+| SummaryCards | Cards | The four numbers at the top of a console: running, waiting on you, spend today, turn to PR. `af-gauge` has a brand limit bug; `af-gauge--mini` (in a list) keeps it neutral. |
 | Composer | Controls | `af-composer` > `af-composer__queued` (Queued · applies after this tool call, with a take-back), `af-composer__box` (textarea, `af-chip` suggestions, one primary Send), `af-composer__why`; `is-disabled` says why. |
 | Controls | Controls | Switch, segmented control (`af-seg`), text input with key hint, select, `af-input--area` textarea, `af-chip` options; square and recessed. |
 | Navigation | Navigation | 56px app header with product switcher, sentence-case tabs with the 2px product marker, `af-nav__badge` (the orange Needs-you count, never at zero), search, avatar; breadcrumb row. |

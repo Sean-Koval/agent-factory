@@ -63,6 +63,9 @@
 .af-gauge__fill{position:absolute;inset:0 auto 0 0;background:var(--af-fg-muted)}
 .af-gauge__bug{position:absolute;top:-9px;bottom:-4px;width:1px;margin-left:-.5px;background:var(--af-brand-text)}
 .af-gauge__bug::before{content:"";position:absolute;top:0;left:-4.5px;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--af-brand-text)}
+/* in a list (one gauge per agent) the bug is neutral, like the list sparkline's end dot: a yellow tick per row would say every row is yours */
+.af-gauge--mini .af-gauge__bug{background:var(--af-fg-muted)}
+.af-gauge--mini .af-gauge__bug::before{border-top-color:var(--af-fg-muted)}
 
 /* ---- readouts: display windows that hold digit cells ---- */
 .af-readouts{--af-cols:3;display:grid;grid-template-columns:repeat(var(--af-cols),minmax(0,1fr));gap:2px;background:var(--af-canvas);border-radius:var(--af-radius-control);overflow:hidden;min-width:0}
