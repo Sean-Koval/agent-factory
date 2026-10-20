@@ -44,7 +44,9 @@ Also in the suite: [Spaceport](tools/spaceport.md), reviewed data products that 
 <figcaption>The four planes, the doors and the gate · <a href="assets/diagrams/planes.svg">full size</a></figcaption>
 </figure>
 
-Define is the team harness repo, Run is hangar, Judge is flightdeck and Govern is Tower. hangar sits in the middle. Work arrives through the doors, the harness arrives as a lock file, risky decisions go out to Tower, every run goes out to flightdeck, and flightdeck's verdict comes back as the next promoted harness. One number, `harness_digest`, identifies a harness from the lock file to the manifest, the PR and the report. ai-dlc is setup, off the agent's hot path: it prepares machines, authors the optional workflow plugin the harness may pin, and gates local work on CI.
+Define is the team harness repo, Run is hangar, Judge is flightdeck and Govern is Tower. hangar sits in the middle. Work arrives through the doors and the harness arrives as a lock file. Risky decisions go out to Tower, every run goes out to flightdeck, and the verdict comes back as the next promoted harness.
+
+One number, `harness_digest`, identifies a harness from the lock file to the manifest, the PR and the report. ai-dlc is setup, off the agent's hot path. It prepares machines, authors the optional workflow plugin the harness may pin, and gates local work on CI.
 
 ## Where to go next
 
