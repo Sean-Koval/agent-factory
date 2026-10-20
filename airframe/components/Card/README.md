@@ -26,7 +26,7 @@ Cards are tonal: a `raised` block with a 4 px radius and 16 px padding, no borde
 | Part | Class | Notes |
 |---|---|---|
 | Card | `af-card` | Column, 12 px between parts. `af-card--airy` for 24 px padding. |
-| Top | `af-card__top` | Space-between row. `af-card__meta` is mono 11 px `fg-subtle`. `af-card__lead` holds an icon + `af-card__name` (mono ID or environment name). |
+| Top | `af-card__top` | Space-between row that wraps: in a narrow place the status or meta drops under the label, whole. `af-card__meta` is mono 11 px `fg-subtle`. `af-card__lead` holds an icon + `af-card__name` (mono ID or environment name). |
 | Body | `af-card__body` | `af-card__title` (16/600 Red Hat Text), `af-card__desc` (13 px `fg-muted`), `af-card__value` + `af-card__unit` for numbers. |
 | Foot | `af-card__foot` | Pinned to the bottom on a `line-subtle` divider; `<b>` inside reads `fg`. |
 | Lit | `af-card--lit` | Orange ring at 45% and a 6% orange tint. |

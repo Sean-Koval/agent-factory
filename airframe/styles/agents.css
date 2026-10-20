@@ -4,9 +4,14 @@
    failed triangle); diffs are greyscale: additions in fg with a 2px fg gutter bar, deletions in fg-muted. ===== */
 
 /* ---- approval card v2: decisions ---- */
-.af-approval__btns{flex-wrap:wrap;justify-content:flex-end}
+/* decisions that fit a narrow place (a docked panel, a phone): the row wraps, and once it has wrapped the buttons share each
+   line so the primary never sits alone at the end of a ragged row; inspect (ghost) keeps its size. At full width nothing
+   stretches: the row is as wide as its buttons. No container query needed, so a product declares nothing. */
+.af-approval__btns{flex-wrap:wrap;justify-content:flex-end;max-width:100%}
+.af-approval__btns>.af-btn{flex:1 1 auto;justify-content:center}
+.af-approval__btns>.af-btn--ghost{flex:0 0 auto}
 .af-approval__reason{display:flex;flex-direction:column;gap:12px;padding-top:12px;border-top:1px solid var(--af-line-subtle)}
-.af-approval__reason .af-approval__btns{margin-left:0;justify-content:flex-start}
+.af-approval__reason .af-approval__btns{margin-left:0;align-self:flex-start;justify-content:flex-start}
 .af-approval__edit{font-family:var(--af-font-mono);font-size:12.5px;line-height:1.6}
 .af-approval__edit textarea{white-space:pre;overflow-wrap:normal;overflow-x:auto;font-variant-numeric:tabular-nums}
 .af-approval__hint{display:flex;align-items:flex-start;gap:7px;margin:0;font-size:12.5px;line-height:1.45;color:var(--af-fg-muted)}
@@ -22,20 +27,20 @@
 /* verdict additions: an allowed decision is a quiet check and a word (allowed is not green); a denial carries its reason */
 .af-verdict__ok{display:inline-flex;align-items:center;gap:7px;justify-self:start;font-size:13px;color:var(--af-fg);white-space:nowrap}
 .af-verdict__ok .af-ic{width:14px;height:14px;color:var(--af-fg-subtle)}
-.af-verdict__why{font-size:12.5px;line-height:1.45;color:var(--af-fg-muted)}
+.af-verdict__why{font-size:12.5px;line-height:1.45;color:var(--af-fg-muted);overflow-wrap:anywhere}
 
 /* ---- question: an agent asks a person. Same approval role (a person is needed), the word "Needs input", one primary action. ---- */
 .af-question{gap:14px}
 .af-question__q{margin:0;font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.005em;color:var(--af-fg);text-wrap:balance}
 .af-question__ctx{margin:0;font-size:13.5px;line-height:1.5;color:var(--af-fg-muted);text-wrap:pretty}
-.af-question__ctx code{font-family:var(--af-font-mono);font-size:12.5px;color:var(--af-fg)}
+.af-question__ctx code{font-family:var(--af-font-mono);font-size:12.5px;color:var(--af-fg);overflow-wrap:anywhere}
 .af-question__opts{display:flex;flex-wrap:wrap;gap:6px}
 .af-question__free{gap:6px}
 /* free text dismisses the options: once the person writes, the chips dim and unpress (no script needed) */
 .af-question:has(.af-question__free textarea:not(:placeholder-shown)) .af-chip{opacity:.45;background:transparent;border-color:var(--af-line-strong);color:var(--af-fg);border-style:dashed}
 .af-question__act{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .af-question__act>.af-meta{font-size:11.5px}
-.af-question__act>.af-btn{margin-left:auto}
+.af-question__act>.af-btn{margin-left:auto;max-width:100%}
 
 /* ---- composer: an input with suggestion chips and one send button; a queued row with a take-back; a disabled state that says why ---- */
 .af-composer{display:flex;flex-direction:column;gap:8px;min-width:0}
