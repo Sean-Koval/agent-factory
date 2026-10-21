@@ -30,7 +30,7 @@ component contracts in `airframe/components/*.md` before writing markup.
    cards, an 18px sheet, 1px lines. What is open or on top is `lifted` with `shadow-2`. **Attention is edge, mark,
    word**: a neutral ground, a 3px status edge on the leading side, the mark and the word; never a status color
    mixed into a surface, never an outline ring. No gloss, blur or gradients; the one glow is a live rail head.
-5. **Data first.** Real IDs as tail numbers (`HGR-7Q2K`, `FDK-EXP-0142`, `TWR-APR-0391`) in `af-id`, real
+5. **Data first.** Real IDs as tail numbers (`HGR-7Q2K`, `FDK-EXP-0142`, `TWR-APR-0391`) in `af-id` (a 4-character Crockford base32 hash of the real ID, longer only on a collision; the real ID on hover and copy; see brand.md), real
    numbers in DM Mono with tabular figures. Sentence case everywhere, labels and buttons included: they are
    sans, and mono is only for IDs, numbers and commands. Motion: `--af-dur` / `--af-dur-open` with
    `--af-ease-open`, no springs; reduced motion zeroes them.
