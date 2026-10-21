@@ -7,8 +7,8 @@
 Runs coding agents in isolated cloud sandboxes, from a ticket to a landed PR.
 
 <figure class="af-figure af-figure--lead">
-<a href="../assets/captures/hangar-needs-you.png"><img src="../assets/captures/hangar-needs-you-narrow-decision.png#only-dark" alt="hangar's Needs you: the decision deck with a held git push to main on top, its changes, branch and expiry, Deny, Allow for this turn and Approve push" width="720" height="586"></a>
-<a href="../assets/captures/hangar-needs-you-day.png"><img src="../assets/captures/hangar-needs-you-narrow-day-decision.png#only-light" alt="hangar's Needs you: the decision deck with a held git push to main on top, its changes, branch and expiry, Deny, Allow for this turn and Approve push" width="720" height="586"></a>
+<a href="../assets/captures/hangar-needs-you.png"><img src="../assets/captures/hangar-needs-you-narrow-decision.png#only-dark" alt="hangar's Needs you: the decision deck with a held git push to main on top, its changes, branch and expiry, Deny, Allow for this turn and Approve push" width="720" height="512"></a>
+<a href="../assets/captures/hangar-needs-you-day.png"><img src="../assets/captures/hangar-needs-you-narrow-day-decision.png#only-light" alt="hangar's Needs you: the decision deck with a held git push to main on top, its changes, branch and expiry, Deny, Allow for this turn and Approve push" width="720" height="512"></a>
 <figcaption>Needs you: one decision at a time, soonest to expire on top. Everything else keeps running.</figcaption>
 </figure>
 

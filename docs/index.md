@@ -40,9 +40,14 @@ Two more parts round out the suite. [Spaceport](tools/spaceport.md) is the Capab
 
 ## The four planes
 
-<figure class="af-figure">
+<figure class="af-figure af-planes--wide">
 --8<-- "planes.svg"
 <figcaption>The four planes, the doors and the gate · <a href="assets/diagrams/planes.svg">full size</a></figcaption>
+</figure>
+
+<figure class="af-figure af-planes--stacked">
+--8<-- "planes-stacked.svg"
+<figcaption>The four planes, one above the other · <a href="assets/diagrams/planes.svg">the wide drawing</a></figcaption>
 </figure>
 
 Define is the team harness repo, Run is hangar, Judge is flightdeck and Govern is Tower. hangar sits in the middle. Work arrives through the doors and the harness arrives as a lock file. Risky decisions go out to Tower, every run goes out to flightdeck, and the verdict comes back as the next promoted harness.

@@ -31,7 +31,7 @@ Four planes, five tools and the team harness repo.
   <img alt="hangar's Fleet: the decision deck with a held push on top. Needs approval, Push the refunds migration to main, git push origin main, Deny, Allow for this turn and Approve push." src="docs/assets/captures/hangar-fleet-deck.png" width="672">
 </picture>
 
-*hangar's Fleet: one decision at a time. A push to main waits for you; the agents keep working. Every capture in the docs and the deck is taken from a product's demo by `scripts/captures.py`, never drawn.*
+*hangar's Fleet: one decision at a time. A push to main waits for you; the agents keep working.*
 
 ## What lives here
 

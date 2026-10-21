@@ -6,7 +6,7 @@ Fourteen slides for the team or leadership. The problem at sixty sessions, the f
 
 <iframe class="af-deck-frame" src="deck/slides/" title="The agent factory deck" loading="lazy"></iframe>
 
-Use the arrow keys, the buttons in the corner, or swipe. Printing from the browser gives one slide per page.
+Use the arrow keys, the buttons in the corner, or swipe. Printing from the browser gives one slide per page. On a phone the slides open as one page you scroll, each slide stacked and set at a readable size.
 
 The source is [`deck/src.html`](https://github.com/Sean-Koval/agent-factory/blob/main/deck/src.html); `python3 scripts/build_deck.py --pdf` rebuilds the page and the PDF with the current Airframe theme. The screens are in `docs/assets/captures/`, made by `python3 scripts/captures.py` from each product's own demo, never by hand. `captures.json` records which commit each came from.
 
