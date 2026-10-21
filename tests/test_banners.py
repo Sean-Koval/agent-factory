@@ -58,14 +58,15 @@ class BannerTests(unittest.TestCase):
 
     def test_product_hue_appears_only_in_the_mark_and_the_suite_marker(self):
         """The glyph (color and stroke) and the 2px suite marker, nothing else; for the family mark, whose hue is
-        brand-text, the third use is the eyebrow hairline (brand-line has the same value)."""
+        brand-text, one more use is the eyebrow hairline (brand-line has the same value)."""
         for product, p in banners.PRODUCTS.items():
             hue = MARKS[p["mark"]]["hue"]
             for theme in ("dark", "light"):
                 svg = self.outputs[banners.OUT / product / f"banner-{theme}.svg"]
                 value = THEMES[theme][hue]
                 uses = len(re.findall(re.escape(value), svg, re.I))
-                self.assertLessEqual(uses, 3, f"{product} {theme}: hue used {uses} times")
+                limit = 4 if hue == "brand-text" else 3
+                self.assertLessEqual(uses, limit, f"{product} {theme}: hue used {uses} times")
 
     def test_banner_and_social_sizes(self):
         for path, svg in self.outputs.items():

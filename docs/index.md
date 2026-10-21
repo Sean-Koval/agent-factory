@@ -6,7 +6,7 @@ hide:
 
 <div class="af-hero af-hero--visual" markdown>
 <div markdown>
-<span class="af-eyebrow">Agent factory · team tooling</span>
+<span class="af-eyebrow">Agent factory · Suite</span>
 
 # Hand work to cloud coding agents and keep every change reviewable
 
@@ -29,7 +29,7 @@ hide:
   <a class="af-tool" href="tools/ai-dlc/" style="--af-tool: var(--af-product-aidlc)"><small>Setup</small><b>ai-dlc</b><span>Sets up engineers' machines, authors the optional workflow plugin, gates local work on CI.</span></a>
 </div>
 
-Also in the suite: [Spaceport](tools/spaceport.md), reviewed data products that agents query through four MCP tools (frozen), and [Airframe](airframe/index.md), the design system every tool uses.
+Two more parts round out the suite. [Spaceport](tools/spaceport.md) is the Capability: reviewed data products that agents query through four MCP tools (frozen). [Airframe](airframe/index.md) is Design: the system every tool uses.
 
 ## Start here
 

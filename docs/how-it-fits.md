@@ -54,7 +54,7 @@ Each step's progress lives on the [roadmap](roadmap.md); the flows that start el
 - **flightdeck** (Judge): the Parquet data plane, paired statistics, behavior specs, pin sets and the report on the PR.
 - **Tower** (Govern): the decision point, passports, approvals and hash-chained receipts.
 - **ai-dlc** (Setup): engineers' machines and the optional workflow plugin a harness may pin.
-- **Spaceport** (also in the suite, frozen): governed data over four MCP tools.
+- **Spaceport** (Capability, frozen): governed data over four MCP tools.
 - **agent-factory**: Airframe, these docs, the deck and the roadmap.
 
 The seams between them are versioned files and APIs. [Contracts](architecture/contracts.md) lists each one, who produces and consumes it, where it is defined and its status.

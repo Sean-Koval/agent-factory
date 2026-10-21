@@ -19,6 +19,7 @@ Generated (never edit by hand):
     theme/airframe-day.tokens.json the same for Day (one complete file per theme; tools merge or pick)
     theme/airframe-docs.css        the docs-site mapping (Material for MkDocs / Zensical), from airframe/docs-site/
     theme/airframe-suite.html      the suite strip partial above every docs header, from airframe/docs-site/
+    theme/airframe-footer.html     the one footer every docs site shows, from airframe/docs-site/
 
 The registry: registry.json at the repo root lists the items (a GitHub source registry: `npx shadcn@latest
 add Sean-Koval/agent-factory/<item>#theme-vN`); `registry` inlines each item's files into DIR/<item>.json
@@ -448,6 +449,7 @@ def outputs(tokens: dict | None = None) -> dict[Path, str]:
         THEME / "airframe-day.tokens.json": dump(dtcg(tokens, "light")),
         THEME / "airframe-docs.css": docs_css(),
         THEME / "airframe-suite.html": (DOCS_SITE / "airframe-suite.html").read_text(),
+        THEME / "airframe-footer.html": (DOCS_SITE / "airframe-footer.html").read_text(),
     }
 
 
@@ -492,7 +494,7 @@ def problems() -> list[str]:
             found.append(f"{path.relative_to(ROOT)} is out of date; run python3 scripts/airframe.py build")
 
     sources = (sorted((SRC / "styles").glob("*.css")) + sorted((SRC / "components").glob("*/preview.html"))
-               + [DOCS_SITE / "airframe-docs.css", DOCS_SITE / "airframe-suite.html"])
+               + [DOCS_SITE / "airframe-docs.css", DOCS_SITE / "airframe-suite.html", DOCS_SITE / "airframe-footer.html"])
     for path in sources:
         for lit in color_literals(path.read_text()):
             found.append(f"{path.relative_to(ROOT)}: color literal {lit}; use an Airframe token (var(--af-<name>))")
@@ -593,9 +595,13 @@ def components() -> list[dict]:
     return sorted(items, key=lambda i: (order.index(i["group"]) if i["group"] in order else 99, i["name"]))
 
 
-THEME_HEAD = ("<script>(function(){var t=null;try{t=new URLSearchParams(location.search).get('theme')"
-              "||localStorage.getItem('airframe-theme')}catch(e){}"
-              "document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')})();</script>")
+# ?embed=1 is the component page's frame: no toolbar, the docs page's theme (its body's data-md-color-scheme, followed
+# live), and the frame sized to the content. Otherwise ?theme= or the stored choice, Night by default.
+THEME_HEAD = ("<script>(function(){var r=document.documentElement,t=null,q=null;try{q=new URLSearchParams(location.search)}catch(e){}"
+              "if(q&&q.get('embed')){r.setAttribute('data-afg-embed','');try{var s=parent.document.body.getAttribute('data-md-color-scheme');"
+              "if(s)t=s==='default'?'light':'dark'}catch(e){}}"
+              "if(!t){try{t=(q&&q.get('theme'))||localStorage.getItem('airframe-theme')}catch(e){}}"
+              "r.setAttribute('data-theme',t==='light'?'light':'dark')})();</script>")
 THEME_SWITCH = ('<div class="afg-seg" role="group" aria-label="Theme">'
                 '<button type="button" data-afg-theme="dark" aria-pressed="false">Night</button>'
                 '<button type="button" data-afg-theme="light" aria-pressed="false">Day</button></div>')
@@ -604,7 +610,14 @@ THEME_SCRIPT = ("<script>(function(){var r=document.documentElement;function syn
                 "String(b.getAttribute('data-afg-theme')===t))})}sync();document.addEventListener('click',function(e){"
                 "var b=e.target.closest&&e.target.closest('[data-afg-theme]');if(!b)return;var t=b.getAttribute("
                 "'data-afg-theme');r.setAttribute('data-theme',t);try{localStorage.setItem('airframe-theme',t)}catch(x){}"
-                "sync()})})();</script>")
+                "sync()})})();</script>"
+                # embed: follow the docs page's theme switch and keep the frame as tall as the preview
+                "<script>(function(){var r=document.documentElement;if(!r.hasAttribute('data-afg-embed'))return;"
+                "var f=null,b=null;try{f=frameElement;b=parent.document.body}catch(e){}"
+                "if(b&&window.MutationObserver)new MutationObserver(function(){var s=b.getAttribute('data-md-color-scheme');"
+                "if(s)r.setAttribute('data-theme',s==='default'?'light':'dark')}).observe(b,{attributes:true,attributeFilter:['data-md-color-scheme']});"
+                "if(!f)return;function fit(){f.style.height=Math.ceil(document.body.getBoundingClientRect().height)+'px'}"
+                "fit();if(window.ResizeObserver)new ResizeObserver(fit).observe(document.body);addEventListener('load',fit)})();</script>")
 GALLERY_CSS = """<style>
 .afg-bar{position:fixed;right:var(--af-space-12);bottom:var(--af-space-12);z-index:2147483000;display:flex;align-items:center;gap:var(--af-space-8);padding:var(--af-space-4) var(--af-space-4) var(--af-space-4) var(--af-space-12);background:var(--af-overlay);border:1px solid var(--af-line);border-radius:var(--af-radius-card);box-shadow:var(--af-shadow-overlay);font-family:var(--af-font-sans);font-size:12px;color:var(--af-fg-subtle)}
 .afg-bar a{color:var(--af-fg-muted);text-decoration:none}.afg-bar a:hover{color:var(--af-fg)}
@@ -613,6 +626,8 @@ GALLERY_CSS = """<style>
 .afg-seg button:hover{color:var(--af-fg)}
 .afg-seg button[aria-pressed="true"]{background:var(--af-selected);border-color:var(--af-line-strong);color:var(--af-fg)}
 .afg-spacer{height:56px}
+[data-afg-embed] .afg-bar,[data-afg-embed] .afg-spacer{display:none}
+[data-afg-embed],[data-afg-embed] body{overflow:hidden}
 .afg-page{max-width:var(--af-container-max);margin:0 auto;padding:var(--af-space-48) var(--af-space-32) var(--af-space-64)}
 .afg-head{display:flex;flex-direction:column;gap:var(--af-space-12);margin-bottom:var(--af-space-40)}
 .afg-head h1{font-size:48px;line-height:1.02}
@@ -869,15 +884,17 @@ def component_page(it: dict, height: int) -> str:
            f'<span class="af-eyebrow">{html.escape(it["group"])}</span>', "", f"# {n}", ""]
     if lead:
         out += [lead, ""]
-    out += [f'<iframe class="af-preview" src="../gallery/{n}.html?theme=dark" title="{html.escape(n)} preview" loading="lazy" '
-            f'style="height: {min(max(height, 240), 720)}px"></iframe>', "",
-            f'[Night](../gallery/{n}.html?theme=dark){{ .md-button .md-button--primary }} [Day](../gallery/{n}.html?theme=light){{ .md-button }} '
+    # the preview in embed mode: no gallery toolbar, the page's own theme, as tall as its content (the marker's
+    # height is only the first guess, before the frame measures itself)
+    out += [f'<iframe class="af-preview" src="../gallery/{n}.html?embed=1" title="{html.escape(n)} preview" '
+            f'style="height: {max(height, 240)}px"></iframe>', "",
+            f'[Open in the gallery](../gallery/{n}.html){{ .md-button }} '
             f'[Source](https://github.com/Sean-Koval/agent-factory/tree/main/airframe/components/{n}){{ .md-button }}', ""]
     for heading, body in _ordered(sections):
         if heading == "Markup":
             out += ['??? note "Markup"', "", _indent(body), ""]
         else:
-            out += [f"## {heading}", "", body, ""]
+            out += [f"## {heading}", "", tail_ids(body), ""]
     return "\n".join(out).rstrip() + "\n"
 
 
@@ -899,8 +916,19 @@ def component_pages(dest: Path) -> list[Path]:
     return written
 
 
+# A tail number in a code span (`HGR-7Q2K`, `TWR-RCPT-88A1`) becomes <code class="af-id">, which the docs mapping keeps
+# on one line: IDs never wrap and are never cut (guide/brand.md). Fenced blocks are left alone.
+TAIL = re.compile(r"`([A-Z]{3}(?:-[A-Z]{2,5})?-[0-9A-Z]{4,6})`")
+
+
+def tail_ids(text: str) -> str:
+    parts = re.split(r"(^```.*?^```)", text, flags=re.S | re.M)
+    return "".join(p if p.startswith("```") else TAIL.sub(r'<code class="af-id">\1</code>', p) for p in parts)
+
+
 def guide_pages(dest: Path) -> list[Path]:
-    """The brand book and its chapters (airframe/guide/*.md) as docs pages, unchanged but for a provenance line."""
+    """The brand book and its chapters (airframe/guide/*.md) as docs pages, unchanged but for a provenance line
+    and tail numbers marked as IDs."""
     dest.mkdir(parents=True, exist_ok=True)
     written = []
     for src in sorted((SRC / "guide").glob("*.md")):
@@ -909,7 +937,7 @@ def guide_pages(dest: Path) -> list[Path]:
         if src.stem == "brand":
             text = re.sub(r"\A#\s[^\n]*\n", "# Brand book\n", text, count=1)
         path = dest / f"{src.stem.lower()}.md"
-        path.write_text(f"---\ntitle: {title}\n---\n\n{GENERATED.format(src=f'airframe/guide/{src.name}')}\n\n{text}")
+        path.write_text(f"---\ntitle: {title}\n---\n\n{GENERATED.format(src=f'airframe/guide/{src.name}')}\n\n{tail_ids(text)}")
         written.append(path)
     return written
 

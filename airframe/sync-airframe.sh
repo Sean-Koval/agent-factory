@@ -9,7 +9,7 @@
 # scripts/sync-airframe.sh and lists what it vendors in FILES, one "<theme file> <destination>"
 # pair per line. Published theme files: airframe.css (tokens), airframe-components.css (the af-
 # classes), airframe-docs.css (docs-site mapping), airframe-suite.html (the suite strip partial for the
-# docs header; see below), airframe-icons.svg (sprite), airframe.js (the optional helpers: markup
+# docs header; see below), airframe-footer.html (the shared docs footer; see below), airframe-icons.svg (sprite), airframe.js (the optional helpers: markup
 # builders, toast, confirm, drawer), airframe-tokens.json, airframe-tailwind.css (Tailwind v4 theme),
 # airframe.tokens.json and airframe-day.tokens.json (DTCG).
 #
@@ -19,6 +19,7 @@
 #   overrides/main.html:
 #     {% extends "base.html" %}
 #     {% block announce %}{% include "partials/airframe-suite.html" %}{% endblock %}
+#     {% block footer %}{% include "partials/airframe-footer.html" %}{% endblock %}
 # Projects without a fixed layout can use the registry instead: npx shadcn@latest add
 # Sean-Koval/agent-factory/airframe#<tag> (see docs/airframe/registry.md).
 set -eu
@@ -27,6 +28,7 @@ FILES="
 airframe.css            docs/stylesheets/airframe.css
 airframe-docs.css       docs/stylesheets/airframe-docs.css
 airframe-suite.html     overrides/partials/airframe-suite.html
+airframe-footer.html    overrides/partials/airframe-footer.html
 "
 
 ref="${1:-main}"

@@ -1,4 +1,4 @@
-<span class="af-eyebrow">Design system</span>
+<span class="af-eyebrow">Agent factory · Design</span>
 
 # Airframe
 
@@ -16,7 +16,7 @@ This repository is its single source of truth. Every color, size and font is a t
   <div class="af-rule"><b>Edge, mark, word</b><span>Cards are a raised tone with soft corners and no border. What needs a person keeps that ground and gains a 3px status edge, the mark and the word. Nothing is tinted.</span></div>
   <div class="af-rule"><b>Color, shape and a word</b><span>Every status has all three, so it reads in grayscale, for color-blind readers and on a projector.</span></div>
   <div class="af-rule"><b>Three faces</b><span>Archivo Expanded for headlines, Red Hat Text for reading, labels and buttons, DM Mono for IDs, numbers and commands. Numbers use tabular figures.</span></div>
-  <div class="af-rule"><b>Keyed data</b><span>Metadata reads <code>POLICY require-approval-main-push  MODEL gpt-5.1</code>: a small key, then the value. Never "a · b · c".</span></div>
+  <div class="af-rule"><b>Keyed data</b><span>Metadata reads <code>Policy require-approval-main-push  Model gpt-5.1</code>: a small sentence-case key, then the value. Never "a · b · c".</span></div>
 </div>
 
 Two themes share every component: **Night** (`dark`, the default, true black) and **Day** (`light`, paper grey, white cards). The [brand book](guide/brand.md) (voice, layout, accessibility) is here, with [Status](guide/status.md), [Data](guide/data.md) and [Products](guide/products.md); the source is [`airframe/guide/`](https://github.com/Sean-Koval/agent-factory/tree/main/airframe/guide).

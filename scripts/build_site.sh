@@ -15,8 +15,8 @@ python3 scripts/roadmap.py ${ROADMAP_ARGS:-}
 rm -rf docs/theme docs/deck && mkdir -p docs/theme docs/deck/slides && cp theme/*.css theme/*.json docs/theme/
 cp deck/index.html docs/deck/slides/index.html
 mkdir -p docs/deck/slides/captures && cp deck/captures/*.png docs/deck/slides/captures/
-# The suite strip partial that overrides/main.html includes is the published theme file.
-mkdir -p overrides/partials && cp theme/airframe-suite.html overrides/partials/airframe-suite.html
+# The suite strip and footer partials that overrides/main.html includes are the published theme files.
+mkdir -p overrides/partials && cp theme/airframe-suite.html theme/airframe-footer.html overrides/partials/
 [ -f deck/agent-factory.pdf ] && cp deck/agent-factory.pdf docs/deck/
 ${ZENSICAL:-zensical} build
 grep -q 'class="slide' site/deck/slides/index.html || {

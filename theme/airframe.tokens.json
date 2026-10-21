@@ -1,10 +1,10 @@
 {
-  "$description": "Airframe theme-v13, Night theme, in the Design Tokens Format Module 2025.10. Generated from airframe/tokens.json by scripts/airframe.py; do not edit. Each token's 'css' extension names its CSS custom property or class.",
+  "$description": "Airframe theme-v14, Night theme, in the Design Tokens Format Module 2025.10. Generated from airframe/tokens.json by scripts/airframe.py; do not edit. Each token's 'css' extension names its CSS custom property or class.",
   "$extensions": {
     "io.github.sean-koval.airframe": {
       "theme": "dark",
       "themeName": "Night",
-      "release": "theme-v13",
+      "release": "theme-v14",
       "defaultTheme": "dark",
       "prefix": "--af-",
       "format": "https://www.designtokens.org/tr/drafts/format/"
@@ -937,11 +937,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.9333,
-          0.5608,
-          0.3882
+          0.1412,
+          0.7569,
+          0.7882
         ],
-        "hex": "#EE8F63"
+        "hex": "#24C1C9"
       },
       "$description": "hangar mark and nav marker only.",
       "$extensions": {
@@ -971,11 +971,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.7725,
-          0.6627,
-          0.2314
+          0.4039,
+          0.6902,
+          0.9765
         ],
-        "hex": "#C5A93B"
+        "hex": "#67B0F9"
       },
       "$description": "Tower (the governed workspace) mark and nav marker only.",
       "$extensions": {

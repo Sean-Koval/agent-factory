@@ -14,9 +14,9 @@ Avatars are a triad of silhouettes used across the suite: people are round, agen
 <span class="af-avatar af-avatar--agent af-avatar--28" title="codex" aria-hidden="true">CX</span>
 <span class="af-avatar af-avatar--agent af-avatar--44" title="Breaks" aria-hidden="true"><svg class="af-ic" …>agent</svg></span>
 <span class="af-avatar af-avatar--firm af-avatar--22" title="Globex" aria-hidden="true">GX</span>
-<span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="Not signed yet">?</span>
+<span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="Not approved yet">?</span>
 
-<span class="af-avatars" aria-label="Signers: Priya, Sean, Marcus and 2 more">
+<span class="af-avatars" aria-label="Approvers: Priya, Sean, Marcus and 2 more">
   <span class="af-avatar af-avatar--person af-avatar--28" title="Priya Natarajan">PN</span>
   <span class="af-avatar af-avatar--person af-avatar--28" title="Sean Koval">SK</span>
   <span class="af-avatar af-avatar--agent af-avatar--28" title="codex">CX</span>
@@ -37,7 +37,7 @@ Avatars are a triad of silhouettes used across the suite: people are round, agen
 The hexagon is three clipped layers (a ground ring, a 1px edge, the fill) in a box 4 px larger than its siblings with a −2 px margin, so the visible shape matches the circle beside it and the stack ring has room. In forced colors the edge paints `CanvasText` and the fill `Canvas`, so the shape survives; where `clip-path` is unsupported the agent falls back to a square with a 0 radius (the firm keeps its 2 px), still distinct.
 
 ## When to use
-- Anywhere a person, agent or firm appears as an actor: approval signers, "requested by", session owners, Tower's spaces and object pages, comment threads.
+- Anywhere a person, agent or firm appears as an actor: approvers, "requested by", session owners, Tower's spaces and object pages, comment threads.
 - The nav keeps the plain `af-avatar` for the account button.
 
 ## Do

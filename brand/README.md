@@ -18,13 +18,15 @@ Products: `agent-factory` (the suite home, with the family mark), `airframe`, `h
 
 ## The banner
 
-One composition for the family: the eyebrow names the suite and the product's role (Run, Judge, Govern, Setup;
-the word "plane" stays out of it), the product mark sits beside the name in Archivo Expanded, the product's
-line follows in Red Hat Text, and a strip along the bottom shows the suite story with the 2 px nav marker under
-this product's own: the four planes (Define = the team harness, Run = hangar, Judge = flightdeck, Govern = Tower),
-then ai-dlc as Setup and Spaceport as the capability. The product hue appears in the mark and that
-marker and nowhere else; the brand yellow is the eyebrow hairline, as on the docs heroes. Night is black,
-Day is paper, with the dot field top right, once. Nothing is clickable and nothing is a status.
+One composition for the family. The eyebrow is "Agent factory · " and the product's place in one word, in sentence
+case as on the docs sites: Define, Run, Judge, Govern, Setup, Design, or Capability for Spaceport. The word "plane"
+stays out of it. The product mark sits beside the name in Archivo Expanded, and the product's line follows in Red
+Hat Text.
+
+A strip along the bottom is the docs sites' suite strip: Define · Run · Judge · Govern · Setup · Design, with the
+2 px nav marker under this product. Spaceport is not on the strip, as on the sites, so its banner shows no marker.
+The product hue appears in the mark and that marker and nowhere else; the brand yellow is the eyebrow hairline.
+Night is black, Day is paper, with the dot field top right, once. Nothing is clickable and nothing is a status.
 
 Text is converted to outlines. GitHub serves README images through its proxy as `<img>`, which loads no web
 fonts and no external files, so an SVG with `font-family` falls back to whatever the viewer has installed.

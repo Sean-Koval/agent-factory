@@ -68,6 +68,7 @@ What needs you, one decision at a time: the soonest to expire on top as a lifted
 hangar's Needs you, and the top of its Fleet; Tower's Desk for a person who clears their queue rather than scanning it. It is the focused layout of the decision queue: for an inbox that stays open on a second screen, lay the same `af-decision` cards out in a column instead of a stack; outside a stack they rest on `shadow-1`.
 
 ## Do
+- Use the decision words in guide/Status.md: **Needs approval** or **Needs input** on the card, **Approve** and **Deny** as the buttons, **Denied** for what policy stopped.
 
 - Order by what expires first. Count only the decisions, so the deck, the nav badge and the page header agree.
 - List what stopped under **Stopped** (`af-deck__subtitle`, `af-deck__stopped`); it stays visible at every width, unlike up-next.
@@ -75,6 +76,7 @@ hangar's Needs you, and the top of its Fleet; Tower's Desk for a person who clea
 - Keep the agent's words in the lead: "codex wants to push to main. Policy require-approval-main-push holds it."
 
 ## Don't
+- Don't label the act Sign, Decline, Reject or Blocked, or a card "Needs your signature".
 
 - Don't fill a button red. Deny is red words; the confirmed deny is red words on a hairline. The one red fill is the denied placard.
 - Don't let a card leave before the verdict was readable, and never without the agent having been told.

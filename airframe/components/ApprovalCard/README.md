@@ -1,4 +1,4 @@
-An approval card shows one held action waiting on a reviewer: the exact command, the Cedar policy that held it, the checks that passed, when it expires, the decision (inspect, deny with a reason, approve, approve edited, approve for the session), who else must sign, and the receipt it will file; a verdict row records a decided action on one line.
+An approval card shows one held action waiting on a reviewer: the exact command, the Cedar policy that held it, the checks that passed, when it expires, the decision (inspect, deny with a reason, approve, approve edited, approve for the session), who else must approve, and the receipt it will file; a verdict row records a decided action on one line.
 
 ## You provide
 - The approval ID (`TWR-APR-0391`) and the held command in mono (`git push origin main`), with keyed facts about it (repo, from, files, diff).
@@ -8,7 +8,7 @@ An approval card shows one held action waiting on a reviewer: the exact command,
 - The decision buttons in inspect, refuse, accept order; a second accept ("Approve for this session") only when the policy allows a grant, with a hint that says what the grant covers and how long it lasts.
 - For deny: a reason field. **A reason is required when denying and optional when approving.** The error is the failed mark and words, never a red fill.
 - For edit-then-approve: the arguments in an editable mono field, what they were, and the primary reads "Approve edited".
-- For a quorum: the signers as a stacked avatar group (pending ones dashed), "1 of 2 signed", and keyed `SIGNED` / `WAITING` facts.
+- For a quorum: the approvers as a stacked avatar group (pending ones dashed), "1 of 2 approved", and keyed `approved` / `waiting` facts.
 - For a verdict row: the outcome (denied placard, or a quiet check for approved), the action, its reason, keyed policy / sandbox / receipt, and a time.
 
 ## Markup
@@ -40,8 +40,8 @@ An approval card shows one held action waiting on a reviewer: the exact command,
   <p class="af-approval__hint"><svg class="af-ic" …>info</svg><span>For this session extends the mandate: … until the session ends, in <b>2 h 10 min</b>, filed as <b>TWR-GRT-0A12</b>.</span></p>
   <div class="af-approval__quorum">
     <span class="af-avatars"><span class="af-avatar af-avatar--person af-avatar--22">PN</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending">PO</span></span>
-    <span class="af-approval__signed"><b>1 of 2</b> signed</span>
-    <span class="af-meta">…SIGNED Priya, 14:02 · WAITING you…</span>
+    <span class="af-approval__signed"><b>1 of 2</b> approved</span>
+    <span class="af-meta">…approved Priya, 14:02 · waiting you…</span>
   </div>
   <div class="af-card__foot"><span class="af-receipt"><svg class="af-ic" …>receipt</svg>Your decision is filed as receipt <b>TWR-RCPT-88A1</b></span></div>
 </article>
@@ -75,7 +75,7 @@ Edit, then approve (`af-approval--editing` on the card):
 … <button type="button" class="af-btn af-btn--primary af-btn--sm">Approve edited</button>
 ```
 
-Waiting on others (`af-approval--waiting`, no `af-card--lit`): the status is the queued ring with words, `Waiting on 2 others`, the quorum strip says whose signature is in, and the only button is a ghost "Open".
+Waiting on others (`af-approval--waiting`, no `af-card--lit`): the status is the queued ring with words, `Waiting on 2 others`, the quorum strip says whose approval is in, and the only button is a ghost "Open".
 
 Verdict rows:
 
@@ -120,6 +120,7 @@ preview's last card shows it at 320 px.
 - For a question from an agent (needs input rather than a yes or no), use Question instead.
 
 ## Do
+- Use the decision words in guide/Status.md: **Needs approval** as the status, **Approve** and **Deny** as the buttons (with the object when it helps), **Denied** on the verdict.
 - Show the exact action being approved, not a summary of it; when the person edits it, show what it was.
 - Order the decision as inspect (ghost), refuse (danger), accept (primary). Put a second accept, such as approve for the session, as a secondary between them, and say in a hint what it grants and for how long.
 - Require a reason to deny and make it optional to approve. Send the reason to the requester and put it on the receipt.
@@ -128,6 +129,7 @@ preview's last card shows it at 320 px.
 - Once decided, turn the card into a verdict row. Approved is a quiet check and a word: allowed is not green.
 
 ## Don't
+- Don't label the act Sign, Decline, Reject or Blocked. A receipt may say it was signed; the person approves.
 - Don't make Deny a solid red button or Approve a green one, and don't paint the reason field's error red; the failed mark and the words carry it.
 - Don't hide the policy behind a link when it fits in four lines.
 - Don't show more than one held action per card.

@@ -82,7 +82,7 @@ exception: its two lamps follow the cockpit convention, warning before caution.)
 
 - A pool with 16 running sandboxes and one waiting on approval shows **Needs approval**.
 - A group that is all queued shows **Queued**; a group with any running child shows **Running**. A group is off only when every child is off.
-- Pair the group mark with keyed counts so nothing is hidden: `WAITING 1  RUNNING 16  QUEUED 3`. Write zero counts as `0`; drop a count only when the role cannot occur in that scope.
+- Pair the group mark with keyed counts so nothing is hidden: `Waiting 1  Running 16  Queued 3`. Write zero counts as `0`; drop a count only when the role cannot occur in that scope.
 - A lit group mark is a pointer, not a summary. Clicking it takes the person to the child that lit it.
 
 ## Examples by product
@@ -95,7 +95,7 @@ Keep the role; specialize the word only when it says more. The shape and color n
 - **ai-dlc.** The CLI prints the same shapes as glyphs: `●` running, `○` queued, `◆` needs approval, `▲` failed, `[DENIED]`, `·` off. The glyph carries the meaning without color; color only the lit three (`◆` orange, `▲` and `[DENIED]` red).
 - **Spaceport.** Refreshing (running role). Queued. Needs approval: a schema change waits for the owner. Failed: the refresh failed. Denied: access request refused. Deprecated (off role).
 
-Write the reason next to every lit status as keyed inline data: `POLICY require-approval-main-push`, `STAGE test`, `HELD 41 min`.
+Write the reason next to every lit status as keyed inline data: `Policy require-approval-main-push`, `Stage test`, `Held 41 min`.
 
 ## A question is not an approval, but it is the same role
 
@@ -104,10 +104,25 @@ question takes the approval role: the orange diamond, the lit card, the place at
 apart: **Needs approval** for a yes or no on an action, **Needs input** for a question with options or free text. Never a
 new shape or a new color for questions; the sixth status is still `off`. See the ApprovalCard and Question components.
 
+## Decision words
+
+One set of words for the act, in every product:
+
+| What | Word |
+| --- | --- |
+| The status of a held action | **Needs approval** |
+| The status of a question | **Needs input** |
+| The two buttons | **Approve** and **Deny**, with the object when it helps: "Approve push", "Deny refund" |
+| The stopped status | **Denied** (the placard) |
+| The past tense in a verdict | Approved by Sean, Denied by Sean |
+
+Sign, Decline, Reject and Blocked are retired as UI words for this act, and so is "Needs your signature". Receipts may
+still say they were signed: a signature is how a receipt proves the decision, not what the person does.
+
 ## Waiting on others stays grey
 
-A request that needs more signatures than it has, where this person has signed or cannot sign, is **Waiting on others**: the
-queued role (a grey ring) with words that say how many, `Waiting on 2 others`, and a quorum strip that says whose signature
+A request that needs more approvals than it has, where this person has approved or cannot approve, is **Waiting on others**:
+the queued role (a grey ring) with words that say how many, `Waiting on 2 others`, and a quorum strip that says whose approval
 is in. It is not orange, because nobody *here* is needed; the card is not lit and has no primary action. The moment it
 becomes this person's turn it is an approval again. The same goes for a question addressed to someone else.
 
