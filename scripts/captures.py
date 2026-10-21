@@ -6,7 +6,8 @@
     HANGAR_DIR=… TOWER_DIR=… FLIGHTDECK_DIR=… python3 scripts/captures.py
 
 Writes docs/assets/captures/<product>-<screen>.png (a 1440x900 window, Night, at 2x) and captures.json: what each
-one shows, the repository and commit it came from, and when. deck/src.html and the docs pages reference them;
+one shows, the repository and commit it came from, and when. A screen a docs page shows (DAY) also gets a Day twin,
+<product>-<screen>-day.png, which the page swaps in for the light scheme. deck/src.html and the docs pages reference them;
 nothing here is drawn or retouched by hand, so a capture is regenerated, never edited.
 
 A full window shown 600 px wide puts the product's text at 3-4 px, so each screen also has named crops (CROPS): the
@@ -18,12 +19,13 @@ slide shows the crop; the full capture stays behind a link.
 Every product is captured from its own demo and fixture data through its real UI, never from a stub:
 
 - hangar: docs/assets/front/demo.py (the real control plane on the fake provider, a scripted agent and a stand-in
-  GitHub) on its own port, the demo ticket (issue #42 becomes a job, a sandbox run and draft PR #43) and a few more
-  jobs so the fleet has something on it. Screens: Needs you; the job's change and composer; the Fleet.
+  GitHub) on its own port, and the demo ticket (issue #42 becomes a job, a sandbox run and draft PR #43): the job's
+  change and composer. Needs you and the Fleet are a team's afternoon, docs/assets/front/fixture.py served over the
+  same console as hangar's own front-page stills do: the decision deck with a held push on top, the agents as rows.
 - Tower: server/tools/ui_tour.py (the offline demo and its stand-ins, with the tour's seed), as Marcus, an approver.
   Screens: the Desk; an object page with its chips, composer and card.
-- flightdeck: docs/assets/report-comment.html, rendered by docs/assets/build.py from the fixture experiment: the
-  verdict as the pull-request comment.
+- flightdeck: docs/assets/report-comment-full-{dark,light}.html, rendered by docs/assets/build.py from the fixture
+  experiment: the verdict as the pull-request comment.
 - Airframe: this repository's gallery previews (ApprovalCard, Diff), built by scripts/airframe.py gallery, plus a
   Night thumbnail of every component's preview in docs/assets/airframe/ for the Components page.
 
@@ -58,6 +60,8 @@ VIEW = {"width": 1440, "height": 900}
 # The narrow window: a second capture of each hangar screen at 720 CSS px, the width a docs column or a slide shows it
 # at, so the product's own responsive layout puts the subject in frame and its text renders at or near 1:1.
 NARROW = {"width": 720, "height": 900}
+# The Fleet's rows at the widest window a deck slide shows legibly: wide enough for the desktop row, narrow enough to cut.
+MID = {"width": 940, "height": 900}
 PRODUCTS = ("hangar", "tower", "flightdeck", "airframe")
 PEOPLE = {"marcus": 102}  # Tower's demo: Marcus Chen, an approver
 SCALE = 2  # device_scale_factor of every capture
@@ -72,28 +76,34 @@ LEGIBLE = 0.85
 # The box frames the one thing the page or slide is about, at a width that keeps its text legible there.
 CROPS = {
     "hangar-fleet": {
-        "needs-you": ((700, 196, 668, 428), "Three tiles of the checkout-python pool and, docked beside them, the question the selected agent is asking", ("hero",)),
-        "board": ((72, 196, 904, 180), "The checkout-python pool: ten tiles, the one that needs a person selected, and the legend", ("deck",)),
+        "deck": ((64, 232, 672, 384), "The Fleet's decision deck: a held git push to main with the work, the command, Deny, Allow for this turn and Approve push", ("hero",)),
+    },
+    "hangar-fleet-rows": {
+        "list": ((16, 58, 908, 548), "The Fleet's rows for base-codex: eight agents, what each is doing, its owner, stage rail and stage times", ("deck",)),
     },
     "hangar-needs-you-narrow": {
-        "question": ((0, 56, 720, 586), "Needs you in a 720 px window: an agent's question with the answer box, and draft PR #43 waiting for review", ("page", "deck")),
+        "decision": ((0, 56, 720, 586), "Needs you in a 720 px window: the decision deck with a held git push to main on top and Approve push", ("page", "deck")),
     },
     "hangar-review-narrow": {
         "change": ((0, 56, 720, 584), "Job #42 in a 720 px window: the agent's summary, the reply box, and the change as a greyscale diff", ("deck",)),
     },
     "tower-desk": {
-        "approval": ((264, 428, 680, 472), "Needs you on Marcus's Desk: an approval card with what will run and what signing does", ("page", "deck")),
+        "approval": ((264, 160, 656, 588), "Needs you on Marcus's Desk: the decision deck with a ticket for Globex to sign, what will run and what signing does", ("page", "deck")),
     },
     "tower-object": {
-        "release": ((264, 528, 680, 372), "On PAY-412: hangar's job waiting for a maintainer to release it, with the repo and the issue it names", ("deck",)),
+        "release": ((264, 508, 680, 392), "On PAY-412: hangar's job waiting for a maintainer to release it, with the repo and the issue it names", ("deck",)),
     },
     "flightdeck-verdict": {
-        "verdict": ((0, 0, 790, 560), "The report comment on the harness PR: the verdict line and the pins of both variants", ("page", "deck")),
+        "verdict": ((0, 0, 790, 520), "The report comment on the harness PR: the verdict line, the rule and the outcome table of both variants", ("page", "deck")),
     },
     "airframe-approvalcard": {
         "card": ((16, 12, 780, 584), "One ApprovalCard: a held push to main with its policy, checks, expiry, deny and approve, and the quorum", ("deck",)),
     },
 }
+
+# The screens a docs page shows, which get a Day twin (<name>-day.png) cut with the same boxes; the deck is Night only.
+DAY = ("hangar-fleet", "hangar-needs-you-narrow", "tower-desk", "flightdeck-verdict")
+CROPS.update({f"{name}-day": CROPS[name] for name in DAY})
 
 # Extra work for hangar's demo, so the Fleet shows a pool rather than three tiles. Each becomes a real job on the
 # scripted agent; most finish in seconds and leave their sandbox up.
@@ -162,8 +172,8 @@ class Browser:
     def __init__(self, pw):
         self.b = pw.chromium.launch()
 
-    def page(self, init: str | None = None, viewport: dict | None = None):
-        ctx = self.b.new_context(viewport=viewport or VIEW, device_scale_factor=2, color_scheme="dark")
+    def page(self, init: str | None = None, viewport: dict | None = None, scheme: str = "dark"):
+        ctx = self.b.new_context(viewport=viewport or VIEW, device_scale_factor=2, color_scheme=scheme)
         if init:
             ctx.add_init_script(init)
         return ctx.new_page()
@@ -235,60 +245,37 @@ def hangar(br: Browser, manifest: dict) -> None:
         if not pr:
             raise RuntimeError("the demo ticket did not end in a pull request")
 
-        page = br.page(f"localStorage.setItem('hangar.token', '{token}')")
-        # Needs you: the agent's question and the PR waiting for review
-        page.goto(f"{url}/#needs", wait_until="networkidle")
-        page.wait_for_selector("#needs-list .af-question, #needs-list .af-approval, #needs-list li", timeout=15000)
-        page.wait_for_timeout(800)
-        bottom = page.evaluate("document.querySelector('#needs-list').getBoundingClientRect().bottom")
-        shoot(page, "hangar-needs-you", clip={"x": 0, "y": 0, "width": VIEW["width"], "height": min(VIEW["height"], int(bottom) + 48)})
         # the review loop: the job's change as an Airframe diff, and the composer to reply to the agent
-        page.goto(f"{url}/#jobs", wait_until="networkidle")
-        page.locator("#job-list li", has_text="#42").first.click()
-        page.wait_for_selector("#job-detail .af-composer", timeout=15000)
-        page.locator("#job-detail summary, #job-detail button", has_text="Show the change").first.click()
-        page.wait_for_selector("#job-detail .af-diff__hunk", timeout=15000)
-        # scroll so the agent's summary, the composer and the first hunk share the window
-        page.evaluate("""() => { const head = [...document.querySelectorAll('#job-detail h4')].find(e => /agent.s summary/i.test(e.textContent));
-            (head || document.querySelector('#job-detail .af-composer')).scrollIntoView({block: 'start'}); window.scrollBy(0, -72); }""")
-        page.wait_for_timeout(500)
-        shoot(page, "hangar-review")
-        # the Fleet: the board with the sandbox that needs a person selected, its detail beside it
-        page.goto(f"{url}/#fleet", wait_until="networkidle")
-        page.wait_for_selector("[data-tile]", timeout=15000)
-        page.locator("[data-tile]").first.click()
-        page.wait_for_timeout(900)
-        shoot(page, "hangar-fleet")
-        page.context.close()
-        # the same three screens in the narrow window: what a docs column or a slide shows
-        page = br.page(f"localStorage.setItem('hangar.token', '{token}')", viewport=NARROW)
-        page.goto(f"{url}/#needs", wait_until="networkidle")
-        page.wait_for_selector("#needs-list .af-question, #needs-list .af-approval, #needs-list li", timeout=15000)
-        page.wait_for_timeout(800)
-        bottom = page.evaluate("document.querySelector('#needs-list').getBoundingClientRect().bottom")
-        shoot(page, "hangar-needs-you-narrow", clip={"x": 0, "y": 0, "width": NARROW["width"], "height": min(NARROW["height"], int(bottom) + 48)})
-        page.goto(f"{url}/#jobs", wait_until="networkidle")
-        page.locator("#job-list li", has_text="#42").first.click()
-        page.wait_for_selector("#job-detail .af-composer", timeout=15000)
-        page.locator("#job-detail summary, #job-detail button", has_text="Show the change").first.click()
-        page.wait_for_selector("#job-detail .af-diff__hunk", timeout=15000)
-        page.evaluate("""() => { const head = [...document.querySelectorAll('#job-detail h4')].find(e => /agent.s summary/i.test(e.textContent));
-            (head || document.querySelector('#job-detail .af-composer')).scrollIntoView({block: 'start'}); window.scrollBy(0, -72); }""")
-        page.wait_for_timeout(500)
-        shoot(page, "hangar-review-narrow")
-        page.goto(f"{url}/#fleet", wait_until="networkidle")
-        page.wait_for_selector("[data-tile]", timeout=15000)
-        page.locator("[data-tile]").first.click()
-        page.wait_for_timeout(900)
-        shoot(page, "hangar-fleet-narrow")
-        page.context.close()
+        for name, view in (("hangar-review", VIEW), ("hangar-review-narrow", NARROW)):
+            page = br.page(f"localStorage.setItem('hangar.token', '{token}')", viewport=view)
+            page.goto(f"{url}/#jobs", wait_until="networkidle")
+            page.locator("#job-list li", has_text="#42").first.click()
+            page.wait_for_selector("#job-detail .af-composer", timeout=15000)
+            page.locator("#job-detail [data-diff-show]").first.click()
+            page.wait_for_selector("#job-detail .af-diff__hunk", timeout=15000)
+            # scroll so the agent's summary, the composer and the first hunk share the window
+            page.evaluate("""() => { const head = [...document.querySelectorAll('#job-detail h4')].find(e => /agent.s summary/i.test(e.textContent));
+                (head || document.querySelector('#job-detail .af-composer')).scrollIntoView({block: 'start'}); window.scrollBy(0, -72); }""")
+            page.wait_for_timeout(500)
+            shoot(page, name)
+            page.context.close()
+        # Needs you and the Fleet: the afternoon from hangar's fixture, over this console, in Night and Day. The fixture
+        # wires Playwright's async API, so it runs on its own thread with its own Playwright.
+        err: list[BaseException] = []
+        t = threading.Thread(target=lambda: _run(err, hangar_fixture(d, url, token)))
+        t.start()
+        t.join()
+        if err:
+            raise err[0]
         manifest["hangar"] = {"repo": "Sean-Koval/hangar", "commit": commit(d), "demo": "docs/assets/front/demo.py",
-                              "screens": {"hangar-needs-you": "Needs you: a question from an agent (job on the demo's scripted agent) and draft PR #43 waiting for review",
-                                          "hangar-review": "Job #42's detail: the agent's summary, the composer to reply, and the change as a greyscale diff",
-                                          "hangar-fleet": "The Fleet board for the checkout-python pool with the sandbox that needs a person selected",
-                                          "hangar-needs-you-narrow": "Needs you in a 720 px window: the question and the PR waiting for review",
-                                          "hangar-review-narrow": "Job #42's detail in a 720 px window: summary, composer and the diff",
-                                          "hangar-fleet-narrow": "The Fleet in a 720 px window: the pool's tiles with the one that needs a person selected, its detail below"}}
+                              "fixture": "docs/assets/front/fixture.py",
+                              "screens": {"hangar-needs-you": "Needs you (fixture): the decision deck, a held git push to main on top, then what stopped",
+                                          "hangar-review": "Job #42's detail (demo): the agent's summary, the composer to reply, and the change as a greyscale diff",
+                                          "hangar-fleet": "The Fleet (fixture): the headline, the decision deck with the held push, Needs you and Stopped beside it",
+                                          "hangar-fleet-rows": "The Fleet in a 940 px window (fixture): the agents of base-codex as rows",
+                                          "hangar-needs-you-narrow": "Needs you in a 720 px window (fixture): the decision deck with the held push on top",
+                                          "hangar-review-narrow": "Job #42's detail in a 720 px window (demo): summary, composer and the diff",
+                                          **{f"{n}-day": "The same screen in Day" for n in ("hangar-fleet", "hangar-needs-you", "hangar-needs-you-narrow")}}}
     finally:
         proc.terminate()
         try:
@@ -296,6 +283,60 @@ def hangar(br: Browser, manifest: dict) -> None:
         except subprocess.TimeoutExpired:
             proc.kill()
         log.close()
+
+
+def _run(err: list, coro) -> None:
+    import asyncio
+
+    try:
+        asyncio.run(coro)
+    except BaseException as e:  # noqa: BLE001 - re-raised on the caller's thread
+        err.append(e)
+
+
+async def hangar_fixture(d: Path, url: str, token: str) -> None:
+    """Needs you and the Fleet on hangar's fixture (docs/assets/front/fixture.py), as its own make.py shoots them."""
+    from playwright.async_api import async_playwright
+
+    sys.path.insert(0, str(d / "docs" / "assets" / "front"))
+    from fixture import Fixture
+
+    async def open_(b, theme: str, view: dict, hash_: str):
+        ctx = await b.new_context(viewport=view, device_scale_factor=SCALE, color_scheme=theme)
+        await ctx.add_init_script(f"localStorage.setItem('hangar.token', '{token}'); localStorage.setItem('hangar.theme', '{theme}')")
+        page = await ctx.new_page()
+        await Fixture().wire(page)
+        await page.goto(f"{url}/#{hash_}", wait_until="networkidle")
+        await page.wait_for_selector(".af-decision", timeout=15000)
+        await page.evaluate("document.fonts.ready")
+        await page.wait_for_timeout(900)
+        return ctx, page
+
+    async def save(page, name: str, clip: dict | None = None) -> None:
+        await page.screenshot(path=str(OUT / f"{name}.png"), clip=clip)
+        print("captures: wrote", OUT / f"{name}.png")
+        cut(name)
+
+    async with async_playwright() as pw:
+        b = await pw.chromium.launch()
+        for theme, suffix in (("dark", ""), ("light", "-day")):
+            ctx, page = await open_(b, theme, VIEW, "needs")
+            await save(page, f"hangar-needs-you{suffix}")
+            await ctx.close()
+            ctx, page = await open_(b, theme, NARROW, "needs")
+            await save(page, f"hangar-needs-you-narrow{suffix}")
+            await ctx.close()
+            ctx, page = await open_(b, theme, VIEW, "fleet")
+            await save(page, f"hangar-fleet{suffix}")
+            await ctx.close()
+        # the rows: the Fleet heading just under the sticky top bar
+        ctx, page = await open_(b, "dark", MID, "fleet")
+        await page.evaluate("""() => { const h = document.querySelector('#fleet-body').getBoundingClientRect().top;
+            window.scrollBy(0, h - 64); }""")
+        await page.wait_for_timeout(400)
+        await save(page, "hangar-fleet-rows")
+        await ctx.close()
+        await b.close()
 
 
 # -------------------------------------------------------------------------------------------------------- tower
@@ -321,17 +362,21 @@ def tower(br: Browser, manifest: dict) -> None:
                             stdout=subprocess.PIPE, stderr=open(OUT / ".tower-demo.log", "w"), text=True)
     try:
         wait_for(lambda: proc.stdout.readline().strip() == "ready", "Tower's demo to start and seed", 120, 0)
-        page = br.page()
-        page.goto(f"{url}/api/dev/as/{PEOPLE['marcus']}?theme=dark", wait_until="load")
-        page.wait_for_timeout(1200)
-        for name, hash_ in (("tower-desk", "#needs"), ("tower-object", "#object/jira:issue/PAY-412")):
-            page.evaluate(f"location.hash = {json.dumps(hash_)}")
-            page.wait_for_timeout(1000)
-            shoot(page, name)
-        page.context.close()
+        for theme, suffix in (("dark", ""), ("light", "-day")):
+            page = br.page(scheme=theme)
+            page.goto(f"{url}/api/dev/as/{PEOPLE['marcus']}?theme={theme}", wait_until="load")
+            page.wait_for_timeout(1200)
+            for name, hash_ in (("tower-desk", "#needs"), ("tower-object", "#object/jira:issue/PAY-412")):
+                if suffix and name not in DAY:
+                    continue
+                page.evaluate(f"location.hash = {json.dumps(hash_)}")
+                page.wait_for_timeout(1000)
+                shoot(page, name + suffix)
+            page.context.close()
         manifest["tower"] = {"repo": "Sean-Koval/tower", "commit": commit(d), "demo": "server/tools/ui_tour.py",
                              "screens": {"tower-desk": "Marcus's Desk: Start work (the composer, handing a task to hangar), Needs you with an approval card, the agents he signs for",
-                                         "tower-object": "The object page for Jira issue PAY-412: its chip, the composer about it, and the hangar release waiting for a signature"}}
+                                         "tower-object": "The object page for Jira issue PAY-412: its chip, the composer about it, and the hangar release waiting for a signature",
+                                         "tower-desk-day": "The same Desk in Day"}}
     finally:
         proc.terminate()
         try:
@@ -343,17 +388,19 @@ def tower(br: Browser, manifest: dict) -> None:
 # --------------------------------------------------------------------------------------------------- flightdeck
 def flightdeck(br: Browser, manifest: dict) -> None:
     d = repo_dir("flightdeck")
-    page_file = d / "docs" / "assets" / "report-comment.html"
-    page = br.page(viewport={"width": 1200, "height": 900})
-    page.goto(page_file.as_uri(), wait_until="networkidle")
-    # the comment down to the outcome table, as flightdeck's own build.py crops it
-    page.evaluate("""() => { const h = [...document.querySelectorAll('.md h3')].find(e => e.textContent === 'Process');
-        if (h) { while (h.nextSibling) h.nextSibling.remove(); h.remove(); } }""")
-    box = page.locator("div.page").first.bounding_box()
-    shoot(page, "flightdeck-verdict", clip={"x": box["x"], "y": box["y"], "width": box["width"], "height": min(box["height"], 870)})
-    page.context.close()
+    for theme, suffix in (("dark", ""), ("light", "-day")):
+        page_file = d / "docs" / "assets" / f"report-comment-full-{theme}.html"
+        page = br.page(viewport={"width": 1200, "height": 900}, scheme=theme)
+        page.goto(page_file.as_uri(), wait_until="networkidle")
+        # the comment down to the outcome table, as flightdeck's own build.py crops it
+        page.evaluate("""() => { const h = [...document.querySelectorAll('.md h3')].find(e => e.textContent.trim() === 'Process');
+            if (h) { while (h.nextSibling) h.nextSibling.remove(); h.remove(); } }""")
+        box = page.locator("div.page").first.bounding_box()
+        shoot(page, "flightdeck-verdict" + suffix, clip={"x": box["x"], "y": box["y"], "width": box["width"], "height": min(box["height"], 870)})
+        page.context.close()
     manifest["flightdeck"] = {"repo": "Sean-Koval/flightdeck", "commit": commit(d), "demo": "docs/assets/build.py",
-                              "screens": {"flightdeck-verdict": "The report on the harness pull request: the verdict, the pins of both variants and the outcome table, from the fixture experiment"}}
+                              "screens": {"flightdeck-verdict": "The report on the harness pull request: the verdict, the pins of both variants and the outcome table, from the fixture experiment",
+                                          "flightdeck-verdict-day": "The same report in GitHub's light theme"}}
 
 
 # ----------------------------------------------------------------------------------------------------- airframe

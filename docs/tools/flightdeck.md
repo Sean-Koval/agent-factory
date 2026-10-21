@@ -7,8 +7,9 @@
 Judges harness changes with paired statistics and behavior specs over every run.
 
 <figure class="af-figure af-figure--lead">
-<a href="../assets/captures/flightdeck-verdict.png"><img src="../assets/captures/flightdeck-verdict-verdict.png" alt="flightdeck's report as a GitHub pull-request comment: the verdict, treat is better than control on resolved (+21.2 pp), and the pins of both variants" width="790" height="560"></a>
-<figcaption>The verdict on the harness PR: treat beats control on resolved, with the interval and both variants' pins.</figcaption>
+<a href="../assets/captures/flightdeck-verdict.png"><img src="../assets/captures/flightdeck-verdict-verdict.png#only-dark" alt="flightdeck's report as a GitHub pull-request comment: the verdict, candidate is better than control on resolved (+21.2 pp), the rule and the outcome table" width="790" height="520"></a>
+<a href="../assets/captures/flightdeck-verdict-day.png"><img src="../assets/captures/flightdeck-verdict-day-verdict.png#only-light" alt="flightdeck's report as a GitHub pull-request comment: the verdict, candidate is better than control on resolved (+21.2 pp), the rule and the outcome table" width="790" height="520"></a>
+<figcaption>The verdict on the harness PR: candidate beats control on resolved, with the interval and the outcome of both variants.</figcaption>
 </figure>
 
 | | |

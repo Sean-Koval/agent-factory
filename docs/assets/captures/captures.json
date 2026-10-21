@@ -11,33 +11,33 @@
   },
   "captured": "2026-10-20",
   "crops": {
-    "hangar-fleet-needs-you": {
+    "hangar-fleet-deck": {
       "from": "hangar-fleet",
       "box": [
-        700,
-        196,
-        668,
-        428
+        64,
+        232,
+        672,
+        384
       ],
-      "shows": "Three tiles of the checkout-python pool and, docked beside them, the question the selected agent is asking",
+      "shows": "The Fleet's decision deck: a held git push to main with the work, the command, Deny, Allow for this turn and Approve push",
       "shown": [
         "hero"
       ]
     },
-    "hangar-fleet-board": {
-      "from": "hangar-fleet",
+    "hangar-fleet-rows-list": {
+      "from": "hangar-fleet-rows",
       "box": [
-        72,
-        196,
-        904,
-        180
+        16,
+        58,
+        908,
+        548
       ],
-      "shows": "The checkout-python pool: ten tiles, the one that needs a person selected, and the legend",
+      "shows": "The Fleet's rows for base-codex: eight agents, what each is doing, its owner, stage rail and stage times",
       "shown": [
         "deck"
       ]
     },
-    "hangar-needs-you-narrow-question": {
+    "hangar-needs-you-narrow-decision": {
       "from": "hangar-needs-you-narrow",
       "box": [
         0,
@@ -45,7 +45,7 @@
         720,
         586
       ],
-      "shows": "Needs you in a 720 px window: an agent's question with the answer box, and draft PR #43 waiting for review",
+      "shows": "Needs you in a 720 px window: the decision deck with a held git push to main on top and Approve push",
       "shown": [
         "page",
         "deck"
@@ -68,11 +68,11 @@
       "from": "tower-desk",
       "box": [
         264,
-        428,
-        680,
-        472
+        160,
+        656,
+        588
       ],
-      "shows": "Needs you on Marcus's Desk: an approval card with what will run and what signing does",
+      "shows": "Needs you on Marcus's Desk: the decision deck with a ticket for Globex to sign, what will run and what signing does",
       "shown": [
         "page",
         "deck"
@@ -82,9 +82,9 @@
       "from": "tower-object",
       "box": [
         264,
-        528,
+        508,
         680,
-        372
+        392
       ],
       "shows": "On PAY-412: hangar's job waiting for a maintainer to release it, with the repo and the issue it names",
       "shown": [
@@ -97,9 +97,9 @@
         0,
         0,
         790,
-        560
+        520
       ],
-      "shows": "The report comment on the harness PR: the verdict line and the pins of both variants",
+      "shows": "The report comment on the harness PR: the verdict line, the rule and the outcome table of both variants",
       "shown": [
         "page",
         "deck"
@@ -117,36 +117,97 @@
       "shown": [
         "deck"
       ]
+    },
+    "hangar-fleet-day-deck": {
+      "from": "hangar-fleet-day",
+      "box": [
+        64,
+        232,
+        672,
+        384
+      ],
+      "shows": "The Fleet's decision deck: a held git push to main with the work, the command, Deny, Allow for this turn and Approve push",
+      "shown": [
+        "hero"
+      ]
+    },
+    "hangar-needs-you-narrow-day-decision": {
+      "from": "hangar-needs-you-narrow-day",
+      "box": [
+        0,
+        56,
+        720,
+        586
+      ],
+      "shows": "Needs you in a 720 px window: the decision deck with a held git push to main on top and Approve push",
+      "shown": [
+        "page",
+        "deck"
+      ]
+    },
+    "tower-desk-day-approval": {
+      "from": "tower-desk-day",
+      "box": [
+        264,
+        160,
+        656,
+        588
+      ],
+      "shows": "Needs you on Marcus's Desk: the decision deck with a ticket for Globex to sign, what will run and what signing does",
+      "shown": [
+        "page",
+        "deck"
+      ]
+    },
+    "flightdeck-verdict-day-verdict": {
+      "from": "flightdeck-verdict-day",
+      "box": [
+        0,
+        0,
+        790,
+        520
+      ],
+      "shows": "The report comment on the harness PR: the verdict line, the rule and the outcome table of both variants",
+      "shown": [
+        "page",
+        "deck"
+      ]
     }
   },
   "flightdeck": {
     "repo": "Sean-Koval/flightdeck",
-    "commit": "49d3afa",
+    "commit": "7ff1feb",
     "demo": "docs/assets/build.py",
     "screens": {
-      "flightdeck-verdict": "The report on the harness pull request: the verdict, the pins of both variants and the outcome table, from the fixture experiment"
+      "flightdeck-verdict": "The report on the harness pull request: the verdict, the pins of both variants and the outcome table, from the fixture experiment",
+      "flightdeck-verdict-day": "The same report in GitHub's light theme"
     }
   },
   "hangar": {
     "repo": "Sean-Koval/hangar",
-    "commit": "97ea728",
+    "commit": "2122856",
     "demo": "docs/assets/front/demo.py",
+    "fixture": "docs/assets/front/fixture.py",
     "screens": {
-      "hangar-needs-you": "Needs you: a question from an agent (job on the demo's scripted agent) and draft PR #43 waiting for review",
-      "hangar-review": "Job #42's detail: the agent's summary, the composer to reply, and the change as a greyscale diff",
-      "hangar-fleet": "The Fleet board for the checkout-python pool with the sandbox that needs a person selected",
-      "hangar-needs-you-narrow": "Needs you in a 720 px window: the question and the PR waiting for review",
-      "hangar-review-narrow": "Job #42's detail in a 720 px window: summary, composer and the diff",
-      "hangar-fleet-narrow": "The Fleet in a 720 px window: the pool's tiles with the one that needs a person selected, its detail below"
+      "hangar-needs-you": "Needs you (fixture): the decision deck, a held git push to main on top, then what stopped",
+      "hangar-review": "Job #42's detail (demo): the agent's summary, the composer to reply, and the change as a greyscale diff",
+      "hangar-fleet": "The Fleet (fixture): the headline, the decision deck with the held push, Needs you and Stopped beside it",
+      "hangar-fleet-rows": "The Fleet in a 940 px window (fixture): the agents of base-codex as rows",
+      "hangar-needs-you-narrow": "Needs you in a 720 px window (fixture): the decision deck with the held push on top",
+      "hangar-review-narrow": "Job #42's detail in a 720 px window (demo): summary, composer and the diff",
+      "hangar-fleet-day": "The same screen in Day",
+      "hangar-needs-you-day": "The same screen in Day",
+      "hangar-needs-you-narrow-day": "The same screen in Day"
     }
   },
   "tower": {
     "repo": "Sean-Koval/tower",
-    "commit": "f23a615",
+    "commit": "97afb28",
     "demo": "server/tools/ui_tour.py",
     "screens": {
       "tower-desk": "Marcus's Desk: Start work (the composer, handing a task to hangar), Needs you with an approval card, the agents he signs for",
-      "tower-object": "The object page for Jira issue PAY-412: its chip, the composer about it, and the hangar release waiting for a signature"
+      "tower-object": "The object page for Jira issue PAY-412: its chip, the composer about it, and the hangar release waiting for a signature",
+      "tower-desk-day": "The same Desk in Day"
     }
   }
 }

@@ -15,8 +15,9 @@ hide:
 [See how it fits](how-it-fits.md){ .md-button .md-button--primary } [Open the deck](deck.md){ .md-button }
 </div>
 <figure class="af-hero__visual">
-<a href="assets/captures/hangar-fleet.png"><img src="assets/captures/hangar-fleet-needs-you.png" alt="hangar's Fleet board: sandbox tiles of the checkout-python pool, ten live, and docked beside them the question the selected agent is asking, with an answer box" width="668" height="428"></a>
-<figcaption>hangar's Fleet: ten agents at work, one is asking you something</figcaption>
+<a href="assets/captures/hangar-fleet.png"><img src="assets/captures/hangar-fleet-deck.png#only-dark" alt="hangar's Fleet: the decision deck with a held push on top. Needs approval, Push the refunds migration to main, git push origin main, Deny, Allow for this turn and Approve push" width="672" height="384"></a>
+<a href="assets/captures/hangar-fleet-day.png"><img src="assets/captures/hangar-fleet-day-deck.png#only-light" alt="hangar's Fleet: the decision deck with a held push on top. Needs approval, Push the refunds migration to main, git push origin main, Deny, Allow for this turn and Approve push" width="672" height="384"></a>
+<figcaption>hangar's Fleet: one decision at a time. A push to main waits for you; the agents keep working.</figcaption>
 </figure>
 </div>
 

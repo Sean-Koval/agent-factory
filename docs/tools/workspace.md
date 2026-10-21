@@ -7,7 +7,8 @@
 One decision point for risky actions: rules, human approvals, signed receipts.
 
 <figure class="af-figure af-figure--lead">
-<a href="../assets/captures/tower-desk.png"><img src="../assets/captures/tower-desk-approval.png" alt="Tower's Desk for an approver: a Needs you approval card for an agent creating a client ticket, with what will run and what signing does" width="680" height="472"></a>
+<a href="../assets/captures/tower-desk.png"><img src="../assets/captures/tower-desk-approval.png#only-dark" alt="Tower's Desk for an approver: the decision deck with a ticket for Globex to sign, what will run, the risk and what signing does" width="656" height="588"></a>
+<a href="../assets/captures/tower-desk-day.png"><img src="../assets/captures/tower-desk-day-approval.png#only-light" alt="Tower's Desk for an approver: the decision deck with a ticket for Globex to sign, what will run, the risk and what signing does" width="656" height="588"></a>
 <figcaption>Needs you on the Desk: an agent wants to create a client ticket, and signing is explained before the button.</figcaption>
 </figure>
 

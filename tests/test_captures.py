@@ -43,7 +43,7 @@ class CropTests(unittest.TestCase):
         """Where a page or the README shows a product, it shows the subject at a size where its text reads."""
         for page in (ROOT / "docs" / "index.md", ROOT / "README.md"):
             text = page.read_text()
-            shown = re.findall(r'src="(?:docs/)?assets/captures/([\w-]+)\.png"', text)
+            shown = re.findall(r'src="(?:docs/)?assets/captures/([\w-]+)\.png(?:#only-(?:dark|light))?"', text)
             self.assertTrue(shown, f"{page.name}: no product capture")
             for name in shown:
                 self.assertIn(name, NAMES, f"{page.name} shows {name}, which is not a named crop")
@@ -62,8 +62,10 @@ class CropTests(unittest.TestCase):
     def test_the_hero_shows_a_crop_cut_for_it(self):
         home = (ROOT / "docs" / "index.md").read_text()
         hero = home.split('class="af-hero__visual"')[1].split("</figure>")[0]
-        name = re.search(r'src="assets/captures/([\w-]+)\.png"', hero).group(1)
-        self.assertIn("hero", surfaces(name), f"{name} is not cut for the hero")
+        shown = dict(re.findall(r'src="assets/captures/([\w-]+)\.png#only-(dark|light)"', hero))
+        self.assertEqual(sorted(shown.values()), ["dark", "light"], "the hero shows a Night and a Day crop")
+        for name in shown:
+            self.assertIn("hero", surfaces(name), f"{name} is not cut for the hero")
 
     def test_tool_pages_show_crops_cut_for_a_page(self):
         for page in sorted((ROOT / "docs" / "tools").glob("*.md")):
@@ -75,7 +77,7 @@ class CropTests(unittest.TestCase):
         first = readme.split("## ", 1)[0]
         self.assertIn("**Hand work to cloud coding agents and keep every change reviewable.**", first)
         self.assertIn("slide-planes-dark.png", first)
-        self.assertIn("hangar-fleet-needs-you.png", first)
+        self.assertIn("hangar-fleet-deck.png", first)
         for cell in re.findall(r"\| ([^|\n]+) ", readme):
             self.assertLessEqual(len(cell.split()), 25, f"README table cell over 25 words: {cell[:60]}")
 
