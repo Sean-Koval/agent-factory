@@ -3,7 +3,10 @@
 /* Tool pages lead with the product: a named crop from scripts/captures.py, the full capture behind the link,
    and a caption that says what is shown (a sentence, so body type, not a tracked label). */
 .md-typeset figure.af-figure--lead { margin: 1.2em 0 1.6em; }
-.md-typeset figure.af-figure--lead > a > img { display: block; width: 100%; height: auto; border-radius: var(--af-radius-card); box-shadow: 0 0 0 1px var(--af-line); }
+/* display:block only on single images: a Night/Day pair (#only-dark / #only-light) keeps Material's theme switch,
+   which a display rule here would outrank and show both */
+.md-typeset figure.af-figure--lead > a > img:not([src*="#only-"]) { display: block; }
+.md-typeset figure.af-figure--lead > a > img { width: 100%; height: auto; border-radius: var(--af-radius-card); box-shadow: 0 0 0 1px var(--af-line); }
 .md-typeset figure.af-figure--lead figcaption { font-family: inherit; font-size: .72rem; letter-spacing: 0; text-transform: none; color: var(--af-fg-muted); text-align: left; margin-top: .7em; }
 @media (forced-colors: active) { .md-typeset figure.af-figure--lead > a > img { box-shadow: none; outline: 1px solid CanvasText; } }
 /* Deck page: the slides themselves, scaled into the column */
