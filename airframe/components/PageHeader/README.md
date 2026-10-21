@@ -3,7 +3,7 @@ A page header is the top of every console view: a title in the display face at o
 ## You provide
 - A title: `af-page-head__title` at 36 px for a page (`Fleet`, `Approvals`), or `af-page-head--s` on the header for 24 px on a detail (`HGR-3MX9 is holding at PR`, with the tail number in `af-id`). Use `h1` on a page and `h2` on a detail.
 - Optionally an eyebrow `af-lbl` above the title (`SANDBOX · base-codex · us-east4`) and a one-sentence lede in `fg-muted`.
-- A summary line: the status that leads (the group rule: needs you first, lit when it is yours), keyed counts in `af-meta` (`RUNNING 31  QUEUED 4  FAILED 1`), and capacity as `af-cap`.
+- A summary line: the status that leads (the group rule: needs you first, lit when it is yours), keyed counts in `af-meta` (`Running 31  Queued 4  Failed 1`), and capacity as `af-cap`.
 - Actions: at most one primary, then secondary and ghost, in `af-page-head__actions`. Small buttons on a detail header.
 - `af-page-head--rule` when the header sits straight on the canvas above a list; omit it above cards.
 

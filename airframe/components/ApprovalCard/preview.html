@@ -22,7 +22,7 @@
         <dd><span class="af-who"><span class="af-avatar af-avatar--agent af-avatar--22" title="codex" aria-hidden="true"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5L3.5 6.25V13.75L10 17.5L16.5 13.75V6.25"/><path d="M9.25 9.25h1.5v1.5h-1.5z"/></svg></span><span class="af-id">HGR-3MX9</span></span> <span class="af-muted">codex, for Sean, 41 min ago</span></dd>
         <dt>Policy</dt>
         <dd><span class="af-mono">require-approval-main-push</span> <span class="af-tag" style="margin-left:6px">cedar</span>
-<pre class="af-code"><span class="af-code__c">// hold pushes to main until a reviewer signs</span>
+<pre class="af-code"><span class="af-code__c">// hold pushes to main until a reviewer approves</span>
 <span class="af-code__k">forbid</span> (principal, action == Action::<span class="af-code__s">"git:push"</span>, resource)
 <span class="af-code__k">when</span>   { resource.ref == <span class="af-code__s">"refs/heads/main"</span> }
 <span class="af-code__k">unless</span> { context.approval.granted };</pre></dd>
@@ -42,10 +42,10 @@
       </div>
       <p class="af-approval__hint"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 9v4.5"/><path d="M10 6.5h.01"/></svg><span>For this session extends the mandate: codex may push to main until the session ends, in <b>2 h 10 min</b>, and the grant is filed as <b>TWR-GRT-0A12</b>. Each push still gets a receipt.</span></p>
       <div class="af-approval__quorum">
-        <span class="af-avatars"><span class="af-avatar af-avatar--person af-avatar--22" title="Priya Natarajan">PN</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="platform-oncall: not signed yet">PO</span></span>
-        <span class="af-approval__signed"><b>1 of 2</b> signed</span>
+        <span class="af-avatars"><span class="af-avatar af-avatar--person af-avatar--22" title="Priya Natarajan">PN</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="platform-oncall: not approved yet">PO</span></span>
+        <span class="af-approval__signed"><b>1 of 2</b> approved</span>
         <span class="af-meta">
-          <span class="af-meta__item"><span class="af-meta__key">signed</span><span class="af-meta__val">Priya, 14:02</span></span>
+          <span class="af-meta__item"><span class="af-meta__key">approved</span><span class="af-meta__val">Priya, 14:02</span></span>
           <span class="af-meta__item af-meta__item--strong"><span class="af-meta__key">waiting</span><span class="af-meta__val">you, for platform-oncall</span></span>
         </span>
       </div>
@@ -135,13 +135,13 @@
           <p class="af-approval__cmd" id="apr4-cmd">deploy api@2.14.0 to prod</p>
           <span class="af-meta">
             <span class="af-meta__item"><span class="af-meta__key">env</span><span class="af-meta__val">prod</span></span>
-            <span class="af-meta__item"><span class="af-meta__key">policy</span><span class="af-meta__val">prod-needs-three-signers</span></span>
+            <span class="af-meta__item"><span class="af-meta__key">policy</span><span class="af-meta__val">prod-needs-three-approvers</span></span>
             <span class="af-meta__item"><span class="af-meta__key">expires</span><span class="af-meta__val">in 3 h</span></span>
           </span>
         </div>
         <div class="af-approval__quorum">
-          <span class="af-avatars"><span class="af-avatar af-avatar--person af-avatar--22" title="Sean Koval">SK</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="Marcus Lee: not signed yet">ML</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="release-managers: not signed yet">RM</span></span>
-          <span class="af-approval__signed"><b>1 of 3</b> signed</span>
+          <span class="af-avatars"><span class="af-avatar af-avatar--person af-avatar--22" title="Sean Koval">SK</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="Marcus Lee: not approved yet">ML</span><span class="af-avatar af-avatar--person af-avatar--22 af-avatar--pending" title="release-managers: not approved yet">RM</span></span>
+          <span class="af-approval__signed"><b>1 of 3</b> approved</span>
           <span class="af-meta">
             <span class="af-meta__item"><span class="af-meta__key">yours</span><span class="af-meta__val">in, 13:48</span></span>
             <span class="af-meta__item"><span class="af-meta__key">waiting</span><span class="af-meta__val">Marcus, release-managers</span></span>

@@ -1,4 +1,6 @@
-{#- The suite strip above the header: overrides/partials/airframe-suite.html is theme/airframe-suite.html,
-    copied by scripts/build_site.sh. Tool repos vendor it with scripts/sync-airframe.sh. -#}
+{#- The suite strip above the header and the shared footer: overrides/partials/airframe-suite.html and
+    airframe-footer.html are theme/airframe-suite.html and theme/airframe-footer.html, copied by
+    scripts/build_site.sh. Tool repos vendor them with scripts/sync-airframe.sh. -#}
 {% extends "base.html" %}
 {% block announce %}{% include "partials/airframe-suite.html" %}{% endblock %}
+{% block footer %}{% include "partials/airframe-footer.html" %}{% endblock %}

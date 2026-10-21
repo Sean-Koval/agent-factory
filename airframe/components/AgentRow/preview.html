@@ -75,7 +75,7 @@ const A = [
   mk("HGR-KQ0D", "queued", null, 0, "Rate-limit the webhook receiver", "dana", "codex", "gpt-5.1", 60, 0, 60),
   mk("HGR-1WQ8", "off", null, 0, "refunds-spike", "sean", "codex", "gpt-5.1", 9000, 1.9, 9000),
 ];
-const NOW = { approval: "waiting on you: push to main", input: "waiting on you: a question", denied: "blocked by policy, choosing another route", queued: "waiting for a slot in base-codex", off: "spun down, snapshot kept" };
+const NOW = { approval: "waiting on you: push to main", input: "waiting on you: a question", denied: "denied by policy, choosing another route", queued: "waiting for a slot in base-codex", off: "spun down, snapshot kept" };
 const nowText = (a) => NOW[a.role] || ["reading the repo", "editing refunds/models.py", `running pytest, ${a.tests} passed`, "waiting for CI, 3 of 5 checks green"][a.stage];
 function consoleHtml(a) {
   const dec = a.role === "approval" ? `<section class="af-console__panel af-console__panel--decide" aria-label="Decision"><p class="af-lead">codex wants to push to main. Policy <code>require-approval-main-push</code> holds it.</p><pre class="af-cmd">git push origin main</pre>

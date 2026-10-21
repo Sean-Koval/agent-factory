@@ -56,6 +56,7 @@ shows it at 320 px; nothing in product CSS is needed.
 - Not for a yes or no on a held action; that is an ApprovalCard. Not for a free-form steer while the agent runs; that is a Composer.
 
 ## Do
+- Show **Needs input** as the status, never "Needs approval" or "Needs your signature" (see the decision words in guide/Status.md).
 - Keep the same diamond as an approval: both mean a person is needed now. The word tells them apart.
 - Show the agent's options in its own words and let the person override them with text; say that the text wins.
 - Say what the agent does while it waits, and put the answer on the run's record.

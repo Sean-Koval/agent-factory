@@ -83,7 +83,7 @@ const A = [
   mk("HGR-KQ0D", "queued", null, 0, "Rate-limit the webhook receiver", "dana", "codex", "gpt-5.1", 60, 0, 60),
   mk("HGR-1WQ8", "off", null, 0, "refunds-spike", "sean", "codex", "gpt-5.1", 9000, 1.9, 9000),
 ];
-const NOW = { approval: "waiting on you: push to main", input: "waiting on you: a question", denied: "blocked by policy, choosing another route", failed: "stopped: pytest exited 1", queued: "waiting for a slot in base-codex", off: "spun down, snapshot kept" };
+const NOW = { approval: "waiting on you: push to main", input: "waiting on you: a question", denied: "denied by policy, choosing another route", failed: "stopped: pytest exited 1", queued: "waiting for a slot in base-codex", off: "spun down, snapshot kept" };
 const nowText = (a) => NOW[a.role] || ["reading the repo", "editing refunds/models.py", "running pytest, 191 passed", "waiting for CI, 3 of 5 checks green"][a.stage];
 const consoleHtml = (a) => `<section class="af-console__panel af-console__panel--now" aria-label="Now"><div class="af-console__now">${hb(a)}<span class="af-console__big">${esc(nowText(a))}</span></div>${rail(a, true)}
     <div class="af-pairs af-pairs--wide"><span><small>Owner</small>${PEOPLE[a.owner][2]}</span><span><small>Harness</small><span class="af-mono">${a.harness}</span></span><span><small>Model</small><span class="af-mono">${a.model}</span></span><span><small>Repo</small><span class="af-mono">acme/checkout-api</span></span><span><small>Age</small><span class="af-mono">00:58:00</span></span><span><small>Spent</small><span class="af-mono">${money(a.cost)}</span></span><span><small>Lease</small>2.1 h left</span><span><small>CPU</small><span class="af-mono">31%</span></span></div>

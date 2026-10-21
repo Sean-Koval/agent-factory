@@ -5,6 +5,46 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v14 · 2026-10-21
+
+Product hues leave the status band, the decision words are one set, the last mono capitals go from the guides, and
+every docs site gets the same footer (KAN-154). No token is added, renamed or removed.
+
+Changed token values:
+
+- `product-hangar`: Night `#EE8F63` → `#24C1C9`, Day `#A44C1D` → `#00787D` (clay → teal, OKLCH hue 200°). The clay sat
+  beside `status-approval` (`#FF8A3D` / `#B04E00`).
+- `product-tower`: Night `#C5A93B` → `#67B0F9`, Day `#816600` → `#1F6CB0` (brass → azure, OKLCH hue 250°). The brass
+  read as the brand yellow.
+- Both keep the family's lightness (OKLCH 0.74 Night, 0.52 Day) and meet 3:1 on `raised` and `canvas`. No product hue
+  now sits between 0° and 100°, where failed, denied, needs approval and the brand live. `Products.md` states the rule.
+
+Docs-site mapping (`airframe-docs.css`, `airframe-suite.html`, new `airframe-footer.html`):
+
+- New `airframe-footer.html`: one footer for every site (the site's name, "part of the Agent factory suite", source,
+  roadmap, Airframe). Vendor it and add `{% block footer %}{% include "partials/airframe-footer.html" %}{% endblock %}`
+  to `overrides/main.html`; `copyright` and `extra.social` are no longer shown. The repository widget drops its star and
+  fork counts.
+- The 48px product marker at the far left of the header is gone; the marker under the active tab says where you are.
+  The default `--af-product` is `fg` (neutral), not the brand yellow.
+- The suite strip on phones scrolls the current item into view and fades whichever edge has more; the home link is
+  a snap point, so the strip no longer opens scrolled past it.
+- Below 960px the theme's floating "On this page" button (it covered text) is hidden, and the page's contents return
+  to the menu drawer.
+- Inline code in the nav and the table of contents is a quiet `raised` chip in both themes, not a black terminal chip
+  in Day.
+- `code.af-id` keeps a tail number on one line.
+
+Words and guides:
+
+- `Status.md` gains "Decision words": Needs approval, Needs input, Approve / Deny, Denied. Sign, Decline, Reject and
+  Blocked are retired as UI words. ApprovalCard's quorum says "1 of 2 approved"; Button, Avatar, AgentRow, AgentCard
+  and FleetConsole previews follow.
+- Label and InlineData previews, the InlineData README, the Status, Data, PageHeader and Diff examples and the
+  Airframe skill teach sentence-case keys (`Policy require-approval-main-push`), not mono capitals.
+- Banners (`brand/`): sentence-case sans eyebrows ("Agent factory · Govern") and strip; the strip is the sites' strip
+  (Define, Run, Judge, Govern, Setup, Design); Spaceport's place is Capability, off the strip.
+
 ## theme-v13 · 2026-10-20
 
 The docs-site mapping catches up with theme-v12's type rule: labels are sentence-case sans, not mono capitals

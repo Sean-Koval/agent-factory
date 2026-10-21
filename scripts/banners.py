@@ -42,19 +42,19 @@ DOCS_BRAND = ROOT / "docs" / "assets" / "brand"
 BANNER = (960, 320)
 SOCIAL = (1280, 640)
 
-# Copy per product: the eyebrow names the suite and the product's role in it, the line says what the product does.
-# Names and casing follow airframe/guide/brand.md; the lines are each product's own lede, shortened. The roles follow
-# the suite story (deck slide 1): four planes, Define = the team harness, Run = hangar, Judge = flightdeck,
-# Govern = Tower; ai-dlc is Setup and Spaceport a capability. The word "plane" stays out of the eyebrows, where it
-# would collide with flightdeck's data plane.
+# Copy per product: the eyebrow names the suite and the product's place in it with one word, as the docs sites'
+# eyebrows do ("Agent factory · Govern"); the line says what the product does. Names and casing follow
+# airframe/guide/brand.md; the lines are each product's own lede, shortened. The places follow the suite story
+# (deck slide 1): four planes, Define = the team harness, Run = hangar, Judge = flightdeck, Govern = Tower; ai-dlc
+# is Setup, Airframe is Design, and Spaceport is the Capability under the suite. The word "plane" stays out of the
+# eyebrows, where it would collide with flightdeck's data plane.
 PRODUCTS = {
     "agent-factory": {
-        "mark": "airframe", "name": "Agent factory", "plane": "Suite home",
-        "eyebrow": "Suite home · Docs, deck, diagrams, Airframe",
+        "mark": "airframe", "name": "Agent factory", "plane": "Suite",
         "line": "Define, run, judge and govern cloud coding agents for a team.",
     },
     "airframe": {
-        "mark": "airframe", "name": "Airframe", "plane": "Design system",
+        "mark": "airframe", "name": "Airframe", "plane": "Design",
         "line": "Agent infrastructure, quiet until a human is needed.",
     },
     "hangar": {
@@ -79,10 +79,12 @@ PRODUCTS = {
     },
 }
 
-# The suite strip along the bottom of a banner: the four planes, then Setup and the capability, in the docs' order.
-# (role, key, shown name); the team harness is a repo, not a product in PRODUCTS, so it carries its own name.
+# The suite strip along the bottom of a banner is the docs sites' strip (airframe/docs-site/airframe-suite.html):
+# the four planes, then Setup and Design, in the same order and words. (role, key, shown name); the team harness is a
+# repo, not a product in PRODUCTS, so it carries its own name. Spaceport is not on the strip, as on the sites: its
+# banner shows the strip with no marker, and its eyebrow names its place.
 SUITE = (("Define", "team-harness", "Team harness"), ("Run", "hangar", "hangar"), ("Judge", "flightdeck", "flightdeck"),
-         ("Govern", "tower", "Tower"), ("Setup", "ai-dlc", "ai-dlc"), ("Capability", "spaceport", "Spaceport"))
+         ("Govern", "tower", "Tower"), ("Setup", "ai-dlc", "ai-dlc"), ("Design", "airframe", "Airframe"))
 
 FONT_FILES = {"display": "Archivo-ExpandedBold.ttf", "sans": "RedHatText-Regular.ttf", "mono": "DMMono-Medium.ttf"}
 
@@ -272,9 +274,9 @@ def banner(product: str, theme: str, size: tuple[int, int], faces: dict[str, Fac
     # dot field: the hero texture, top right, from the top edge down to just above the suite rule
     dots(cv, "dots", v["dot-field"], DOTS_X * s, 0, 320 * s, oy + (STRIP - 12) * s)
     cv.add(f'<g transform="translate(0 {num(oy)}) scale({num(s)})">')
-    # eyebrow: brand hairline and the suite · role label in mono capitals
+    # eyebrow: brand hairline and "Agent factory · <place>" in the body face, sentence case, as on the sites
     cv.add(f'<rect x="{L}" y="55.5" width="18" height="1" fill="{v["brand-line"]}"/>')
-    cv.text("mono", p.get("eyebrow", f"Agent factory · {p['plane']}"), L + 28, 60, 12, v["fg-subtle"], tracking_em=0.08, upper=True)
+    cv.text("sans", f"Agent factory · {p['plane']}", L + 28, 60.5, 14, v["fg-subtle"])
     # lockup: the mark at 72px beside the name (84px, smaller only when a long name would reach the dot field)
     mark_size, base, name_x = 72, 166, L + 72 + 22
     name_size = 84
@@ -294,19 +296,19 @@ def banner(product: str, theme: str, size: tuple[int, int], faces: dict[str, Fac
         y += 27
     if strip:
         # suite strip: rule, one column per role, the current one in fg with the nav marker in the product hue;
-        # the other role words are fg-subtle, never fg-dim, so they read at 9.5px
+        # the other role words are fg-subtle, never fg-dim, so they read at 11px
         cv.add(f'<rect x="{L}" y="{STRIP}" width="{BANNER[0] - 2 * L}" height="1" fill="{v["rule"]}"/>')
         col = (BANNER[0] - 2 * L) / len(SUITE)
         for i, (plane, prod, shown) in enumerate(SUITE):
             x = L + i * col
             here = prod == product
-            cv.text("mono", plane, x, STRIP + 19, 9.5, v["fg-muted"] if here else v["fg-subtle"], tracking_em=0.09, upper=True)
+            cv.text("sans", plane, x, STRIP + 19, 11, v["fg-muted"] if here else v["fg-subtle"])
             w = cv.text("display", shown, x, STRIP + 34, 12, v["fg"] if here else v["fg-subtle"])
             if here:
                 cv.add(f'<rect x="{num(x)}" y="{STRIP - 1}" width="{num(w)}" height="2" fill="{v[m["hue"]]}"/>')
     cv.add("</g>")
     title = f"{p['name']}: {p['line']}"
-    desc = f"{p['name']} banner in Airframe's {'Night' if theme == 'dark' else 'Day'} theme: the {p['name']} mark, the name, and its place in the agent factory suite ({p['plane'].lower()})."
+    desc = f"{p['name']} banner in Airframe's {'Night' if theme == 'dark' else 'Day'} theme: the {p['name']} mark, the name, and its place in the Agent factory suite: {p['plane']}."
     return cv.svg(W, H, title, desc)
 
 

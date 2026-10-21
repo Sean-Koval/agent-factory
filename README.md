@@ -23,7 +23,7 @@ Four planes, five tools and the team harness repo.
 | flightdeck | Judge | Harness changes judged with paired statistics and behavior specs over every run. | [flightdeck](https://github.com/Sean-Koval/flightdeck) |
 | Tower | Govern | One decision point for risky actions: rules, human approvals, signed receipts. | Private (Sean-Koval/tower) |
 | ai-dlc | Setup | Engineers' machines, the optional workflow plugin, local work gated on CI. | [ai-dlc](https://github.com/Sean-Koval/ai-dlc) |
-| Spaceport | Also in the suite | Reviewed data products that agents query through four MCP tools (frozen). | Private (Sean-Koval/spaceport) |
+| Spaceport | Capability | Reviewed data products that agents query through four MCP tools (frozen). | Private (Sean-Koval/spaceport) |
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/captures/hangar-fleet-deck.png">

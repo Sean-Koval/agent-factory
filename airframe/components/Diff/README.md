@@ -1,7 +1,7 @@
 A diff is a unified, greyscale view of one file's change: a header with the path and the `+N −M` stat in mono, hunk headers, additions in `fg` with a 2px gutter bar, deletions in `fg-muted`, line numbers, a per-line Comment affordance whose thread goes to the agent, and a failed triangle on the one hunk a failing test points at.
 
 ## You provide
-- The file path with its directory in `small` (`src/auth/` `refresh.py`), the stat as two mono numbers (`+42`, `−17`, a real minus sign), and keyed facts (`AGAINST main`, `COMMIT a41f2c0`); optional tools on the right (Copy patch, Open).
+- The file path with its directory in `small` (`src/auth/` `refresh.py`), the stat as two mono numbers (`+42`, `−17`, a real minus sign), and keyed facts (`Against main`, `Commit a41f2c0`); optional tools on the right (Copy patch, Open).
 - Hunks: a header line (`@@ -118,7 +118,9 @@ def refresh(…)`) and lines. Each line is a grid: old number, new number, sign column, code, and a Comment button.
 - Line kinds: `af-diff__line--ctx` (context, `fg-subtle`), `af-diff__line--add` (`fg`, a 2px `fg` bar in the sign column, sign `+`), `af-diff__line--del` (`fg-muted`, a 2px `line-strong` bar, sign `−`).
 - An inline comment thread (`af-diff__thread`) under the line it is on: `af-comment` rows (avatar, name, time, text), a Composer to reply, and the note "Sent to the agent with your next message".

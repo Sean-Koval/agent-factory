@@ -92,7 +92,7 @@ const stWord = (a) => `<span class="af-status af-status--${roleOf(a)}"><i class=
 const mod = (a) => (a.lit ? "approval" : a.role === "failed" ? "failed" : a.role === "denied" ? "denied" : "");
 const per = (id, size = 22) => `<span class="af-avatar af-avatar--person af-avatar--${size}" title="${PEOPLE[id][2]}" aria-hidden="true"><span>${PEOPLE[id][0]}</span></span>`;
 const hex = (h, size = 22) => `<span class="af-avatar af-avatar--agent af-avatar--${size}" title="${h}" aria-hidden="true"><span>${h === "codex" ? "cx" : "cc"}</span></span>`;
-const nowText = (a) => ({ approval: "waiting on you: push to main", input: "waiting on you: a question", failed: "stopped: pytest exited 1", denied: "blocked by policy, choosing another route", queued: `waiting for a slot in ${POOLS[a.pool][0]}`, off: "spun down, snapshot kept" })[a.role] || a.flash || ["reading the repo", "editing refunds/models.py", `running pytest, ${a.tests} passed`, "waiting for CI, 3 of 5 checks green"][a.stage];
+const nowText = (a) => ({ approval: "waiting on you: push to main", input: "waiting on you: a question", failed: "stopped: pytest exited 1", denied: "denied by policy, choosing another route", queued: `waiting for a slot in ${POOLS[a.pool][0]}`, off: "spun down, snapshot kept" })[a.role] || a.flash || ["reading the repo", "editing refunds/models.py", `running pytest, ${a.tests} passed`, "waiting for CI, 3 of 5 checks green"][a.stage];
 function rail(a, labels = false) {
   const m = mod(a) ? ` af-rail--${mod(a)}` : "";
   if (a.stage == null) return `<span class="af-rail af-rail--none" data-rail="${a.id}" aria-hidden="true"><i class="af-rail__track"></i>${"<b class=\"af-rail__stop\"></b>".repeat(4)}</span>`;

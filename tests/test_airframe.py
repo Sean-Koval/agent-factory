@@ -68,7 +68,9 @@ class BuildTests(unittest.TestCase):
             # a component page: the preview framed first, when to use before the markup, the markup collapsed
             page = (Path(tmp) / "site" / "components" / "ApprovalCard.md").read_text()
             self.assertTrue(page.startswith("---\ntitle: ApprovalCard\n---"))
-            self.assertIn('<iframe class="af-preview" src="../gallery/ApprovalCard.html?theme=dark"', page)
+            # embed mode: no toolbar, the page's theme, sized to its content; no yellow toggle under it (KAN-154)
+            self.assertIn('<iframe class="af-preview" src="../gallery/ApprovalCard.html?embed=1"', page)
+            self.assertNotIn("md-button--primary", page)
             self.assertLess(page.index("## When to use"), page.index('??? note "Markup"'))
             self.assertLess(page.index("## You provide"), page.index('??? note "Markup"'))
             self.assertIn("    ```html", page)
@@ -376,7 +378,22 @@ class DocsSiteTests(unittest.TestCase):
         self.assertIn("airframe-suite.html", (self.THEME / "CHANGELOG.md").read_text())
         registry = af.registry()
         docs_item = next(it for it in registry["items"] if it["name"] == "airframe-docs")
-        self.assertEqual({f["path"] for f in docs_item["files"]}, {"theme/airframe-docs.css", "theme/airframe-suite.html"})
+        self.assertEqual({f["path"] for f in docs_item["files"]},
+                         {"theme/airframe-docs.css", "theme/airframe-suite.html", "theme/airframe-footer.html"})
+
+    def test_one_footer_for_every_site(self):
+        footer = (self.THEME / "airframe-footer.html").read_text()
+        self.assertEqual(footer, (af.DOCS_SITE / "airframe-footer.html").read_text())
+        self.assertIn('class="md-footer af-footer"', footer)
+        self.assertIn("https://sean-koval.github.io/agent-factory/", footer)
+        self.assertNotIn("config.copyright", footer)  # one line for every site, not each site's own
+        self.assertNotIn("social", footer.split("-#}")[1])
+        sync = (af.ROOT / "airframe" / "sync-airframe.sh").read_text()
+        self.assertIn("airframe-footer.html    overrides/partials/airframe-footer.html", sync)
+        self.assertIn('{% include "partials/airframe-footer.html" %}', (af.ROOT / "overrides" / "main.html").read_text())
+        css = (self.THEME / "airframe-docs.css").read_text()
+        self.assertIn(".af-footer", css)
+        self.assertIn(".md-source__facts { display: none; }", css)
 
 
 class SourceTests(unittest.TestCase):

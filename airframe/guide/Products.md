@@ -12,17 +12,21 @@ Five products share one system. They differ only in name, glyph and hue, and the
 
 ## Product hues
 
-The five hues share one OKLCH lightness per theme (0.74 Night, 0.52 Day) at matched chroma, so no product shouts over another. All meet 3:1 as marks on `raised` and `canvas`.
+The five hues share one OKLCH lightness per theme (0.74 Night, 0.52 Day) at matched chroma (0.13, or the most the sRGB gamut allows), so no product shouts over another. All meet 3:1 as marks on `raised` and `canvas`.
 
 | Product | Token | Night | Day | Hue family |
 |---|---|---|---|---|
-| hangar | `product-hangar` | `#EE8F63` | `#A44C1D` | clay |
+| hangar | `product-hangar` | `#24C1C9` | `#00787D` | teal |
 | flightdeck | `product-flightdeck` | `#D98CD2` | `#914A8C` | orchid |
-| Tower | `product-tower` | `#C5A93B` | `#816600` | brass |
+| Tower | `product-tower` | `#67B0F9` | `#1F6CB0` | azure |
 | ai-dlc | `product-aidlc` | `#69C27E` | `#1D7D3E` | green |
 | Spaceport | `product-spaceport` | `#B199F4` | `#6F57AB` | violet |
 
-There is no blue in the family. hangar's clay sits near the caution orange and Tower's brass near the brand yellow; that is why product hues stay in marks, headers and the nav marker, where nothing can mistake them for a status or an action.
+Hue rules for the family:
+
+- No product hue sits between OKLCH 0° and 100°. That band holds failed and denied (red, about 25°), needs approval (orange, about 50°) and the brand yellow (about 87°), so a mark there reads as a status or an action. hangar was clay and Tower brass until theme-v14; they moved to teal (200°) and azure (250°).
+- Each hue keeps at least 30° from its neighbours: ai-dlc 150°, hangar 200°, Tower 250°, Spaceport 295°, flightdeck 330°. The Airframe mark is the brand color; the team harness has no hue.
+- Even clear of the status band, product hues stay in marks, headers and the nav marker, where nothing can mistake them for a status or an action.
 
 ## Marks
 
@@ -57,7 +61,8 @@ There is no blue in the family. hangar's clay sits near the caution orange and T
 
 A product's README banner, social preview, favicon and docs header mark are generated, never drawn: `scripts/banners.py` builds them from the tokens, `icons/marks.json` and the fonts in `fonts/` into `brand/<product>/`, and each tool repo vendors its own with `scripts/sync-brand.sh`.
 
-- One composition for the family: eyebrow (`Agent factory · Run`; the role word alone, never "plane", which collides with flightdeck's data plane), the mark beside the name in the display face, the product's line, and the suite strip with the 2px marker under this product's role. The strip tells the suite story: four planes (Define = the team harness, Run = hangar, Judge = flightdeck, Govern = Tower), then ai-dlc as Setup and Spaceport as the capability. The hue appears in the mark and the marker only; the brand yellow is the eyebrow hairline.
+- One composition for the family: eyebrow (`Agent factory · Run`: the place in one word, sentence case, as on the docs sites; never "plane", which collides with flightdeck's data plane), the mark beside the name in the display face, the product's line, and the suite strip with the 2px marker under this product.
+- The strip is the docs sites' strip: Define (the team harness), Run (hangar), Judge (flightdeck), Govern (Tower), Setup (ai-dlc), Design (Airframe). Spaceport's place is Capability: it is not on the strip, on a site or a banner. The hue appears in the mark and the marker only; the brand yellow is the eyebrow hairline.
 - Night and Day both ship; a README shows them with `<picture>` and `prefers-color-scheme`. The social preview is Night.
 - Text is outlined, because images served by GitHub load no web fonts. Change copy in the script, not in a file.
 - The repository description, the docs `site_description` and the banner's line say the same thing.
