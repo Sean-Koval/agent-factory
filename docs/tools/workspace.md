@@ -24,8 +24,8 @@ Tower is the team's governance plane for the coding agents hangar runs and the v
 | Docs site | Private repository (Sean-Koval/tower); docs site once public. |
 
 <figure class="af-figure af-figure--lead">
-<a href="../assets/clips/tower.mp4"><img src="../assets/clips/tower.png#only-dark" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="760"></a>
-<a href="../assets/clips/tower-day.mp4"><img src="../assets/clips/tower-day.png#only-light" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="760"></a>
+<a href="../assets/clips/tower.mp4"><img src="../assets/clips/tower.png#only-dark" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="816"></a>
+<a href="../assets/clips/tower-day.mp4"><img src="../assets/clips/tower-day.png#only-light" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="816"></a>
 <figcaption>Play the clip (18 s): a push to main waits on Marcus's Desk, he denies it with a reason, and the receipt in the record carries the reason.</figcaption>
 </figure>
 

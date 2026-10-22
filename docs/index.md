@@ -37,22 +37,22 @@ Each clip is under 20 seconds and starts on the product. Select one to play it.
 
 <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr))" markdown>
 <figure class="af-figure af-figure--lead">
-<a href="assets/clips/hangar.mp4"><img src="assets/clips/hangar.png#only-dark" alt="The first frame of hangar's clip: the Fleet, with issue #42's job starting in checkout-python and the caption Issue #42 gets the hangar label, and a job starts" width="680" height="640"></a>
-<a href="assets/clips/hangar-day.mp4"><img src="assets/clips/hangar-day.png#only-light" alt="The first frame of hangar's clip: the Fleet, with issue #42's job starting in checkout-python and the caption Issue #42 gets the hangar label, and a job starts" width="680" height="640"></a>
+<a href="assets/clips/hangar.mp4"><img src="assets/clips/hangar.png#only-dark" alt="The first frame of hangar's clip: the Fleet, with issue #42's job starting in checkout-python and the caption Issue #42 gets the hangar label, and a job starts" width="680" height="696"></a>
+<a href="assets/clips/hangar-day.mp4"><img src="assets/clips/hangar-day.png#only-light" alt="The first frame of hangar's clip: the Fleet, with issue #42's job starting in checkout-python and the caption Issue #42 gets the hangar label, and a job starts" width="680" height="696"></a>
 <figcaption>hangar: a ticket lands</figcaption>
 </figure>
 <figure class="af-figure af-figure--lead">
-<a href="assets/clips/tower.mp4"><img src="assets/clips/tower.png#only-dark" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="760"></a>
-<a href="assets/clips/tower-day.mp4"><img src="assets/clips/tower-day.png#only-light" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="760"></a>
+<a href="assets/clips/tower.mp4"><img src="assets/clips/tower.png#only-dark" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="816"></a>
+<a href="assets/clips/tower-day.mp4"><img src="assets/clips/tower-day.png#only-light" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="816"></a>
 <figcaption>Tower: a deny, with a reason</figcaption>
 </figure>
 <figure class="af-figure af-figure--lead">
-<a href="assets/clips/flightdeck.mp4"><img src="assets/clips/flightdeck.png#only-dark" alt="The first frame of flightdeck's clip: flightdeck stats compare in a terminal, with the two arms' resolved rates and the paired difference" width="680" height="640"></a>
-<a href="assets/clips/flightdeck-day.mp4"><img src="assets/clips/flightdeck-day.png#only-light" alt="The first frame of flightdeck's clip: flightdeck stats compare in a terminal, with the two arms' resolved rates and the paired difference" width="680" height="640"></a>
+<a href="assets/clips/flightdeck.mp4"><img src="assets/clips/flightdeck.png#only-dark" alt="The first frame of flightdeck's clip: flightdeck stats compare in a terminal, with the two arms' resolved rates and the paired difference" width="680" height="712"></a>
+<a href="assets/clips/flightdeck-day.mp4"><img src="assets/clips/flightdeck-day.png#only-light" alt="The first frame of flightdeck's clip: flightdeck stats compare in a terminal, with the two arms' resolved rates and the paired difference" width="680" height="712"></a>
 <figcaption>flightdeck: a verdict on the PR</figcaption>
 </figure>
 <figure class="af-figure af-figure--lead">
-<a href="assets/clips/ai-dlc.mp4"><img src="assets/clips/ai-dlc.png" alt="The first frame of ai-dlc's clip: ai-dlc project init in a terminal, answering status applied and 37 files" width="680" height="460"></a>
+<a href="assets/clips/ai-dlc.mp4"><img src="assets/clips/ai-dlc.png" alt="The first frame of ai-dlc's clip: ai-dlc project init in a terminal, answering applied, 37 files" width="680" height="422"></a>
 <figcaption>ai-dlc: a project's checks pass</figcaption>
 </figure>
 </div>

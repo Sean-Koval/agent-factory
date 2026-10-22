@@ -13,7 +13,7 @@
   "clips": {
     "hangar": {
       "repo": "Sean-Koval/hangar",
-      "commit": "cc3e61a",
+      "commit": "d244899",
       "script": "docs/assets/front/make.py --only clip",
       "shows": "Issue #42 becomes a job, the agent works, its push to main waits in the deck, a person approves it and the PR lands",
       "files": {
@@ -29,7 +29,7 @@
     },
     "tower": {
       "repo": "Sean-Koval/tower",
-      "commit": "ac781ba",
+      "commit": "058c988",
       "script": "docs/assets/generate.py clip",
       "shows": "A push to main waits on Marcus's Desk; he denies it with a reason, and the receipt carries the reason",
       "files": {
@@ -45,7 +45,7 @@
     },
     "flightdeck": {
       "repo": "Sean-Koval/flightdeck",
-      "commit": "4c48755",
+      "commit": "29e4aff",
       "script": "docs/assets/build.py",
       "shows": "stats compare in a terminal, then report and its verdict, then the report as the pull-request comment",
       "files": {
@@ -61,7 +61,7 @@
     },
     "ai-dlc": {
       "repo": "Sean-Koval/ai-dlc",
-      "commit": "35428ce",
+      "commit": "340f208",
       "script": "docs/assets/front/build.py --clip",
       "shows": "The quickstart's five steps in a fresh project, ending on project check --required passing",
       "files": {
