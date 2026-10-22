@@ -110,8 +110,21 @@ nav:
           - Motion and focus: airframe/guide/motion.md
           - Iconography: airframe/guide/iconography.md
           - How to consume: airframe/guide/consume.md
-          - Status: airframe/guide/status.md
-          - Data: airframe/guide/data.md
+          - Status:
+              - Status: airframe/guide/status.md
+              - When a status takes color: airframe/guide/cockpit.md
+              - Edge, mark, word: airframe/guide/attention.md
+              - Groups: airframe/guide/grouping.md
+              - Status words by product: airframe/guide/examples.md
+              - Decision words: airframe/guide/decisions.md
+          - Data:
+              - Data: airframe/guide/data.md
+              - Tables: airframe/guide/tables.md
+              - Inline data: airframe/guide/inline.md
+              - Readouts and charts: airframe/guide/charts.md
+              - Traces and lanes: airframe/guide/traces.md
+              - Fleet board: airframe/guide/fleet.md
+              - Diffs: airframe/guide/diffs.md
           - Products: airframe/guide/products.md
   - Reference:
       - Architecture:

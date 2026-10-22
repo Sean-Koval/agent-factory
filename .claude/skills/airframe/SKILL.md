@@ -121,7 +121,12 @@ own CSS, and note it for agent-factory. The brand book has the detailed rules, o
 `airframe/guide/`: `brand.md` (the hub and the principles), `Writing.md` (voice, casing, words to avoid), `IDs.md`
 (tail numbers, units, ratios), `Color.md` (roles, Night and Day), `People.md` (who has the controls, avatars),
 `Type.md`, `Layout.md` (spacing, radius, borders, cards, texture), `Motion.md` (motion and focus), `Iconography.md`,
-`Consume.md` (loading the theme), plus `Status.md`, `Data.md` and `Products.md`. On the site they are
+`Consume.md` (loading the theme). `Status.md` is a hub of its own: `Cockpit.md` (when a status takes color, the
+accepted bends), `Attention.md` (edge, mark, word), `Grouping.md` (which status a group shows), `Examples.md` (status
+words by product), `Decisions.md` (Needs approval, Needs input, Approve and Deny, waiting on others, alert inhibition).
+So is `Data.md`: `Tables.md`, `Inline.md` (keyed inline data, objects by reference), `Charts.md` (readouts, charts,
+sparklines, gauges), `Traces.md` (traces and lanes), `Fleet.md` (the fleet board), `Diffs.md`. `Products.md` is whole.
+On the site they are
 https://sean-koval.github.io/agent-factory/airframe/guide/brand/ and its siblings (lowercase). The gallery renders
 every component in both themes:
 https://sean-koval.github.io/agent-factory/airframe/gallery/

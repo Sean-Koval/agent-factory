@@ -1,7 +1,7 @@
 {
   "airframe": {
     "repo": "Sean-Koval/agent-factory",
-    "commit": "19fe815",
+    "commit": "3c1991a",
     "demo": "scripts/airframe.py gallery",
     "screens": {
       "airframe-approvalcard": "The ApprovalCard preview from the gallery: inspect, deny with a reason, approve, quorum, waiting on others, verdicts",
