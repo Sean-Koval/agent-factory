@@ -44,7 +44,7 @@ SOCIAL = (1280, 640)
 
 # Copy per product: the eyebrow names the suite and the product's place in it with one word, as the docs sites'
 # eyebrows do ("Agent factory · Govern"); the line says what the product does. Names and casing follow
-# airframe/guide/brand.md; the lines are each product's own lede, shortened. The places follow the suite story
+# airframe/guide/Writing.md; the lines are each product's own lede, shortened. The places follow the suite story
 # (deck slide 1): four planes, Define = the team harness, Run = hangar, Judge = flightdeck, Govern = Tower; ai-dlc
 # is Setup, Airframe is Design, and Spaceport is the Capability under the suite. The word "plane" stays out of the
 # eyebrows, where it would collide with flightdeck's data plane.

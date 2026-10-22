@@ -30,7 +30,7 @@ component contracts in `airframe/components/*.md` before writing markup.
    cards, an 18px sheet, 1px lines. What is open or on top is `lifted` with `shadow-2`. **Attention is edge, mark,
    word**: a neutral ground, a 3px status edge on the leading side, the mark and the word; never a status color
    mixed into a surface, never an outline ring. No gloss, blur or gradients; the one glow is a live rail head.
-5. **Data first.** Real IDs as tail numbers (`HGR-7Q2K`, `FDK-EXP-0142`, `TWR-APR-0391`) in `af-id` (a 4-character Crockford base32 hash of the real ID, longer only on a collision; the real ID on hover and copy; see brand.md), real
+5. **Data first.** Real IDs as tail numbers (`HGR-7Q2K`, `FDK-EXP-0142`, `TWR-APR-0391`) in `af-id` (a 4-character Crockford base32 hash of the real ID, longer only on a collision; the real ID on hover and copy; see guide/IDs.md), real
    numbers in DM Mono with tabular figures. Sentence case everywhere, labels and buttons included: they are
    sans, and mono is only for IDs, numbers and commands. Motion: `--af-dur` / `--af-dur-open` with
    `--af-ease-open`, no springs; reduced motion zeroes them.
@@ -117,6 +117,11 @@ Failed, Denied, Spun down. A deny needs a reason; an approve may carry a note. D
 ## When something is missing
 
 Do not invent a color or a component. Say what Airframe lacks, build the minimum with tokens in the product's
-own CSS, and note it for agent-factory. The brand book (`airframe/guide/brand.md`, `Status.md`, `Data.md`,
-`Products.md`) has the detailed rules; the gallery renders every component in both themes:
+own CSS, and note it for agent-factory. The brand book has the detailed rules, one page per question in
+`airframe/guide/`: `brand.md` (the hub and the principles), `Writing.md` (voice, casing, words to avoid), `IDs.md`
+(tail numbers, units, ratios), `Color.md` (roles, Night and Day), `People.md` (who has the controls, avatars),
+`Type.md`, `Layout.md` (spacing, radius, borders, cards, texture), `Motion.md` (motion and focus), `Iconography.md`,
+`Consume.md` (loading the theme), plus `Status.md`, `Data.md` and `Products.md`. On the site they are
+https://sean-koval.github.io/agent-factory/airframe/guide/brand/ and its siblings (lowercase). The gallery renders
+every component in both themes:
 https://sean-koval.github.io/agent-factory/airframe/gallery/

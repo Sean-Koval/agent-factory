@@ -6,7 +6,9 @@ hide:
 
 # Roadmap
 
-What the suite builds next, in four phases and a backlog, across hangar, flightdeck, ai-dlc, Tower, Spaceport and this repo. Phases are GitHub milestones of the same name in every repo; themes group the issues that deliver one outcome. The counts are rebuilt from GitHub every day. Open a theme's row to see its issues; to move one, edit [`roadmap.toml`](https://github.com/Sean-Koval/agent-factory/blob/main/roadmap.toml).
+What the suite builds next, in four phases and a backlog, across hangar, flightdeck, ai-dlc, Tower, Spaceport and this repo. Phases are GitHub milestones of the same name in every repo; themes in [`roadmap.toml`](https://github.com/Sean-Koval/agent-factory/blob/main/roadmap.toml) group the issues that deliver one outcome. Open a theme's row to see its issues.
+
+Each day the site build reads those milestones and issues from GitHub and recounts them. Day-to-day work is tracked in Jira (KAN), which this page does not read. To move an issue to another theme, edit `roadmap.toml`.
 
 <details class="af-rm-issues" markdown>
 <summary>Four decisions that shape the plan</summary>

@@ -10,7 +10,7 @@ C4 level 2: what runs on an engineer's machine, in the Google Cloud project and 
 
 <figure class="af-figure">
 --8<-- "c4-containers.svg"
-<figcaption>C4 level 2 · solid: on main · dashed: planned or not yet wired · <a href="../../assets/diagrams/c4-containers.svg">full size</a></figcaption>
+<figcaption>C4 level 2 · solid: on main · dashed: planned or not yet wired · <a href="../assets/diagrams/c4-containers.svg">full size</a></figcaption>
 </figure>
 
 | Container | Runs on | Owns | Status |

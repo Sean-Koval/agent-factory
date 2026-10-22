@@ -59,7 +59,7 @@ One number, `harness_digest`, identifies a harness from the lock file to the man
 - [How it fits](how-it-fits.md): one ticket's journey through the four planes, the three rules, and who owns what.
 - [Architecture](architecture/index.md): the system context, the containers and where they run.
 - [Flows](architecture/flows.md): improving the harness, a risky action, the nightly pipeline, onboarding a repo.
-- [Roadmap](roadmap.md): the four phases and their themes, with progress rebuilt daily from GitHub issues.
+- [Roadmap](roadmap.md): the four phases and their themes, with counts rebuilt daily from each repo's GitHub milestones.
 - [Decisions](decisions.md): choices that span more than one repo.
 - [Glossary](glossary.md): the suite's terms, defined once.
 

@@ -57,7 +57,7 @@
 
   <div class="af-grid af-grid--2" style="gap:28px 24px;align-items:start">
     <section class="af-stack">
-      <span class="af-lbl">Deny with a reason<span class="af-lbl__sub">required; the error is the failed mark and words</span></span>
+      <span class="af-lbl">Deny with a reason<span class="af-lbl__sub">required; the field stays neutral until Deny is pressed with it empty</span></span>
       <article class="af-card af-card--lit af-approval" aria-labelledby="apr2-cmd">
         <div class="af-card__top">
           <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub af-mono">TWR-APR-0392</span></span>
@@ -74,8 +74,8 @@
         <div class="af-approval__reason" role="group" aria-labelledby="deny-lbl">
           <label class="af-field">
             <span class="af-field__label" id="deny-lbl">Reason for denying (required)</span>
-            <span class="af-input af-input--area af-input--sans is-invalid"><textarea rows="2" placeholder="What the requester should change" aria-invalid="true" aria-describedby="deny-err"></textarea></span>
-            <span class="af-field__error" id="deny-err"><span class="af-status af-status--failed"><i class="af-status__mark"></i>Give a reason. It goes on the receipt and back to HGR-4KQ1.</span></span>
+            <span class="af-input af-input--area af-input--sans"><textarea rows="2" required placeholder="What the requester should change" aria-describedby="deny-hint"></textarea></span>
+            <span class="af-field__hint" id="deny-hint">It goes on the receipt and back to HGR-4KQ1.</span>
           </label>
           <div class="af-approval__btns">
             <button type="button" class="af-btn af-btn--ghost af-btn--sm">Cancel</button>
@@ -198,7 +198,7 @@
     <div style="width:320px;max-width:100%">
       <article class="af-card af-card--lit af-approval" aria-labelledby="apr5-cmd">
         <div class="af-card__top">
-          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub af-mono">HGR-APR-8E7F50C8</span></span>
+          <span class="af-lbl"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5 17.5 10 10 17.5 2.5 10z"/><path d="M7 10.2l2 2 4-4.2"/></svg>Approval<span class="af-lbl__sub af-mono">HGR-APR-8E7F</span></span>
           <span class="af-status af-status--approval af-status--lit"><i class="af-status__mark"></i>Needs approval</span>
         </div>
         <div class="af-approval__subject">
@@ -214,8 +214,8 @@
           <div class="af-approval__btns">
             <button type="button" class="af-btn af-btn--ghost af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v6M7 6.5h6M7 14.5h6"/></svg>View diff</button>
             <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny</button>
-            <button type="button" class="af-btn af-btn--secondary af-btn--sm">Allow for this turn</button>
-            <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Allow</button>
+            <button type="button" class="af-btn af-btn--secondary af-btn--sm">Approve for this turn</button>
+            <button type="button" class="af-btn af-btn--primary af-btn--sm"><svg class="af-ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approve</button>
           </div>
         </div>
         <div class="af-card__foot">
