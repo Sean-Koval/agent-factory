@@ -9,7 +9,7 @@
     },
     "thumbnails": "docs/assets/airframe/<Name>.png: the top 800x500 of every component's Night preview (40 components), shown on the Components page"
   },
-  "captured": "2026-10-21",
+  "captured": "2026-10-22",
   "crops": {
     "hangar-fleet-deck": {
       "from": "hangar-fleet",
@@ -243,7 +243,7 @@
   },
   "tower": {
     "repo": "Sean-Koval/tower",
-    "commit": "b7189d0",
+    "commit": "a61d98e",
     "demo": "server/tools/ui_tour.py",
     "screens": {
       "tower-desk": "Marcus's Desk: Start work (the composer, handing a task to hangar), Needs you with an approval card, the agents he approves for",
