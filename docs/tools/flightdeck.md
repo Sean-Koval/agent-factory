@@ -7,9 +7,9 @@
 Judges harness changes with paired statistics and behavior specs over every run.
 
 <figure class="af-figure af-figure--lead">
-<a href="../assets/captures/flightdeck-verdict.png"><img src="../assets/captures/flightdeck-verdict-verdict.png#only-dark" alt="flightdeck's report as a GitHub pull-request comment: the verdict, candidate is better than control on resolved (+21.2 pp), the rule and the outcome table" width="790" height="520"></a>
-<a href="../assets/captures/flightdeck-verdict-day.png"><img src="../assets/captures/flightdeck-verdict-day-verdict.png#only-light" alt="flightdeck's report as a GitHub pull-request comment: the verdict, candidate is better than control on resolved (+21.2 pp), the rule and the outcome table" width="790" height="520"></a>
-<figcaption>The verdict on the harness PR: candidate beats control on resolved, with the interval and the outcome of both variants.</figcaption>
+<a href="../assets/captures/flightdeck-verdict.png"><img src="../assets/captures/flightdeck-verdict-verdict.png#only-dark" alt="flightdeck's report as GitHub shows the comment on the harness pull request: the verdict, candidate is better than control on resolved (+21.2 pp), experiment FDK-EXP-0531, the rule, the outcome table and the paired difference" width="800" height="484"></a>
+<a href="../assets/captures/flightdeck-verdict-day.png"><img src="../assets/captures/flightdeck-verdict-day-verdict.png#only-light" alt="flightdeck's report as GitHub shows the comment on the harness pull request: the verdict, candidate is better than control on resolved (+21.2 pp), experiment FDK-EXP-0531, the rule, the outcome table and the paired difference" width="800" height="484"></a>
+<figcaption>GitHub's comment on the harness PR, written by flightdeck: candidate beats control on resolved, with the interval and the outcome of both variants.</figcaption>
 </figure>
 
 | | |

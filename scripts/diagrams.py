@@ -171,6 +171,52 @@ def planes() -> str:
     return svg(1200, 800, "The agent factory at a glance", b, dots=(900, 20, 300, 70))
 
 
+def planes_stacked() -> str:
+    """The same four planes, one above the other, for the home page on phones: Define pins Run, Run reaches Govern,
+    the gate and Judge along a spine on the left, and Judge's report loops back to Define on the right."""
+    x, w, gap, y0 = 20, 350, 40, 100
+    ix, iw, spine, loop = 56, 314, 34, 392
+    parts = [
+        (x, w, "The team harness repo", "Define", ["Native files and harness.lock,", "frozen from a good hangar run",
+                                                   "One identity: harness_digest"], None, "box", None),
+        (x, w, "hangar", "Run", ["Work arrives through the doors: Jira,", "GitHub, Slack, MCP and schedules",
+                                 "Sandboxes, sessions, jobs and trials",
+                                 "Verify, push through the gateway"], "hangar", "box-hub", "pinned as harness.lock"),
+        (ix, iw, "Tower", "Govern", ["Rules and human approvals; the", "approver is never the requester",
+                                    "Signed receipts; fails closed"], "tower", "box", "decide, then a receipt"),
+        (ix, iw, "GitHub", "One gate: the PR", ["Tainted work opens as a draft", "A second human approves the SHA"],
+         None, "box", "push one commit, open the PR"),
+        (ix, iw, "flightdeck", "Judge", ["Reads runs from a Parquet data plane", "Paired statistics, behavior specs",
+                                        "Reports and evidence on PRs"], "flightdeck", "box", "every run, through the outbox"),
+    ]
+    b = [text(20, 44, "The agent factory at a glance", "title"), text(20, 68, "Define  ·  Run  ·  Judge  ·  Govern", "lbl")]
+    y, mids = y0, []
+    for i, (bx, bw, eyebrow, name, lines, product, kind, label) in enumerate(parts):
+        h = 70 + 18 * len(lines)
+        if label:
+            b.append(text(bx + 14 if i > 1 else x + 54, y - 14, label))
+        if i == 1:
+            b.append(edge(f"M{x + 40} {y - gap}V{y - 2}"))
+        b.append(box(bx, y, bw, h, name, lines, eyebrow=eyebrow, kind=kind, product=product, name_cls="name-s"))
+        mids.append((y, h))
+        y += h + gap
+    # the spine: from hangar down the left, a branch into each plane it reaches
+    run_y, run_h = mids[1]
+    last_mid = mids[4][0] + mids[4][1] // 2
+    b.append(f'<path class="edge" d="M{spine} {run_y + run_h}V{last_mid}"/>')
+    for top, h in mids[2:]:
+        b.append(edge(f"M{spine} {top + h // 2}H{ix - 2}"))
+    # the loop: the report promotes the next harness, back up the right edge into Define
+    def_mid = mids[0][0] + mids[0][1] // 2
+    b.append(edge(f"M{ix + iw} {last_mid}H{loop}V{def_mid}H{x + w + 2}"))
+    b.append(text(loop + 14, (def_mid + last_mid) // 2, "report, then promote the next harness", anchor="middle", rotate=-90))
+    # capabilities: bound into the sandboxes, under the suite
+    b.append(text(x, y + 6, "tools over MCP, bound into each sandbox"))
+    b.append(box(x, y + 20, w, 88, "Capabilities", ["Data products, internal tools and docs search"],
+                 eyebrow="Spaceport and MCP servers", kind="box-ext", product="spaceport", name_cls="name-s"))
+    return svg(420, y + 132, "The agent factory at a glance, stacked", b, pid="planes-stacked")
+
+
 # ---------------------------------------------------------------------------------------------
 # 2. C4 level 1: system context
 
@@ -417,7 +463,7 @@ def write(name: str, fn) -> None:
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for name, fn in (("planes", planes), ("c4-context", context), ("c4-containers", containers),
+    for name, fn in (("planes", planes), ("planes-stacked", planes_stacked), ("c4-context", context), ("c4-containers", containers),
                      ("journey", journey), ("journey-stacked", journey_stacked)):
         write(name, fn)
 

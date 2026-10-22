@@ -19,7 +19,8 @@ body {
   overflow: hidden;
 }
 * { box-sizing: border-box; }
-.deck { position: relative; height: 100%; display: grid; place-items: center; }
+/* the stage sits above the controls, so the hud never covers the slide's footer */
+.deck { position: relative; height: calc(100% - 56px); display: grid; place-items: center; }
 .slide {
   position: absolute; width: 1280px; height: 720px; left: 50%; top: 50%;
   transform: translate(-50%, -50%) scale(var(--s, 1)); transform-origin: center;
@@ -30,15 +31,15 @@ body {
   content: ""; position: absolute; right: 0; top: 0; width: 320px; height: 120px; pointer-events: none;
   background: radial-gradient(circle, var(--af-dot-field) 1.1px, transparent 1.6px) 0 0 / 8px 8px;
 }
-.eyebrow { font: 500 13px/1 var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow { font: 500 15px/1 var(--af-font-sans); color: var(--af-fg-subtle); display: inline-flex; align-items: center; gap: 10px; }
 .eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--af-brand-line); }
 h1, h2 { margin: 0; font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: var(--af-display-weight); letter-spacing: var(--af-display-track); text-wrap: balance; }
 h1 { font-size: 64px; line-height: 1.02; max-width: 15ch; }
 h2 { font-size: 38px; line-height: 1.08; max-width: 26ch; }
 p { margin: 0; }
 .lede { font-size: 22px; color: var(--af-fg-muted); max-width: 46ch; line-height: 1.45; }
-.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-muted); }
-.foot b { color: var(--af-fg-subtle); font-weight: 500; }
+.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 24px; font: 500 14px var(--af-font-sans); color: var(--af-fg-muted); }
+.foot b { color: var(--af-fg-subtle); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .art { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
 .art svg { width: 100%; height: 100%; display: block; }
 .mark { display: inline-block; width: 26px; height: 26px; }
@@ -49,17 +50,15 @@ p { margin: 0; }
 .tool { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: baseline; padding: 14px 18px; background: var(--af-raised); border-left: 2px solid var(--c); }
 .tool b { font: 700 17px var(--af-font-display); font-stretch: var(--af-display-stretch); }
 .tool span { color: var(--af-fg-muted); font-size: 15px; }
-.tool small { grid-column: 1; font: 500 11px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.tool small { grid-column: 1; font: 500 13px var(--af-font-sans); color: var(--af-fg-subtle); }
 
 /* readouts */
 .readouts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; }
 .ro { background: var(--af-raised); padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 12px; min-height: 250px; }
-.ro .k { font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.ro .k { font: 500 14px var(--af-font-sans); color: var(--af-fg-subtle); }
 .ro .v { font: 700 54px/1 var(--af-font-display); font-stretch: var(--af-display-stretch); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .ro .v small { font-size: 22px; color: var(--af-fg-subtle); margin-left: 4px; }
 .ro p { color: var(--af-fg-muted); font-size: 16px; }
-.ro.attn { box-shadow: inset 0 2px 0 var(--af-status-approval); }
-.ro.attn .k { color: var(--af-status-approval); }
 
 /* flight strips */
 .strips { display: flex; flex-direction: column; gap: 3px; }
@@ -69,23 +68,23 @@ p { margin: 0; }
 .strip .who { font: 700 15px var(--af-font-display); font-stretch: var(--af-display-stretch); display: flex; align-items: center; gap: 10px; }
 .strip .who i { width: 8px; height: 8px; background: var(--c); display: inline-block; flex: none; }
 .strip .what { color: var(--af-fg-muted); font-size: 16px; }
-.strip .st { font: 500 12px var(--af-font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--af-fg-subtle); display: flex; align-items: center; gap: 8px; }
+.strip .st { font: 500 14px var(--af-font-sans); color: var(--af-fg-subtle); display: flex; align-items: center; gap: 8px; }
 .strip .st i { width: 8px; height: 8px; display: inline-block; flex: none; }
 .st-run i { border-radius: 50%; background: var(--af-status-running); }
 .st-appr { color: var(--af-status-approval) !important; }
 .st-appr i { background: var(--af-status-approval); transform: rotate(45deg); width: 7px !important; height: 7px !important; }
-.strip.attn { background: color-mix(in srgb, var(--af-status-approval) 7%, var(--af-raised)); box-shadow: inset 2px 0 0 var(--af-status-approval); }
+.strip.attn { box-shadow: inset 3px 0 0 var(--af-status-approval); }
 
 /* roadmap */
 .road { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; flex: 1; }
 .phase { background: var(--af-raised); padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
-.phase .k { font: 500 12px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); }
+.phase .k { font: 500 14px var(--af-font-sans); color: var(--af-fg-subtle); }
 .phase h3 { margin: 0; font: 700 22px/1.15 var(--af-font-display); font-stretch: var(--af-display-stretch); }
 .phase ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
 .phase li { color: var(--af-fg-muted); font-size: 16px; padding-left: 18px; position: relative; }
 .phase li::before { content: ""; position: absolute; left: 0; top: .6em; width: 8px; height: 1px; background: var(--af-fg-subtle); }
-.phase.now { box-shadow: inset 0 2px 0 var(--af-brand-line); }
-.phase.now .k { color: var(--af-brand-text); }
+.phase.now { box-shadow: inset 0 2px 0 var(--af-fg); }
+.phase.now .k { color: var(--af-fg); }
 
 /* screen slides: words on the left, the subject of a real capture on the right (a named crop from scripts/captures.py,
    so UI text stays legible at 880px); the footer is the slide's takeaway */
@@ -96,16 +95,49 @@ p { margin: 0; }
 .facts li { color: var(--af-fg-muted); font-size: 14px; padding-left: 18px; position: relative; line-height: 1.4; }
 .facts li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 1px; background: var(--af-fg-subtle); }
 .facts b { color: var(--af-fg); font-weight: 500; font-family: var(--af-font-mono); font-size: 14px; }
-.screen { margin: 0; align-self: center; min-width: 0; }
+.facts em { color: var(--af-fg); font-style: normal; font-weight: 500; }
+.screen { margin: 0; align-self: center; min-width: 0; position: relative; z-index: 1; } /* above the dot field */
 .screen img { display: block; width: auto; max-width: 100%; height: auto; max-height: 500px; border: 1px solid var(--af-line); border-radius: var(--af-radius-card); background: var(--af-canvas); }
-.screen figcaption { margin-top: 10px; font: 500 11px var(--af-font-mono); letter-spacing: var(--af-label-track); text-transform: uppercase; color: var(--af-fg-subtle); display: flex; justify-content: space-between; gap: 16px; }
+.screen figcaption { margin-top: 10px; font: 500 13px var(--af-font-sans); color: var(--af-fg-subtle); display: flex; justify-content: space-between; gap: 16px; }
 
 /* chrome: counter and controls, outside the scaled stage */
-.hud { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; align-items: center; z-index: 5; }
-.hud button { width: 34px; height: 34px; border: 1px solid var(--af-line-strong); background: var(--af-surface); color: var(--af-fg); border-radius: var(--af-radius-control); cursor: pointer; font: 500 14px var(--af-font-mono); }
+.hud { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(11px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; align-items: center; z-index: 5; }
+.hud button { width: 34px; height: 34px; border: 1px solid var(--af-line-strong); background: var(--af-surface); color: var(--af-fg); border-radius: var(--af-radius-control); cursor: pointer; font: 500 16px var(--af-font-sans); }
 .hud button:hover { border-color: var(--af-fg); }
 .hud button:focus-visible { outline: 2px solid var(--af-focus); outline-offset: 2px; }
-.hud output { font: 500 12px var(--af-font-mono); color: var(--af-fg-subtle); min-width: 56px; text-align: center; }
+/* the slide's own footer carries the one visible counter; the hud only announces it */
+.hud output { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.phone-art, .phone-loop { display: none; }
+
+/* phones: no scaled stage. The slides stack as a page you scroll, each reflowed at a readable size; the two wide
+   drawings give way to a stacked drawing and a list. */
+@media (max-width: 600px) {
+  html, body { height: auto; }
+  body { overflow: auto; }
+  .deck { display: block; height: auto; }
+  .slide { display: flex; position: static; width: auto; height: auto; transform: none; padding: 36px 0 28px; gap: 18px; border-bottom: 1px solid var(--af-line); }
+  .slide::after, .art, .hud { display: none; }
+  .phone-art { display: block; max-width: 420px; }
+  .phone-art svg { width: 100%; height: auto; display: block; }
+  .phone-loop { display: flex; flex-direction: column; gap: 10px; margin: 0; padding-left: 22px; color: var(--af-fg-muted); font-size: 16px; }
+  .phone-loop b { color: var(--af-fg); font-weight: 500; }
+  h1 { font-size: 40px; }
+  h2, .screen-grid h2 { font-size: 26px; }
+  .lede { font-size: 17px; }
+  .title-grid, .screen-grid, .road { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .readouts { grid-template-columns: minmax(0, 1fr); }
+  .ro { min-height: 0; padding: 18px; }
+  .ro .v { font-size: 40px; }
+  .tool { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 12px 14px; }
+  .strip { grid-template-columns: 44px minmax(0, 1fr); }
+  .strip .n { grid-row: span 3; }
+  .strip .who, .strip .what, .strip .st { padding: 4px 14px; }
+  .strip .who { padding-top: 12px; }
+  .strip .st { padding-bottom: 12px; }
+  .screen img { width: 100%; max-height: none; }
+  .foot { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
 
 @media print {
   @page { size: 1280px 720px; margin: 0; }
@@ -133,10 +165,10 @@ p { margin: 0; }
       <div class="tool" style="--c:var(--af-product-flightdeck)"><b>flightdeck</b><span>Judges the runs</span><small>Judge</small></div>
       <div class="tool" style="--c:var(--af-product-tower)"><b>Tower</b><span>Governs risky actions</span><small>Govern</small></div>
       <div class="tool" style="--c:var(--af-product-aidlc)"><b>ai-dlc</b><span>Sets up machines and the workflow plugin</span><small>Setup</small></div>
-      <div class="tool" style="--c:var(--af-product-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Also in the suite</small></div>
+      <div class="tool" style="--c:var(--af-product-spaceport)"><b>Spaceport</b><span>Serves data to agents</span><small>Capability</small></div>
     </div>
   </div>
-  <div class="foot"><span>sean-koval.github.io/agent-factory</span><b>01 / 14</b></div>
+  <div class="foot"><span>sean-koval.github.io/agent-factory</span><b>1 of 14</b></div>
 </section>
 
 <section class="slide" aria-label="What changes at sixty sessions">
@@ -144,45 +176,46 @@ p { margin: 0; }
   <h2>Sixty agents at once breaks the way a team works</h2>
   <div class="readouts">
     <div class="ro"><span class="k">Live sessions</span><span class="v">~60</span><p>Six engineers, about ten streams each. Nobody can watch them all.</p></div>
-    <div class="ro attn"><span class="k">Review</span><span class="v">1<small>gate</small></span><p>Every change still needs a human. Reviewers become the bottleneck.</p></div>
+    <div class="ro"><span class="k">Review</span><span class="v">1<small>gate</small></span><p>Every change still needs a human. Reviewers become the bottleneck.</p></div>
     <div class="ro"><span class="k">Harness changes</span><span class="v">0<small>evidence</small></span><p>A new skill or prompt is judged by impressions, not paired runs.</p></div>
-    <div class="ro attn"><span class="k">Untrusted input</span><span class="v">Every<small>ticket</small></span><p>Ticket text and web pages can steer an agent toward a push.</p></div>
+    <div class="ro"><span class="k">Untrusted input</span><span class="v">Every<small>ticket</small></span><p>Ticket text and web pages can steer an agent toward a push.</p></div>
   </div>
-  <div class="foot"><span>Nobody can watch sixty streams; the tools must bring what needs a person to them</span><b>02 / 14</b></div>
+  <div class="foot"><span>Nobody can watch sixty streams; the tools must bring what needs a person to them</span><b>2 of 14</b></div>
 </section>
 
 <section class="slide" aria-label="Four planes">
   <span class="eyebrow">The idea</span>
   <h2>Four planes, one loop, one gate</h2>
   <div class="art">{{SVG:slide-planes}}</div>
-  <div class="foot"><span>Each tool owns one plane and meets the others at versioned contracts</span><b>03 / 14</b></div>
+  <div class="phone-art">{{SVG:planes-stacked}}</div>
+  <div class="foot"><span>Each tool owns one plane and meets the others at versioned contracts</span><b>3 of 14</b></div>
 </section>
 
 <section class="slide" aria-label="A ticket to a merged PR">
   <span class="eyebrow">How work flows</span>
   <h2>A Jira ticket to a merged PR</h2>
   <div class="strips">
-    <div class="strip"><span class="n">01</span><span class="who"><i style="--c:var(--af-fg-subtle)"></i>Jira</span><span class="what">An engineer moves the ticket to “Ready for agent”</span><span class="st st-run"><i></i>queued</span></div>
-    <div class="strip"><span class="n">02</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>hangar</span><span class="what">Ticket text is untrusted, so the job starts tainted</span><span class="st st-run"><i></i>admitted</span></div>
-    <div class="strip"><span class="n">03</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>Sandbox</span><span class="what">The agent works with a pinned harness; every step is traced</span><span class="st st-run"><i></i>running</span></div>
-    <div class="strip"><span class="n">04</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>Gateway</span><span class="what">hangar verifies, then pushes one commit as the GitHub App</span><span class="st st-run"><i></i>delivered</span></div>
-    <div class="strip attn"><span class="n">05</span><span class="who"><i style="--c:var(--af-status-approval)"></i>Reviewer</span><span class="what">A draft PR waits for a second human to approve the exact commit</span><span class="st st-appr"><i></i>needs approval</span></div>
-    <div class="strip"><span class="n">06</span><span class="who"><i style="--c:var(--af-product-flightdeck)"></i>Outbox</span><span class="what">The merged run is written once, for flightdeck to judge</span><span class="st st-run"><i></i>captured</span></div>
+    <div class="strip"><span class="n">01</span><span class="who"><i style="--c:var(--af-fg-subtle)"></i>Jira</span><span class="what">An engineer moves the ticket to “Ready for agent”</span><span class="st st-run"><i></i>Queued</span></div>
+    <div class="strip"><span class="n">02</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>hangar</span><span class="what">Ticket text is untrusted, so the job starts tainted</span><span class="st st-run"><i></i>Admitted</span></div>
+    <div class="strip"><span class="n">03</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>Sandbox</span><span class="what">The agent works with a pinned harness; every step is traced</span><span class="st st-run"><i></i>Running</span></div>
+    <div class="strip"><span class="n">04</span><span class="who"><i style="--c:var(--af-product-hangar)"></i>Gateway</span><span class="what">hangar verifies, then pushes one commit as the GitHub App</span><span class="st st-run"><i></i>Delivered</span></div>
+    <div class="strip attn"><span class="n">05</span><span class="who"><i style="--c:var(--af-fg-subtle)"></i>Reviewer</span><span class="what">A draft PR waits for a second human to approve the exact commit</span><span class="st st-appr"><i></i>Needs approval</span></div>
+    <div class="strip"><span class="n">06</span><span class="who"><i style="--c:var(--af-product-flightdeck)"></i>Outbox</span><span class="what">The merged run is written once, for flightdeck to judge</span><span class="st st-run"><i></i>Captured</span></div>
   </div>
-  <div class="foot"><span>Only approvals and failures light up · everything else stays quiet</span><b>04 / 14</b></div>
+  <div class="foot"><span>Only approvals and failures light up; everything else stays quiet</span><b>4 of 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="hangar: Needs you">
   <span class="eyebrow">What the team sees · hangar</span>
   <div class="screen-grid">
     <div>
-      <h2>Nineteen agents. Five need you.</h2>
+      <h2>Twenty-six agents. Five need you.</h2>
       <p class="lede">Needs you is the console's first tab: held tool calls and questions, one decision at a time, soonest to expire on top.</p>
       <ul class="facts"><li>Decide and the next one rises; the agent continues the moment you do.</li><li>A deny needs a reason. It goes on the receipt and back to the agent.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/hangar-needs-you-narrow-decision.png" alt="hangar's Needs you: the decision deck with a held git push to main on top, its changes, branch and expiry, Deny, Allow for this turn and Approve push"><figcaption><span>hangar · Needs you</span></figcaption></figure>
+    <figure class="screen"><img src="captures/hangar-needs-you-narrow-decision.png" data-day="captures/hangar-needs-you-narrow-day-decision.png" alt="hangar's Needs you: the decision deck with a held git push to main on top, its changes, branch and expiry, Deny, Allow for this turn and Approve push"><figcaption><span>hangar, Needs you: the held push on top</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Everything running stays grey; the one card that needs you is the only color</span><b>05 / 14</b></div>
+  <div class="foot"><span>Everything running stays grey; the one card that needs you is the only color</span><b>5 of 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="hangar: the review loop">
@@ -193,9 +226,9 @@ p { margin: 0; }
       <p class="lede">A job's detail carries the agent's summary, a composer and the change as a greyscale diff. Your reply runs the next turn; the PR updates.</p>
       <ul class="facts"><li><b>+5 −1</b> across 2 files, against the base commit, from the sandbox.</li><li>Only a failing test lights a hunk; additions and deletions stay grey.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/hangar-review-narrow-change.png" alt="Job #42's detail in hangar: the agent's summary, the Reply to the agent composer, then Changes: files 2, +5 −1, with the diff of checkout/export.py switching encode(ascii, ignore) to encode(utf-8)"><figcaption><span>hangar · job #42, the change</span></figcaption></figure>
+    <figure class="screen"><img src="captures/hangar-review-narrow-change.png" data-day="captures/hangar-review-narrow-day-change.png" alt="A job's detail in hangar: the agent's summary, the Reply to the agent composer, then Changes: files 2, +5 −1, with the whole diff of checkout/export.py switching encode(ascii, ignore) to encode(utf-8)"><figcaption><span>hangar, a job: the summary, the reply box and the diff</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Review and reply in one place; the PR follows the conversation</span><b>06 / 14</b></div>
+  <div class="foot"><span>Review and reply in one place; the PR follows the conversation</span><b>6 of 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="hangar: the Fleet">
@@ -206,16 +239,17 @@ p { margin: 0; }
       <p class="lede">List and Board are two views of the same agents. <b>25 of 120</b> slots in use.</p>
       <ul class="facts"><li>Each row shows what the agent is doing now, its owner and its stage: plan, edit, test, PR.</li><li>Open an agent in place to decide what it holds without leaving the Fleet.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/hangar-fleet-rows-list.png" alt="hangar's Fleet as a list: eight agents of base-codex, four waiting on a person with an orange diamond, one denied, the rest grey, each with its owner, stage rail and stage times"><figcaption><span>hangar · Fleet, List view</span></figcaption></figure>
+    <figure class="screen"><img src="captures/hangar-fleet-rows-list.png" data-day="captures/hangar-fleet-rows-day-list.png" alt="hangar's Fleet as a list: eight of base-codex's ten agents, each with its tail number, four waiting on a person with an orange diamond, one denied, the rest grey, with owner, stage rail and stage times"><figcaption><span>hangar, the Fleet as a list</span></figcaption></figure>
   </div>
-  <div class="foot"><span>Agents at work stay grey; only the ones that need a person carry color</span><b>07 / 14</b></div>
+  <div class="foot"><span>Agents at work stay grey; only the ones that need a person carry color</span><b>7 of 14</b></div>
 </section>
 
 <section class="slide" aria-label="Improving the harness">
   <span class="eyebrow">How the team gets better</span>
   <h2>Change the harness on evidence, not impressions</h2>
   <div class="art">{{SVG:slide-loop}}</div>
-  <div class="foot"><span>Infrastructure failures are retried and left out of every statistic</span><b>08 / 14</b></div>
+  <ol class="phone-loop"><li><b>Change</b> a skill, hook or plugin in the harness</li><li><b>Freeze</b> a good run into harness.lock</li><li><b>Experiment</b>: stable against candidate, paired</li><li><b>Report</b> the verdict with intervals on the PR</li><li><b>Promote</b>: move stable; drift checks guard it</li></ol>
+  <div class="foot"><span>Infrastructure failures are retried and left out of every statistic</span><b>8 of 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="flightdeck: the verdict">
@@ -224,11 +258,11 @@ p { margin: 0; }
     <div>
       <h2>The verdict lands on the harness PR</h2>
       <p class="lede">flightdeck posts one comment on the pull request that changes the harness and updates it in place: the verdict, both variants' pins, the outcome and its interval.</p>
-      <ul class="facts"><li><b>candidate is better than control</b> on resolved: +21.2 pp, CI +1.5 to +43.9.</li><li>Paired by task; infrastructure failures are excluded and listed.</li></ul>
+      <ul class="facts"><li><em>Candidate is better than control</em> on resolved: +21.2 pp, CI +1.5 to +43.9.</li><li>Paired by task; infrastructure failures are excluded and listed.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/flightdeck-verdict-verdict.png" alt="A GitHub pull request comment from flightdeck: candidate is better than control on resolved (+21.2 pp, 95% CI +1.5 to +43.9), the pre-registered rule and the Outcome table for control and candidate"><figcaption><span>flightdeck · report on PR #48, as posted on GitHub</span></figcaption></figure>
+    <figure class="screen"><img src="captures/flightdeck-verdict-verdict.png" data-day="captures/flightdeck-verdict-day-verdict.png" alt="flightdeck's report as GitHub shows the comment on the harness pull request: candidate is better than control on resolved (+21.2 pp, 95% CI +1.5 to +43.9), experiment FDK-EXP-0531, the pre-registered rule, the Outcome table and the paired difference"><figcaption><span>GitHub's comment on the harness PR, written by flightdeck</span></figcaption></figure>
   </div>
-  <div class="foot"><span>A harness change is promoted on paired evidence, by someone other than its author</span><b>09 / 14</b></div>
+  <div class="foot"><span>A harness change is promoted on paired evidence, by someone other than its author</span><b>9 of 14</b></div>
 </section>
 
 <section class="slide" aria-label="Safe by default">
@@ -237,23 +271,23 @@ p { margin: 0; }
   <div class="readouts">
     <div class="ro"><span class="k">Taint</span><span class="v" style="font-size:34px">Tracked</span><p>Reading a web page, a remote MCP server or a ticket marks the run.</p></div>
     <div class="ro"><span class="k">Push</span><span class="v" style="font-size:34px">Fetch-only</span><p>Sandboxes can't push. hangar delivers one commit through its gateway.</p></div>
-    <div class="ro attn"><span class="k">Decision point</span><span class="v" style="font-size:34px">Ask first</span><p>Release, landing, egress and secrets go to Tower: allow, deny or wait.</p></div>
+    <div class="ro"><span class="k">Decision point</span><span class="v" style="font-size:34px">Ask first</span><p>Release, landing, egress and secrets go to Tower: allow, deny or wait.</p></div>
     <div class="ro"><span class="k">Approver</span><span class="v" style="font-size:34px">Never you</span><p>The requester never approves their own risky work. Every decision is signed.</p></div>
   </div>
-  <div class="foot"><span>Rollout: off, then shadow, then enforce, one decision kind at a time</span><b>10 / 14</b></div>
+  <div class="foot"><span>Rollout: off, then shadow, then enforce, one decision kind at a time</span><b>10 of 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="Tower: the Desk">
   <span class="eyebrow">What the team sees · Tower</span>
   <div class="screen-grid">
     <div>
-      <h2>The Desk: what needs you, what finished, who you sign for</h2>
-      <p class="lede">Tower's home for a person: start work, decide the cards that need your signature, and see the day's receipts.</p>
-      <ul class="facts"><li>Each card says what will run, why it asked and what signing does.</li><li>Every decision files a receipt, chained into the record.</li></ul>
+      <h2>The Desk: what needs you, what finished, who you approve for</h2>
+      <p class="lede">Tower's home for a person: start work, approve or deny the cards that need you, and see the day's receipts.</p>
+      <ul class="facts"><li>Each card says what will run, why it asked and what approving does.</li><li>Every decision files a receipt, chained into the record.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/tower-desk-approval.png" alt="Needs you on Tower's Desk: the decision deck with Breaks asking to create a ticket for Globex, what will run, the risk, the credential and what signing does, Decline and Sign"><figcaption><span>Tower · the Desk, as an approver</span></figcaption></figure>
+    <figure class="screen"><img src="captures/tower-desk-approval.png" data-day="captures/tower-desk-day-approval.png" alt="Needs you on Tower's Desk: approval TWR-APR-0102, Breaks asking to create a ticket for Globex, what will run, the risk, the credential and what approving does, Deny and Approve"><figcaption><span>Tower, the Desk: one approval with Deny and Approve</span></figcaption></figure>
   </div>
-  <div class="foot"><span>What will run, why it asked and what signing does, before the button</span><b>11 / 14</b></div>
+  <div class="foot"><span>What will run, why it asked and what approving does, before the button</span><b>11 of 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="Tower: objects and the composer">
@@ -264,9 +298,9 @@ p { margin: 0; }
       <p class="lede">A Jira issue, a pull request, a hangar job: each is a chip, and each chip opens a page with what touched it and what is in play.</p>
       <ul class="facts"><li>Tower keeps a reference, never a copy; title and state are read from the source.</li><li>The receipt carries the reference, hashed into the chain.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/tower-object-release.png" alt="In play on Tower's page for Jira issue PAY-412: hangar's job j-7f3a waiting for a maintainer to release it, with chips for the repo, the job and the issue"><figcaption><span>Tower · object page, jira:issue/PAY-412</span></figcaption></figure>
+    <figure class="screen"><img src="captures/tower-object-composer.png" data-day="captures/tower-object-day-composer.png" alt="Start work about it on Tower's page for Jira issue PAY-412: the composer addressed to Ask Breaks, Ask Service agent or Hand to hangar, the issue as a chip with its state, In progress, and two suggested asks"><figcaption><span>Tower, Jira issue PAY-412: start work about it</span></figcaption></figure>
   </div>
-  <div class="foot"><span>A release waits on a named person, and the receipt names the issue it was for</span><b>12 / 14</b></div>
+  <div class="foot"><span>Work starts from the object, and its receipt carries the reference</span><b>12 of 14</b></div>
 </section>
 
 <section class="slide slide--screen" aria-label="Airframe">
@@ -277,9 +311,9 @@ p { margin: 0; }
       <p class="lede">Airframe holds the parts a person needs to work with an agent: approval card, question, composer, diff, object chips. Every screen in this deck is built from it.</p>
       <ul class="facts"><li>Tokens and <b>af-</b> classes only; a test in each repo fails on a color literal.</li><li>Night and Day, forced colors and reduced motion, in one stylesheet.</li></ul>
     </div>
-    <figure class="screen"><img src="captures/airframe-approvalcard-card.png" alt="The ApprovalCard from the Airframe gallery: a held git push to main with its Cedar policy, checks, expiry, Deny, Approve for this session and Approve push, and a quorum of 1 of 2 signed"><figcaption><span>Airframe · gallery, ApprovalCard</span></figcaption></figure>
+    <figure class="screen"><img src="captures/airframe-approvalcard-card.png" alt="The ApprovalCard from the Airframe gallery: a held git push to main with its Cedar policy, checks, expiry, Deny, Approve for this session and Approve push, and a quorum of 1 of 2 approved"><figcaption><span>Airframe, the ApprovalCard</span></figcaption></figure>
   </div>
-  <div class="foot"><span>One stylesheet, every console and docs site; the tool repos vendor a tagged release</span><b>13 / 14</b></div>
+  <div class="foot"><span>One stylesheet, every console and docs site; the tool repos vendor a tagged release</span><b>13 of 14</b></div>
 </section>
 
 <section class="slide" aria-label="Where it stands">
@@ -290,14 +324,14 @@ p { margin: 0; }
     <div class="phase"><span class="k">On main</span><h3>Measure everything</h3><ul><li>Harness lock: freeze, check, thaw</li><li>Run outbox and nightly compactor</li><li>Reports, behavior specs, pinned trials</li><li>Slack inbox, Tower's decision API</li></ul></div>
     <div class="phase now"><span class="k">Next</span><h3>Governed and decided</h3><ul><li>Tower decisions in shadow, then enforce</li><li>One real flightdeck decision</li><li>Team harness, frozen from a good run</li><li>Outbox and compactor on in the cluster</li></ul></div>
   </div>
-  <div class="foot"><span>Docs: sean-koval.github.io/agent-factory</span><b>14 / 14</b></div>
+  <div class="foot"><span>Docs: sean-koval.github.io/agent-factory</span><b>14 of 14</b></div>
 </section>
 
 </main>
 
 <nav class="hud" aria-label="Slides">
   <button id="prev" type="button" aria-label="Previous slide">‹</button>
-  <output id="count" aria-live="polite">1 / 14</output>
+  <output id="count" aria-live="polite">Slide 1 of 14</output>
   <button id="next" type="button" aria-label="Next slide">›</button>
 </nav>
 
@@ -309,18 +343,20 @@ p { margin: 0; }
   const fromHash = () => { const n = parseInt((location.hash || "").replace(/\D/g, ""), 10); return n >= 1 && n <= slides.length ? n - 1 : 0; };
   function fit() {
     const w = document.documentElement.clientWidth, h = document.documentElement.clientHeight;
-    const s = Math.min((w - 32) / 1280, (h - 24) / 720, 1.6);
+    const s = Math.min((w - 32) / 1280, (h - 56 - 16) / 720, 1.6);
     document.documentElement.style.setProperty("--s", Math.max(s, 0.1).toFixed(4));
   }
   function show(n) {
     i = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach((el, k) => el.classList.toggle("on", k === i));
-    count.textContent = (i + 1) + " / " + slides.length;
+    count.textContent = "Slide " + (i + 1) + " of " + slides.length;
     try { history.replaceState(null, "", "#s" + (i + 1)); } catch (e) {}
   }
   document.getElementById("prev").addEventListener("click", () => show(i - 1));
   document.getElementById("next").addEventListener("click", () => show(i + 1));
+  const stacked = matchMedia("(max-width: 600px)");
   document.addEventListener("keydown", (e) => {
+    if (stacked.matches) return;
     if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); show(i + 1); }
     if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); show(i - 1); }
     if (e.key === "Home") show(0);
@@ -328,8 +364,24 @@ p { margin: 0; }
   });
   let x0 = null;
   document.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, {passive: true});
-  document.addEventListener("touchend", (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
+  document.addEventListener("touchend", (e) => { if (x0 === null || stacked.matches) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
   addEventListener("resize", fit);
+  // Night unless asked: ?theme=light, or the docs page that embeds the deck is in Day (its scheme is followed live)
+  const imgs = [...document.querySelectorAll("img[data-day]")];
+  imgs.forEach((img) => { img.dataset.night = img.getAttribute("src"); });
+  function theme(t) {
+    document.documentElement.setAttribute("data-theme", t);
+    imgs.forEach((img) => { img.src = t === "light" ? img.dataset.day : img.dataset.night; });
+  }
+  const asked = new URLSearchParams(location.search).get("theme");
+  let host = null;
+  try { host = window.parent !== window ? window.parent.document.body : null; } catch (e) { host = null; }
+  if (asked === "light" || asked === "dark") theme(asked);
+  else if (host) {
+    const follow = () => theme(host.getAttribute("data-md-color-scheme") === "default" ? "light" : "dark");
+    follow();
+    new MutationObserver(follow).observe(host, {attributes: true, attributeFilter: ["data-md-color-scheme"]});
+  }
   fit(); show(fromHash());
 })();
 </script>

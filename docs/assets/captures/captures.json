@@ -9,7 +9,7 @@
     },
     "thumbnails": "docs/assets/airframe/<Name>.png: the top 800x500 of every component's Night preview (40 components), shown on the Components page"
   },
-  "captured": "2026-10-20",
+  "captured": "2026-10-21",
   "crops": {
     "hangar-fleet-deck": {
       "from": "hangar-fleet",
@@ -43,9 +43,9 @@
         0,
         56,
         720,
-        586
+        512
       ],
-      "shows": "Needs you in a 720 px window: the decision deck with a held git push to main on top and Approve push",
+      "shows": "Needs you in a 720 px window: the decision deck with a held git push to main on top, ending at the card stack, with Approve push",
       "shown": [
         "page",
         "deck"
@@ -55,11 +55,11 @@
       "from": "hangar-review-narrow",
       "box": [
         0,
-        56,
+        68,
         720,
-        584
+        588
       ],
-      "shows": "Job #42 in a 720 px window: the agent's summary, the reply box, and the change as a greyscale diff",
+      "shows": "Job #42 in a 720 px window: the agent's summary, the reply box, and the first file's change as a greyscale diff, whole",
       "shown": [
         "deck"
       ]
@@ -72,21 +72,21 @@
         656,
         588
       ],
-      "shows": "Needs you on Marcus's Desk: the decision deck with a ticket for Globex to sign, what will run and what signing does",
+      "shows": "Needs you on Marcus's Desk: the decision deck with a ticket for Globex to approve, what will run and what approving does",
       "shown": [
         "page",
         "deck"
       ]
     },
-    "tower-object-release": {
+    "tower-object-composer": {
       "from": "tower-object",
       "box": [
         264,
-        508,
+        168,
         680,
-        392
+        316
       ],
-      "shows": "On PAY-412: hangar's job waiting for a maintainer to release it, with the repo and the issue it names",
+      "shows": "Start work about PAY-412: the composer addressed to Breaks, the issue as a chip with its state, and suggested asks",
       "shown": [
         "deck"
       ]
@@ -96,10 +96,10 @@
       "box": [
         0,
         0,
-        790,
-        520
+        800,
+        484
       ],
-      "shows": "The report comment on the harness PR: the verdict line, the rule and the outcome table of both variants",
+      "shows": "The report as GitHub shows the comment on the harness PR: the verdict, the experiment, the rule, the outcome table and the paired difference",
       "shown": [
         "page",
         "deck"
@@ -137,11 +137,37 @@
         0,
         56,
         720,
-        586
+        512
       ],
-      "shows": "Needs you in a 720 px window: the decision deck with a held git push to main on top and Approve push",
+      "shows": "Needs you in a 720 px window: the decision deck with a held git push to main on top, ending at the card stack, with Approve push",
       "shown": [
         "page",
+        "deck"
+      ]
+    },
+    "hangar-fleet-rows-day-list": {
+      "from": "hangar-fleet-rows-day",
+      "box": [
+        16,
+        58,
+        908,
+        548
+      ],
+      "shows": "The Fleet's rows for base-codex: eight agents, what each is doing, its owner, stage rail and stage times",
+      "shown": [
+        "deck"
+      ]
+    },
+    "hangar-review-narrow-day-change": {
+      "from": "hangar-review-narrow-day",
+      "box": [
+        0,
+        68,
+        720,
+        588
+      ],
+      "shows": "Job #42 in a 720 px window: the agent's summary, the reply box, and the first file's change as a greyscale diff, whole",
+      "shown": [
         "deck"
       ]
     },
@@ -153,9 +179,22 @@
         656,
         588
       ],
-      "shows": "Needs you on Marcus's Desk: the decision deck with a ticket for Globex to sign, what will run and what signing does",
+      "shows": "Needs you on Marcus's Desk: the decision deck with a ticket for Globex to approve, what will run and what approving does",
       "shown": [
         "page",
+        "deck"
+      ]
+    },
+    "tower-object-day-composer": {
+      "from": "tower-object-day",
+      "box": [
+        264,
+        168,
+        680,
+        316
+      ],
+      "shows": "Start work about PAY-412: the composer addressed to Breaks, the issue as a chip with its state, and suggested asks",
+      "shown": [
         "deck"
       ]
     },
@@ -164,10 +203,10 @@
       "box": [
         0,
         0,
-        790,
-        520
+        800,
+        484
       ],
-      "shows": "The report comment on the harness PR: the verdict line, the rule and the outcome table of both variants",
+      "shows": "The report as GitHub shows the comment on the harness PR: the verdict, the experiment, the rule, the outcome table and the paired difference",
       "shown": [
         "page",
         "deck"
@@ -176,7 +215,7 @@
   },
   "flightdeck": {
     "repo": "Sean-Koval/flightdeck",
-    "commit": "7ff1feb",
+    "commit": "759eb1b",
     "demo": "docs/assets/build.py",
     "screens": {
       "flightdeck-verdict": "The report on the harness pull request: the verdict, the pins of both variants and the outcome table, from the fixture experiment",
@@ -185,7 +224,7 @@
   },
   "hangar": {
     "repo": "Sean-Koval/hangar",
-    "commit": "2122856",
+    "commit": "8540175",
     "demo": "docs/assets/front/demo.py",
     "fixture": "docs/assets/front/fixture.py",
     "screens": {
@@ -197,17 +236,20 @@
       "hangar-review-narrow": "Job #42's detail in a 720 px window (demo): summary, composer and the diff",
       "hangar-fleet-day": "The same screen in Day",
       "hangar-needs-you-day": "The same screen in Day",
-      "hangar-needs-you-narrow-day": "The same screen in Day"
+      "hangar-needs-you-narrow-day": "The same screen in Day",
+      "hangar-fleet-rows-day": "The same screen in Day",
+      "hangar-review-narrow-day": "The same screen in Day"
     }
   },
   "tower": {
     "repo": "Sean-Koval/tower",
-    "commit": "97afb28",
+    "commit": "b7189d0",
     "demo": "server/tools/ui_tour.py",
     "screens": {
-      "tower-desk": "Marcus's Desk: Start work (the composer, handing a task to hangar), Needs you with an approval card, the agents he signs for",
-      "tower-object": "The object page for Jira issue PAY-412: its chip, the composer about it, and the hangar release waiting for a signature",
-      "tower-desk-day": "The same Desk in Day"
+      "tower-desk": "Marcus's Desk: Start work (the composer, handing a task to hangar), Needs you with an approval card, the agents he approves for",
+      "tower-object": "The object page for Jira issue PAY-412: its chip, the composer about it, and the hangar release waiting for an approval",
+      "tower-desk-day": "The same Desk in Day",
+      "tower-object-day": "The same object page in Day"
     }
   }
 }

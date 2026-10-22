@@ -82,19 +82,19 @@ CROPS = {
         "list": ((16, 58, 908, 548), "The Fleet's rows for base-codex: eight agents, what each is doing, its owner, stage rail and stage times", ("deck",)),
     },
     "hangar-needs-you-narrow": {
-        "decision": ((0, 56, 720, 586), "Needs you in a 720 px window: the decision deck with a held git push to main on top and Approve push", ("page", "deck")),
+        "decision": ((0, 56, 720, 512), "Needs you in a 720 px window: the decision deck with a held git push to main on top, ending at the card stack, with Approve push", ("page", "deck")),
     },
     "hangar-review-narrow": {
-        "change": ((0, 56, 720, 584), "Job #42 in a 720 px window: the agent's summary, the reply box, and the change as a greyscale diff", ("deck",)),
+        "change": ((0, 68, 720, 588), "Job #42 in a 720 px window: the agent's summary, the reply box, and the first file's change as a greyscale diff, whole", ("deck",)),
     },
     "tower-desk": {
-        "approval": ((264, 160, 656, 588), "Needs you on Marcus's Desk: the decision deck with a ticket for Globex to sign, what will run and what signing does", ("page", "deck")),
+        "approval": ((264, 160, 656, 588), "Needs you on Marcus's Desk: the decision deck with a ticket for Globex to approve, what will run and what approving does", ("page", "deck")),
     },
     "tower-object": {
-        "release": ((264, 508, 680, 392), "On PAY-412: hangar's job waiting for a maintainer to release it, with the repo and the issue it names", ("deck",)),
+        "composer": ((264, 168, 680, 316), "Start work about PAY-412: the composer addressed to Breaks, the issue as a chip with its state, and suggested asks", ("deck",)),
     },
     "flightdeck-verdict": {
-        "verdict": ((0, 0, 790, 520), "The report comment on the harness PR: the verdict line, the rule and the outcome table of both variants", ("page", "deck")),
+        "verdict": ((0, 0, 800, 484), "The report as GitHub shows the comment on the harness PR: the verdict, the experiment, the rule, the outcome table and the paired difference", ("page", "deck")),
     },
     "airframe-approvalcard": {
         "card": ((16, 12, 780, 584), "One ApprovalCard: a held push to main with its policy, checks, expiry, deny and approve, and the quorum", ("deck",)),
@@ -102,7 +102,9 @@ CROPS = {
 }
 
 # The screens a docs page shows, which get a Day twin (<name>-day.png) cut with the same boxes; the deck is Night only.
-DAY = ("hangar-fleet", "hangar-needs-you-narrow", "tower-desk", "flightdeck-verdict")
+# The deck follows the docs page's scheme, so the screens a slide shows get a twin too.
+DAY = ("hangar-fleet", "hangar-needs-you-narrow", "hangar-fleet-rows", "hangar-review-narrow", "tower-desk", "tower-object",
+       "flightdeck-verdict")
 CROPS.update({f"{name}-day": CROPS[name] for name in DAY})
 
 # Extra work for hangar's demo, so the Fleet shows a pool rather than three tiles. Each becomes a real job on the
@@ -246,8 +248,10 @@ def hangar(br: Browser, manifest: dict) -> None:
             raise RuntimeError("the demo ticket did not end in a pull request")
 
         # the review loop: the job's change as an Airframe diff, and the composer to reply to the agent
-        for name, view in (("hangar-review", VIEW), ("hangar-review-narrow", NARROW)):
-            page = br.page(f"localStorage.setItem('hangar.token', '{token}')", viewport=view)
+        for name, view, theme in (("hangar-review", VIEW, "dark"), ("hangar-review-narrow", NARROW, "dark"),
+                                   ("hangar-review-narrow-day", NARROW, "light")):
+            page = br.page(f"localStorage.setItem('hangar.token', '{token}'); localStorage.setItem('hangar.theme', '{theme}')",
+                           viewport=view, scheme=theme)
             page.goto(f"{url}/#jobs", wait_until="networkidle")
             page.locator("#job-list li", has_text="#42").first.click()
             page.wait_for_selector("#job-detail .af-composer", timeout=15000)
@@ -275,7 +279,8 @@ def hangar(br: Browser, manifest: dict) -> None:
                                           "hangar-fleet-rows": "The Fleet in a 940 px window (fixture): the agents of base-codex as rows",
                                           "hangar-needs-you-narrow": "Needs you in a 720 px window (fixture): the decision deck with the held push on top",
                                           "hangar-review-narrow": "Job #42's detail in a 720 px window (demo): summary, composer and the diff",
-                                          **{f"{n}-day": "The same screen in Day" for n in ("hangar-fleet", "hangar-needs-you", "hangar-needs-you-narrow")}}}
+                                          **{f"{n}-day": "The same screen in Day" for n in ("hangar-fleet", "hangar-needs-you", "hangar-needs-you-narrow",
+                                                                              "hangar-fleet-rows", "hangar-review-narrow")}}}
     finally:
         proc.terminate()
         try:
@@ -330,12 +335,13 @@ async def hangar_fixture(d: Path, url: str, token: str) -> None:
             await save(page, f"hangar-fleet{suffix}")
             await ctx.close()
         # the rows: the Fleet heading just under the sticky top bar
-        ctx, page = await open_(b, "dark", MID, "fleet")
-        await page.evaluate("""() => { const h = document.querySelector('#fleet-body').getBoundingClientRect().top;
-            window.scrollBy(0, h - 64); }""")
-        await page.wait_for_timeout(400)
-        await save(page, "hangar-fleet-rows")
-        await ctx.close()
+        for theme, suffix in (("dark", ""), ("light", "-day")):
+            ctx, page = await open_(b, theme, MID, "fleet")
+            await page.evaluate("""() => { const h = document.querySelector('#fleet-body').getBoundingClientRect().top;
+                window.scrollBy(0, h - 64); }""")
+            await page.wait_for_timeout(400)
+            await save(page, f"hangar-fleet-rows{suffix}")
+            await ctx.close()
         await b.close()
 
 
@@ -374,9 +380,10 @@ def tower(br: Browser, manifest: dict) -> None:
                 shoot(page, name + suffix)
             page.context.close()
         manifest["tower"] = {"repo": "Sean-Koval/tower", "commit": commit(d), "demo": "server/tools/ui_tour.py",
-                             "screens": {"tower-desk": "Marcus's Desk: Start work (the composer, handing a task to hangar), Needs you with an approval card, the agents he signs for",
-                                         "tower-object": "The object page for Jira issue PAY-412: its chip, the composer about it, and the hangar release waiting for a signature",
-                                         "tower-desk-day": "The same Desk in Day"}}
+                             "screens": {"tower-desk": "Marcus's Desk: Start work (the composer, handing a task to hangar), Needs you with an approval card, the agents he approves for",
+                                         "tower-object": "The object page for Jira issue PAY-412: its chip, the composer about it, and the hangar release waiting for an approval",
+                                         "tower-desk-day": "The same Desk in Day",
+                                         "tower-object-day": "The same object page in Day"}}
     finally:
         proc.terminate()
         try:

@@ -7,9 +7,9 @@
 One decision point for risky actions: rules, human approvals, signed receipts.
 
 <figure class="af-figure af-figure--lead">
-<a href="../assets/captures/tower-desk.png"><img src="../assets/captures/tower-desk-approval.png#only-dark" alt="Tower's Desk for an approver: the decision deck with a ticket for Globex to sign, what will run, the risk and what signing does" width="656" height="588"></a>
-<a href="../assets/captures/tower-desk-day.png"><img src="../assets/captures/tower-desk-day-approval.png#only-light" alt="Tower's Desk for an approver: the decision deck with a ticket for Globex to sign, what will run, the risk and what signing does" width="656" height="588"></a>
-<figcaption>Needs you on the Desk: an agent wants to create a client ticket, and signing is explained before the button.</figcaption>
+<a href="../assets/captures/tower-desk.png"><img src="../assets/captures/tower-desk-approval.png#only-dark" alt="Tower's Desk for an approver: approval TWR-APR-0102 to create a ticket for Globex, what will run, the risk, what approving does, Deny and Approve" width="656" height="588"></a>
+<a href="../assets/captures/tower-desk-day.png"><img src="../assets/captures/tower-desk-day-approval.png#only-light" alt="Tower's Desk for an approver: approval TWR-APR-0102 to create a ticket for Globex, what will run, the risk, what approving does, Deny and Approve" width="656" height="588"></a>
+<figcaption>Needs you on the Desk: an agent wants to create a client ticket, and what approving does is explained before the button.</figcaption>
 </figure>
 
 Tower is the team's governance plane for the coding agents hangar runs and the vendor agents the team uses. hangar runs the agents; Tower clears risky actions. It was the governed workspace until its owner named it Tower (Tower ADR 0017).
