@@ -81,12 +81,25 @@ class BuildTests(unittest.TestCase):
             # the hub links its pages as the site names them, and keeps the old single page's anchors (KAN-162)
             self.assertIn("](writing.md)", guide)
             self.assertIn('<span id="tail-number-ids"></span>', guide)
+            # Status and Data are hubs too: their pages linked as the site names them, the old anchors kept (KAN-160)
+            for hub, link, anchors in (
+                ("status", "](decisions.md)", ("the-dark-cockpit-rule", "accepted-bends", "decision-words",
+                 "attention-is-edge-mark-word-theme-v12", "grouping-a-group-leads-with-what-needs-a-person",
+                 "examples-by-product", "a-question-is-not-an-approval-but-it-is-the-same-role",
+                 "waiting-on-others-stays-grey", "alert-inhibition")),
+                ("data", "](tables.md)", ("tables", "inline-data-keyed", "readouts", "traces", "lanes", "fleet-board",
+                 "diffs", "objects-by-reference", "charts")),
+            ):
+                text = (Path(tmp) / "site" / "guide" / f"{hub}.md").read_text()
+                self.assertIn(link, text)
+                for anchor in anchors:
+                    self.assertIn(f'<span id="{anchor}"></span>', text, f"guide/{hub}.md lost the #{anchor} anchor")
 
     def test_brand_book_pages_are_short(self):
-        # the brand book is a hub and one page per question, each under 700 words (KAN-162); Status, Data and
-        # Products are chapters of their own
+        # the brand book is a hub and one page per question, each under 700 words (KAN-162); Status and Data are
+        # hubs of their own (KAN-160). Products is the one chapter still whole.
         for src in (af.SRC / "guide").glob("*.md"):
-            if src.stem in ("Status", "Data", "Products"):
+            if src.stem == "Products":
                 continue
             text = re.sub(r"```.*?```", "", src.read_text(), flags=re.S)
             self.assertLess(len(re.sub(r"<[^>]+>", " ", text).split()), 700, f"guide/{src.name} is over 700 words; split it")

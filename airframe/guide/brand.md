@@ -25,8 +25,8 @@ Each page answers one question.
 - <span id="motion"></span><span id="focus"></span>**[Motion and focus](Motion.md)**: how do things move, and how does focus show?
 - <span id="iconography"></span>**[Iconography](Iconography.md)**: which icons, at what size and in what color?
 - <span id="how-to-consume"></span>**[How to consume](Consume.md)**: how does a tool load Airframe?
-- **[Status](Status.md)**: the six statuses, their marks and the decision words.
-- **[Data](Data.md)**: tables, inline data, readouts, traces, lanes and charts.
+- **[Status](Status.md)**: the six statuses and their marks; a hub for when a status takes color, groups and the decision words.
+- **[Data](Data.md)**: density and tabular figures; a hub for tables, inline data, readouts and charts, traces and lanes, the fleet board and diffs.
 - **[Products](Products.md)**: each product's mark, hue and nav marker.
 
 ## Principles

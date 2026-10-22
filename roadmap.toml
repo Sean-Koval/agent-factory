@@ -29,7 +29,7 @@ epics = [189]
 
 [[repo]]
 key = "workspace"
-name = "Tower (workspace)"
+name = "Tower"
 slugs = ["Sean-Koval/tower"]
 epics = [7]
 

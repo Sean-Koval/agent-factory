@@ -18,7 +18,7 @@ agent-factory is the suite-level home for hangar, flightdeck, ai-dlc, Tower and 
 - CSS, HTML, the deck and diagrams use `var(--af-<name>)` tokens and `af-` classes, never a color literal. `python3 scripts/airframe.py check` and `tests/test_airframe.py` enforce it, along with the contrast floor.
 - Token names are a contract with the tool repos: rename only by adding an alias in `ALIASES` (`scripts/airframe.py`).
 - Any change under `theme/` needs a new `## theme-vN` entry in `theme/CHANGELOG.md` listing each changed token. Merging releases it to the tool repos (`.github/workflows/theme.yml`).
-- The brand yellow is never a status; color appears only when a person is needed (see `airframe/guide/Status.md`). Diffs are greyscale (`guide/Data.md`); a deny needs a reason; waiting on others stays grey; a question is the approval role with the word "Needs input".
+- The brand yellow is never a status; color appears only when a person is needed (see `airframe/guide/Status.md`). Diffs are greyscale (`guide/Diffs.md`); a deny needs a reason; waiting on others stays grey; a question is the approval role with the word "Needs input".
 
 ## Checks
 

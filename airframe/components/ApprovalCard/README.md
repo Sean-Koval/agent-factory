@@ -128,7 +128,7 @@ preview's last card shows it at 320 px.
 - For a question from an agent (needs input rather than a yes or no), use Question instead.
 
 ## Do
-- Use the decision words in guide/Status.md: **Needs approval** as the status, **Approve** and **Deny** as the buttons (with the object when it helps), **Denied** on the verdict.
+- Use the decision words in guide/Decisions.md: **Needs approval** as the status, **Approve** and **Deny** as the buttons (with the object when it helps), **Denied** on the verdict.
 - Show the exact action being approved, not a summary of it; when the person edits it, show what it was.
 - Order the decision as inspect (ghost), refuse (danger), accept (primary). Put a second accept, such as approve for the session, as a secondary between them, and say in a hint what it grants and for how long.
 - Require a reason to deny and make it optional to approve. Send the reason to the requester and put it on the receipt.
