@@ -1,10 +1,10 @@
 {
-  "$description": "Airframe theme-v15, Day theme, in the Design Tokens Format Module 2025.10. Generated from airframe/tokens.json by scripts/airframe.py; do not edit. Each token's 'css' extension names its CSS custom property or class.",
+  "$description": "Airframe theme-v16, Day theme, in the Design Tokens Format Module 2025.10. Generated from airframe/tokens.json by scripts/airframe.py; do not edit. Each token's 'css' extension names its CSS custom property or class.",
   "$extensions": {
     "io.github.sean-koval.airframe": {
       "theme": "light",
       "themeName": "Day",
-      "release": "theme-v15",
+      "release": "theme-v16",
       "defaultTheme": "dark",
       "prefix": "--af-",
       "format": "https://www.designtokens.org/tr/drafts/format/"

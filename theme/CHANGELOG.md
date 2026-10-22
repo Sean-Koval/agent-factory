@@ -5,6 +5,24 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v16 · 2026-10-22
+
+The Terminal's title bar is a sentence-case label, as the KAN-75 demo clips already draw it (KAN-75). No token is
+added, renamed or removed, and no token value changes.
+
+Component CSS (`airframe.css`, `airframe-components.css`):
+
+- `.af-term__bar` drops the uppercase tracked mono (10.5px, 0.08em) for the sans label style at 12.5px, sentence
+  case, in `terminal-dim`. Its parts sit 6px apart, separated by a `·`; a long title ends in an ellipsis.
+- New `.af-term__product`: the product name in `terminal-fg`, the one bright word in the bar.
+- `.af-term__id` keeps the tail number in mono, now in `terminal-dim` like the rest of the bar, and never shrinks.
+- `.af-term__live` and the icon never shrink either. The Live dot is unchanged.
+
+Components (not in `theme/`; they ship with the registry and the skill):
+
+- Terminal: the README and preview show the bar as "hangar · Fix the flaky auth refresh test · HGR-7Q2K · Live",
+  with the real ID on hover, and say not to set the bar in capitals.
+
 ## theme-v15 · 2026-10-22
 
 The docs nav's active section is one shape, the ApprovalCard preview agrees with its README, and the brand book is
