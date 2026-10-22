@@ -67,7 +67,7 @@ sh scripts/build_site.sh && python3 -m http.server -d site  # the site (fetches 
 python3 -m unittest discover -s tests                       # tests
 ```
 
-The site build reads public issue state from GitHub for the roadmap. Set `GITHUB_TOKEN` to raise the rate limit, or `ROADMAP_ARGS=--offline` to skip it. The Pages workflow rebuilds and republishes daily.
+The site build counts the roadmap from `roadmap.toml` and the public GitHub milestones and issues it names; Jira, where work is tracked, is not read. Set `GITHUB_TOKEN` to raise the rate limit, or `ROADMAP_ARGS=--offline` to skip it. The Pages workflow rebuilds and republishes daily.
 
 ### Theme changes
 

@@ -101,6 +101,15 @@ nav:
       - Registry: airframe/registry.md
       - Guide:
           - Brand book: airframe/guide/brand.md
+          - Writing: airframe/guide/writing.md
+          - IDs and numbers: airframe/guide/ids.md
+          - Color: airframe/guide/color.md
+          - People and agents: airframe/guide/people.md
+          - Type: airframe/guide/type.md
+          - Layout: airframe/guide/layout.md
+          - Motion and focus: airframe/guide/motion.md
+          - Iconography: airframe/guide/iconography.md
+          - How to consume: airframe/guide/consume.md
           - Status: airframe/guide/status.md
           - Data: airframe/guide/data.md
           - Products: airframe/guide/products.md

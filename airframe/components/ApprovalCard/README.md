@@ -6,7 +6,7 @@ An approval card shows one held action waiting on a reviewer: the exact command,
 - The policy name and, optionally, its Cedar source in an `af-code` block.
 - Checks as a list with check icons, an expiry in plain words, the reviewer, and the receipt ID the decision will file.
 - The decision buttons in inspect, refuse, accept order; a second accept ("Approve for this session") only when the policy allows a grant, with a hint that says what the grant covers and how long it lasts.
-- For deny: a reason field. **A reason is required when denying and optional when approving.** The error is the failed mark and words, never a red fill.
+- For deny: a reason field. **A reason is required when denying and optional when approving.** The field is neutral until Deny is pressed with it empty; only then is it invalid, with the failed mark and words, never a red fill.
 - For edit-then-approve: the arguments in an editable mono field, what they were, and the primary reads "Approve edited".
 - For a quorum: the approvers as a stacked avatar group (pending ones dashed), "1 of 2 approved", and keyed `approved` / `waiting` facts.
 - For a verdict row: the outcome (denied placard, or a quiet check for approved), the action, its reason, keyed policy / sandbox / receipt, and a time.
@@ -47,20 +47,28 @@ An approval card shows one held action waiting on a reviewer: the exact command,
 </article>
 ```
 
-Deny with a reason (shown in place of the action row once Deny is pressed):
+Deny with a reason (shown in place of the action row once Deny is pressed). The field opens neutral, with a hint:
 
 ```html
 <div class="af-approval__reason" role="group" aria-labelledby="deny-lbl">
   <label class="af-field">
     <span class="af-field__label" id="deny-lbl">Reason for denying (required)</span>
-    <span class="af-input af-input--area af-input--sans is-invalid"><textarea rows="2" aria-invalid="true" aria-describedby="deny-err" placeholder="What the requester should change"></textarea></span>
-    <span class="af-field__error" id="deny-err"><span class="af-status af-status--failed"><i class="af-status__mark"></i>Give a reason. It goes on the receipt and back to HGR-4KQ1.</span></span>
+    <span class="af-input af-input--area af-input--sans"><textarea rows="2" required aria-describedby="deny-hint" placeholder="What the requester should change"></textarea></span>
+    <span class="af-field__hint" id="deny-hint">It goes on the receipt and back to HGR-4KQ1.</span>
   </label>
   <div class="af-approval__btns">
     <button type="button" class="af-btn af-btn--ghost af-btn--sm">Cancel</button>
     <button type="button" class="af-btn af-btn--danger af-btn--sm">Deny refund</button>
   </div>
 </div>
+```
+
+Only when Deny is pressed with the field empty does it turn invalid: `is-invalid` on the input (the Controls border),
+`aria-invalid="true"` on the textarea, and the hint swapped for the error:
+
+```html
+<span class="af-input af-input--area af-input--sans is-invalid"><textarea rows="2" required aria-invalid="true" aria-describedby="deny-err" placeholder="What the requester should change"></textarea></span>
+<span class="af-field__error" id="deny-err"><span class="af-status af-status--failed"><i class="af-status__mark"></i>Give a reason. It goes on the receipt and back to HGR-4KQ1.</span></span>
 ```
 
 Edit, then approve (`af-approval--editing` on the card):
@@ -130,7 +138,7 @@ preview's last card shows it at 320 px.
 
 ## Don't
 - Don't label the act Sign, Decline, Reject or Blocked. A receipt may say it was signed; the person approves.
-- Don't make Deny a solid red button or Approve a green one, and don't paint the reason field's error red; the failed mark and the words carry it.
+- Don't make Deny a solid red button or Approve a green one. Don't show the reason field invalid before Deny is pressed, and don't fill it red; the failed mark and the words carry the error.
 - Don't hide the policy behind a link when it fits in four lines.
 - Don't show more than one held action per card.
 - Don't light a card orange for a person who cannot decide it.

@@ -58,7 +58,8 @@ class BuildTests(unittest.TestCase):
             self.assertIn('src="../assets/airframe/Button.png"', grid)
             self.assertIn("### Patterns", grid)
             names = [i["name"] for i in af.components() if i["name"] != "Cover"]
-            self.assertEqual(len(written), 6 + len(names) + 4)
+            guides = list((af.SRC / "guide").glob("*.md"))
+            self.assertEqual(len(written), 6 + len(names) + len(guides))
             # the registry page's install commands pin the newest release, like the header badge
             install = (Path(tmp) / "pages" / "airframe-install.md").read_text()
             self.assertIn(f"add Sean-Koval/agent-factory/airframe#{af.release()}", install)
@@ -77,6 +78,18 @@ class BuildTests(unittest.TestCase):
             guide = (Path(tmp) / "site" / "guide" / "brand.md").read_text()
             self.assertIn("# Brand book", guide)
             self.assertIn("## Principles", guide)
+            # the hub links its pages as the site names them, and keeps the old single page's anchors (KAN-162)
+            self.assertIn("](writing.md)", guide)
+            self.assertIn('<span id="tail-number-ids"></span>', guide)
+
+    def test_brand_book_pages_are_short(self):
+        # the brand book is a hub and one page per question, each under 700 words (KAN-162); Status, Data and
+        # Products are chapters of their own
+        for src in (af.SRC / "guide").glob("*.md"):
+            if src.stem in ("Status", "Data", "Products"):
+                continue
+            text = re.sub(r"```.*?```", "", src.read_text(), flags=re.S)
+            self.assertLess(len(re.sub(r"<[^>]+>", " ", text).split()), 700, f"guide/{src.name} is over 700 words; split it")
 
     def test_every_component_has_a_thumbnail_and_a_nav_entry(self):
         nav = (af.ROOT / "mkdocs.yml").read_text()
@@ -86,8 +99,8 @@ class BuildTests(unittest.TestCase):
             n = it["name"]
             self.assertTrue((af.THUMBS / f"{n}.png").exists(), f"docs/assets/airframe/{n}.png is missing; run python3 scripts/captures.py airframe")
             self.assertIn(f"- {n}: airframe/components/{n}.md", nav, f"mkdocs.yml nav lacks the {n} page")
-        for stem in ("brand", "status", "data", "products"):
-            self.assertIn(f"airframe/guide/{stem}.md", nav)
+        for src in (af.SRC / "guide").glob("*.md"):
+            self.assertIn(f"airframe/guide/{src.stem.lower()}.md", nav, f"mkdocs.yml nav lacks the {src.stem} guide page")
 
 
 class ContrastTests(unittest.TestCase):

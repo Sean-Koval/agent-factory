@@ -5,6 +5,26 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v15 · 2026-10-22
+
+The docs nav's active section is one shape, the ApprovalCard preview agrees with its README, and the brand book is
+split by question (KAN-162). No token is added, renamed or removed, and no token value changes.
+
+Docs-site mapping (`airframe-docs.css`):
+
+- A section with its own index page (`navigation.indexes`) renders its link and its expand toggle as two active links.
+  Each drew its own `selected` pill and product marker, so the active item split in two. The `.md-nav__container`
+  now carries the one pill and the one 2px `--af-product` marker, and the two parts inside it are clear. Forced
+  colors get one `Highlight` edge.
+
+Components and guides (not in `theme/`; they ship with the registry and the skill):
+
+- ApprovalCard: the deny reason field is neutral, with a hint, until Deny is pressed with it empty; the README shows
+  the invalid state separately. The narrow card's ID is the tail number `HGR-APR-8E7F`, and its buttons read
+  "Approve for this turn" and "Approve", not Allow.
+- `guide/brand.md` (3,373 words) is now a hub with the principles, and nine pages, one per question: Writing, IDs,
+  Color, People, Type, Layout, Motion, Iconography and Consume. The old section anchors still resolve on the hub.
+
 ## theme-v14 · 2026-10-21
 
 Product hues leave the status band, the decision words are one set, the last mono capitals go from the guides, and
