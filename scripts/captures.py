@@ -15,6 +15,7 @@ subject of the screen, cut from the full capture by the same script, as <product
 slide shows the crop; the full capture stays behind a link.
 
     python3 scripts/captures.py --crops              # re-cut the crops from the captures already here (no demos)
+    python3 scripts/captures.py --clips              # copy each tool's demo clip and poster here (CLIPS; no demos)
 
 Every product is captured from its own demo and fixture data through its real UI, never from a stub:
 
@@ -120,7 +121,7 @@ MORE_JOBS = [  # each title lands on one of the scripted agent's paths (ruff, re
 
 
 def repo_dir(product: str) -> Path:
-    env = {"hangar": "HANGAR_DIR", "tower": "TOWER_DIR", "flightdeck": "FLIGHTDECK_DIR"}[product]
+    env = {"hangar": "HANGAR_DIR", "tower": "TOWER_DIR", "flightdeck": "FLIGHTDECK_DIR", "ai-dlc": "AI_DLC_DIR"}[product]
     d = Path(os.environ.get(env) or ROOT.parent / product).resolve()
     if not d.is_dir():
         sys.exit(f"captures: {product} checkout not found at {d} (set {env})")
@@ -462,6 +463,48 @@ def airframe(br: Browser, manifest: dict) -> None:
                                           f"component's Night preview ({len(names)} components), shown on the Components page"}
 
 
+# ------------------------------------------------------------------------------------------------------- clips
+# Each tool's demo clip (KAN-75), recorded by the tool's own asset script and copied here as it is, never re-encoded:
+# docs/assets/clips/<product>.mp4 and <product>.png (its poster, the first frame), and a -day pair where the clip's page
+# switches theme. The home's row and each tool page show the poster and link the clip.
+CLIPS_OUT = ROOT / "docs" / "assets" / "clips"
+CLIPS = {  # product: (repository, the script that records it, {night, day}: (mp4, poster) in that repository, what it shows)
+    "hangar": ("Sean-Koval/hangar", "docs/assets/front/make.py --only clip",
+               {"": ("docs/assets/front/hangar-clip.mp4", "docs/assets/front/hangar-clip.png"),
+                "-day": ("docs/assets/front/hangar-clip-light.mp4", "docs/assets/front/hangar-clip-light.png")},
+               "Issue #42 becomes a job, the agent works, its push to main waits in the deck, a person approves it and the PR lands"),
+    "tower": ("Sean-Koval/tower", "docs/assets/generate.py clip",
+              {"": ("docs/assets/tower-clip.mp4", "docs/assets/tower-clip-poster.png"),
+               "-day": ("docs/assets/tower-clip-light.mp4", "docs/assets/tower-clip-poster-light.png")},
+              "A push to main waits on Marcus's Desk; he denies it with a reason, and the receipt carries the reason"),
+    "flightdeck": ("Sean-Koval/flightdeck", "docs/assets/build.py",
+                   {"": ("docs/assets/clip.mp4", "docs/assets/clip-poster.png"),
+                    "-day": ("docs/assets/clip-light.mp4", "docs/assets/clip-light-poster.png")},
+                   "stats compare in a terminal, then report and its verdict, then the report as the pull-request comment"),
+    "ai-dlc": ("Sean-Koval/ai-dlc", "docs/assets/front/build.py --clip",
+               {"": ("docs/assets/front/clip.mp4", "docs/assets/front/clip-poster.png")},
+               "The quickstart's five steps in a fresh project, ending on project check --required passing"),
+}
+
+
+def clips(manifest: dict) -> None:
+    """Copy each tool's clip and poster from its checkout (HANGAR_DIR, TOWER_DIR, FLIGHTDECK_DIR, AI_DLC_DIR, or the
+    sibling folders) and record where they came from."""
+    CLIPS_OUT.mkdir(parents=True, exist_ok=True)
+    out = {}
+    for product, (repo, script, files, shows) in CLIPS.items():
+        d = repo_dir(product)
+        for suffix, (mp4, poster) in files.items():
+            for src, ext in ((mp4, "mp4"), (poster, "png")):
+                if not (d / src).is_file():
+                    sys.exit(f"captures: {d / src} is missing; record it with {script} in {product}")
+                shutil.copyfile(d / src, CLIPS_OUT / f"{product}{suffix}.{ext}")
+                print("captures: wrote", CLIPS_OUT / f"{product}{suffix}.{ext}")
+        out[product] = {"repo": repo, "commit": commit(d), "script": script, "shows": shows,
+                        "files": {f"{product}{suffix}": list(pair) for suffix, pair in files.items()}}
+    manifest["clips"] = out
+
+
 def main(argv: list[str]) -> int:
     products = [a for a in argv if not a.startswith("-")] or list(PRODUCTS)
     bad = [p for p in products if p not in PRODUCTS]
@@ -470,7 +513,9 @@ def main(argv: list[str]) -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     manifest_file = OUT / "captures.json"
     manifest = json.loads(manifest_file.read_text()) if manifest_file.exists() else {}
-    if "--crops" in argv:
+    if "--clips" in argv:
+        clips(manifest)
+    elif "--crops" in argv:
         for name in CROPS:
             cut(name)
     else:

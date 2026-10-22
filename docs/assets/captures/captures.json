@@ -10,6 +10,68 @@
     "thumbnails": "docs/assets/airframe/<Name>.png: the top 800x500 of every component's Night preview (40 components), shown on the Components page"
   },
   "captured": "2026-10-22",
+  "clips": {
+    "hangar": {
+      "repo": "Sean-Koval/hangar",
+      "commit": "d244899",
+      "script": "docs/assets/front/make.py --only clip",
+      "shows": "Issue #42 becomes a job, the agent works, its push to main waits in the deck, a person approves it and the PR lands",
+      "files": {
+        "hangar": [
+          "docs/assets/front/hangar-clip.mp4",
+          "docs/assets/front/hangar-clip.png"
+        ],
+        "hangar-day": [
+          "docs/assets/front/hangar-clip-light.mp4",
+          "docs/assets/front/hangar-clip-light.png"
+        ]
+      }
+    },
+    "tower": {
+      "repo": "Sean-Koval/tower",
+      "commit": "058c988",
+      "script": "docs/assets/generate.py clip",
+      "shows": "A push to main waits on Marcus's Desk; he denies it with a reason, and the receipt carries the reason",
+      "files": {
+        "tower": [
+          "docs/assets/tower-clip.mp4",
+          "docs/assets/tower-clip-poster.png"
+        ],
+        "tower-day": [
+          "docs/assets/tower-clip-light.mp4",
+          "docs/assets/tower-clip-poster-light.png"
+        ]
+      }
+    },
+    "flightdeck": {
+      "repo": "Sean-Koval/flightdeck",
+      "commit": "29e4aff",
+      "script": "docs/assets/build.py",
+      "shows": "stats compare in a terminal, then report and its verdict, then the report as the pull-request comment",
+      "files": {
+        "flightdeck": [
+          "docs/assets/clip.mp4",
+          "docs/assets/clip-poster.png"
+        ],
+        "flightdeck-day": [
+          "docs/assets/clip-light.mp4",
+          "docs/assets/clip-light-poster.png"
+        ]
+      }
+    },
+    "ai-dlc": {
+      "repo": "Sean-Koval/ai-dlc",
+      "commit": "340f208",
+      "script": "docs/assets/front/build.py --clip",
+      "shows": "The quickstart's five steps in a fresh project, ending on project check --required passing",
+      "files": {
+        "ai-dlc": [
+          "docs/assets/front/clip.mp4",
+          "docs/assets/front/clip-poster.png"
+        ]
+      }
+    }
+  },
   "crops": {
     "hangar-fleet-deck": {
       "from": "hangar-fleet",

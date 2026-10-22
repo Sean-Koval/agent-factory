@@ -23,6 +23,12 @@ Tower is the team's governance plane for the coding agents hangar runs and the v
 | Status | The decision API, signed events, attestation receipts and passports for `/mcp` are shipped; hangar's wiring and a deployment beside it are next. See the [roadmap](../roadmap.md). |
 | Docs site | Private repository (Sean-Koval/tower); docs site once public. |
 
+<figure class="af-figure af-figure--lead">
+<a href="../assets/clips/tower.mp4"><img src="../assets/clips/tower.png#only-dark" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="816"></a>
+<a href="../assets/clips/tower-day.mp4"><img src="../assets/clips/tower-day.png#only-light" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="816"></a>
+<figcaption>Play the clip (18 s): a push to main waits on Marcus's Desk, he denies it with a reason, and the receipt in the record carries the reason.</figcaption>
+</figure>
+
 ## How hangar uses Tower
 
 Hangar enforces; Tower decides. Each of hangar's enforcement points asks Tower one question and keeps doing the rest itself. An allow lets hangar go on with its own checks, never skip them. Anything that fails on the way is a wait or a deny.

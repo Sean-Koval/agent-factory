@@ -6,6 +6,11 @@
 
 Sets up engineers' machines, authors the optional workflow plugin, gates local work on CI.
 
+<figure class="af-figure af-figure--lead">
+<a href="../assets/clips/ai-dlc.mp4"><img src="../assets/clips/ai-dlc.png" alt="The first frame of ai-dlc's clip: ai-dlc project init in a terminal, answering applied, 37 files" width="680" height="422"></a>
+<figcaption>Play the clip (20 s): the quickstart's five steps in a fresh project, ending on project check --required passing.</figcaption>
+</figure>
+
 ai-dlc is the suite's setup, off the agent's hot path. The [team harness repo](../team-harness.md) defines the harness; ai-dlc contributes one optional component to it, its workflow plugin, and prepares engineers' machines ([ADR 0001](https://github.com/Sean-Koval/ai-dlc/blob/main/docs/decisions/0001-refocus-ai-dlc.md)).
 
 | | |

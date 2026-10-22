@@ -20,4 +20,10 @@ Runs coding agents in isolated cloud sandboxes, from a ticket to a landed PR.
 | Used by | Engineers who submit and steer work, reviewers, the lead who sets policy, agents through MCP, CI. |
 | Status | The safe release, the doors, the inbox, the harness lock and the outbox are shipped; asking Tower is in progress. See [P2 on the roadmap](../roadmap.md#p2-adopt-and-capture). |
 
+<figure class="af-figure af-figure--lead">
+<a href="../assets/clips/hangar.mp4"><img src="../assets/clips/hangar.png#only-dark" alt="The first frame of hangar's clip: the Fleet, with issue #42's job starting in checkout-python and the caption Issue #42 gets the hangar label, and a job starts" width="680" height="696"></a>
+<a href="../assets/clips/hangar-day.mp4"><img src="../assets/clips/hangar-day.png#only-light" alt="The first frame of hangar's clip: the Fleet, with issue #42's job starting in checkout-python and the caption Issue #42 gets the hangar label, and a job starts" width="680" height="696"></a>
+<figcaption>Play the clip (19 s): issue #42 becomes a job, the agent works, its push to main waits in the deck, a person approves it and the PR lands.</figcaption>
+</figure>
+
 [Docs site](https://sean-koval.github.io/hangar/){ .md-button .md-button--primary } [Repository](https://github.com/Sean-Koval/hangar){ .md-button }
