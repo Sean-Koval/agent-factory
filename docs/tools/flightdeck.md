@@ -20,4 +20,10 @@ Judges harness changes with paired statistics and behavior specs over every run.
 | Used by | The harness owner and lead deciding promotions, engineers reading reports on harness PRs, nightly CI. |
 | Status | The data plane, statistics, reports and the spec language are shipped; the nightly runner and one real decision are next. See [P3 on the roadmap](../roadmap.md#p3-flightdeck-v0). |
 
+<figure class="af-figure af-figure--lead">
+<a href="../assets/clips/flightdeck.mp4"><img src="../assets/clips/flightdeck.png#only-dark" alt="The first frame of flightdeck's clip: flightdeck stats compare in a terminal, with the two arms' resolved rates and the paired difference" width="680" height="640"></a>
+<a href="../assets/clips/flightdeck-day.mp4"><img src="../assets/clips/flightdeck-day.png#only-light" alt="The first frame of flightdeck's clip: flightdeck stats compare in a terminal, with the two arms' resolved rates and the paired difference" width="680" height="640"></a>
+<figcaption>Play the clip (18 s): stats compare, then report and its verdict, then the same report as the pull-request comment.</figcaption>
+</figure>
+
 [Docs site](https://sean-koval.github.io/flightdeck/){ .md-button .md-button--primary } [Repository](https://github.com/Sean-Koval/flightdeck){ .md-button }
