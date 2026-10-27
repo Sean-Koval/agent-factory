@@ -133,6 +133,9 @@ nav:
           - Contracts: architecture/contracts.md
           - Flows: architecture/flows.md
       - Roadmap: roadmap.md
+      - Releases:
+          - releases/index.md
+          - Compatibility: releases/compatibility.md
       - Decisions: decisions.md
       - Glossary: glossary.md
       - Deck: deck.md
