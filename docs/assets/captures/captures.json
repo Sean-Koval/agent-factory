@@ -9,11 +9,11 @@
     },
     "thumbnails": "docs/assets/airframe/<Name>.png: the top 800x500 of every component's Night preview (40 components), shown on the Components page"
   },
-  "captured": "2026-10-22",
+  "captured": "2026-11-09",
   "clips": {
     "hangar": {
       "repo": "Sean-Koval/hangar",
-      "commit": "fcabd15",
+      "commit": "45e26ff",
       "script": "docs/assets/front/make.py --only clip",
       "shows": "Issue #42 becomes a job, the agent works, its push to main waits in the deck, a person approves it and the PR lands",
       "files": {
@@ -29,7 +29,7 @@
     },
     "tower": {
       "repo": "Sean-Koval/tower",
-      "commit": "9256e70",
+      "commit": "12cd95d",
       "script": "docs/assets/generate.py clip",
       "shows": "A push to main waits on Marcus's Desk; he denies it with a reason, and the receipt carries the reason",
       "files": {
@@ -45,7 +45,7 @@
     },
     "flightdeck": {
       "repo": "Sean-Koval/flightdeck",
-      "commit": "64d8349",
+      "commit": "f3a3175",
       "script": "docs/assets/build.py",
       "shows": "stats compare in a terminal, then report and its verdict, then the report as the pull-request comment",
       "files": {
@@ -61,7 +61,7 @@
     },
     "ai-dlc": {
       "repo": "Sean-Koval/ai-dlc",
-      "commit": "63b1c3a",
+      "commit": "fc1787e",
       "script": "docs/assets/front/build.py --clip",
       "shows": "The quickstart's five steps in a fresh project, ending on project check --required passing",
       "files": {
@@ -305,7 +305,7 @@
   },
   "tower": {
     "repo": "Sean-Koval/tower",
-    "commit": "a61d98e",
+    "commit": "15c46a6",
     "demo": "server/tools/ui_tour.py",
     "screens": {
       "tower-desk": "Marcus's Desk: Start work (the composer, handing a task to hangar), Needs you with an approval card, the agents he approves for",

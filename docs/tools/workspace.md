@@ -7,8 +7,8 @@
 One decision point for risky actions: rules, human approvals, signed receipts.
 
 <figure class="af-figure af-figure--lead">
-<a href="../assets/captures/tower-desk.png"><img src="../assets/captures/tower-desk-approval.png#only-dark" alt="Tower's Desk for an approver: approval TWR-APR-0102 to create a ticket for Globex, what will run, the risk, what approving does, Deny and Approve" width="656" height="588"></a>
-<a href="../assets/captures/tower-desk-day.png"><img src="../assets/captures/tower-desk-day-approval.png#only-light" alt="Tower's Desk for an approver: approval TWR-APR-0102 to create a ticket for Globex, what will run, the risk, what approving does, Deny and Approve" width="656" height="588"></a>
+<a href="../assets/captures/tower-desk.png"><img src="../assets/captures/tower-desk-approval.png#only-dark" alt="Tower's Desk for an approver: approval TWR-APR-A5T2 to create a ticket for Globex, what will run, the risk, what approving does, Deny and Approve" width="656" height="588"></a>
+<a href="../assets/captures/tower-desk-day.png"><img src="../assets/captures/tower-desk-day-approval.png#only-light" alt="Tower's Desk for an approver: approval TWR-APR-A5T2 to create a ticket for Globex, what will run, the risk, what approving does, Deny and Approve" width="656" height="588"></a>
 <figcaption>Needs you on the Desk: an agent wants to create a client ticket, and what approving does is explained before the button.</figcaption>
 </figure>
 
