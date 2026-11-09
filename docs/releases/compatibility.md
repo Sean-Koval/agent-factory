@@ -9,8 +9,12 @@ Suite 1.0 is hangar, Tower and flightdeck, each at a tagged version. The table i
 | Component | Version | Airframe | Status |
 | --- | --- | --- | --- |
 | hangar | v0.2.0 | theme-v15 | Tagged |
-| Tower | v0.1.0 | theme-v15 | Tag pending |
-| flightdeck | v0.1.0 | theme-v15 | Tag pending |
+| Tower | v0.1.0 | theme-v15 | Tag pending: changelog ready, no tag |
+| flightdeck | v0.1.0 | theme-v15 | Tag pending: changelog ready, no tag |
+
+Checked on 9 November 2026 against each repo's tags. The Airframe column is the theme the tag vendors, or `main` for a pending tag.
+
+theme-v16 is out, and it changes only the Terminal bar. No tool has synced it yet, so the candidate is on theme-v15 throughout. A tool that syncs theme-v16 before its tag moves its row, and the others follow.
 
 ai-dlc (v0.4.0), Spaceport and the team harness are outside the 1.0 set.
 
