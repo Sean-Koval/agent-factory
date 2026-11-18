@@ -95,6 +95,36 @@ component contracts in `airframe/components/*.md` before writing markup.
 | Hero | Marketing | Display headline, lede, two actions and a display-window panel over the dot field. |
 | Cover | Gallery | The gallery's 960×320 cover art, tokens only (tiles in brand, fg and the stage greys); not a part for product UI. |
 
+## Docs pages (airframe-docs.css, Material for MkDocs / Zensical)
+
+A docs site loads `airframe.css` then `airframe-docs.css`, not the component CSS, so a docs page uses these classes and
+plain Markdown; never the console's `af-card` or `af-btn`. The stylesheet sets headings, the reading measure, tables,
+captions and focus on its own: do not restyle them in a site. The classes need `attr_list` and `md_in_html`. Live
+examples: https://sean-koval.github.io/agent-factory/airframe/docs-sites/
+
+| Class | What it is |
+|---|---|
+| `af-eyebrow` | A `<span>` above the `# Title` naming the section. The first paragraph under the title is styled as the lede on its own. |
+| `af-hero`, `af-hero--visual`, `af-lede`, `af-hero__visual` | The home page: eyebrow, one headline, one `<p class="af-lede">`, buttons; `--visual` adds a `<figure class="af-hero__visual">` with a real capture. |
+| `af-actions` | `<div class="af-actions" markdown>` around a line of `{ .md-button }` links (one `.md-button--primary`): an even, wrapping row. |
+| `af-tools` > `af-tool` | Product tiles with the product hue on top (`style="--af-tool: var(--af-product-hangar)"`): `<a class="af-tool"><small>Label</small><b>Title</b><span>Sentence.</span></a>`; `af-tools--2\|3\|4` fix the columns. |
+| `af-tiles` > `af-tile` | A grid of link cards: `[<small>Label</small> **Title** One sentence. *Foot*](page.md){ .af-tile }` inside `<div class="af-tiles" markdown>`; a leading image is the tile's picture (`a.png#only-dark` + `a-day.png#only-light` for both themes); `af-tiles--2\|3\|4` fix the columns. |
+| `af-steps` | `<div class="af-steps" markdown>` around an ordered list: a numbered procedure on a rail; start a step with `**Verb.**`. |
+| `af-phases` > `af-phase` | A sequence grouped into phases: each `<div class="af-phase">` holds `<b>Name</b>`, an optional `<small>` note and an `<ol>` of steps (`start="4"` continues the count). |
+| `af-next` | `<div class="af-next" markdown>` around a list of `- [Page](page.md) One sentence.`: the page's way onward. |
+| `af-figure` | A full-width `<figure>` with a sentence `<figcaption>`. A Night / Day pair is `shot.png#only-dark` + `shot-day.png#only-light`. |
+| `af-figure--lead` | The screenshot a page leads with: `<a href=full><img></a>` (a pair allowed), card radius and a hairline. |
+| `af-figure--frame` | A hairline around any other capture. |
+| `af-figure--tile` | A poster in a row of figures (a clip's first frame): a 4:3 window on the top of the capture. |
+| `af-figure--bleed` | On a page with `hide: toc`, a wide drawing runs 4rem into the margin from 1400px up. |
+| `af-only-wide`, `af-only-narrow` | Show an element from 960px up, or only below it (a wide drawing and its stacked twin). |
+| `af-table--compact` | A wrapper `<div markdown>` for a long reference table: tighter rows. |
+| `af-table--stack` | A wrapper `<div markdown>` for an index table: on phones each row stacks, the first cell as its name. Without it a table of three or more columns scrolls sideways on phones. |
+
+A table with an empty header row (`| | |`) is a fact sheet: no header, a key column. Admonitions are grey unless a
+person must act: `!!! warning` is the approval role, `!!! danger` / `failure` the failed role. Long markup or lists go
+in `??? note "Title"` (closed by default).
+
 ## Helpers (airframe.js, optional)
 
 `theme/airframe.js` is one ES module with no dependencies: `status(role, word)`, `icon(name)`, `meta([[key, val]])`,
