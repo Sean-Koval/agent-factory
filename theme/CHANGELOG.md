@@ -5,6 +5,45 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v17 · 2026-11-18
+
+The docs sites get one type scale, a reading measure, open tables that sit flush with the text, one caption style and
+one focus ring. Only `airframe-docs.css` changes in substance (the other files carry the new release stamp, and so does `deck/index.html`). No token is added, renamed or removed, no token value changes, and
+no class is renamed or removed.
+
+Docs-site mapping (`airframe-docs.css`):
+
+- Type scale. `h1` is 2em / 1.1, `h2` 1.4em / 1.2 and `h3` 1.1em / 1.35 in the body face at 600. `h3` was 1.25em at 700,
+  the same size as `h2` (18.5px against 18.75px), so two levels read as one. `h4` to `h6` are 14px labels. Every
+  heading has more space above than below, and a heading that follows a heading closes up to it.
+- Reading rhythm. Body text is 15px / 1.65 at tracking 0 (the theme set 1.8 and −0.01em). A paragraph, list or quote
+  directly on the page is capped at 36rem, so a page without sidebars no longer runs a sentence across 1,190px.
+  Figures, tables, grids and code keep the full column. The lede and `.af-lede` are 1.5.
+- Tables. Cells are 0.72rem / 1.5 with 0.75em of padding (was 1.8 and 0.94em). The first column starts at the text
+  margin and the last ends at it. Header labels sit at the foot of their row. Rows no longer fill on hover, since they
+  are not controls. A table whose header row is empty is a fact sheet: the header is hidden, a `line` rule opens and
+  closes it, and the first column is a `fg-muted` key that stays on one line.
+- Tables on phones. A table of three or more columns keeps 26rem (four or more: 32rem) and scrolls inside its own
+  frame, instead of squeezing a column to a word per line and breaking `CODEOWNERS` in two. `.af-cards-table` is
+  unchanged. The page still never scrolls sideways.
+- Figures and captions. Every `figcaption` is the body face at 0.66rem / 1.45 in `fg-muted`, left-aligned under its
+  figure (the theme centered it in italics; diagram captions were 12px `fg-subtle`). The hero caption sits on a
+  `canvas` plate, so the dot field no longer runs behind its words.
+- Night and Day image pairs (`#only-dark`, `#only-light`). The link around the hidden image is hidden with it, so the
+  keyboard stops once per figure instead of twice.
+- Clips. A still that links to an `.mp4` or `.webm` carries a "Play" label, bottom right, on `overlay` with a
+  `line-strong` edge. Figures in a `.grid` take the grid's gap, not their own margins.
+- Navigation. The active sidebar link keeps the padding of its siblings; it was pulled 9px to the left, which broke
+  the column of names. The 2px `--af-product` marker is unchanged.
+- Focus. Links, buttons, summaries, nav links, tabs, header buttons and footer links take one ring: 2px `focus`,
+  offset 2px (drawn inward where the container clips).
+- Code blocks are 1.6 line height with 1.2em above and below. Block quotes take a 2px `line-strong` edge and
+  `fg-muted`; `hr` is the `rule` token.
+- Phones: the page starts 8px under the header (was 30px), and every page ends with 32px more before the footer.
+- Reduced motion stops the theme's own transitions and smooth scrolling. A print block drops the strip, tabs and
+  footer and keeps a figure or a table row on one page.
+- Forced colors: the fact-sheet rules, the focus ring, the Play label, block quotes and `hr` are in system colors.
+
 ## theme-v16 · 2026-10-22
 
 The Terminal's title bar is a sentence-case label, as the KAN-75 demo clips already draw it (KAN-75). No token is

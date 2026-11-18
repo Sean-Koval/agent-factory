@@ -4,7 +4,8 @@
   Airframe for the docs sites (Zensical / Material for MkDocs). Source: airframe/docs-site/airframe-docs.css
   in Sean-Koval/agent-factory, published as theme/airframe-docs.css by scripts/airframe.py build. Load after
   airframe.css. It maps the theme's --md-* variables onto Airframe tokens and adds the few Airframe details a
-  docs page needs: display type for headings, sentence-case sans labels (theme-v13), the 2px product marker under the active tab,
+  docs page needs: display type for headings on one scale (theme-v17), a reading measure and rhythm, sentence-case sans
+  labels (theme-v13), the 2px product marker under the active tab, open tables, one caption style, the focus ring,
   tonal blocks instead of boxed cards, the suite strip (airframe-suite.html) that links the family's docs sites and
   the shared footer (airframe-footer.html), both included through overrides/main.html.
 
@@ -89,7 +90,18 @@
 [data-md-color-scheme][data-md-color-primary] { --md-typeset-a-color: var(--af-fg); }
 
 body { background: var(--af-canvas); }
-.md-typeset { font-feature-settings: "kern"; }
+/* reading rhythm: body is 15/1.65 at tracking 0 (the theme sets 1.8 and -0.01em, which the body face does not want);
+   a paragraph, list or quote that sits straight on the page keeps a measure of about 85 characters, so a page
+   without sidebars (a home page, a wide diagram page) does not run its sentences edge to edge. Figures, tables,
+   grids and code keep the full column. */
+.md-typeset { font-feature-settings: "kern"; line-height: 1.65; letter-spacing: 0; }
+.md-typeset > :is(p, ul, ol, dl, blockquote):not([class]):not(:has(> img, > a > img, > video, > iframe, > svg)) { max-width: 36rem; }
+.md-typeset :is(p, li, dd, td, figcaption) { text-wrap-style: pretty; }
+.md-typeset blockquote { border-left: 2px solid var(--af-line-strong); color: var(--af-fg-muted); padding-left: .8rem; }
+.md-typeset hr { border-bottom: 1px solid var(--af-rule); margin: 2em 0; }
+/* phones and small tablets: the page starts under the header, not 30px below it */
+@media screen and (max-width: 59.984em) { .md-main__inner { margin-top: .4rem; } }
+.md-content__inner { padding-bottom: 1.6rem; }
 
 /* the suite strip (airframe-suite.html): one quiet row above the header; the current product carries the marker */
 .md-banner { background: var(--af-canvas); color: var(--af-fg); border-bottom: 1px solid var(--af-line-subtle); overflow: visible; }
@@ -151,18 +163,29 @@ body { background: var(--af-canvas); }
 
 /* headings: Archivo Expanded for the page title, quieter below */
 .md-typeset h1, .md-typeset h2 { font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: var(--af-display-weight); letter-spacing: var(--af-display-track); color: var(--af-fg); text-wrap: balance; }
-.md-typeset h1 { font-size: 1.9em; line-height: 1.08; margin-bottom: .9em; }
-.md-typeset h2 { font-size: 1.25em; line-height: 1.2; border-top: 1px solid var(--af-rule); padding-top: 1.1em; margin-top: 2em; }
-.md-typeset h3 { font-weight: 600; letter-spacing: 0; }
-.md-typeset h4, .md-typeset h5, .md-typeset h6 { font-family: var(--af-font-sans); font-weight: 600; text-transform: none; letter-spacing: 0; font-size: .75rem; color: var(--af-fg-muted); }
+/* the scale steps by about 1.4: 30 / 21 / 16.5 / 14 px on a 15px body. h1 and h2 are the display face; h3 is the body
+   face at 600 (title-s), so it can never be read as a second h2; h4 and below are labels. Every heading has more
+   space above it than below, and a heading that follows another closes up to it. */
+.md-typeset h1 { font-size: 2em; line-height: 1.1; margin: 0 0 .7em; }
+.md-typeset h2 { font-size: 1.4em; line-height: 1.2; border-top: 1px solid var(--af-rule); padding-top: 1.3em; margin: 2.6em 0 .7em; }
+.md-typeset h3 { font-family: var(--af-font-sans); font-size: 1.1em; font-weight: 600; line-height: 1.35; letter-spacing: 0; margin: 2em 0 .5em; color: var(--af-fg); }
+.md-typeset h4, .md-typeset h5, .md-typeset h6 { font-family: var(--af-font-sans); font-weight: 600; text-transform: none; letter-spacing: 0; font-size: .7rem; line-height: 1.35; color: var(--af-fg-muted); margin: 1.8em 0 .4em; }
+.md-typeset h2 + h3, .md-typeset h3 + h4 { margin-top: 1em; }
+.md-typeset :is(h2, h3, h4) + :is(p, ul, ol, pre, .highlight, figure, .md-typeset__scrollwrap) { margin-top: 0; }
 
 /* page anatomy: the first paragraph under the title is the lede; "See also" and other end lists stay plain */
-.md-typeset h1 + p:not(.af-lede) { font-size: .9rem; line-height: 1.5; color: var(--af-fg-muted); max-width: 62ch; }
+.md-typeset h1 + p:not(.af-lede) { font-size: .9rem; line-height: 1.5; color: var(--af-fg-muted); max-width: 62ch; margin-bottom: 1.4em; }
 
 /* links: plain ink, a brand underline */
 .md-typeset a { text-decoration: underline; text-decoration-color: var(--af-brand-line); text-underline-offset: .2em; text-decoration-thickness: 1px; }
-.md-typeset a:hover { color: var(--af-brand-text); }
+.md-typeset a:hover { color: var(--af-brand-text); text-decoration-color: currentColor; }
 .md-typeset a.headerlink, .md-typeset .md-button { text-decoration: none; }
+/* focus: the one ring, the focus token at 2px, on every link and control the keyboard reaches (the theme leaves most of
+   them to the browser default, or to a tint). Inside the strip, which clips, the ring is drawn inward. */
+.md-typeset a:focus-visible, .md-typeset summary:focus-visible, .md-typeset .md-button:focus-visible,
+.md-nav__link:focus-visible, .md-tabs__link:focus-visible, .md-header__button:focus-visible, .md-footer__link:focus-visible,
+.md-source:focus-visible, .md-skip:focus-visible, .md-top:focus-visible { outline: 2px solid var(--af-focus); outline-offset: 2px; border-radius: var(--af-radius-control); }
+.md-typeset .af-suite a:focus-visible, .md-tabs__link:focus-visible, .md-nav__link:focus-visible { outline-offset: -2px; }
 
 /* buttons */
 .md-typeset .md-button { border-radius: var(--af-radius-control); border: 1px solid var(--af-line-strong); background: transparent; color: var(--af-fg); font-family: var(--af-font-sans); font-weight: 500; font-size: .64rem; letter-spacing: 0; text-transform: none; padding: .55em 1.2em; }
@@ -172,7 +195,9 @@ body { background: var(--af-canvas); }
 
 /* code: terminal blocks that scroll sideways (long commands are not wrapped); the copy button sits on the
    terminal ground, never on the glyphs, and the end of the longest line clears it */
-.md-typeset pre > code { border-radius: var(--af-radius-card); padding-right: 3em; scrollbar-color: var(--af-terminal-dim) transparent; }
+.md-typeset pre > code { border-radius: var(--af-radius-card); padding-right: 3em; line-height: 1.6; scrollbar-color: var(--af-terminal-dim) transparent; }
+.md-typeset pre, .md-typeset .highlight { margin: 1.2em 0; }
+.md-typeset .highlight > pre { margin: 0; }
 .md-typeset .md-code__nav, .md-typeset .md-clipboard { background: var(--af-terminal-bg); border-radius: var(--af-radius-control); }
 .md-typeset .md-code__button, .md-typeset .md-clipboard { color: var(--af-terminal-dim); }
 .md-typeset pre:hover .md-code__button, .md-typeset .md-code__button:focus-visible, .md-typeset pre:hover .md-clipboard { color: var(--af-terminal-fg); }
@@ -181,12 +206,30 @@ body { background: var(--af-canvas); }
 /* an ID (tail number) never wraps and is never cut: mark it <code class="af-id"> (scripts/airframe.py does for the guide) */
 .md-typeset code.af-id { white-space: nowrap; word-break: keep-all; overflow-wrap: normal; }
 
-/* tables: full column width, open header (no fill), sentence-case sans labels, a hairline under the header, row rules only */
+/* tables: full column width, open (no fill, no box), set flush with the text column: the first cell starts where the
+   paragraphs start and the last one ends where they end. Sentence-case sans labels at the foot of the header row, a
+   hairline under it, row rules only, cells at body-s / 1.5. Rows are not controls, so they do not light on hover. */
 .md-typeset .md-typeset__table { display: block; width: 100%; }
-.md-typeset table:not([class]) { display: table; width: 100%; border: 0; border-radius: 0; background: transparent; font-size: .74rem; box-shadow: none; }
-.md-typeset table:not([class]) th { background: transparent; color: var(--af-fg-subtle); font-family: var(--af-font-sans); font-weight: 500; font-size: .6rem; letter-spacing: 0; text-transform: none; border-bottom: 1px solid var(--af-line); }
+.md-typeset table:not([class]) { display: table; width: 100%; border: 0; border-radius: 0; background: transparent; font-size: .72rem; line-height: 1.5; box-shadow: none; }
+.md-typeset table:not([class]) :is(th, td) { padding: .75em 1.4em .75em 0; }
+.md-typeset table:not([class]) :is(th, td):last-child { padding-right: 0; }
+.md-typeset table:not([class]) th { background: transparent; color: var(--af-fg-subtle); font-family: var(--af-font-sans); font-weight: 500; font-size: .62rem; line-height: 1.3; letter-spacing: 0; text-transform: none; vertical-align: bottom; padding-top: .4em; padding-bottom: .6em; border-bottom: 1px solid var(--af-line); }
 .md-typeset table:not([class]) td { border-top: 1px solid var(--af-line-subtle); }
-.md-typeset table:not([class]) tr:hover { background: var(--af-selected); box-shadow: none; }
+.md-typeset table:not([class]) tbody tr:first-child td { border-top: 0; }
+.md-typeset table:not([class]) tr:hover { background: transparent; box-shadow: none; }
+.md-typeset .md-typeset__scrollwrap { margin-top: 1.2em; margin-bottom: 1.6em; }
+/* a table with an empty header row is a fact sheet (Owns, Entry points, Status): the header goes, a rule opens and
+   closes it, and the first column is the key, a label that stays on one line */
+.md-typeset table:not([class]):not(:has(thead th:not(:empty))) thead { display: none; }
+.md-typeset table:not([class]):not(:has(thead th:not(:empty))) { border-top: 1px solid var(--af-line); border-bottom: 1px solid var(--af-line); }
+.md-typeset table:not([class]):not(:has(thead th:not(:empty))) td:first-child { width: 1%; white-space: nowrap; color: var(--af-fg-muted); font-weight: 500; padding-right: 2em; }
+/* phones: a table of three or more columns keeps a readable width and scrolls sideways inside its own frame (the
+   page never does), instead of squeezing a column to a word per line and breaking a code word in two */
+@media (max-width: 599px) {
+  .md-typeset .md-typeset__scrollwrap:not(.af-cards-table .md-typeset__scrollwrap) table:not([class]):has(th:nth-child(3)) { min-width: 26rem; }
+  .md-typeset .md-typeset__scrollwrap:not(.af-cards-table .md-typeset__scrollwrap) table:not([class]):has(th:nth-child(4)) { min-width: 32rem; }
+  .md-typeset table:not([class]):not(:has(thead th:not(:empty))) td:first-child { white-space: normal; width: 30%; padding-right: 1em; }
+}
 
 /* admonitions: tonal blocks with a 2px start mark and a mono title. Every Material / Zensical type (note, abstract,
    info, tip, success, question, warning, failure, danger, bug, example, quote and their aliases) maps to the greyscale
@@ -195,7 +238,7 @@ body { background: var(--af-canvas); }
    and failure (fail, missing) the failed role. Success, tip, bug and question stay grey: the dark cockpit lights
    nothing that needs nobody. Material's per-type focus ring (a tinted halo) becomes the focus token. The !important
    rules outrank the theme's per-type tints (`.admonition.note`), which the modern Zensical theme paints on the block. */
-.md-typeset .admonition, .md-typeset details { --af-adm: var(--af-fg-subtle); border: 0; border-radius: var(--af-radius-card); background: var(--af-surface) !important; box-shadow: inset 2px 0 0 var(--af-adm); font-size: .74rem; }
+.md-typeset .admonition, .md-typeset details { --af-adm: var(--af-fg-subtle); border: 0; border-radius: var(--af-radius-card); background: var(--af-surface) !important; box-shadow: inset 2px 0 0 var(--af-adm); font-size: .74rem; line-height: 1.55; margin: 1.4em 0; }
 .md-typeset :is(.admonition, details):is(.warning, .caution, .attention) { --af-adm: var(--af-status-approval); }
 .md-typeset :is(.admonition, details):is(.danger, .error, .failure, .fail, .missing) { --af-adm: var(--af-status-failed); }
 .md-typeset .admonition-title, .md-typeset summary { background: transparent !important; font-family: var(--af-font-sans); font-weight: 500; font-size: .62rem; letter-spacing: 0; text-transform: none; color: var(--af-fg-muted); }
@@ -206,7 +249,9 @@ body { background: var(--af-canvas); }
 /* navigation: mono section labels, a brand mark on the current page */
 .md-nav__title { font-family: var(--af-font-sans); font-weight: 500; text-transform: none; letter-spacing: 0; font-size: .6rem; color: var(--af-fg-subtle); box-shadow: none !important; background: transparent !important; }
 .md-nav__link--active { color: var(--af-fg) !important; font-weight: 600; }
-.md-nav__item .md-nav__link--active { box-shadow: inset 2px 0 0 var(--af-product); padding-left: .5em; }
+/* the marker is drawn on the pill's edge; the label keeps the padding of its siblings, so the column of names stays
+   on one line down the sidebar (theme-v17; it was pulled 9px to the left) */
+.md-nav__item .md-nav__link--active { box-shadow: inset 2px 0 0 var(--af-product); }
 /* a section with its own index page renders its link and its expand toggle as two active links in one container:
    the container is the one shape, with the one marker, and the two parts inside it are clear */
 .md-nav__container:has(> .md-nav__link--active) { background: var(--af-selected); border-radius: var(--af-radius-control); box-shadow: inset 2px 0 0 var(--af-product); }
@@ -217,11 +262,26 @@ body { background: var(--af-canvas); }
    themes; the theme would paint it with the code-block colors, which are the black terminal in Day too */
 .md-nav code, .md-header__topic code, .md-footer code { background: var(--af-raised); color: inherit; padding: 0 .3em; border-radius: var(--af-radius-control); font-size: .9em; box-shadow: none; }
 
-/* images and diagrams sit on the canvas, never in boxed cards */
+/* images and diagrams sit on the canvas, never in boxed cards. A caption is a sentence about what is shown: body-s in
+   the body face, muted, left-aligned under the left edge of its figure, wherever the figure is (the theme centers it
+   in italics). */
 .md-typeset img { border-radius: var(--af-radius-card); }
-.af-figure { margin: 1.5em 0; }
+.af-figure { margin: 1.8em 0 2em; }
 .af-figure img { width: 100%; display: block; }
-.af-figure figcaption { font-family: var(--af-font-sans); font-weight: 500; font-size: .6rem; letter-spacing: 0; text-transform: none; color: var(--af-fg-subtle); margin-top: .6em; }
+.md-typeset figure { text-align: left; }
+.md-typeset figcaption, .af-figure figcaption { font-family: var(--af-font-sans); font-style: normal; font-weight: 400; font-size: .66rem; line-height: 1.45; letter-spacing: 0; text-transform: none; text-align: left; color: var(--af-fg-muted); max-width: 36rem; margin: .7em 0 0; }
+/* a Night / Day pair (img#only-dark, img#only-light): the link around the image that is not shown goes with it, so
+   the keyboard stops once per figure and nothing empty takes a line */
+[data-md-color-scheme="slate"] .md-typeset a:has(> img[src$="#only-light"]:only-child),
+[data-md-color-scheme="default"] .md-typeset a:has(> img[src$="#only-dark"]:only-child) { display: none; }
+.md-typeset figure > a:has(> img:only-child) { display: block; border-radius: var(--af-radius-card); }
+/* a still that links to its clip (a[href$=".mp4"]) says so: a quiet "Play" label on the overlay ground, bottom right */
+.md-typeset figure > a[href$=".mp4"], .md-typeset figure > a[href$=".webm"] { position: relative; }
+.md-typeset figure > a[href$=".mp4"]::after, .md-typeset figure > a[href$=".webm"]::after { content: "\25B6\00A0\00A0Play"; position: absolute; right: .5rem; bottom: .5rem; padding: .35em .8em; border-radius: var(--af-radius-control); background: var(--af-overlay); color: var(--af-fg); box-shadow: 0 0 0 1px var(--af-line-strong); font-family: var(--af-font-sans); font-weight: 500; font-size: .6rem; line-height: 1.2; }
+.md-typeset figure > a[href$=".mp4"]:hover::after, .md-typeset figure > a[href$=".webm"]:hover::after { background: var(--af-fg); color: var(--af-canvas); }
+/* figures in a grid (a row of clips): the grid's gap spaces them, each caption stays under its own picture */
+.md-typeset .grid > figure, .md-typeset .grid > figure[class] { margin: 0; }
+.md-typeset .grid { gap: 1.6rem .8rem; margin: 1.4em 0 2em; align-items: start; }
 
 /* the home page hero: one strong line, a mono label, two actions. The dot field appears only behind a
    product visual (af-hero--visual): the brand book puts it behind hero data, never on an empty stage. */
@@ -230,8 +290,8 @@ body { background: var(--af-canvas); }
 .af-eyebrow { font-family: var(--af-font-sans); font-weight: 500; font-size: .62rem; letter-spacing: 0; text-transform: none; color: var(--af-fg-subtle); display: inline-flex; align-items: center; gap: .6em; }
 .af-eyebrow::before { content: ""; width: 14px; height: 1px; background: var(--af-brand-line); }
 .md-typeset .af-hero h1 { font-size: 2.6em; margin: .4em 0 .5em; max-width: 18ch; }
-.af-lede { color: var(--af-fg-muted); font-size: .95rem; max-width: 52ch; }
-.md-typeset .af-hero .md-button { margin-top: .4em; }
+.md-typeset .af-lede, .af-lede { color: var(--af-fg-muted); font-size: .95rem; line-height: 1.5; max-width: 52ch; }
+.md-typeset .af-hero .md-button { margin-top: .6em; }
 @media (max-width: 959px) {
   .af-hero { padding-top: 1.6rem; }
   .md-typeset .af-hero h1 { font-size: 2em; }
@@ -245,7 +305,8 @@ body { background: var(--af-canvas); }
 .af-hero--visual::after { content: ""; display: none; position: absolute; inset: 0 0 0 46%; background: radial-gradient(circle, var(--af-dot-field) 1.1px, transparent 1.6px) 0 0 / 8px 8px; pointer-events: none; z-index: 0; }
 .af-hero__visual { margin: 0; position: relative; z-index: 1; min-width: 0; }
 .af-hero__visual > img, .af-hero__visual > video, .af-hero__visual > a > img { display: block; width: 100%; height: auto; border-radius: var(--af-radius-card); box-shadow: 0 0 0 1px var(--af-line); }
-.md-typeset .af-hero__visual figcaption { font-style: normal; max-width: none; text-align: left; font-family: var(--af-font-sans); font-size: .65rem; line-height: 1.45; letter-spacing: 0; text-transform: none; color: var(--af-fg-subtle); margin-top: .6em; }
+/* the caption is a plate on the canvas: the dot field stops at the picture and never runs behind the words */
+.md-typeset .af-hero__visual figcaption { max-width: none; color: var(--af-fg-muted); background: var(--af-canvas); margin: 0; padding: .7em 0 .5em; }
 @media (min-width: 960px) {
   .af-hero--visual { grid-template-columns: minmax(0, 7fr) minmax(0, 8fr); gap: 2.4rem; }
   .af-hero--visual::after { display: block; }
@@ -278,8 +339,21 @@ body { background: var(--af-canvas); }
 /* figures: full column width (the theme otherwise shrinks figures to fit their content) */
 .md-typeset figure.af-figure { width: 100%; max-width: 100%; display: block; }
 .md-typeset figure.af-figure > svg, .md-typeset figure.af-figure > img { width: 100%; height: auto; display: block; }
-.md-typeset figure.af-figure figcaption { font-style: normal; max-width: none; }
+.md-typeset figure.af-figure figcaption { font-style: normal; }
 .md-typeset figure.af-figure figcaption a { color: var(--af-fg-muted); }
+
+/* reduced motion: the theme's own transitions (nav, header, search, back-to-top, smooth scrolling) stop too */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  .md-header, .md-tabs, .md-nav, .md-nav__link, .md-search__form, .md-top, .md-sidebar, .md-typeset a, .md-typeset .headerlink, .md-typeset .md-button, .md-banner__inner.md-typeset::before, .md-banner__inner.md-typeset::after { transition: none !important; animation: none !important; }
+}
+
+/* print: ink on paper, the page without its chrome */
+@media print {
+  .md-banner, .md-tabs, .md-footer, .md-typeset figure > a::after { display: none !important; }
+  .md-typeset h2 { break-after: avoid; }
+  .md-typeset figure, .md-typeset table:not([class]) tr { break-inside: avoid; }
+}
 
 /* Windows Contrast Themes: colors are replaced and box-shadows dropped, so every marker and edge that was a
    shadow becomes a border in system colors, and the two textures go. */
@@ -299,5 +373,10 @@ body { background: var(--af-canvas); }
   .af-swatch { box-shadow: none; outline: 1px solid CanvasText; }
   .af-hero__visual > img, .af-hero__visual > video, .af-hero__visual > a > img { box-shadow: none; outline: 1px solid CanvasText; }
   .md-typeset table:not([class]) th, .md-typeset table:not([class]) td { border-color: CanvasText; }
+  .md-typeset table:not([class]):not(:has(thead th:not(:empty))) { border-color: CanvasText; }
+  .md-typeset a:focus-visible, .md-typeset summary:focus-visible, .md-typeset .md-button:focus-visible, .md-nav__link:focus-visible, .md-tabs__link:focus-visible, .md-header__button:focus-visible, .md-footer__link:focus-visible { outline: 2px solid Highlight; }
+  .md-typeset figure > a[href$=".mp4"]::after, .md-typeset figure > a[href$=".webm"]::after { box-shadow: none; border: 1px solid ButtonText; background: ButtonFace; color: ButtonText; }
+  .md-typeset blockquote { border-left: 2px solid CanvasText; }
+  .md-typeset hr { border-bottom: 1px solid CanvasText; }
   .md-typeset .md-button { border-color: ButtonText; }
 }
