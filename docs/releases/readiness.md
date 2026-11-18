@@ -12,7 +12,7 @@ D1 ([KAN-239](https://seanmkoval.atlassian.net/browse/KAN-239)) set the 1.0-rc f
 
 | Gate | Tickets | Status | Evidence or blocker |
 | --- | --- | --- | --- |
-| Production runs a tag | KAN-20, KAN-27, KAN-145 | Not met | The newest deploy run is for main @ `603040f`, not a tag. v1.0.0-rc.1 is prepared in hangar's rc PR, not tagged. |
+| Production runs a tag | KAN-20, KAN-27, KAN-145 | Not met | The newest deploy run is for main @ `603040f`, not a tag. v1.0.0-rc.1 is prepared in hangar#483, not tagged. |
 | Capture is on | KAN-22 | Not met | Human-only: it needs cloud credentials. |
 | Two engineers on repo 1 | KAN-23, KAN-244, KAN-214 | Not met | Not named yet (D6). Keys and infosec sign-off come first. |
 | Tower enforces job release and landing | KAN-32, KAN-33 | Not met | The code is merged and off by default. Tower isn't deployed, so no shadow week has run. |
@@ -26,7 +26,7 @@ From [KAN-141](https://seanmkoval.atlassian.net/browse/KAN-141). All must hold.
 | --- | --- | --- | --- | --- |
 | H1 | hangar has a tagged release with a changelog and green CI | KAN-28 | Met | Tag v0.2.0, with its changelog section. |
 | H2 | Production runs that tag, and the live intake check passes | KAN-20, KAN-27 | Not met | KAN-20 cleared the stale deploy. The next deploy is a main commit. hangar#482 adds KAN-27's check script, which hasn't run live. |
-| H3 | The credentials policy is enforced | KAN-74 | Partly | Merged in hangar#388 after v0.2.0. It ships in v1.0.0-rc.1. |
+| H3 | The credentials policy is enforced | KAN-74 | Partly | Merged in hangar#388 after v0.2.0. It ships in v1.0.0-rc.1 (hangar#483). |
 | H4 | Every run is captured | KAN-22 | Not met | Human-only. |
 | H5 | Six engineers active across three repos | KAN-23, KAN-24, KAN-68 | Not met | Human-only. Waits on D6 and KAN-214. |
 | T1 | Tower is deployed next to hangar behind TLS | KAN-18, KAN-32 | Partly | Tower#95 and hangar#354 are merged; a person applies the deploy. |
