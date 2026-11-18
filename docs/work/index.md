@@ -8,26 +8,31 @@ A company runs the same suite. hangar on its GKE cluster, its own fork of the te
 
 Those values live in four private repositories of its own, laid out by the same convention as the services the agents work on.
 
-| | |
-| --- | --- |
-| Templates | [`examples/company-overlay/`](https://github.com/Sean-Koval/agent-factory/tree/main/examples/company-overlay) (the factory's four repos) and [`examples/symphony-bot/`](https://github.com/Sean-Koval/agent-factory/tree/main/examples/symphony-bot) here; the `work-default` harness, role environments and an example change-set profile in [team-harness](https://github.com/Sean-Koval/team-harness). |
-| Needs from hangar | Change sets (one ticket across several repos), the portable deploy package and `hangar apply`, the plugin host with events out, and delegated identity for the bot. These are in review; hangar has no release tag yet ([hangar#274](https://github.com/Sean-Koval/hangar/issues/274)), so `HANGAR_TAG` in the templates is the first one you pin. |
-| Minimum first run | Change sets, the deploy package and these templates, driven from Claude Code with a hangar token. The Symphony bot adds the plugin host and delegated identity. |
-
 [Company overlay](https://github.com/Sean-Koval/agent-factory/tree/main/examples/company-overlay){ .md-button .md-button--primary } [Symphony bot](https://github.com/Sean-Koval/agent-factory/tree/main/examples/symphony-bot){ .md-button }
+
+!!! note "Status"
+    The templates are here; the hangar features they need are in review, and hangar has no release tag yet ([hangar#274](https://github.com/Sean-Koval/hangar/issues/274)). `HANGAR_TAG` in the templates is the first one you pin.
+
+## What you start from
+
+- **Templates.** [`examples/company-overlay/`](https://github.com/Sean-Koval/agent-factory/tree/main/examples/company-overlay) holds the factory's four repos, and [`examples/symphony-bot/`](https://github.com/Sean-Koval/agent-factory/tree/main/examples/symphony-bot) the bot. [team-harness](https://github.com/Sean-Koval/team-harness) holds the `work-default` harness, role environments and an example change-set profile.
+- **Needs from hangar.** Change sets (one ticket across several repos), the portable deploy package and `hangar apply`, the plugin host with events out, and delegated identity for the bot.
+- **Minimum first run.** Change sets, the deploy package and these templates, driven from Claude Code with a hangar token. The Symphony bot adds the plugin host and delegated identity.
 
 ## The four-repo convention
 
-Each service is four repositories, and a ticket may touch any of them:
+Each service is four repositories, and a ticket may touch any of them. Each role has its own approvers and its own limits on the agent.
 
-| Role | Holds | Who approves | The agent |
-| --- | --- | --- | --- |
-| **infra** | Terraform for the service's cloud resources | SRE, through `CODEOWNERS` | edits; runs `terraform validate` without a backend, never `plan` on real state or `apply` |
-| **database** | Migrations | the database owners; `self_approval: never` | edits; runs migrations up, tests and down against a database service in its own sandbox |
-| **code** | The service | the team | edits; runs the repo's own checks |
-| **trigger-deployment** | Overlays and image pins per environment | whoever merges deploys | reads only; a deterministic step, not the agent, opens the deploy PR |
+<div class="af-rules">
+  <div class="af-rule"><b>infra</b><span>Holds Terraform for the service's cloud resources.</span><span>Approved by SRE, through <code>CODEOWNERS</code>.</span><span>The agent edits, and runs <code>terraform validate</code> without a backend. It never runs <code>plan</code> on real state, or <code>apply</code>.</span></div>
+  <div class="af-rule"><b>database</b><span>Holds migrations.</span><span>Approved by the database owners, with <code>self_approval: never</code>.</span><span>The agent edits, and runs migrations up, tests and down against a database service in its own sandbox.</span></div>
+  <div class="af-rule"><b>code</b><span>Holds the service.</span><span>Approved by the team.</span><span>The agent edits, and runs the repo's own checks.</span></div>
+  <div class="af-rule"><b>trigger-deployment</b><span>Holds overlays and image pins per environment.</span><span>Approved by whoever merges deploys.</span><span>The agent reads only. A deterministic step, not the agent, opens the deploy PR.</span></div>
+</div>
 
-A **change-set profile** names the four repos, the environment that has every toolchain, and the order they land in. It lives in the factory's deploy repo, never in a service repo's `.hangar/`, which is the service's own and untrusted:
+### The change-set profile
+
+A **change-set profile** names the four repos, the environment that has every toolchain, and the order they land in. It lives in the factory's deploy repo, never in a service repo's `.hangar/`, which is the service's own and untrusted.
 
 ```yaml
 schema: hangar.changeset-profile/v1
@@ -42,10 +47,15 @@ land_order: [database, infra, code]
 deploy:
   role: deploy
   after: [database, infra, code]
-  ready: {kind: image-ready, image: "registry.example.com/example-service/app", tag: "{code.merge_sha}"}
+  ready:
+    kind: image-ready
+    image: "registry.example.com/example-service/app"
+    tag: "{code.merge_sha}"
   apply: {kind: command, run: "./scripts/bump.sh dev {code.merge_sha}"}
   environments: [dev]
 ```
+
+The template's copy is [`policy/changesets/example-service.yaml`](https://github.com/Sean-Koval/agent-factory/blob/main/examples/company-overlay/agent-factory-deploy/policy/changesets/example-service.yaml).
 
 ## From a ticket to a deploy
 
@@ -57,17 +67,27 @@ deploy:
 6. **Deploy.** Your CI builds the service image. Once `example-service/app:<merge sha>` exists, hangar runs the profile's deploy step in a fresh sandbox with no agent. It runs `bump.sh dev <sha>` on a branch of the deploy repo, then opens a PR under that repo's own policy. Its approvers merge it, your CD rolls dev, and the ticket moves to Done. Prod promotion stays yours.
 7. **Capture.** The run lands in the outbox as `hangar.run/v1`, with the plugins and the profile's digest. flightdeck judges the harness on it like any other run.
 
-If a PR in the set is closed unmerged, the set is broken. Later PRs stop, the deploy step never runs, and the room hears why. There is no automatic revert, and nothing merges across repos atomically.
+!!! note "When a PR in the set is closed unmerged"
+    The set is broken. Later PRs stop, the deploy step never runs, and the room hears why. There is no automatic revert, and nothing merges across repos atomically.
 
-## Installing it
+## Install it in five steps
 
 1. **Infra.** `agent-factory-infra` calls hangar's `hangar-workload` module on the cluster you already run; it never creates one. Its outputs feed the deploy overlay.
 2. **Image.** `agent-factory-bots` builds `FROM ghcr.io/sean-koval/hangar@sha256:…` with your pinned plugins and your harness fork's environments, and tags it with the merge commit. Mirror hangar's images by digest into your registry.
 3. **Deploy.** `agent-factory-deploy` holds `overlays/{dev,prod}` over hangar's base at `HANGAR_TAG`, the `hangar-site` settings (doors, plugins, harness repo, egress), External Secrets for every credential, and `policy/`.
-
-   CD applies the overlay, then `hangar apply -f policy/credentials -f policy/repos` and `hangar changeset profile-set` for each profile (hangar's `apply` doesn't take change-set profiles yet). Set `HANGAR_JOB_CALLBACK_HOSTS` to the bot's host when it sits at an internal or private address: hangar's webhook guard refuses those otherwise.
 4. **Harness.** Fork team-harness, set the credential names in `bindings/work-default.yaml`, and freeze `work-default` from a good run. `HANGAR_DEFAULT_HARNESS` points at its `stable` channel.
 5. **A service.** Onboarding is one reviewed PR to the deploy repo: four repo policies, one profile, one Jira project entry.
+
+### What CD runs on each deploy
+
+CD applies the overlay, then loads the policy. hangar's `apply` doesn't take change-set profiles yet, so each profile is set on its own:
+
+```sh
+hangar apply -f policy/credentials -f policy/repos
+hangar changeset profile-set   # once for each profile
+```
+
+Set `HANGAR_JOB_CALLBACK_HOSTS` to the bot's host when it sits at an internal or private address: hangar's webhook guard refuses those otherwise.
 
 ## What stays open and what stays yours
 
@@ -83,8 +103,15 @@ The suite repositories ship mechanisms, schemas and templates; yours hold names,
 
 ## Questions to settle first
 
-- Is the code on github.com or GitHub Enterprise Server? hangar recognizes github.com only today.
-- What applies the deploy repo (Argo CD, Flux, a pipeline)? It decides the deploy bumper.
-- How does your code CI tag images: by merge commit? The profile's `ready` step waits for that tag.
-- Which database engine, and where do its test images live? The database role's service image comes from there.
-- Can hangar verify Symphony's identity itself, or does it trust the bot to vouch for users?
+- **Where is the code?** github.com or GitHub Enterprise Server. hangar recognizes github.com only today.
+- **What applies the deploy repo?** Argo CD, Flux or a pipeline. It decides the deploy bumper.
+- **How does your code CI tag images?** By merge commit? The profile's `ready` step waits for that tag.
+- **Which database engine, and where do its test images live?** The database role's service image comes from there.
+- **Who vouches for identity?** Either hangar verifies Symphony's identity itself, or it trusts the bot to vouch for users.
+
+## Works with
+
+- **[hangar](../tools/hangar.md).** Runs the change set, opens the PRs, lands them in order and runs the deploy step.
+- **[Team harness](../team-harness.md).** Your fork holds the `work-default` harness and its channels.
+- **[flightdeck](../tools/flightdeck.md).** Judges the harness on these runs like any other.
+- **[How it fits](../how-it-fits.md).** The same journey for one repo, across the four planes.
