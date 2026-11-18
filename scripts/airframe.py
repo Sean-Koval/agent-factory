@@ -46,7 +46,7 @@ TOKENS = SRC / "tokens.json"
 STYLES = ("base.css", "core.css", "agents.css", "patterns.css", "viz.css", "runway.css")
 HELPERS = SRC / "js" / "airframe.js"
 DOCS_SITE = SRC / "docs-site"
-THUMBS = ROOT / "docs" / "assets" / "airframe"  # one Night thumbnail per component, from scripts/captures.py airframe  # the docs mapping and the suite strip, published as theme/airframe-docs.css and -suite.html
+THUMBS = ROOT / "docs" / "assets" / "airframe"  # a Night and a Day thumbnail per component, from scripts/captures.py airframe  # the docs mapping and the suite strip, published as theme/airframe-docs.css and -suite.html
 FONTS_URL = ("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900"
              "&family=DM+Mono:wght@400;500&family=Red+Hat+Text:ital,wght@0,400..700;1,400..700&display=swap")
 PREFIX = "--af-"
@@ -795,8 +795,10 @@ def pages(dest: Path, site: Path | None = None) -> list[Path]:
     (dest / "airframe-shape.md").write_text("\n".join(out) + "\n")
     written.append(dest / "airframe-shape.md")
 
-    # The Components page: a card per component, grouped, each with its Night thumbnail (docs/assets/airframe/<Name>.png,
-    # made by scripts/captures.py airframe), the group, the preview's one-line subtitle, and the two theme links.
+    # The Components page: a card per component, grouped, each with its thumbnail in the page's theme
+    # (docs/assets/airframe/<Name>.png for Night and <Name>-day.png for Day, made by scripts/captures.py airframe; the
+    # #only-dark / #only-light fragments are the docs theme's switch), the group, the preview's one-line subtitle, and
+    # the two theme links.
     # Paths are relative to docs/airframe/, where components.md sits; the docs build rewrites them per page.
     out = []
     items = [it for it in components() if it["name"] != "Cover"]
@@ -804,9 +806,14 @@ def pages(dest: Path, site: Path | None = None) -> list[Path]:
         out += [f"### {group}", "", '<div class="af-comps">']
         for it in (i for i in items if i["group"] == group):
             n = it["name"]
-            thumb = THUMBS / f"{n}.png"
-            pic = (f'<img src="../assets/airframe/{n}.png" alt="{html.escape(n)} preview, Night" loading="lazy" width="800" height="500">'
-                   if thumb.exists() else '<span class="af-comp__blank">No thumbnail yet</span>')
+            alt = html.escape(n)
+            if (THUMBS / f"{n}.png").exists() and (THUMBS / f"{n}-day.png").exists():
+                pic = (f'<img src="../assets/airframe/{n}.png#only-dark" alt="{alt} preview, Night" loading="lazy" width="800" height="500">'
+                       f'<img src="../assets/airframe/{n}-day.png#only-light" alt="{alt} preview, Day" loading="lazy" width="800" height="500">')
+            elif (THUMBS / f"{n}.png").exists():
+                pic = f'<img src="../assets/airframe/{n}.png" alt="{alt} preview, Night" loading="lazy" width="800" height="500">'
+            else:
+                pic = '<span class="af-comp__blank">No thumbnail yet</span>'
             out.append(f'<a class="af-comp" href="components/{n}/" title="{html.escape(it["summary"])}">'
                        f'<span class="af-comp__pic">{pic}</span>'
                        f'<span class="af-comp__head"><b>{n}</b><span class="af-comp__group">{html.escape(group)}</span></span>'
