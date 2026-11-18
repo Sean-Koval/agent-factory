@@ -136,6 +136,9 @@ nav:
       - Releases:
           - releases/index.md
           - Compatibility: releases/compatibility.md
+          - 1.0 readiness: releases/readiness.md
+          - 1.0 decisions: releases/readiness-decisions.md
+          - Every 1.0 ticket: releases/readiness-tickets.md
       - Decisions: decisions.md
       - Glossary: glossary.md
       - Deck: deck.md
