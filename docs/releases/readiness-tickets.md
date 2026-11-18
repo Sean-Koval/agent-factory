@@ -23,7 +23,7 @@ To list them yourself, search Jira for `labels = "release:1.0" ORDER BY Rank`.
 | [KAN-24](https://seanmkoval.atlassian.net/browse/KAN-24) | To Do | Repos 2–3 and all six engineers | Repos 2 and 3, and all six engineers. Comes after KAN-23. |
 | [KAN-25](https://seanmkoval.atlassian.net/browse/KAN-25) | To Do | Friday harness review and first 20 labelled failures | Start the Friday harness review and label the first 20 failures. |
 | [KAN-68](https://seanmkoval.atlassian.net/browse/KAN-68) | To Do | hangar part B exit: six active delegators, every run captured, approvals enforced through Tower | hangar part B exit. Waits on adoption. |
-| [KAN-146](https://seanmkoval.atlassian.net/browse/KAN-146) | To Do | Suite 1.0 exit: verify every criterion, tag 1.0 and publish what it includes | Verify every criterion, tag 1.0 and publish the 1.0 page. |
+| [KAN-146](https://seanmkoval.atlassian.net/browse/KAN-146) | To Do | Suite 1.0 exit: verify every criterion, tag 1.0 and publish what it includes | Verify every criterion, tag 1.0 and publish the 1.0 page. This tracker is agent-factory#61. |
 | [KAN-141](https://seanmkoval.atlassian.net/browse/KAN-141) | To Do | Suite 1.0 · production release of hangar, Tower and flightdeck | The epic. It closes with KAN-146. |
 | [KAN-214](https://seanmkoval.atlassian.net/browse/KAN-214) | To Do | Before onboarding: fund org API keys with spend caps, and get work infosec to sign off on where code and transcripts live | Fund org API keys with caps, and get infosec sign-off on data location. |
 | [KAN-215](https://seanmkoval.atlassian.net/browse/KAN-215) | In Progress | Roadmap decisions: 1.0-rc date, surface cuts, licences, harnesses in 1.0, repo 1 and a second approver | The decision index. Only D6 (KAN-244) is still open. |
@@ -41,21 +41,21 @@ To list them yourself, search Jira for `labels = "release:1.0" ORDER BY Rank`.
 
 | Ticket | Status | What it is | Next step |
 | --- | --- | --- | --- |
-| [KAN-27](https://seanmkoval.atlassian.net/browse/KAN-27) | To Do | Live intake check on the deployed safe release | Run the live intake check once production is on a tag. A person deploys first. |
+| [KAN-27](https://seanmkoval.atlassian.net/browse/KAN-27) | To Do | Live intake check on the deployed safe release | hangar#482 adds the check. It runs once production is on a tag. |
 | [KAN-32](https://seanmkoval.atlassian.net/browse/KAN-32) | In Review | Deploy Tower next to hangar | Code merged. A person applies Tower's deploy.md on the cluster. |
 | [KAN-33](https://seanmkoval.atlassian.net/browse/KAN-33) | In Progress | Passports: Tower#14 then hangar#174, then hangar#172 shadow | Merged, off by default. A person deploys, then a shadow week. |
 | [KAN-78](https://seanmkoval.atlassian.net/browse/KAN-78) | In Progress | Managed, fail-closed Tower hook in sandboxes (Claude Code; Codex where possible) | Repo side done on Docker; GKE and E2B refuse. Closing is Sean's call. |
-| [KAN-54](https://seanmkoval.atlassian.net/browse/KAN-54) | To Do | Tower as hangar's governance plane: epic exit (one approval of each kind end to end) | One approval of each kind end to end, once Tower is deployed. |
+| [KAN-54](https://seanmkoval.atlassian.net/browse/KAN-54) | To Do | Tower as hangar's governance plane: epic exit (one approval of each kind end to end) | tower#133 covers it in CI. The live run needs Tower deployed. |
 | [KAN-88](https://seanmkoval.atlassian.net/browse/KAN-88) | To Do | Regression suite v1: mine tasks from the 20 labelled first failures | Regression v1. Waits on KAN-25's labels; moved to Next. |
-| [KAN-31](https://seanmkoval.atlassian.net/browse/KAN-31) | To Do | flightdeck#20: change one real decision | The flightdeck#20 run on regression-v0. Waits on KAN-223. |
-| [KAN-87](https://seanmkoval.atlassian.net/browse/KAN-87) | To Do | flightdeck v0 exit: the Judge plane changes one real decision within its line budget | flightdeck v0 exit. Follows KAN-31. |
+| [KAN-31](https://seanmkoval.atlassian.net/browse/KAN-31) | To Do | flightdeck#20: change one real decision | flightdeck#110 readies the run. It waits on KAN-223. |
+| [KAN-87](https://seanmkoval.atlassian.net/browse/KAN-87) | To Do | flightdeck v0 exit: the Judge plane changes one real decision within its line budget | flightdeck#112 checks the exit against main. Follows KAN-31. |
 | [KAN-142](https://seanmkoval.atlassian.net/browse/KAN-142) | In Progress | Security review of hangar and Tower before 1.0 | Close the open mediums, then a reviewer signs the review. |
-| [KAN-143](https://seanmkoval.atlassian.net/browse/KAN-143) | In Progress | Backup/restore drill and upgrade/rollback rehearsal for hangar and Tower | A restore drill on GKE for the real RTO, and Tower's drill. |
+| [KAN-143](https://seanmkoval.atlassian.net/browse/KAN-143) | In Progress | Backup/restore drill and upgrade/rollback rehearsal for hangar and Tower | Tower's drills are in tower#135. A restore drill on GKE gives the real RTO. |
 | [KAN-144](https://seanmkoval.atlassian.net/browse/KAN-144) | In Progress | SLOs, alerts, on-call owner and incident runbooks for hangar and Tower | Tower's SLOs (tower#108). A person turns alerting on and fires test alerts. |
-| [KAN-145](https://seanmkoval.atlassian.net/browse/KAN-145) | In Progress | Release process: version and tag Tower and flightdeck; one checklist across the suite | The rc PRs are open. Sean tags. |
+| [KAN-145](https://seanmkoval.atlassian.net/browse/KAN-145) | In Progress | Release process: version and tag Tower and flightdeck; one checklist across the suite | The rc PRs are open: hangar, tower#134, flightdeck#111, agent-factory#60. Sean tags. |
 | [KAN-66](https://seanmkoval.atlassian.net/browse/KAN-66) | To Do | hangar part A exit: safe release, harness definition, MCP split and cleanup | hangar part A exit review. |
-| [KAN-167](https://seanmkoval.atlassian.net/browse/KAN-167) | In Progress | [Security M-2] Tower on GKE: audit export isn't tamper-evident (same volume as the DB, signing key in the pod) | tower#109 is green and waiting for review. |
-| [KAN-172](https://seanmkoval.atlassian.net/browse/KAN-172) | In Review | [Security M-7] Scope hangar's GCP roles; give Tower its own AR repo and deploy it by digest | hangar#446 is waiting for review. |
+| [KAN-167](https://seanmkoval.atlassian.net/browse/KAN-167) | In Progress | [Security M-2] Tower on GKE: audit export isn't tamper-evident (same volume as the DB, signing key in the pod) | tower#109 merged on 9 November. The ticket can close. |
+| [KAN-172](https://seanmkoval.atlassian.net/browse/KAN-172) | In Review | [Security M-7] Scope hangar's GCP roles; give Tower its own AR repo and deploy it by digest | hangar#446 merged on 9 November. Check what's left, then close. |
 | [KAN-174](https://seanmkoval.atlassian.net/browse/KAN-174) | In Progress | [Security Lows] hangar: dashboard CSP, pod hardening, egress default, gateway caps, branch reservation | Code merged. A person applies the L-10 Terraform. |
 | [KAN-186](https://seanmkoval.atlassian.net/browse/KAN-186) | In Progress | [Security H-1] Run ask and deny-risky turns through the driver sidecar on GKE | Code merged. A person runs the check on a cluster. A stretch goal. |
 | [KAN-216](https://seanmkoval.atlassian.net/browse/KAN-216) | In Progress | Show how far production is behind main: deployed SHA in doctor and the console, a lag alert, a named second approver | Repo side merged. A person names the second approver (KAN-244). |
