@@ -10,7 +10,7 @@ hide:
 
 # Hand work to cloud coding agents and keep every change reviewable
 
-<p class="af-lede">Tools that let a team of six engineers run about sixty agent sessions at once. Four planes: the team harness defines what the agents run, hangar runs them, flightdeck judges the runs and Tower governs risky decisions. ai-dlc sets up the people and machines around them, and every change still leaves through a reviewed pull request.</p>
+<p class="af-lede">Six engineers, about sixty agent sessions at once. The suite defines what the agents run, runs them in cloud sandboxes, judges every run and holds risky actions for a person. Every change still leaves through a pull request a human approves.</p>
 
 [See how it fits](how-it-fits.md){ .md-button .md-button--primary } [Open the deck](deck.md){ .md-button }
 </div>
@@ -29,46 +29,39 @@ hide:
   <a class="af-tool" href="tools/ai-dlc/" style="--af-tool: var(--af-product-aidlc)"><small>Setup</small><b>ai-dlc</b><span>Sets up engineers' machines, authors the optional workflow plugin, gates local work on CI.</span></a>
 </div>
 
-Two more parts round out the suite. [Spaceport](tools/spaceport.md) is the Capability: reviewed data products that agents query through four MCP tools (frozen). [Airframe](airframe/index.md) is Design: the system every tool uses.
+Two more parts sit under the planes. [Spaceport](tools/spaceport.md) is the data capability: reviewed data products that agents query through four MCP tools (frozen). [Airframe](airframe/index.md) is the design system every tool's UI uses.
 
-## See each tool work
+## Watch each tool work
 
-Each clip is under 20 seconds and starts on the product. Select one to play it.
+Four clips, each under 20 seconds. Select a frame to play its clip.
 
-<div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr))" markdown>
+<div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr))" markdown>
 <figure class="af-figure af-figure--lead">
 <a href="assets/clips/hangar.mp4"><img src="assets/clips/hangar.png#only-dark" alt="The first frame of hangar's clip: the Fleet, with issue #42's job starting in checkout-python and the caption Issue #42 gets the hangar label, and a job starts" width="680" height="696"></a>
 <a href="assets/clips/hangar-day.mp4"><img src="assets/clips/hangar-day.png#only-light" alt="The first frame of hangar's clip: the Fleet, with issue #42's job starting in checkout-python and the caption Issue #42 gets the hangar label, and a job starts" width="680" height="696"></a>
-<figcaption>hangar: a ticket lands</figcaption>
+<figcaption><b>hangar.</b> An issue becomes a job, the push to main waits for a person, and the PR lands.</figcaption>
 </figure>
 <figure class="af-figure af-figure--lead">
 <a href="assets/clips/tower.mp4"><img src="assets/clips/tower.png#only-dark" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="816"></a>
 <a href="assets/clips/tower-day.mp4"><img src="assets/clips/tower-day.png#only-light" alt="The first frame of Tower's clip: Marcus's Desk with Claude Code's git push origin main waiting for approval, and the caption Claude Code wants to push to main. Tower holds it for a tech lead" width="640" height="816"></a>
-<figcaption>Tower: a deny, with a reason</figcaption>
+<figcaption><b>Tower.</b> A push to main waits on an approver's Desk. A tech lead denies it, and the receipt carries the reason.</figcaption>
 </figure>
 <figure class="af-figure af-figure--lead">
 <a href="assets/clips/flightdeck.mp4"><img src="assets/clips/flightdeck.png#only-dark" alt="The first frame of flightdeck's clip: flightdeck stats compare in a terminal, with the two arms' resolved rates and the paired difference" width="680" height="712"></a>
 <a href="assets/clips/flightdeck-day.mp4"><img src="assets/clips/flightdeck-day.png#only-light" alt="The first frame of flightdeck's clip: flightdeck stats compare in a terminal, with the two arms' resolved rates and the paired difference" width="680" height="712"></a>
-<figcaption>flightdeck: a verdict on the PR</figcaption>
+<figcaption><b>flightdeck.</b> Two arms compared in a terminal, then the verdict as a comment on the pull request.</figcaption>
 </figure>
 <figure class="af-figure af-figure--lead">
 <a href="assets/clips/ai-dlc.mp4"><img src="assets/clips/ai-dlc.png" alt="The first frame of ai-dlc's clip: ai-dlc project init in a terminal, answering applied, 37 files" width="680" height="422"></a>
-<figcaption>ai-dlc: a project's checks pass</figcaption>
+<figcaption><b>ai-dlc.</b> The quickstart in a fresh project, ending with its required checks passing.</figcaption>
 </figure>
 </div>
 
-## Start here
-
-- **Engineer:** [hangar](tools/hangar.md). `hangar connect` adds hangar to your agent client ([connecting clients](https://sean-koval.github.io/hangar/clients/)).
-- **Harness owner:** [Team harness](team-harness.md). Copy the example, freeze a good run, and promote on evidence.
-- **Running it at work:** [Run the factory at your company](work/index.md). The four-repo convention, change sets from a ticket to a deploy, and what stays yours.
-- **Building UI:** [Airframe](airframe/index.md). Tokens, components and the rules every tool's UI follows.
-
-## The four planes
+## How the planes connect
 
 <figure class="af-figure af-planes--wide">
 --8<-- "planes.svg"
-<figcaption>The four planes, the doors and the gate · <a href="assets/diagrams/planes.svg">full size</a></figcaption>
+<figcaption>Work enters through the doors, hangar runs it, Tower decides, flightdeck judges, and the pull request is the one way out · <a href="assets/diagrams/planes.svg">full size</a></figcaption>
 </figure>
 
 <figure class="af-figure af-planes--stacked">
@@ -76,13 +69,27 @@ Each clip is under 20 seconds and starts on the product. Select one to play it.
 <figcaption>The four planes, one above the other · <a href="assets/diagrams/planes.svg">the wide drawing</a></figcaption>
 </figure>
 
-Define is the team harness repo, Run is hangar, Judge is flightdeck and Govern is Tower. hangar sits in the middle. Work arrives through the doors and the harness arrives as a lock file. Risky decisions go out to Tower, every run goes out to flightdeck, and the verdict comes back as the next promoted harness.
+hangar sits in the middle. Work arrives through the doors and the harness arrives as a lock file. Risky decisions go out to Tower and every run goes out to flightdeck. The verdict comes back as the next promoted harness.
 
-One number, `harness_digest`, identifies a harness from the lock file to the manifest, the PR and the report. ai-dlc is setup, off the agent's hot path. It prepares machines, authors the optional workflow plugin the harness may pin, and gates local work on CI.
+One value, `harness_digest`, identifies a harness from the lock file to the manifest, the PR and the report. ai-dlc stays off the agent's hot path: it prepares machines, authors the optional workflow plugin and gates local work on CI.
 
-## Where to go next
+[Follow one ticket through the planes](how-it-fits.md){ .md-button }
 
-- [How it fits](how-it-fits.md): one ticket's journey through the four planes, the three rules, and who owns what.
+## Start where you work
+
+<div class="af-tools" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr))">
+  <a class="af-tool" href="tools/hangar/"><small>Engineer</small><b>Hand off a ticket</b><span><code>hangar connect</code> adds hangar to your agent client. A ticket or a label starts a job.</span></a>
+  <a class="af-tool" href="team-harness/"><small>Harness owner</small><b>Shape the harness</b><span>Copy the example, freeze a good run, and promote on evidence.</span></a>
+  <a class="af-tool" href="work/"><small>Platform engineer</small><b>Run it at your company</b><span>The four-repo convention, change sets from a ticket to a deploy, and what stays yours.</span></a>
+  <a class="af-tool" href="airframe/"><small>UI builder</small><b>Build with Airframe</b><span>Tokens, components and the rules every tool's UI follows.</span></a>
+</div>
+
+Setting up a client? [Connecting clients](https://sean-koval.github.io/hangar/clients/) covers `hangar connect` for each agent client.
+
+## Go deeper
+
+- [How it fits](how-it-fits.md): one ticket through the four planes, the three rules, and who owns what.
+- [Tools](tools/index.md): every tool on one page, with its plane and its docs site.
 - [Architecture](architecture/index.md): the system context, the containers and where they run.
 - [Flows](architecture/flows.md): improving the harness, a risky action, the nightly pipeline, onboarding a repo.
 - [Roadmap](roadmap.md): the four phases and their themes, with counts rebuilt daily from each repo's GitHub milestones.
