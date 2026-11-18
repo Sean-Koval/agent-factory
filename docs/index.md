@@ -77,7 +77,7 @@ One value, `harness_digest`, identifies a harness from the lock file to the mani
 
 ## Start where you work
 
-<div class="af-tools" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr))">
+<div class="af-tools">
   <a class="af-tool" href="tools/hangar/"><small>Engineer</small><b>Hand off a ticket</b><span><code>hangar connect</code> adds hangar to your agent client. A ticket or a label starts a job.</span></a>
   <a class="af-tool" href="team-harness/"><small>Harness owner</small><b>Shape the harness</b><span>Copy the example, freeze a good run, and promote on evidence.</span></a>
   <a class="af-tool" href="work/"><small>Platform engineer</small><b>Run it at your company</b><span>The four-repo convention, change sets from a ticket to a deploy, and what stays yours.</span></a>
