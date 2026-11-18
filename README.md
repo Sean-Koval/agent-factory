@@ -7,14 +7,24 @@
 
 **Hand work to cloud coding agents and keep every change reviewable.** A team of six engineers runs about sixty agent sessions at once, and every change still leaves through a pull request a human approves.
 
-Start with the docs: <https://sean-koval.github.io/agent-factory/> ([How it fits](https://sean-koval.github.io/agent-factory/how-it-fits/) follows one ticket through every tool; the [deck](https://sean-koval.github.io/agent-factory/deck/) tells it in fourteen slides).
+**[Docs](https://sean-koval.github.io/agent-factory/)** · [How it fits](https://sean-koval.github.io/agent-factory/how-it-fits/) · [Deck](https://sean-koval.github.io/agent-factory/deck/) · [Roadmap](https://sean-koval.github.io/agent-factory/roadmap/) · [Airframe](https://sean-koval.github.io/agent-factory/airframe/)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/captures/hangar-fleet-deck.png">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/captures/hangar-fleet-day-deck.png">
+  <img alt="hangar's Fleet: the decision deck with a held push on top. Needs approval, Push the refunds migration to main, git push origin main, Deny, Allow for this turn and Approve push." src="docs/assets/captures/hangar-fleet-deck.png" width="672">
+</picture>
+
+*hangar's Fleet: one decision at a time. A push to main waits for you; the agents keep working.*
+
+**Four planes, five tools and the team harness repo.**
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/diagrams/slide-planes-dark.png">
   <img alt="Four planes around hangar: the team harness defines what the agents run, hangar runs them, flightdeck judges the runs and Tower governs risky decisions; work comes in through the doors and leaves through one pull-request gate." src="docs/assets/diagrams/slide-planes-light.png" width="960">
 </picture>
 
-Four planes, five tools and the team harness repo.
+The team harness defines what the agents run, hangar runs them, flightdeck judges the runs and Tower governs risky decisions. [How it fits](https://sean-koval.github.io/agent-factory/how-it-fits/) follows one ticket through every plane.
 
 | Tool | Plane | In one line | Repo |
 | --- | --- | --- | --- |
@@ -25,13 +35,14 @@ Four planes, five tools and the team harness repo.
 | ai-dlc | Setup | Engineers' machines, the optional workflow plugin, local work gated on CI. | [ai-dlc](https://github.com/Sean-Koval/ai-dlc) |
 | Spaceport | Capability | Reviewed data products that agents query through four MCP tools (frozen). | Private (Sean-Koval/spaceport) |
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/captures/hangar-fleet-deck.png">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/captures/hangar-fleet-day-deck.png">
-  <img alt="hangar's Fleet: the decision deck with a held push on top. Needs approval, Push the refunds migration to main, git push origin main, Deny, Allow for this turn and Approve push." src="docs/assets/captures/hangar-fleet-deck.png" width="672">
-</picture>
+hangar, flightdeck and ai-dlc are open source. Tower and Spaceport are private repositories for now.
 
-*hangar's Fleet: one decision at a time. A push to main waits for you; the agents keep working.*
+**Start where you work**
+
+- **Engineer:** read the [hangar page](https://sean-koval.github.io/agent-factory/tools/hangar/). `hangar connect` adds hangar to your agent client.
+- **Harness owner:** fork [team-harness](https://github.com/Sean-Koval/team-harness), freeze a good run, and promote on evidence.
+- **Platform engineer:** [Run the factory at your company](https://sean-koval.github.io/agent-factory/work/) covers the four repos and what stays yours.
+- **UI builder:** start with [`airframe/README.md`](airframe/README.md), the design system every tool uses.
 
 ## What lives here
 
@@ -49,8 +60,6 @@ This repository is the suite-level home: the docs site, the deck, the diagrams a
 | `examples/company-overlay/` | The four repos a company holds to run the factory on its own cluster, placeholders only. See [Run the factory at your company](https://sean-koval.github.io/agent-factory/work/). |
 | `examples/symphony-bot/` | A Symphony bot template that calls hangar's MCP for the person asking. No company values. |
 | [team-harness](https://github.com/Sean-Koval/team-harness) | The public example team harness, in its own repo so channels resolve through its history. Fork it to start yours. |
-
-hangar, flightdeck and ai-dlc are open source. Tower and Spaceport are private repositories for now.
 
 ## For maintainers
 

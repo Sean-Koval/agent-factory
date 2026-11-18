@@ -1,16 +1,16 @@
 # Releasing a suite component
 
-This page is for the person who tags a release of hangar, Tower or flightdeck. Every component follows the same checklist, so a version means the same thing everywhere. Which versions make up a suite release is on [Compatibility](compatibility.md).
+How to tag a release of hangar, Tower or flightdeck. Every component follows the same checklist, so a version means the same thing everywhere. Which versions make up a suite release is on [Compatibility](compatibility.md).
 
 ## Versions
 
-A release is a `vX.Y.Z` tag on `main`. Before 1.0, a minor bump may break things, and its changelog says how. Each repo keeps its version in one place:
+A release is a `vX.Y.Z` tag on `main`. Before 1.0, a minor bump may break things, and its changelog says how.
 
-| Component | Version source | Prints it |
-| --- | --- | --- |
-| hangar | `pyproject.toml` | The image label `org.opencontainers.image.version` |
-| Tower | `server/aw/__init__.py` | `GET /api/health` (`version`) |
-| flightdeck | `pyproject.toml` and `src/flightdeck/__init__.py` | `flightdeck version` |
+Each repo keeps its version in one place and prints it in one place:
+
+- **hangar** keeps it in `pyproject.toml`. The image label `org.opencontainers.image.version` prints it.
+- **Tower** keeps it in `server/aw/__init__.py`. `GET /api/health` prints it as `version`.
+- **flightdeck** keeps it in `pyproject.toml` and `src/flightdeck/__init__.py`. `flightdeck version` prints it.
 
 Each repo has a `CHANGELOG.md` whose newest section is `## Unreleased`. Every merged change that a user would notice adds a line there.
 
@@ -28,4 +28,4 @@ Copy it into the release's Jira ticket and tick each line.
 
 ## Repository settings
 
-Every repo has "Automatically delete head branches" turned on. A stacked PR then retargets to `main` when its base merges, instead of merging into a dead branch.
+One setting keeps stacked PRs safe. Every repo has "Automatically delete head branches" turned on. A stacked PR then retargets to `main` when its base merges, instead of merging into a dead branch.
