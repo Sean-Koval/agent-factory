@@ -18,6 +18,7 @@ PARAGRAPH, SENTENCE, PAGE = 60, 25, 700
 # Pages allowed over 700 words, each with its reason. Add here only when splitting would hurt the reader.
 LONG_PAGES = {
     "glossary.md": "one entry per term; a reader looks one up, nobody reads it top to bottom",
+    "releases/readiness-tickets.md": "one row per release:1.0 ticket, looked up by key; nobody reads it top to bottom",
     "work/index.md": "the company runbook: four repos, a change set and what stays yours, read once by a platform engineer",
 }
 # Writing that is not prose: a heading, a snippet include, a tag on its own line, an image, a line of buttons.
