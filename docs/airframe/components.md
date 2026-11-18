@@ -7,7 +7,7 @@ hide:
 
 # Components
 
-Airframe has 40 components in ten groups. Each card below is one component: its Night preview, its group and what the preview shows.
+Airframe has 40 components in ten groups. Each card below is one component: its preview in the page's theme, its group and what the preview shows.
 
 [Open the gallery](gallery/){ .md-button .md-button--primary } [Brand book](guide/brand.md){ .md-button }
 

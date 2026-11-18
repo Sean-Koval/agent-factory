@@ -5,6 +5,62 @@ new `## theme-vN` heading. Merging it to `main` tags `theme-vN` and opens a sync
 each tool repo (hangar, flightdeck, ai-dlc, Tower), or prints the one-command sync when the
 workflow has no cross-repo token. Keep token names stable; list each token whose value changed.
 
+## theme-v18 · 2026-11-18
+
+The docs sites get the page patterns an author composes from Markdown, on top of theme-v17's type, tables and
+captions, which are unchanged. Every addition is a new class, so a page that uses none of them renders as it did
+(two exceptions, both fixes, are listed under "Changed"). Only `airframe-docs.css` and `suite.css` change in substance
+(the other files carry the new release stamp, and so does `deck/index.html`). No token is added, renamed or removed,
+no token value changes, and no class is renamed or removed.
+
+Docs-site mapping (`airframe-docs.css`), new classes:
+
+- `.af-actions`: a row of `md-button`s that wraps with one even gap.
+- `.af-tiles` > `.af-tile`: a grid of tonal link cards (`raised`, `radius-card`, no border) with an optional picture,
+  `<small>` label, `<strong>` title, sentence and `<em>` foot. `.af-tiles--2`, `--3` and `--4` fix the columns from
+  760px up (`--4` is two across until 1100px). A picture pair keeps the theme switch (`#only-dark`, `#only-light`).
+- `.af-steps`: an ordered list as a numbered procedure, mono numerals in a `raised` tile on a `line` rail. A step
+  keeps the 36rem measure.
+- `.af-phases` > `.af-phase`: a numbered sequence grouped into phases, each a `raised` block with a `line-strong` top
+  edge, a `<b>` name, an optional `<small>` note and an `<ol>`.
+- `.af-next`: a list of links with one sentence each as ruled rows with an arrow, two across when there is room.
+- `.af-figure--lead` moves here from the sites' own stylesheets, unchanged: the screenshot a page leads with, linked
+  to the full capture, with the card radius and a `line` hairline. Its caption is the theme-v17 caption. A site's own
+  copy of the rule keeps working and can be deleted.
+- `.af-figure--frame`: the same hairline on any other capture. `.af-figure--tile`: a poster in a row of figures is a
+  4:3 window on the top of its capture. `.af-figure--bleed`: on a page that hides "On this page", a wide figure runs
+  4rem into the margin from 1400px up.
+- `.af-table--compact`: a wrapper for a long reference table, 0.68rem with 0.4em above and below each cell.
+- `.af-table--stack`: a wrapper for an index table whose rows stack on phones, the first cell as the row's name. It
+  replaces the theme-v17 sideways scroll for that table only.
+- `.af-tools--2`, `--3` and `--4`: a fixed column count for product tiles from 760px up.
+- `.af-only-wide` and `.af-only-narrow`: show an element from 960px up, or only below it.
+- Any of `.af-actions`, `.af-tiles`, `.af-steps`, `.af-phases` and `.af-next` that follows a heading closes up to it,
+  as a paragraph does.
+
+Docs-site mapping, changed:
+
+- `.af-tools` fills its row (`auto-fit`, was `auto-fill`), so two or three tiles no longer leave an empty track, and a
+  tile is never wider than a narrow phone (`min(100%, 220px)`). A wrapped `.af-tool` title is 1.2 line height; a
+  one-line title keeps its height.
+- A Night / Day pair of `<img>` directly inside `figure.af-figure` shows only the page's twin (the full-width rule
+  outranked the theme's switch and showed both).
+- Print keeps a tile, a phase, a step and a next row on one page. Forced colors: tiles, phases, the step rail, the
+  next rows, the lead and frame hairlines and the stacked rows are in system colors.
+
+Suite site only (`suite.css`, not synced to the tool repos):
+
+- `.af-figure--lead` is read from `airframe-docs.css`; the local copy goes, the local caption size stays.
+- `.af-cards-table` on phones: a cell is one block with its label beside it, so a `code` span or a link stays in its
+  sentence (as grid items, each took a row of its own). Labels can be set per table with `--af-label-2` to
+  `--af-label-5`, or `data-label` on a cell; the defaults are unchanged.
+- Icons page: a tile fills its grid cell. The docs theme shrank each `figure` to its content and centred it, which
+  left a ragged grid.
+
+Not in `theme/`: the Components page shows each thumbnail in the page's theme (`docs/assets/airframe/<Name>-day.png`,
+from `scripts/captures.py airframe`), and [Docs sites](https://sean-koval.github.io/agent-factory/airframe/docs-sites/)
+shows every pattern live.
+
 ## theme-v17 · 2026-11-18
 
 The docs sites get one type scale, a reading measure, open tables that sit flush with the text, one caption style and

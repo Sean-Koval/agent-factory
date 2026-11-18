@@ -9,6 +9,11 @@
   tonal blocks instead of boxed cards, the suite strip (airframe-suite.html) that links the family's docs sites and
   the shared footer (airframe-footer.html), both included through overrides/main.html.
 
+  Page patterns an author composes from Markdown (attr_list + md_in_html), added in theme-v18 and shown live at
+  https://sean-koval.github.io/agent-factory/airframe/docs-sites/ : af-actions, af-tiles / af-tile, af-steps,
+  af-phases / af-phase, af-next, af-figure--lead / --frame / --bleed / --tile, af-table--compact, af-table--stack,
+  af-tools--2 / --3 / --4 and af-only-wide / af-only-narrow.
+
   Each site sets its own product hue once (the default is neutral fg), e.g. in docs/stylesheets/product.css:
     :root { --af-product: var(--af-product-hangar); }
   and names itself for the strip in mkdocs.yml: extra: {airframe: {product: hangar}}.
@@ -313,11 +318,12 @@ body { background: var(--af-canvas); }
   .md-typeset .af-hero--visual h1 { font-size: 2.3em; }
 }
 
-/* tool tiles on the suite home page */
-.af-tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2px; background: var(--af-canvas); margin: 1.5em 0; }
+/* tool tiles on the suite home page. A title that wraps is set at 1.2; the padding keeps a one-line title the
+   height it had at the body's 1.65, so a row of tiles is unchanged */
+.af-tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 2px; background: var(--af-canvas); margin: 1.5em 0; }
 .af-tool { background: var(--af-raised); padding: var(--af-space-16); display: flex; flex-direction: column; gap: .4em; min-width: 0; text-decoration: none !important; color: var(--af-fg) !important; border-top: 2px solid var(--af-tool, var(--af-line)); }
 .af-tool:hover { background: var(--af-selected); }
-.af-tool b { font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: 700; font-size: .9rem; }
+.af-tool b { font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: 700; font-size: .9rem; line-height: 1.2; padding: .225em 0; }
 .af-tool small { font-family: var(--af-font-sans); font-weight: 500; font-size: .58rem; letter-spacing: 0; text-transform: none; color: var(--af-fg-subtle); opacity: 1; }
 .af-tool span { color: var(--af-fg-muted); font-size: .72rem; line-height: 1.5; }
 
@@ -342,6 +348,125 @@ body { background: var(--af-canvas); }
 .md-typeset figure.af-figure figcaption { font-style: normal; }
 .md-typeset figure.af-figure figcaption a { color: var(--af-fg-muted); }
 
+/* ---- page patterns (theme-v18). Everything below is opt-in: a page that uses none of these classes renders as it
+   did in theme-v17. They sit on the v17 scale: cards are body-s (.72rem / 1.5), labels .6rem, a pattern that follows
+   a heading closes up to it as a paragraph does, and none of them touches headings, body text, tables or captions. */
+.md-typeset :is(h2, h3, h4) + :is(.af-actions, .af-tiles, .af-steps, .af-phases, .af-next) { margin-top: 0; }
+
+/* af-only-wide / af-only-narrow: an element shown from 960px up, or only below it (a wide drawing and its stacked twin) */
+@media (max-width: 959px) { .md-typeset .af-only-wide { display: none !important; } }
+@media (min-width: 960px) { .md-typeset .af-only-narrow { display: none !important; } }
+
+/* af-actions: a row of buttons that wraps with one even gap (a bare paragraph of buttons wraps with none between rows) */
+.md-typeset .af-actions, .md-typeset .af-actions > p { display: flex; flex-wrap: wrap; align-items: center; gap: var(--af-space-8); }
+.md-typeset .af-actions { margin: 1.2em 0 1.6em; }
+.md-typeset .af-actions > p { margin: 0; max-width: none; }
+.md-typeset .af-actions .md-button, .md-typeset .af-hero .af-actions .md-button { margin: 0; }
+
+/* af-tools--2 / --3 / --4: a fixed column count from 760px up, so a row of three or six tiles fills the measure
+   (--4 is two across until 1100px) */
+@media (min-width: 760px) {
+  .af-tools.af-tools--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .af-tools.af-tools--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .af-tools.af-tools--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 760px) and (max-width: 1099px) { .af-tools.af-tools--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* af-tiles: a grid of link cards for a landing page or a section index. Each af-tile is a link (or a div) holding,
+   in any order, an optional picture, a <small> label, a <strong> title, a sentence and an <em> foot. From Markdown:
+     <div class="af-tiles" markdown>
+     [**Quickstart** Run a first job in ten minutes.](quickstart.md){ .af-tile }
+     </div>
+   af-tiles--2 / --3 / --4 fix the column count on wide screens; the default fills the row. Tonal, no border. */
+.md-typeset .af-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr)); gap: var(--af-space-12); margin: 1.4em 0 2em; }
+.md-typeset .af-tiles > p { display: contents; }
+.md-typeset .af-tile { display: flex; flex-direction: column; gap: .3em; min-width: 0; padding: var(--af-space-16); background: var(--af-raised); border-radius: var(--af-radius-card); color: var(--af-fg-muted); font-size: .72rem; line-height: 1.5; text-decoration: none; }
+.md-typeset a.af-tile:hover { background: var(--af-selected); color: var(--af-fg-muted); }
+.md-typeset a.af-tile:focus-visible { border-radius: var(--af-radius-card); }
+.md-typeset .af-tile > :is(strong, b) { font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: 700; font-size: .82rem; line-height: 1.25; color: var(--af-fg); }
+.md-typeset .af-tile > small { order: -1; font-family: var(--af-font-sans); font-weight: 500; font-size: .6rem; color: var(--af-fg-subtle); opacity: 1; }
+.md-typeset .af-tile > img { order: -2; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; margin-bottom: .5em; border-radius: var(--af-radius-control); background: var(--af-canvas); box-shadow: 0 0 0 1px var(--af-line-subtle); }
+.md-typeset .af-tile > em { font-style: normal; font-weight: 500; font-size: .62rem; color: var(--af-fg-subtle); margin-top: auto; padding-top: .5em; }
+.md-typeset a.af-tile:hover > em { color: var(--af-fg); }
+.md-typeset .af-tile > :is(p, ul) { margin: 0; }
+@media (min-width: 760px) {
+  .md-typeset .af-tiles--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .md-typeset .af-tiles--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .md-typeset .af-tiles--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 760px) and (max-width: 1099px) { .md-typeset .af-tiles--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* af-steps: a numbered procedure. An ordered Markdown list in <div class="af-steps" markdown>: the number sits in a
+   square mono tile on a rail, the step's first words may be bold, and a code block inside a step keeps the indent. */
+.md-typeset .af-steps { margin: 1.4em 0 2em; }
+.md-typeset .af-steps > ol { list-style: none; margin: 0; padding: 0; counter-reset: af-step; }
+.md-typeset .af-steps > ol > li { counter-increment: af-step; position: relative; margin: 0; padding: .1rem 0 1.3em 2.5rem; min-height: 1.6rem; max-width: 36rem; }
+.md-typeset .af-steps > ol > li::before { content: counter(af-step); position: absolute; left: 0; top: 0; width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border-radius: var(--af-radius-control); background: var(--af-raised); color: var(--af-fg); font-family: var(--af-font-mono); font-weight: 500; font-size: .62rem; font-variant-numeric: tabular-nums; }
+.md-typeset .af-steps > ol > li::after { content: ""; position: absolute; left: .8rem; top: 1.9rem; bottom: .3rem; width: 1px; background: var(--af-line); }
+.md-typeset .af-steps > ol > li:last-child { padding-bottom: 0; }
+.md-typeset .af-steps > ol > li:last-child::after { display: none; }
+.md-typeset .af-steps > ol > li > p:first-child { margin-top: 0; }
+.md-typeset .af-steps > ol > li > :last-child { margin-bottom: 0; }
+
+/* af-phases: a numbered sequence grouped into phases (a workflow at a glance). One af-phase per phase: a <b> name, an
+   optional <small> note and an <ol> of its steps (continue the numbering with <ol start="4">). Four across on a wide
+   column, two on a narrow one or a phone. */
+.md-typeset .af-phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 2px; margin: 1.5em 0 2em; }
+.md-typeset .af-phase { background: var(--af-raised); padding: var(--af-space-16); border-top: 2px solid var(--af-line-strong); min-width: 0; }
+.md-typeset .af-phase > b { display: block; font-family: var(--af-font-display); font-stretch: var(--af-display-stretch); font-weight: 700; font-size: .82rem; line-height: 1.25; color: var(--af-fg); }
+.md-typeset .af-phase > small { display: block; font-size: .6rem; font-weight: 500; color: var(--af-fg-subtle); opacity: 1; margin: .2em 0 var(--af-space-8); }
+.md-typeset .af-phase > b:not(:has(+ small)) { margin-bottom: var(--af-space-8); }
+.md-typeset .af-phase > ol { margin: 0; padding-left: 1.4em; font-size: .72rem; line-height: 1.5; color: var(--af-fg-muted); }
+.md-typeset .af-phase > ol > li { margin: 0 0 .3em; }
+.md-typeset .af-phase > ol > li::marker { font-family: var(--af-font-mono); color: var(--af-fg-subtle); }
+
+/* af-next: where to go from here. A plain Markdown list in <div class="af-next" markdown>: each item is a link,
+   then one sentence. The link is the row's title with an arrow; rows are ruled, two across when there is room. */
+.md-typeset .af-next { margin: 1.4em 0 2em; }
+.md-typeset .af-next > ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0 var(--af-space-32); border-top: 1px solid var(--af-line); }
+.md-typeset .af-next > ul > li { margin: 0; padding: .8em 0 .9em; border-bottom: 1px solid var(--af-line-subtle); color: var(--af-fg-muted); font-size: .72rem; line-height: 1.5; }
+.md-typeset .af-next > ul > li > a:first-child, .md-typeset .af-next > ul > li > p:first-child > a:first-child { display: flex; justify-content: space-between; align-items: baseline; gap: 1em; margin-bottom: .15em; font-weight: 600; font-size: .8rem; color: var(--af-fg); text-decoration: none; }
+.md-typeset .af-next > ul > li > a:first-child::after, .md-typeset .af-next > ul > li > p:first-child > a:first-child::after { content: "\2192"; flex: none; font-family: var(--af-font-mono); font-weight: 400; color: var(--af-fg-subtle); transition: transform var(--af-dur-fast, 120ms) linear; }
+.md-typeset .af-next > ul > li > a:first-child:hover::after, .md-typeset .af-next > ul > li > p:first-child > a:first-child:hover::after { color: var(--af-brand-text); transform: translateX(3px); }
+.md-typeset .af-next > ul > li > p { margin: 0; }
+
+/* figure variants. The caption is the one caption style above, whichever variant.
+   af-figure--lead: the screenshot a page leads with (it was in each site's own stylesheet). The image links to the
+   full capture and carries the card radius and a hairline; a single image is a block, a Night / Day pair
+   (shot.png#only-dark, shot-day.png#only-light) keeps the theme's switch.
+   af-figure--frame: the same hairline for a capture that is not a lead, linked or not, written in HTML or Markdown.
+   af-figure--tile: a poster in a row of figures (a clip's first frame, a thumbnail): every picture in the row is the
+   same 4:3 window on the top of its capture, whatever the capture's own shape.
+   af-figure--bleed: on a page without "On this page" (hide: toc), a wide drawing runs 4rem into the margin once the
+   window has that room. (Not --wide: hangar's docs use af-figure--wide / --stacked for a drawing and its phone twin.) */
+.md-typeset figure.af-figure--lead { margin: 1.2em 0 1.6em; }
+.md-typeset figure.af-figure--lead > a > img:not([src*="#only-"]) { display: block; }
+.md-typeset figure.af-figure--lead > a > img { width: 100%; height: auto; border-radius: var(--af-radius-card); box-shadow: 0 0 0 1px var(--af-line); }
+.md-typeset figure.af-figure--frame :is(img, video) { border-radius: var(--af-radius-card); box-shadow: 0 0 0 1px var(--af-line); }
+.md-typeset figure.af-figure--frame > p { margin: 0; }
+.md-typeset figure.af-figure--tile :is(img, video) { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: top; }
+[data-md-color-scheme="slate"] .md-typeset figure.af-figure img[src$="#only-light"], [data-md-color-scheme="default"] .md-typeset figure.af-figure img[src$="#only-dark"],
+[data-md-color-scheme="slate"] .md-typeset .af-tile > img[src$="#only-light"], [data-md-color-scheme="default"] .md-typeset .af-tile > img[src$="#only-dark"] { display: none; }
+@media (min-width: 1400px) { .md-main:has(.md-sidebar--secondary[hidden]) .md-typeset figure.af-figure--bleed { width: calc(100% + 4rem); max-width: none; margin-right: -4rem; } }
+
+/* table wrappers (<div class="af-table--…" markdown> around a Markdown table; the table itself is the v17 table).
+   af-table--compact: a long reference table with many short rows.
+   af-table--stack: an index table on phones. Each row stacks: the first cell is the row's name and the cells after it
+   read as its notes. The header row goes, so the first column must name the thing. It replaces the sideways scroll,
+   so the table's phone width is released. */
+.md-typeset .af-table--compact table:not([class]) { font-size: .68rem; }
+.md-typeset .af-table--compact table:not([class]) :is(th, td) { padding-top: .4em; padding-bottom: .4em; }
+@media (max-width: 599px) {
+  .md-typeset .af-table--stack table:not([class]) { min-width: 0 !important; }
+  .md-typeset .af-table--stack table:not([class]), .md-typeset .af-table--stack tbody, .md-typeset .af-table--stack tr, .md-typeset .af-table--stack table:not([class]) td { display: block; width: auto; }
+  .md-typeset .af-table--stack thead { display: none; }
+  .md-typeset .af-table--stack table:not([class]) tr { padding: .7rem 0; border-top: 1px solid var(--af-line-subtle); }
+  .md-typeset .af-table--stack table:not([class]) tbody tr:first-child { border-top-color: var(--af-line); }
+  .md-typeset .af-table--stack table:not([class]) td { border: 0; padding: 0; }
+  .md-typeset .af-table--stack table:not([class]) td:first-child { font-weight: 600; }
+  .md-typeset .af-table--stack table:not([class]) td + td { margin-top: .3rem; color: var(--af-fg-muted); }
+}
+
 /* reduced motion: the theme's own transitions (nav, header, search, back-to-top, smooth scrolling) stop too */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }
@@ -353,6 +478,7 @@ body { background: var(--af-canvas); }
   .md-banner, .md-tabs, .md-footer, .md-typeset figure > a::after { display: none !important; }
   .md-typeset h2 { break-after: avoid; }
   .md-typeset figure, .md-typeset table:not([class]) tr { break-inside: avoid; }
+  .md-typeset .af-tile, .md-typeset .af-phase, .md-typeset .af-steps > ol > li, .md-typeset .af-next > ul > li { break-inside: avoid; }
 }
 
 /* Windows Contrast Themes: colors are replaced and box-shadows dropped, so every marker and edge that was a
@@ -379,4 +505,13 @@ body { background: var(--af-canvas); }
   .md-typeset blockquote { border-left: 2px solid CanvasText; }
   .md-typeset hr { border-bottom: 1px solid CanvasText; }
   .md-typeset .md-button { border-color: ButtonText; }
+  .md-typeset .af-tile { border: 1px solid CanvasText; }
+  .md-typeset a.af-tile { border-color: LinkText; }
+  .md-typeset .af-tile > img { box-shadow: none; outline: 1px solid CanvasText; }
+  .md-typeset .af-phase { border: 1px solid CanvasText; border-top-width: 2px; }
+  .md-typeset .af-steps > ol > li::before { border: 1px solid CanvasText; }
+  .md-typeset .af-steps > ol > li::after { background: CanvasText; }
+  .md-typeset .af-next > ul, .md-typeset .af-next > ul > li { border-color: CanvasText; }
+  .md-typeset figure.af-figure--lead > a > img, .md-typeset figure.af-figure--frame :is(img, video) { box-shadow: none; outline: 1px solid CanvasText; }
+  .md-typeset .af-table--stack table:not([class]) tr { border-color: CanvasText; }
 }

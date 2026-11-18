@@ -99,6 +99,7 @@ nav:
           - Hero: airframe/components/Hero.md
       - Icons: airframe/icons.md
       - Registry: airframe/registry.md
+      - Docs sites: airframe/docs-sites.md
       - Guide:
           - Brand book: airframe/guide/brand.md
           - Writing: airframe/guide/writing.md

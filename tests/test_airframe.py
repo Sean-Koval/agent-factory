@@ -55,7 +55,9 @@ class BuildTests(unittest.TestCase):
             # components.md sits in docs/airframe/: its cards link to components/<Name>/ and show ../assets/airframe/<Name>.png
             grid = (Path(tmp) / "pages" / "airframe-components.md").read_text()
             self.assertIn('<a class="af-comp" href="components/Button/"', grid)
-            self.assertIn('src="../assets/airframe/Button.png"', grid)
+            # a Night and a Day thumbnail, switched by the docs theme's #only-dark / #only-light fragments
+            self.assertIn('src="../assets/airframe/Button.png#only-dark"', grid)
+            self.assertIn('src="../assets/airframe/Button-day.png#only-light"', grid)
             self.assertIn("### Patterns", grid)
             names = [i["name"] for i in af.components() if i["name"] != "Cover"]
             guides = list((af.SRC / "guide").glob("*.md"))
@@ -111,6 +113,7 @@ class BuildTests(unittest.TestCase):
                 continue
             n = it["name"]
             self.assertTrue((af.THUMBS / f"{n}.png").exists(), f"docs/assets/airframe/{n}.png is missing; run python3 scripts/captures.py airframe")
+            self.assertTrue((af.THUMBS / f"{n}-day.png").exists(), f"docs/assets/airframe/{n}-day.png is missing; run python3 scripts/captures.py airframe")
             self.assertIn(f"- {n}: airframe/components/{n}.md", nav, f"mkdocs.yml nav lacks the {n} page")
         for src in (af.SRC / "guide").glob("*.md"):
             self.assertIn(f"airframe/guide/{src.stem.lower()}.md", nav, f"mkdocs.yml nav lacks the {src.stem} guide page")

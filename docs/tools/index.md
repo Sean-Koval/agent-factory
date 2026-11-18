@@ -4,6 +4,13 @@ Five tools and the team harness repo, each with one job. Four of them own a plan
 
 ai-dlc is Setup, off the agent's hot path, and Spaceport sits under the suite as a frozen data capability.
 
+<div class="af-tiles af-tiles--4">
+<a class="af-tile" href="hangar/"><img src="../assets/captures/hangar-needs-you-narrow-decision.png#only-dark" alt="hangar's Needs you: a held git push to main with Deny, Allow for this turn and Approve push" loading="lazy"><img src="../assets/captures/hangar-needs-you-narrow-day-decision.png#only-light" alt="hangar's Needs you: a held git push to main with Deny, Allow for this turn and Approve push" loading="lazy"><small>Run</small><strong>hangar</strong> A held push waits for a person.</a>
+<a class="af-tile" href="flightdeck/"><img src="../assets/captures/flightdeck-verdict-verdict.png#only-dark" alt="flightdeck's report on a harness pull request: candidate is better than control on resolved" loading="lazy"><img src="../assets/captures/flightdeck-verdict-day-verdict.png#only-light" alt="flightdeck's report on a harness pull request: candidate is better than control on resolved" loading="lazy"><small>Judge</small><strong>flightdeck</strong> The verdict on a harness pull request.</a>
+<a class="af-tile" href="workspace/"><img src="../assets/captures/tower-desk-approval.png#only-dark" alt="Tower's Desk: an approval to create a client ticket, with Deny and Approve" loading="lazy"><img src="../assets/captures/tower-desk-day-approval.png#only-light" alt="Tower's Desk: an approval to create a client ticket, with Deny and Approve" loading="lazy"><small>Govern</small><strong>Tower</strong> An approval on an approver's Desk.</a>
+<a class="af-tile" href="ai-dlc/"><img src="../assets/clips/ai-dlc.png" alt="ai-dlc project init in a terminal, answering applied, 37 files" loading="lazy"><small>Setup</small><strong>ai-dlc</strong> A project set up from the terminal.</a>
+</div>
+
 ## The suite at a glance
 
 <div class="af-cards-table" markdown>

@@ -93,7 +93,7 @@ Every product's docs site is Material for MkDocs or Zensical with four vendored 
 {% block footer %}{% include "partials/airframe-footer.html" %}{% endblock %}
 ```
 
-The home page is an `af-hero`: an `af-eyebrow`, one display headline, one `af-lede` and two `md-button`s, one of them primary. With `af-hero--visual`, a `figure.af-hero__visual` holds a real capture of the product. Every other page is a title, a one-sentence lede, sections and a "See also" list.
+The home page is an `af-hero`: an `af-eyebrow`, one display headline, one `af-lede` and two `md-button`s, one of them primary. With `af-hero--visual`, a `figure.af-hero__visual` holds a real capture of the product. Every other page is a title, a one-sentence lede, sections and a "See also" list. [See each pattern live](docs-sites.md).
 
 ## Change it
 
